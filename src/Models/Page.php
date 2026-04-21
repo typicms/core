@@ -204,10 +204,13 @@ class Page extends Model
     }
 
     /** @return array<int|string, string> */
-    public function allForSelect(): array
+    public function allForSelect(bool $withPagesLinkedToAModule = true): array
     {
         $pages = static::query()
             ->order()
+            ->when(!$withPagesLinkedToAModule, function (Builder $query) {
+                $query->where('module', null);
+            })
             ->get()
             ->nest()
             ->listsFlattened();

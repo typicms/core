@@ -1,3 +1,11 @@
+@push('js')
+    <script type="module">
+        new TomSelect('#parent_id', {
+            maxOptions: undefined,
+        });
+    </script>
+@endpush
+
 <div class="header">
     <x-core::back-button :url="$model->indexUrl()" :title="__('Pages')" />
     <x-core::title :$model :default="__('New page')" />
@@ -37,6 +45,10 @@
                 {!! TranslatableBootForm::hidden('status')->value(0) !!}
                 {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}
             </div>
+
+            @if (!$model->id)
+                {!! BootForm::select(__('Subpage of'), 'parent_id', (new TypiCMS\Modules\Core\Models\Page())->allForSelect(withPagesLinkedToAModule: false)) !!}
+            @endif
 
             <x-core::tiptap-editors :model="$model" name="body" :label="__('Body')" />
 
