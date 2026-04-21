@@ -1,0 +1,20 @@
+.dashboard {
+    @extend .body;
+    margin-bottom: $spacer;
+    min-height: unset !important;
+    &-header {
+        @extend .header;
+        &-top {
+            @extend .header-top;
+        }
+        &-title {
+            @extend .header-title;
+        }
+    }
+    &-body {
+        @extend .card-body;
+        p:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

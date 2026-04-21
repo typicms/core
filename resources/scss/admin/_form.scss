@@ -1,0 +1,19 @@
+.form {
+    @extend .body;
+    &-header {
+        @extend .header;
+        &-top {
+            @extend .header-top;
+        }
+        &-title {
+            @extend .header-title;
+        }
+        &-toolbar {
+            @extend .header-toolbar;
+        }
+    }
+    &-body {
+        @extend .card-body;
+        overflow: auto;
+    }
+}

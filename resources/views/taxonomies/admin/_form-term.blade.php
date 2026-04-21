@@ -1,11 +1,6 @@
-<div class="header">
-    <x-core::back-button :url="route('admin::index-terms', $taxonomy)" :title="__('Terms')" />
-    <x-core::title :$model :default="__('New term')" />
-    <x-core::form-buttons :$model />
-</div>
+<x-core::header :$model :backUrl="route('admin::index-terms', $taxonomy)" :backLabel="__('Terms')" :lang-switcher="false" :defaultTitle="__('New term')" />
 
-<div class="content">
+<div class="form-body">
     <x-core::form-errors />
-
     <x-core::title-and-slug-fields />
 </div>

@@ -5,11 +5,11 @@
 @section('bodyClass', 'error-403')
 
 @section('content')
-    <div class="main-content">
-        <div class="header">
-            <h1 class="header-title mb-0">@lang('Error :code', ['code' => '403'])</h1>
+    <div class="error">
+        <div class="error-header">
+            <h1 class="error-title">@lang('Error :code', ['code' => '403'])</h1>
         </div>
-        <div class="content">
+        <div class="error-body">
             <p class="mb-0">
                 @lang('Sorry, you are not authorized to view this page.')
             </p>

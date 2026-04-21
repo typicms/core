@@ -1,0 +1,7 @@
+.body {
+    @extend .card;
+    min-height: 0;
+    @include media-breakpoint-down(lg) {
+        border-width: 0;
+    }
+}

@@ -1,10 +1,6 @@
-<div class="header">
-    <x-core::back-button :url="$model->indexUrl()" :title="__('Translations')" />
-    <x-core::title :$model :default="__('New translation')" />
-    <x-core::form-buttons :$model :lang-switcher="false" />
-</div>
+<x-core::header :$model :backUrl="$model->indexUrl()" :backLabel="__('Translations')" :lang-switcher="false" :defaultTitle="__('New translation')" :lang-switcher="false" />
 
-<div class="content">
+<div class="form-body">
     <x-core::form-errors />
 
     @if (!$model->id)

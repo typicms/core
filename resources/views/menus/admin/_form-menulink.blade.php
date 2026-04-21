@@ -6,13 +6,9 @@
     </script>
 @endpush
 
-<div class="header">
-    <x-core::back-button :url="$menu->editUrl()" :title="$menu->name" />
-    <x-core::title :$model :default="__('New menulink')" />
-    <x-core::form-buttons :$model :lang-switcher="true" />
-</div>
+<x-core::header :$model :backUrl="$menu->editUrl()" :backLabel="$menu->name" :defaultTitle="__('New menulink')" />
 
-<div class="content">
+<div class="form-body">
     <x-core::form-errors />
     <div class="row">
         <div class="col-lg-8">

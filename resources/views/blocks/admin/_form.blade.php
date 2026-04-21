@@ -1,12 +1,8 @@
-<div class="header">
-    <x-core::back-button :url="$model->indexUrl()" :title="__('Blocks')" />
-    <x-core::title :$model :default="__('New block')" />
-    <x-core::form-buttons :$model />
-</div>
+<x-core::header :$model :backUrl="$model->indexUrl()" :backLabel="__('Blocks')" :defaultTitle="__('New block')" />
 
 <file-manager></file-manager>
 
-<div class="content">
+<div class="form-body">
     <x-core::form-errors />
 
     @if ($model->id)

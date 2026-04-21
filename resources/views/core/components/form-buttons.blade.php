@@ -1,6 +1,6 @@
 @props(['locales' => locales(), 'model', 'langSwitcher' => true, 'preview' => true])
 
-<div class="header-toolbar btn-toolbar">
+<div class="header-toolbar">
     <button class="btn btn-sm btn-primary" value="true" id="exit" name="exit" type="submit">
         @lang('Save and exit')
     </button>

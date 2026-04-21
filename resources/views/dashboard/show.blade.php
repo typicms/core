@@ -3,11 +3,14 @@
 @section('title', __('Dashboard'))
 
 @section('content')
-    <div class="item-list">
-        <div class="item-list-top d-block">
-            <h1 class="header-title">@lang('Welcome, :name!', ['name' => e(auth()->user()->first_name)])</h1>
-            <p>{!! $welcomeMessage !!}</p>
+    <div class="dashboard">
+        <div class="dashboard-header">
+            <h1 class="dashboard-header-title">@lang('Welcome, :name!', ['name' => e(auth()->user()->first_name)])</h1>
         </div>
+        <div class="dashboard-body">
+            {!! $welcomeMessage !!}
+        </div>
+    </div>
         @can('see history')
             <history fields="history.id,history.created_at,history.title,history.locale,history.historable_id,history.historable_type,history.action,history.user_id" include="historable" :searchable="['title,historable_type,action,user_name']" :sorting="['-created_at']" @can('clear history'):clear-button="true"@endcan>
                 <template #columns="{ sortArray }">
@@ -19,5 +22,4 @@
                 </template>
             </history>
         @endcan
-    </div>
 @endsection

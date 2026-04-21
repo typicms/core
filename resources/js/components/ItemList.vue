@@ -1,110 +1,102 @@
 <template>
     <div :class="{ 'sub-list': subList }" class="item-list">
-        <slot name="back-button"></slot>
-        <div class="item-list-top">
-            <h1 v-if="!subList" class="item-list-title header-title">
-                {{ t(title.charAt(0).toUpperCase() + title.slice(1)) }}
-            </h1>
-            <h2 v-else class="item-list-subtitle">
-                {{ t(title.charAt(0).toUpperCase() + title.slice(1)) }}
-            </h2>
-            <slot name="top-buttons"></slot>
-        </div>
-        <div :class="{ 'item-list-content': !subList }">
-            <div :class="{ header: !subList }">
-                <div class="btn-toolbar header-toolbar">
-                    <item-list-selector
-                        v-if="selector && ($can('update ' + table) || $can('delete ' + table))"
-                        :all-checked="allChecked"
-                        :filtered-models="filteredItems"
-                        :loading="loading"
-                        :publishable="publishable"
-                        @check-all="checkAll"
-                        @check-none="checkNone"
-                        @check-published="checkPublished"
-                        @check-unpublished="checkUnpublished"
-                    ></item-list-selector>
-                    <item-list-actions
-                        v-if="actions && ($can('update ' + table) || $can('delete ' + table))"
-                        :deletable="deletable"
-                        :loading="loading"
-                        :number-of-checked-models="numberOfCheckedModels"
-                        :publishable="publishable"
-                        :duplicable="duplicable"
-                        :table="table"
-                        @destroy="destroy"
-                        @publish="publish"
-                        @unpublish="unpublish"
-                        @duplicate="duplicate"
-                    ></item-list-actions>
-                    <item-list-per-page
-                        v-if="data.total > perPage && pagination && $can('read ' + table)"
-                        :loading="loading"
-                        :per-page="data.per_page"
-                        @change-per-page="changeNumberOfItemsPerPage"
-                    ></item-list-per-page>
-                    <slot name="buttons"></slot>
-                    <div class="d-flex align-items-center">
-                        <div v-if="loading" class="spinner-border spinner-border-sm text-dark" role="status">
-                            <span class="visually-hidden">{{ t('Loading…') }}</span>
+        <div class="item-list-header">
+            <div class="item-list-header-top">
+                <div>
+                    <slot name="back-button"></slot>
+                    <h1 v-if="!subList" class="item-list-header-title">
+                        {{ t(title.charAt(0).toUpperCase() + title.slice(1)) }}
+                    </h1>
+                    <h2 v-else class="item-list-header-subtitle">
+                        {{ t(title.charAt(0).toUpperCase() + title.slice(1)) }}
+                    </h2>
+                </div>
+                <slot name="top-buttons"></slot>
+            </div>
+            <div class="item-list-header-toolbar">
+                <item-list-selector
+                    v-if="selector && ($can('update ' + table) || $can('delete ' + table))"
+                    :all-checked="allChecked"
+                    :filtered-models="filteredItems"
+                    :loading="loading"
+                    :publishable="publishable"
+                    @check-all="checkAll"
+                    @check-none="checkNone"
+                    @check-published="checkPublished"
+                    @check-unpublished="checkUnpublished"
+                ></item-list-selector>
+                <item-list-actions
+                    v-if="actions && ($can('update ' + table) || $can('delete ' + table))"
+                    :deletable="deletable"
+                    :loading="loading"
+                    :number-of-checked-models="numberOfCheckedModels"
+                    :publishable="publishable"
+                    :duplicable="duplicable"
+                    :table="table"
+                    @destroy="destroy"
+                    @publish="publish"
+                    @unpublish="unpublish"
+                    @duplicate="duplicate"
+                ></item-list-actions>
+                <item-list-per-page
+                    v-if="data.total > perPage && pagination && $can('read ' + table)"
+                    :loading="loading"
+                    :per-page="data.per_page"
+                    @change-per-page="changeNumberOfItemsPerPage"
+                ></item-list-per-page>
+                <slot name="buttons"></slot>
+                <div class="d-flex align-items-center">
+                    <div v-if="loading" class="spinner-border spinner-border-sm text-dark" role="status">
+                        <span class="visually-hidden">{{ t('Loading…') }}</span>
+                    </div>
+                </div>
+                <small v-if="!loading" class="text-muted align-self-center">
+                    {{ t('# ' + title, data.total, { count: data.total }) }}
+                </small>
+                <div class="d-flex ms-auto gap-2">
+                    <div v-if="searchable.length > 0" class="filters form-inline">
+                        <div class="input-group input-group-sm mb-0">
+                            <div class="input-group-text">
+                                <search-icon size="14" />
+                            </div>
+                            <input id="search" v-model="searchString" class="form-control" type="search" @input="onSearchStringChanged" />
                         </div>
                     </div>
-                    <small v-if="!loading" class="text-muted align-self-center">
-                        {{ t('# ' + title, data.total, { count: data.total }) }}
-                    </small>
-                    <div class="d-flex ms-auto gap-2">
-                        <div v-if="searchable.length > 0" class="filters form-inline">
-                            <div class="input-group input-group-sm mb-0">
-                                <div class="input-group-text">
-                                    <search-icon size="14" />
-                                </div>
-                                <input id="search" v-model="searchString" class="form-control" type="search" @input="onSearchStringChanged" />
-                            </div>
-                        </div>
-                        <div v-if="translatable && locales.length > 1" class="btn-group btn-group-sm">
-                            <button id="dropdownLangSwitcher" aria-expanded="false" aria-haspopup="true" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" type="button">
-                                <span id="active-locale">{{ locales.find((item) => item.short === contentLocale).long }}</span>
+                    <div v-if="translatable && locales.length > 1" class="btn-group btn-group-sm">
+                        <button id="dropdownLangSwitcher" aria-expanded="false" aria-haspopup="true" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" type="button">
+                            <span id="active-locale">{{ locales.find((item) => item.short === contentLocale).long }}</span>
+                        </button>
+                        <div aria-labelledby="dropdownLangSwitcher" class="dropdown-menu dropdown-menu-right">
+                            <button v-for="locale in locales" :key="locale.short" :class="{ active: locale === contentLocale }" class="dropdown-item" type="button" @click="switchLocale(locale.short)">
+                                {{ locale.long }}
                             </button>
-                            <div aria-labelledby="dropdownLangSwitcher" class="dropdown-menu dropdown-menu-right">
-                                <button
-                                    v-for="locale in locales"
-                                    :key="locale.short"
-                                    :class="{ active: locale === contentLocale }"
-                                    class="dropdown-item"
-                                    type="button"
-                                    @click="switchLocale(locale.short)"
-                                >
-                                    {{ locale.long }}
-                                </button>
-                            </div>
                         </div>
-                        <a v-if="exportable" :href="exportUrl" class="btn btn-sm btn-light">
-                            <sheet-icon size="14" />
-                            {{ t('Export') }}
-                        </a>
                     </div>
+                    <a v-if="exportable" :href="exportUrl" class="btn btn-sm btn-light">
+                        <sheet-icon size="14" />
+                        {{ t('Export') }}
+                    </a>
                 </div>
-            </div>
-
-            <div class="content">
-                <div v-if="filteredItems.length" class="table-responsive">
-                    <table class="item-list-table table">
-                        <thead>
-                            <tr>
-                                <slot name="columns" :sort-array="sortArray"></slot>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="model in filteredItems" :key="model.id">
-                                <slot name="table-row" :checked-models="checkedItems" :loading="loading" :model="model"></slot>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <item-list-pagination v-if="pagination" :data="data" @pagination-change-page="changePage"></item-list-pagination>
             </div>
         </div>
+
+        <div class="item-list-body">
+            <div v-if="filteredItems.length" class="table-responsive">
+                <table class="item-list-table table">
+                    <thead>
+                        <tr>
+                            <slot name="columns" :sort-array="sortArray"></slot>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="model in filteredItems" :key="model.id">
+                            <slot name="table-row" :checked-models="checkedItems" :loading="loading" :model="model"></slot>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <item-list-pagination v-if="pagination" :data="data" @pagination-change-page="changePage"></item-list-pagination>
     </div>
 </template>
 

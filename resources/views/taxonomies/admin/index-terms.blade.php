@@ -5,7 +5,7 @@
 @section('content')
     <item-list url-base="/api/taxonomies/{{ $taxonomy->id }}/terms" fields="id,taxonomy_id,title,position" table="terms" title="terms" :publishable="false" :exportable="false" :searchable="['title']" :sorting="['position']">
         <template #back-button>
-            <x-core::back-button :url="route('admin::index-taxonomies')" :title="__('Taxonomies')" />
+            <x-core::back-button :backUrl="route('admin::index-taxonomies')" :backLabel="__('Taxonomies')" />
         </template>
 
         <template #top-buttons>

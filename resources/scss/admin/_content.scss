@@ -1,7 +1,9 @@
 .content {
-    padding: $spacer;
-    .sub-list & {
-        padding-left: 0;
-        padding-right: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: calc(100dvh - var(--typicms-navbar-height));
+    @include media-breakpoint-up(lg) {
+        padding: $spacer;
     }
 }

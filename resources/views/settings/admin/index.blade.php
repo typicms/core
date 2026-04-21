@@ -3,12 +3,14 @@
 @section('title', __('Settings'))
 
 @section('content')
-    {!! BootForm::open()->addClass('main-content') !!}
+    {!! BootForm::open()->addClass('form') !!}
     {!! BootForm::bind($data) !!}
 
-    <div class="header">
-        <h1 class="header-title">@lang('Settings')</h1>
-        <div class="btn-toolbar header-toolbar">
+    <div class="form-header">
+        <div class="form-header-top">
+            <h1 class="form-header-title">@lang('Settings')</h1>
+        </div>
+        <div class="form-header-toolbar">
             <button class="btn btn-sm btn-primary" type="submit">{{ __('Save') }}</button>
             @if (config('responsecache.enabled'))
                 <a class="btn btn-sm btn-light me-2" href="{{ route('admin::clear-cache') }}">
@@ -18,7 +20,7 @@
         </div>
     </div>
 
-    <div class="content">
+    <div class="form-body">
 
         <div class="mb-3">
             <label class="form-label">{{ __('Website title') }}</label>

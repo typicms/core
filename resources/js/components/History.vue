@@ -1,13 +1,15 @@
 <template>
-    <div class="item-list-content">
-        <div class="header position-static py-2">
-            {{ t('Latest changes') }}
-            <button v-if="filteredItems.length > 0 && clearButton" id="clear-history" class="btn-clear-history" @click="clearHistory">
-                {{ t('Clear') }}
-            </button>
+    <div class="item-list">
+        <div class="item-list-header">
+            <div class="item-list-header-top mb-0">
+                <h1 class="item-list-header-title">{{ t('Latest changes') }}</h1>
+                <button v-if="filteredItems.length > 0 && clearButton" id="clear-history" class="btn btn-light btn-sm" @click="clearHistory">
+                    {{ t('Clear') }}
+                </button>
+            </div>
         </div>
 
-        <div class="content">
+        <div class="item-list-body">
             <div v-if="filteredItems.length" class="history table-responsive">
                 <table class="history-table table">
                     <thead>
@@ -51,13 +53,13 @@
                     <span class="text-muted">{{ searchString !== null ? t('Nothing found.') : t('History is empty.') }}</span>
                 </div>
             </div>
-            <item-list-pagination
-                v-if="pagination && filteredItems.length > 0 && data.total > data.per_page"
-                :data="data"
-                class="item-list-pagination"
-                @pagination-change-page="changePage"
-            ></item-list-pagination>
         </div>
+        <item-list-pagination
+            v-if="pagination && filteredItems.length > 0 && data.total > data.per_page"
+            :data="data"
+            class="item-list-pagination"
+            @pagination-change-page="changePage"
+        ></item-list-pagination>
     </div>
 </template>
 

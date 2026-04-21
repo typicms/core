@@ -1,8 +1,8 @@
-@props(['model', 'default' => null])
+@props(['model', 'defaultTitle' => __('New')])
 
 @if (!$model->id)
     <h1 class="header-title">
-        {{ $default ?? __('New') }}
+        {{ $defaultTitle }}
     </h1>
 @else
     <h1 class="header-title @if (!$model->presentTitle()) text-muted @endif">

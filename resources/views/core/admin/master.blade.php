@@ -20,7 +20,9 @@
     @section('sidebar')
         @include('core::admin._sidebar')
     @show
-    @yield('content')
+    <div class="content">
+        @yield('content')
+    </div>
 </div>
 
 @include('core::admin._javascript')

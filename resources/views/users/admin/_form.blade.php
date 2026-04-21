@@ -1,10 +1,6 @@
-<div class="header">
-    <x-core::back-button :url="$model->indexUrl()" :title="__('Users')" />
-    <x-core::title :$model :default="__('New user')" />
-    <x-core::form-buttons :$model :lang-switcher="false" />
-</div>
+<x-core::header :$model :backUrl="$model->indexUrl()" :backLabel="__('Users')" :defaultTitle="__('New user')" :lang-switcher="false" />
 
-<div class="content">
+<div class="form-body">
     <x-core::form-errors />
 
     <div class="row gx-3">

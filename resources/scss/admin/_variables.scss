@@ -22,7 +22,7 @@ $font-size-base: 1rem;
 $font-size-sm: $font-size-base * 0.875;
 $font-size-lg: $font-size-base * 1.25;
 
-$h1-font-size: $font-size-base * 2.25;
+$h1-font-size: $font-size-base * 1.375;
 $h2-font-size: $font-size-base * 1.25;
 $h3-font-size: $font-size-base * 1.125;
 
@@ -66,3 +66,7 @@ $offcanvas-border-width: 0;
 
 $card-border-radius: $modal-content-border-radius;
 $card-border-width: 0;
+$card-cap-padding-y: $spacer * 0.75;
+$card-border-width: 1px;
+$card-border-color: var(--bs-border-color);
+$card-cap-bg: var(--bs-body-bg);

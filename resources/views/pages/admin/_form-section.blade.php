@@ -1,10 +1,6 @@
-<div class="header">
-    <x-core::back-button :url="$page->editUrl()" :title="$page->title" />
-    <x-core::title :$model :default="__('New page section')" />
-    <x-core::form-buttons :$model />
-</div>
+<x-core::header :$model :backUrl="$page->editUrl()" :backLabel="$page->title" :defaultTitle="__('New page section')" />
 
-<div class="content">
+<div class="form-body">
     <x-core::form-errors />
 
     <div class="row">

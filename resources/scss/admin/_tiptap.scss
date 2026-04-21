@@ -8,11 +8,8 @@
     border-radius: var(--bs-border-radius);
     padding: 5px;
     z-index: 6;
-    top: 52px;
+    top: -1.5rem;
     position: sticky;
-    @include media-breakpoint-up(lg) {
-        top: 199px;
-    }
 }
 
 .tiptap-separator {

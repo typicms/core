@@ -3,7 +3,7 @@
 @section('title', __('New term'))
 
 @section('content')
-    {!! BootForm::open()->action(route('admin::index-terms', $taxonomy->id))->addClass('main-content') !!}
+    {!! BootForm::open()->action(route('admin::index-terms', $taxonomy->id))->addClass('form') !!}
     @include('taxonomies::admin._form-term')
     {!! BootForm::close() !!}
 @endsection

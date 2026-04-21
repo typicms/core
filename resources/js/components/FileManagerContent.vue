@@ -1,6 +1,6 @@
 <template>
     <div class="filemanager">
-        <div class="filemanager-header header">
+        <div class="filemanager-header">
             <div class="filemanager-header-top">
                 <div>
                     <button v-if="path.length > 1" type="button" class="btn-back" @click="openFolder(path[path.length - 2])">
@@ -9,13 +9,13 @@
                             {{ path[path.length - 2].name }}
                         </span>
                     </button>
-                    <h1 v-if="path.length > 0" class="filemanager-title header-title">
+                    <h1 v-if="path.length > 0" class="filemanager-header-title">
                         {{ path[path.length - 1].name }}
                     </h1>
                 </div>
                 <button v-if="modal" class="filemanager-modal-btn-close btn-close" type="button" data-bs-dismiss="modal" :aria-label="t('Close window')"></button>
             </div>
-            <div class="header-toolbar btn-toolbar">
+            <div class="filemanager-header-toolbar">
                 <button class="btn btn-sm btn-light" type="button" @click="newFolder(folder.id)">
                     <folder-plus-icon size="16" />
                     {{ t('New folder') }}

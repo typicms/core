@@ -1,50 +1,17 @@
-.item-list {
-    flex-grow: 1;
-    min-width: 0;
-    @include media-breakpoint-up(lg) {
-        margin: 1.5rem 2rem 1.5rem 0;
-    }
-    &.sub-list {
-        margin-right: 0;
-    }
-    &-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: $spacer;
-        gap: $spacer * 0.5;
-        @include media-breakpoint-down(lg) {
-            margin: 1rem 1.5rem;
-        }
-    }
-    &-title {
-        margin-bottom: 0;
-    }
-    &-content {
-        @extend .card;
-        flex-grow: 1;
-        border: 1px solid var(--bs-border-color);
-        @include media-breakpoint-down(lg) {
-            border: none;
-            border-radius: 0;
-        }
-        &-header {
-            @extend .card-header;
-            border-bottom: 1px solid var(--bs-border-color);
-        }
-        .header {
-            border-top-left-radius: $modal-content-border-radius;
-            border-top-right-radius: $modal-content-border-radius;
-        }
-    }
+.table-responsive {
+    overflow: visible;
 }
-
 .item-list-table {
-    thead th {
-        white-space: nowrap;
-        border-top: none;
-        vertical-align: top;
-        font-weight: 600;
+    thead {
+        position: sticky;
+        top: -$spacer;
+        z-index: 1;
+        box-shadow: 0 1px 0 var(--bs-table-border-color);
+        th {
+            white-space: nowrap;
+            vertical-align: top;
+            font-weight: 600;
+        }
     }
 
     .checkboxes,

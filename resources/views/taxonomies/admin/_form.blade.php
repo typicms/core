@@ -1,10 +1,6 @@
-<div class="header">
-    <x-core::back-button :url="$model->indexUrl()" :title="__('Taxonomies')" />
-    <x-core::title :$model :default="__('New taxonomy')" />
-    <x-core::form-buttons :$model />
-</div>
+<x-core::header :$model :backUrl="$model->indexUrl()" :backLabel="__('Taxonomies')" :defaultTitle="__('New taxonomy')" />
 
-<div class="content">
+<div class="form-body">
     <x-core::form-errors />
 
     {!! BootForm::text(__('Name'), 'name')->required()->autocomplete('off') !!}

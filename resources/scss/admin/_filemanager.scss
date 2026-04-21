@@ -1,14 +1,25 @@
 .filemanager {
-    @extend .main-content;
-    display: flex;
-    flex-direction: column;
+    @extend .body;
+
+    &-header {
+        @extend .header;
+        &-top {
+            @extend .header-top;
+        }
+        &-title {
+            @extend .header-title;
+        }
+        &-toolbar {
+            @extend .header-toolbar;
+        }
+    }
 
     &-modal {
         &-dialog {
             --bs-modal-width: calc(100% - 6rem);
             height: 90vh;
         }
-        &-content {
+        &-body {
             height: 100%;
         }
     }
@@ -39,6 +50,7 @@
     }
 
     .modal &-title {
+        @extend .header-title;
         @extend .fs-5;
         line-height: $modal-title-line-height;
         margin-bottom: 0;
@@ -223,6 +235,7 @@
         }
     }
 }
+
 .filemanager-view-list {
     gap: 0;
     .filemanager-item {

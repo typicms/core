@@ -1,0 +1,14 @@
+.error {
+    @extend .card;
+    width: 100%;
+    &-header {
+        @extend .card-header;
+    }
+    &-title {
+        @extend .card-title;
+        margin-bottom: 0;
+    }
+    &-body {
+        @extend .card-body;
+    }
+}

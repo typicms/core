@@ -1,11 +1,13 @@
 <div class="header">
-    <x-core::title :$model :default="__('Profile')" />
-    <div class="btn-toolbar">
+    <div class="header-top">
+        <x-core::title :$model :defaultTitle="__('Profile')" />
+    </div>
+    <div class="header-toolbar">
         <button class="btn btn-sm btn-primary" type="submit">{{ __('Save') }}</button>
     </div>
 </div>
 
-<div class="content">
+<div class="form-body">
     <x-core::form-errors />
 
     <div class="row gx-3">

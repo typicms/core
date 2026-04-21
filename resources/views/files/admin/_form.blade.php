@@ -1,10 +1,6 @@
-<div class="header">
-    <x-core::back-button :url="$model->indexUrl()" :title="$model->folder?->name ?? __('Files')" />
-    <x-core::title :$model :default="__('New file')" />
-    <x-core::form-buttons :$model :preview="false" />
-</div>
+<x-core::header :$model :backUrl="$model->indexUrl()" :backLabel="$model->folder?->name ?? __('Files')" :defaultTitle="__('New file')" :preview="false" />
 
-<div class="content">
+<div class="form-body">
     <x-core::form-errors />
 
     {!! BootForm::hidden('id') !!}

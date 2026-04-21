@@ -1,4 +1,6 @@
 .item-list-pagination {
+    @extend .card-footer;
+    padding-block: $spacer * 0.5;
     .pagination {
         gap: 0.2rem;
         margin-bottom: 0;
