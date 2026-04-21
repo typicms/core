@@ -16,6 +16,7 @@ use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use TypiCMS\Modules\Core\Observers\SlugObserver;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
+use TypiCMS\Modules\Core\Traits\HasContentPresenter;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
@@ -40,6 +41,7 @@ use TypiCMS\Translatable\HasTranslations;
 class Term extends Model implements Sortable
 {
     use HasConfigurableOrder;
+    use HasContentPresenter;
     use HasSelectableFields;
     use HasSlugScope;
     use HasTranslations;
