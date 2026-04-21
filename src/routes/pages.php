@@ -9,6 +9,7 @@ use TypiCMS\Modules\Core\Http\Controllers\PagesApiController;
 use TypiCMS\Modules\Core\Http\Controllers\PageSectionsAdminController;
 use TypiCMS\Modules\Core\Http\Controllers\PageSectionsApiController;
 use TypiCMS\Modules\Core\Http\Controllers\PagesPublicController;
+use TypiCMS\Modules\Core\Http\Middleware\InheritParentPrivacy;
 
 /*
  * Admin routes
@@ -32,7 +33,7 @@ Route::middleware('admin')
         $router
             ->post('pages', [PagesAdminController::class, 'store'])
             ->name('store-page')
-            ->middleware('can:create pages');
+            ->middleware(['can:create pages', InheritParentPrivacy::class]);
         $router
             ->put('pages/{page}', [PagesAdminController::class, 'update'])
             ->name('update-page')
