@@ -24,7 +24,7 @@
             {!! BootForm::email(__('Email'), 'email')->autocomplete('off')->required() !!}
         </div>
         <div class="col-sm-6">
-            {!! BootForm::select(__('Interface locale'), 'locale', [
+            {!! BootForm::select(__('Interface language'), 'locale', [
                 'en' => __('languages.en'),
                 'fr' => __('languages.fr'),
                 'nl' => __('languages.nl'),

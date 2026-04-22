@@ -47,7 +47,7 @@
 
     <div class="row gx-3">
         <div class="col-6 col-lg-2">
-            {!! BootForm::select(__('Interface locale'), 'locale', [
+            {!! BootForm::select(__('Interface language'), 'locale', [
                 '' => '',
                 'en' => __('languages.en'),
                 'fr' => __('languages.fr'),
