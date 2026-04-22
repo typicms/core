@@ -6,7 +6,7 @@
     </script>
 @endpush
 
-<x-core::header :$model :backUrl="$model->indexUrl()" :backLabel="__('Pages')" :defaultTitle="__('New page')" />
+<x-core::header :$model :back-url="$model->indexUrl()" :back-label="__('Pages')" :default-title="__('New page')" />
 
     <div class="form-body">
         <x-core::form-errors />

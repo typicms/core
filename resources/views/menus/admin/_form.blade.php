@@ -1,4 +1,4 @@
-<x-core::header :$model :backUrl="$model->indexUrl()" :backLabel="__('Menus')" :defaultTitle="__('New menu')" />
+<x-core::header :$model :back-url="$model->indexUrl()" :back-label="__('Menus')" :default-title="__('New menu')" />
 
 <div class="form-body">
     <x-core::form-errors />

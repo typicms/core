@@ -6,7 +6,7 @@
     </script>
 @endpush
 
-<x-core::header :$model :backUrl="$menu->editUrl()" :backLabel="$menu->name" :defaultTitle="__('New menulink')" />
+<x-core::header :$model :back-url="$menu->editUrl()" :back-label="$menu->name" :default-title="__('New menulink')" />
 
 <div class="form-body">
     <x-core::form-errors />

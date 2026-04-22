@@ -246,7 +246,7 @@ $table->unsignedInteger('position')->default(0);
 ### _form.blade.php
 
 ```blade
-<x-core::header :$model :backUrl="$model->indexUrl()" :backLabel="__('Module Name')" :defaultTitle="__('New item')" />
+<x-core::header :$model :back-url="$model->indexUrl()" :back-label="__('Module Name')" :default-title="__('New item')" />
 
 <div class="form-body">
     <x-core::form-errors />

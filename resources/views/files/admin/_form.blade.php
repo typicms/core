@@ -1,4 +1,4 @@
-<x-core::header :$model :backUrl="$model->indexUrl()" :backLabel="$model->folder?->name ?? __('Files')" :defaultTitle="__('New file')" :preview="false" />
+<x-core::header :$model :back-url="$model->indexUrl()" :back-label="$model->folder?->name ?? __('Files')" :default-title="__('New file')" :preview="false" />
 
 <div class="form-body">
     <x-core::form-errors />

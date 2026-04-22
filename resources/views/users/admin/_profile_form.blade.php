@@ -1,6 +1,6 @@
 <div class="header">
     <div class="header-top">
-        <x-core::title :$model :defaultTitle="__('Profile')" />
+        <x-core::title :$model :default-title="__('Profile')" />
     </div>
     <div class="header-toolbar">
         <button class="btn btn-sm btn-primary" type="submit">{{ __('Save') }}</button>

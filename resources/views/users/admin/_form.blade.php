@@ -1,4 +1,4 @@
-<x-core::header :$model :backUrl="$model->indexUrl()" :backLabel="__('Users')" :defaultTitle="__('New user')" :lang-switcher="false" />
+<x-core::header :$model :back-url="$model->indexUrl()" :back-label="__('Users')" :default-title="__('New user')" :lang-switcher="false" />
 
 <div class="form-body">
     <x-core::form-errors />

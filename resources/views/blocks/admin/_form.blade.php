@@ -1,4 +1,4 @@
-<x-core::header :$model :backUrl="$model->indexUrl()" :backLabel="__('Blocks')" :defaultTitle="__('New block')" />
+<x-core::header :$model :back-url="$model->indexUrl()" :back-label="__('Blocks')" :default-title="__('New block')" />
 
 <file-manager></file-manager>
 

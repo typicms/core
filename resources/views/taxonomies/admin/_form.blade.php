@@ -1,4 +1,4 @@
-<x-core::header :$model :backUrl="$model->indexUrl()" :backLabel="__('Taxonomies')" :defaultTitle="__('New taxonomy')" />
+<x-core::header :$model :back-url="$model->indexUrl()" :back-label="__('Taxonomies')" :default-title="__('New taxonomy')" />
 
 <div class="form-body">
     <x-core::form-errors />
