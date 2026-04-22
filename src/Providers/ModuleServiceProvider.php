@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Override;
+use Spatie\ResponseCache\Facades\ResponseCache;
 use TypiCMS\Modules\Core\Commands\Create;
 use TypiCMS\Modules\Core\Commands\CreateUser;
 use TypiCMS\Modules\Core\Commands\Database;
@@ -23,7 +24,6 @@ use TypiCMS\Modules\Core\Composers\SidebarViewComposer;
 use TypiCMS\Modules\Core\Composers\SidebarViewCreator;
 use TypiCMS\Modules\Core\Models\Page;
 use TypiCMS\Modules\Core\Models\Setting;
-use Spatie\ResponseCache\Facades\ResponseCache;
 
 class ModuleServiceProvider extends ServiceProvider
 {

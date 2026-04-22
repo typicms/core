@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Appends;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -34,15 +36,13 @@ use TypiCMS\Modules\Core\Traits\HasSlugScope;
  * @property-read User|null $user
  */
 #[Unguarded]
+#[Appends(['href'])]
+#[Table(name: 'history')]
 class History extends Model
 {
     use HasConfigurableOrder;
     use HasSelectableFields;
     use HasSlugScope;
-
-    protected $table = 'history';
-
-    protected $appends = ['href'];
 
     /** @return array<string, string> */
     #[Override]

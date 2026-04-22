@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Commands;
 
-use Illuminate\Support\Sleep;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Sleep;
 use Symfony\Component\Console\Attribute\AsCommand;
-
 use Symfony\Component\Process\Process;
 
 use function Laravel\Prompts\title;

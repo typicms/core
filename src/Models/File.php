@@ -6,6 +6,7 @@ namespace TypiCMS\Modules\Core\Models;
 
 use Bkwld\Croppa\Facades\Croppa;
 use Exception;
+use Illuminate\Database\Eloquent\Attributes\Appends;
 use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
@@ -51,6 +52,7 @@ use TypiCMS\Translatable\HasTranslations;
  * @property-read mixed $storage_url
  */
 #[Unguarded]
+#[Appends(['thumb_sm', 'storage_url'])]
 class File extends Model
 {
     use HasAdminUrls;
@@ -67,8 +69,6 @@ class File extends Model
         'description',
         'alt_attribute',
     ];
-
-    protected $appends = ['thumb_sm', 'storage_url'];
 
     protected string $imageNotFound = 'img-not-found.png';
 

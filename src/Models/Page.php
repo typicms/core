@@ -208,8 +208,8 @@ class Page extends Model
     {
         $pages = static::query()
             ->order()
-            ->when(!$withPagesLinkedToAModule, function (Builder $query) {
-                $query->where('module', null);
+            ->when(! $withPagesLinkedToAModule, function (Builder $query): void {
+                $query->whereNull('module');
             })
             ->get()
             ->nest()

@@ -108,12 +108,20 @@ final class LlmsTxtController extends Controller
             }
 
             $modelClass = $properties['model'] ?? null;
-            if (! is_string($modelClass) || ! is_subclass_of($modelClass, Model::class)) {
+            if (! is_string($modelClass)) {
+                continue;
+            }
+
+            if (! is_subclass_of($modelClass, Model::class)) {
                 continue;
             }
 
             $page = getPageLinkedToModule($moduleName);
-            if (! $page instanceof Page || ! $page->isPublished($locale)) {
+            if (! $page instanceof Page) {
+                continue;
+            }
+
+            if (! $page->isPublished($locale)) {
                 continue;
             }
 

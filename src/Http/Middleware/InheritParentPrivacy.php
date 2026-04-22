@@ -14,7 +14,7 @@ class InheritParentPrivacy
     public function handle(Request $request, Closure $next): Response
     {
         if ($request->filled('parent_id')) {
-            $parent = Page::find($request->input('parent_id'));
+            $parent = Page::query()->find($request->input('parent_id'));
 
             if ($parent?->private) {
                 $request->merge(['private' => true]);

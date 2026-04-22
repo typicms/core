@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Appends;
 use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
@@ -39,6 +40,7 @@ use TypiCMS\Translatable\HasTranslations;
  * @property-read mixed $translations
  */
 #[Unguarded]
+#[Appends(['thumb'])]
 class Menu extends Model
 {
     use HasAdminUrls;
@@ -49,8 +51,6 @@ class Menu extends Model
     use HasTranslations;
     use Historable;
     use Publishable;
-
-    protected $appends = ['thumb'];
 
     public function presentTitle(): string
     {

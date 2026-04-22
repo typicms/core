@@ -41,7 +41,11 @@ final class SitemapPublicController extends Controller
                     }
 
                     $modelClass = config("typicms.modules.{$page->module}.model");
-                    if (! is_string($modelClass) || ! is_subclass_of($modelClass, Model::class)) {
+                    if (! is_string($modelClass)) {
+                        continue;
+                    }
+
+                    if (! is_subclass_of($modelClass, Model::class)) {
                         continue;
                     }
 
