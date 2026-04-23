@@ -54,7 +54,7 @@ body {
 }
 @include color-mode(dark) {
     body {
-        background-color: $black;
+        background-color: var(--bs-dark-bg-subtle);
     }
 }
 .main {

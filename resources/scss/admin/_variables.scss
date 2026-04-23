@@ -9,8 +9,8 @@ $gray-500: #bcbbb9;
 $gray-600: #747371;
 $gray-700: #585755;
 $gray-800: #3e3d3b;
-$gray-900: #181715;
-$black: #0a0a00;
+$gray-900: #282725;
+$black: #080705;
 
 $light: $gray-100;
 $secondary: $gray-600;
@@ -44,8 +44,11 @@ $modal-backdrop-opacity: 0.3;
 $box-shadow-sm: 0 0.5px 1px 1px rgba(0, 0, 0, 0.075);
 
 $table-group-separator-color: $gray-300;
+$table-color: var(--bs-body-color);
 
 $enable-validation-icons: false;
+
+$color-mode-type: media-query;
 
 $pagination-padding-x: 0;
 $pagination-padding-y: 0;
@@ -69,4 +72,4 @@ $card-border-width: 0;
 $card-cap-padding-y: $spacer * 0.75;
 $card-border-width: 1px;
 $card-border-color: var(--bs-border-color);
-$card-cap-bg: var(--bs-body-bg);
+$card-cap-bg: rgba(var(--bs-body-color-rgb), 0.02);
