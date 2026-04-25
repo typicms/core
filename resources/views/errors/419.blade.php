@@ -1,6 +1,6 @@
 @extends('public::core.master')
 
-@section('title', __('Error :code', ['code' => '419']) . ' – ' . $websiteTitle)
+@section('title', __('Error :code', ['code' => '419']) . ' – ' . websiteTitle())
 
 @section('bodyClass', 'error-419')
 

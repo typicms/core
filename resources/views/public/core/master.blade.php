@@ -8,7 +8,7 @@
     <meta name="description" content="@yield('description')" />
     <meta name="keywords" content="@yield('keywords')" />
 
-    <meta property="og:site_name" content="{{ $websiteTitle }}" />
+    <meta property="og:site_name" content="{{ websiteTitle() }}" />
     <meta property="og:title" content="@yield('ogTitle')" />
     <meta property="og:description" content="@yield('description')" />
     <meta property="og:type" content="website" />
@@ -25,7 +25,7 @@
     @stack('css')
 </head>
 
-<body class="body-{{ $lang }} @yield('bodyClass') @if ($navbar) has-navbar @endif" id="top">
+<body class="body-{{ app()->getLocale() }} @yield('bodyClass') @if ($navbar) has-navbar @endif" id="top">
 
     @section('skip-links')
         <div class="skip-to-content">
@@ -37,7 +37,7 @@
 
     @auth
         @if (auth()->user()->isImpersonating())
-            <a class="stop-impersonation-button" href="{{ route($lang . '::stop-impersonation') }}">
+            <a class="stop-impersonation-button" href="{{ route(app()->getLocale() . '::stop-impersonation') }}">
                 @lang('Stop impersonation')
             </a>
         @endif
