@@ -25,7 +25,7 @@
     @stack('css')
 </head>
 
-<body class="body-{{ app()->getLocale() }} @yield('bodyClass') @if ($navbar) has-navbar @endif" id="top">
+<body class="body-{{ app()->getLocale() }} @yield('bodyClass')" id="top">
 
     @section('skip-links')
         <div class="skip-to-content">
@@ -33,7 +33,7 @@
         </div>
     @show
 
-    <x-core::navbar :page="$page ?? null" :model="$model ?? null" />
+    <x-core::edit-button :page="$page ?? null" :model="$model ?? null" :logout="true" />
 
     @auth
         @if (auth()->user()->isImpersonating())

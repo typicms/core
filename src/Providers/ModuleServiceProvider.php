@@ -18,7 +18,6 @@ use TypiCMS\Modules\Core\Commands\CreateUser;
 use TypiCMS\Modules\Core\Commands\Database;
 use TypiCMS\Modules\Core\Commands\Install;
 use TypiCMS\Modules\Core\Commands\Publish;
-use TypiCMS\Modules\Core\Composers\MasterViewComposer;
 use TypiCMS\Modules\Core\Composers\SidebarViewComposer;
 use TypiCMS\Modules\Core\Composers\SidebarViewCreator;
 use TypiCMS\Modules\Core\Models\Page;
@@ -235,7 +234,6 @@ class ModuleServiceProvider extends ServiceProvider
          |--------------------------------------------------------------------------
          */
         View::composers([
-            MasterViewComposer::class => '*',
             SidebarViewComposer::class => 'admin::core._sidebar',
         ]);
         View::composer('public::search.*', function ($view): void {

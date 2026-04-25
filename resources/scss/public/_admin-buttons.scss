@@ -1,0 +1,28 @@
+.admin-buttons {
+    position: relative;
+    width: 100%;
+    &-container {
+        position: absolute;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-end;
+        gap: 0.5rem;
+    }
+    &-edit {
+        @extend .btn;
+        @include button-variant(rgba($yellow, 0.6), transparent, $primary, $yellow, transparent, $primary);
+        @extend .rounded-pill;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1.25rem;
+    }
+    &-logout {
+        @extend .admin-buttons-edit;
+    }
+}

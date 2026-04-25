@@ -1,6 +1,6 @@
 @props(['page' => null, 'model' => null])
 
-@if ($navbar)
+@can('see navbar')
     <nav class="typicms-navbar navbar navbar-expand justify-content-between sticky-top">
         <div class="container-fluid">
             @if (Request::segment(1) === 'admin')
@@ -15,11 +15,7 @@
             </a>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    @if (Request::segment(1) === 'admin')
-                        <x-core::navbar-public-link :$page :$model />
-                    @else
-                        <x-core::navbar-admin-link :$page :$model />
-                    @endif
+                    <x-core::navbar-public-link :$page :$model />
                 </li>
                 <li class="nav-item dropdown">
                     <button class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -62,4 +58,4 @@
             </ul>
         </div>
     </nav>
-@endif
+@endcan
