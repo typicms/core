@@ -20,6 +20,6 @@ class AuthenticatePasskey extends Component
             Session::put('passkeys.redirect', $this->redirect);
         }
 
-        return view('admin::components.authenticate');
+        return view('public::components.authenticate');
     }
 }

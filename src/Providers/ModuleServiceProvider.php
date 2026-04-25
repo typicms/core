@@ -246,8 +246,12 @@ class ModuleServiceProvider extends ServiceProvider
         Blade::componentNamespace('TypiCMS\\Modules\\Core\\Http\\Components', 'core');
         Blade::anonymousComponentPath(resource_path('views/admin/components'), 'core');
         Blade::anonymousComponentPath(resource_path('views/admin/components'), 'users');
+        Blade::anonymousComponentPath(resource_path('views/public/components'), 'core');
+        Blade::anonymousComponentPath(resource_path('views/public/components'), 'users');
         Blade::anonymousComponentPath(__DIR__.'/../../resources/views/admin/components', 'core');
         Blade::anonymousComponentPath(__DIR__.'/../../resources/views/admin/components', 'users');
+        Blade::anonymousComponentPath(__DIR__.'/../../resources/views/public/components', 'core');
+        Blade::anonymousComponentPath(__DIR__.'/../../resources/views/public/components', 'users');
 
         /*
          |--------------------------------------------------------------------------
