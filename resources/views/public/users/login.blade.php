@@ -7,15 +7,15 @@
 
 @section('content')
     <div id="login" class="container-login auth auth-sm">
-        <x-users::auth-header />
+        <x-core::auth-header />
 
         <x-core::authenticate-passkey />
 
-        <x-users::status />
+        <x-core::status />
 
-        <x-users::register-info />
+        <x-core::register-info />
 
-        <x-users::back-to-website-link />
+        <x-core::back-to-website-link />
 
     </div>
 @endsection

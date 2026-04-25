@@ -7,14 +7,14 @@
 
 @section('content')
     <div id="register" class="container-register auth">
-        <x-users::auth-header />
+        <x-core::auth-header />
 
         {!! BootForm::open()->addClass('auth-form')->id('registration-form') !!}
         {!! BootForm::hidden('locale')->value(app()->getLocale()) !!}
 
         <h1 class="auth-title">{{ __('Register') }}</h1>
 
-        <x-users::status />
+        <x-core::status />
 
         {!! BootForm::email(__('Email'), 'email')->addClass('form-control-lg')->required()->autocomplete('username') !!}
         <div class="row gx-3">

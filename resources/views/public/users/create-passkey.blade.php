@@ -8,11 +8,11 @@
 
 @section('content')
     <div id="login" class="container-login auth auth-sm">
-        <x-users::auth-header />
+        <x-core::auth-header />
         <div class="auth-form">
             <h1 class="auth-title">{{ __('Create a passkey') }}</h1>
             <p class="alert alert-info">@lang('Please create a passkey for future connections.')</p>
-            <x-users::status />
+            <x-core::status />
             <div class="mb-3 d-grid">
                 <button class="btn btn-lg btn-primary" type="button" id="create-passkey-button">
                     <i class="icon-key-round"></i>
@@ -21,7 +21,7 @@
                 <a class="text-body text-decoration-underline small text-center mt-3 d-block" href="{{ route('admin::dashboard') }}">@lang('I will do it later.')</a>
             </div>
         </div>
-        <x-users::back-to-website-link />
+        <x-core::back-to-website-link />
     </div>
 @endsection
 
