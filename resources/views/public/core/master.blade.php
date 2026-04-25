@@ -70,7 +70,7 @@
 
     <main class="main" id="main">
         <div class="container">
-            <x-core::edit-button :page="$page ?? null" :model="$model ?? null" :logout="true" />
+            <x-core::edit-button :page="$page ?? null" :model="$model ?? null" />
         </div>
         @yield('content')
     </main>
