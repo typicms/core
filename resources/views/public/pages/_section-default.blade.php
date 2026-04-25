@@ -1,4 +1,4 @@
-<div class="section-default section-{{ $section->id }}" id="{{ $section->slug }}-{{ $section->id }}">
+<div class="section-default section-{{ $section->id }}" id="{{ $section->position }}-{{ $section->slug }}">
     <div class="section-default-container">
         <x-core::edit-button :url="$section->editUrl()" />
         <div class="section-default-row">
