@@ -14,15 +14,21 @@ afterEach(function (): void {
 
 describe('homepage', function (): void {
     test('redirects to default locale', function (): void {
-        $this->get('/')->assertRedirect('/en');
+        $homepage = Page::query()->where('is_home', 1)->firstOrFail();
+
+        $this->get('/')->assertRedirect($homepage->url(mainLocale()));
     });
 
     test('returns 200', function (): void {
-        $this->get('/en')->assertOk();
+        $homepage = Page::query()->where('is_home', 1)->firstOrFail();
+
+        $this->get($homepage->url('en'))->assertOk();
     });
 
     test('is available in all locales', function (string $locale): void {
-        $this->get("/{$locale}")->assertOk();
+        $homepage = Page::query()->where('is_home', 1)->firstOrFail();
+
+        $this->get($homepage->url($locale))->assertOk();
     })->with(['en', 'fr', 'nl']);
 });
 
