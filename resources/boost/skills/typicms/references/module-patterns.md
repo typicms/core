@@ -275,7 +275,7 @@ $table->unsignedInteger('position')->default(0);
 ### create.blade.php
 
 ```blade
-@extends('core::admin.master')
+@extends('admin::core.master')
 
 @section('title', __('New item'))
 
@@ -289,7 +289,7 @@ $table->unsignedInteger('position')->default(0);
 ### edit.blade.php
 
 ```blade
-@extends('core::admin.master')
+@extends('admin::core.master')
 
 @section('title', $model->title)
 

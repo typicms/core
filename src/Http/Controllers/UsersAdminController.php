@@ -18,7 +18,7 @@ final class UsersAdminController extends BaseAdminController
 {
     public function index(): View
     {
-        return view('users::admin.index');
+        return view('admin::users.index');
     }
 
     public function export(Request $request): BinaryFileResponse
@@ -35,7 +35,7 @@ final class UsersAdminController extends BaseAdminController
         $roles = Role::query()->get();
         $passkeys = collect();
 
-        return view('users::admin.create', [
+        return view('admin::users.create', [
             'model' => $model,
             'roles' => $roles,
             'checkedRoles' => $checkedRoles,
@@ -49,7 +49,7 @@ final class UsersAdminController extends BaseAdminController
         $roles = Role::query()->get();
         $passkeys = $user->passkeys()->get(['id', 'name', 'last_used_at']);
 
-        return view('users::admin.edit', [
+        return view('admin::users.edit', [
             'model' => $user,
             'roles' => $roles,
             'checkedRoles' => $checkedRoles,

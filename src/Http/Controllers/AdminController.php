@@ -13,19 +13,19 @@ final class AdminController extends BaseAdminController
 {
     public function index(): View
     {
-        return view('blocks::admin.index');
+        return view('admin::blocks.index');
     }
 
     public function create(): View
     {
         $model = new Block;
 
-        return view('blocks::admin.create', ['model' => $model]);
+        return view('admin::blocks.create', ['model' => $model]);
     }
 
     public function edit(Block $block): View
     {
-        return view('blocks::admin.edit', ['model' => $block]);
+        return view('admin::blocks.edit', ['model' => $block]);
     }
 
     public function store(BlockFormRequest $request): RedirectResponse

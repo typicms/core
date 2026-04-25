@@ -16,12 +16,12 @@ final class MenulinksAdminController extends BaseAdminController
     {
         $model = new Menulink;
 
-        return view('menus::admin.create-menulink', ['model' => $model, 'menu' => $menu]);
+        return view('admin::menus.create-menulink', ['model' => $model, 'menu' => $menu]);
     }
 
     public function edit(Menu $menu, Menulink $menulink): View
     {
-        return view('menus::admin.edit-menulink', [
+        return view('admin::menus.edit-menulink', [
             'menu' => $menu,
             'model' => $menulink,
         ]);

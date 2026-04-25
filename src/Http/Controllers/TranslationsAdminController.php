@@ -13,19 +13,19 @@ final class TranslationsAdminController extends BaseAdminController
 {
     public function index(): View
     {
-        return view('translations::admin.index');
+        return view('admin::translations.index');
     }
 
     public function create(): View
     {
         $model = new Translation;
 
-        return view('translations::admin.create', ['model' => $model]);
+        return view('admin::translations.create', ['model' => $model]);
     }
 
     public function edit(Translation $translation): View
     {
-        return view('translations::admin.edit', ['model' => $translation]);
+        return view('admin::translations.edit', ['model' => $translation]);
     }
 
     public function store(TranslationFormRequest $request): RedirectResponse

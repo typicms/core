@@ -16,12 +16,12 @@ final class PageSectionsAdminController extends BaseAdminController
     {
         $model = new PageSection;
 
-        return view('pages::admin.create-section', ['model' => $model, 'page' => $page]);
+        return view('admin::pages.create-section', ['model' => $model, 'page' => $page]);
     }
 
     public function edit(Page $page, PageSection $section): View
     {
-        return view('pages::admin.edit-section', [
+        return view('admin::pages.edit-section', [
             'model' => $section,
             'page' => $page,
         ]);

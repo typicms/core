@@ -68,7 +68,6 @@ class Create extends Command
         $this->moveAndRenameFiles();
         $this->searchAndReplaceInFiles();
         $this->publishViews();
-        $this->changeViewsPath();
         $this->publishScssFiles();
         $this->moveMigrationFile();
         $this->addTranslations();
@@ -143,29 +142,21 @@ class Create extends Command
     }
 
     /**
-     * Publish views.
+     * Publish views to the admin:: and public:: namespaces.
      */
     public function publishViews(): void
     {
-        $from = base_path('Modules/'.$this->module.'/resources/views');
-        $to = resource_path('views/vendor/'.mb_strtolower($this->module));
-        $this->publishDirectory($from, $to);
-    }
+        $moduleSlug = mb_strtolower($this->module);
+        $moduleDir = base_path('Modules/'.$this->module);
 
-    /**
-     * Change the path of loadViewsFrom.
-     */
-    private function changeViewsPath(): void
-    {
-        $file = 'Modules/'.ucfirst($this->module).'/Providers/ModuleServiceProvider.php';
-        $contents = $this->files->get($file);
-        $contents = preg_replace(
-            '#loadViewsFrom(.*)/\', \'(.*)\'\)#',
-            'loadViewsFrom(resource_path(\'views\'), \'$2\')',
-            $contents,
+        $this->publishDirectory(
+            $moduleDir.'/resources/views/admin/things',
+            resource_path('views/admin/'.$moduleSlug),
         );
-
-        $this->files->put($file, $contents ?? '');
+        $this->publishDirectory(
+            $moduleDir.'/resources/views/public/things',
+            resource_path('views/public/'.$moduleSlug),
+        );
     }
 
     /**

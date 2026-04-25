@@ -30,7 +30,7 @@ class DateRange extends Component
             }
         }
 
-        return view('core::components.date-range', [
+        return view('admin::components.date-range', [
             'startFormat' => $startFormat,
             'endFormat' => $endFormat,
         ]);

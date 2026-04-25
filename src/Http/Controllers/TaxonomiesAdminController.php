@@ -13,7 +13,7 @@ final class TaxonomiesAdminController extends BaseAdminController
 {
     public function index(): View
     {
-        return view('taxonomies::admin.index');
+        return view('admin::taxonomies.index');
     }
 
     public function create(): View
@@ -24,7 +24,7 @@ final class TaxonomiesAdminController extends BaseAdminController
             fn (array $item): bool => isset($item['has_taxonomies']) && $item['has_taxonomies'] === true,
         );
 
-        return view('taxonomies::admin.create', ['model' => $model, 'modules' => $modules]);
+        return view('admin::taxonomies.create', ['model' => $model, 'modules' => $modules]);
     }
 
     public function edit(Taxonomy $taxonomy): View
@@ -34,7 +34,7 @@ final class TaxonomiesAdminController extends BaseAdminController
             fn (array $item): bool => isset($item['has_taxonomies']) && $item['has_taxonomies'] === true,
         );
 
-        return view('taxonomies::admin.edit', ['model' => $taxonomy, 'modules' => $modules]);
+        return view('admin::taxonomies.edit', ['model' => $taxonomy, 'modules' => $modules]);
     }
 
     public function store(TaxonomyFormRequest $request): RedirectResponse

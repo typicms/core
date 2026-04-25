@@ -52,8 +52,8 @@ class ModuleServiceProvider extends ServiceProvider
             }
         });
 
-        Paginator::defaultView('core::public.pagination.bootstrap-5');
-        Paginator::defaultSimpleView('core::public.pagination.simple-bootstrap-5');
+        Paginator::defaultView('public::core.pagination.bootstrap-5');
+        Paginator::defaultSimpleView('public::core.pagination.simple-bootstrap-5');
 
         /*
          * Load routes.
@@ -77,19 +77,25 @@ class ModuleServiceProvider extends ServiceProvider
         /*
          * Load views.
          */
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/blocks/', 'blocks');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/core/', 'core');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/dashboard/', 'dashboard');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/files/', 'files');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/menus/', 'menus');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/pages/', 'pages');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/roles/', 'roles');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/search/', 'search');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/settings/', 'settings');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/tags/', 'tags');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/taxonomies/', 'taxonomies');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/translations/', 'translations');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/users/', 'users');
+        $this->loadViewsFrom([
+            resource_path('views/admin'),
+            __DIR__.'/../../resources/views/admin',
+        ], 'admin');
+
+        $this->loadViewsFrom([
+            resource_path('views/public'),
+            __DIR__.'/../../resources/views/public',
+        ], 'public');
+
+        $this->loadViewsFrom([
+            resource_path('views/mail'),
+            __DIR__.'/../../resources/views/mail',
+        ], 'mail');
+
+        $this->loadViewsFrom([
+            resource_path('views/errors'),
+            __DIR__.'/../../resources/views/errors',
+        ], 'errors');
 
         /*
          |--------------------------------------------------------------------------
@@ -161,8 +167,13 @@ class ModuleServiceProvider extends ServiceProvider
          */
         $this->publishes([
             __DIR__.'/../../resources/views/errors' => resource_path('views/errors'),
-            __DIR__.'/../../resources/views' => resource_path('views/vendor'),
-        ], 'typicms-views');
+        ], ['typicms-views', 'typicms-errors-views']);
+        $this->publishes([
+            __DIR__.'/../../resources/views/admin' => resource_path('views/admin'),
+        ], ['typicms-views', 'typicms-admin-views', 'typicms-admin-core-views']);
+        $this->publishes([
+            __DIR__.'/../../resources/views/public' => resource_path('views/public'),
+        ], ['typicms-views', 'typicms-public-views', 'typicms-public-core-views']);
 
         /*
          |--------------------------------------------------------------------------
@@ -217,7 +228,7 @@ class ModuleServiceProvider extends ServiceProvider
          | Sidebar
          |--------------------------------------------------------------------------
          */
-        View::creator('core::admin._sidebar', SidebarViewCreator::class);
+        View::creator('admin::core._sidebar', SidebarViewCreator::class);
 
         /*
          |--------------------------------------------------------------------------
@@ -226,17 +237,21 @@ class ModuleServiceProvider extends ServiceProvider
          */
         View::composers([
             MasterViewComposer::class => '*',
-            LocaleComposer::class => '*::public.*',
-            SidebarViewComposer::class => 'core::admin._sidebar',
+            LocaleComposer::class => 'public::*',
+            SidebarViewComposer::class => 'admin::core._sidebar',
         ]);
-        View::composer('search::public.*', function ($view): void {
+        View::composer('public::search.*', function ($view): void {
             $view->page = getPageLinkedToModule('search');
         });
-        View::composer('tags::public.*', function ($view): void {
+        View::composer('public::tags.*', function ($view): void {
             $view->page = getPageLinkedToModule('tags');
         });
 
         Blade::componentNamespace('TypiCMS\\Modules\\Core\\Http\\Components', 'core');
+        Blade::anonymousComponentPath(resource_path('views/admin/components'), 'core');
+        Blade::anonymousComponentPath(resource_path('views/admin/components'), 'users');
+        Blade::anonymousComponentPath(__DIR__.'/../../resources/views/admin/components', 'core');
+        Blade::anonymousComponentPath(__DIR__.'/../../resources/views/admin/components', 'users');
 
         /*
          |--------------------------------------------------------------------------
@@ -248,7 +263,7 @@ class ModuleServiceProvider extends ServiceProvider
             $name,
         ));
         Blade::directive('menu', fn (string $name): string => sprintf(
-            "<?php echo view('menus::public._menu', ['name' => %s]) ?>",
+            "<?php echo view('public::menus._menu', ['name' => %s]) ?>",
             $name,
         ));
 

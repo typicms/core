@@ -16,7 +16,7 @@ final class RegisterController extends Controller
 {
     public function showRegistrationForm(): View
     {
-        return view('users::register');
+        return view('public::users.register');
     }
 
     public function register(UserRegistrationFormRequest $request): RedirectResponse

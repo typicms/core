@@ -1,4 +1,4 @@
-@extends('core::public.master')
+@extends('public::core.master')
 
 @section('title', __('Error :code', ['code' => '403']) . ' – ' . $websiteTitle)
 

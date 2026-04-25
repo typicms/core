@@ -21,7 +21,7 @@ final class SearchPublicController extends BasePublicController
             'query' => ['required', 'string', 'min:3'],
         ]);
         if ($validator->fails()) {
-            return view('search::public.index', ['results' => $results, 'count' => $count])->withErrors($validator);
+            return view('public::search.index', ['results' => $results, 'count' => $count])->withErrors($validator);
         }
 
         $config = config('typicms.search');
@@ -106,7 +106,7 @@ final class SearchPublicController extends BasePublicController
             }
         }
 
-        return view('search::public.index', ['results' => $results, 'count' => $count, 'tabs' => $tabs])->withErrors(
+        return view('public::search.index', ['results' => $results, 'count' => $count, 'tabs' => $tabs])->withErrors(
             $validator,
         );
     }

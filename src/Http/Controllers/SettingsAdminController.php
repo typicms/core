@@ -33,7 +33,7 @@ final class SettingsAdminController extends BaseAdminController
             }
         }
 
-        return view('settings::admin.index', ['data' => $data]);
+        return view('admin::settings.index', ['data' => $data]);
     }
 
     public function save(Request $request, FileUploader $fileUploader): RedirectResponse

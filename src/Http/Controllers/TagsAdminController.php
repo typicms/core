@@ -13,19 +13,19 @@ final class TagsAdminController extends BaseAdminController
 {
     public function index(): View
     {
-        return view('tags::admin.index');
+        return view('admin::tags.index');
     }
 
     public function create(): View
     {
         $model = new Tag;
 
-        return view('tags::admin.create', ['model' => $model]);
+        return view('admin::tags.create', ['model' => $model]);
     }
 
     public function edit(Tag $tag): View
     {
-        return view('tags::admin.edit', ['model' => $tag]);
+        return view('admin::tags.edit', ['model' => $tag]);
     }
 
     public function store(TagsFormRequest $request): RedirectResponse

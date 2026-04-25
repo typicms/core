@@ -21,12 +21,12 @@ final class FilesAdminController extends BaseAdminController
 {
     public function index(): View
     {
-        return view('files::admin.index');
+        return view('admin::files.index');
     }
 
     public function edit(File $file): View
     {
-        return view('files::admin.edit', ['model' => $file]);
+        return view('admin::files.edit', ['model' => $file]);
     }
 
     public function update(File $file, FileFormRequest $request): RedirectResponse

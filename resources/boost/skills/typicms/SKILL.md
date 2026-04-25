@@ -220,7 +220,7 @@ class ModuleServiceProvider extends ServiceProvider
         ModuleName::observe(new SlugObserver());
         ModuleName::observe(new TipTapHTMLObserver());
 
-        View::composer('core::admin._sidebar', SidebarViewComposer::class);
+        View::composer('admin::core._sidebar', SidebarViewComposer::class);
 
         View::composer('modulename::public.*', function ($view): void {
             $view->page = getPageLinkedToModule('modulename');

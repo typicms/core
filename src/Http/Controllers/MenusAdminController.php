@@ -13,19 +13,19 @@ final class MenusAdminController extends BaseAdminController
 {
     public function index(): View
     {
-        return view('menus::admin.index');
+        return view('admin::menus.index');
     }
 
     public function create(): View
     {
         $model = new Menu;
 
-        return view('menus::admin.create', ['model' => $model]);
+        return view('admin::menus.create', ['model' => $model]);
     }
 
     public function edit(Menu $menu): View
     {
-        return view('menus::admin.edit', ['model' => $menu]);
+        return view('admin::menus.edit', ['model' => $menu]);
     }
 
     public function store(MenuFormRequest $request): RedirectResponse

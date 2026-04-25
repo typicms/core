@@ -14,7 +14,7 @@ final class RolesAdminController extends BaseAdminController
 {
     public function index(): View
     {
-        return view('roles::admin.index');
+        return view('admin::roles.index');
     }
 
     public function create(): View
@@ -22,14 +22,14 @@ final class RolesAdminController extends BaseAdminController
         $model = new Role;
         $checkedPermissions = [];
 
-        return view('roles::admin.create', ['model' => $model, 'checkedPermissions' => $checkedPermissions]);
+        return view('admin::roles.create', ['model' => $model, 'checkedPermissions' => $checkedPermissions]);
     }
 
     public function edit(Role $role): View
     {
         $checkedPermissions = $role->permissions()->pluck('name')->all();
 
-        return view('roles::admin.edit', ['model' => $role, 'checkedPermissions' => $checkedPermissions]);
+        return view('admin::roles.edit', ['model' => $role, 'checkedPermissions' => $checkedPermissions]);
     }
 
     public function store(RolesFormRequest $request): RedirectResponse

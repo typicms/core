@@ -14,19 +14,19 @@ final class TermsAdminController extends BaseAdminController
 {
     public function index(Taxonomy $taxonomy): View
     {
-        return view('taxonomies::admin.index-terms', ['taxonomy' => $taxonomy]);
+        return view('admin::taxonomies.index-terms', ['taxonomy' => $taxonomy]);
     }
 
     public function create(Taxonomy $taxonomy): View
     {
         $model = new Term;
 
-        return view('taxonomies::admin.create-term', ['model' => $model, 'taxonomy' => $taxonomy]);
+        return view('admin::taxonomies.create-term', ['model' => $model, 'taxonomy' => $taxonomy]);
     }
 
     public function edit(Taxonomy $taxonomy, Term $term): View
     {
-        return view('taxonomies::admin.edit-term', [
+        return view('admin::taxonomies.edit-term', [
             'model' => $term,
             'taxonomy' => $taxonomy,
         ]);
