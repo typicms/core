@@ -33,6 +33,8 @@
         </div>
     @show
 
+    <x-core::logout-button />
+
     @auth
         @if (auth()->user()->isImpersonating())
             <a class="stop-impersonation-button" href="{{ route(app()->getLocale() . '::stop-impersonation') }}">

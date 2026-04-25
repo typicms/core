@@ -1,14 +1,8 @@
 .admin-buttons {
     position: relative;
-    width: 100%;
     &-container {
         position: absolute;
         right: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        align-items: flex-end;
-        gap: 0.5rem;
     }
     &-edit {
         @extend .btn;
@@ -24,5 +18,8 @@
     }
     &-logout {
         @extend .admin-buttons-edit;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
     }
 }

@@ -3,19 +3,16 @@
     'page' => null,
     'model' => null,
     'logout' => false,
-    'show' => auth('web')->user()?->can('see navbar') && !request()->boolean('preview') && !request()->is('*/create-passkey'),
+    'show' => showAdminButtons(),
 ])
 
 @php
-    if ($url === null) {
-        $url = match (true) {
-            $model !== null => $model->editUrl(),
-            $page !== null && $page->module && Route::has('admin::index-' . $page->module) => route('admin::index-' . $page->module),
-            $page !== null => $page->editUrl(),
-            default => route('admin::dashboard'),
-        };
-        $url .= '?locale=' . app()->getLocale();
-    }
+    $url ??= match (true) {
+        $model !== null => $model->editUrl(),
+        $page?->module && Route::has('admin::index-' . $page->module) => route('admin::index-' . $page->module),
+        $page !== null => $page->editUrl(),
+        default => route('admin::dashboard'),
+    } . '?locale=' . app()->getLocale();
 @endphp
 
 @if ($show)
