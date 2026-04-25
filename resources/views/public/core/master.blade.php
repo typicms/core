@@ -33,8 +33,6 @@
         </div>
     @show
 
-    <x-core::edit-button :page="$page ?? null" :model="$model ?? null" :logout="true" />
-
     @auth
         @if (auth()->user()->isImpersonating())
             <a class="stop-impersonation-button" href="{{ route(app()->getLocale() . '::stop-impersonation') }}">
@@ -69,6 +67,9 @@
     @show
 
     <main class="main" id="main">
+        <div class="container">
+            <x-core::edit-button :page="$page ?? null" :model="$model ?? null" :logout="true" />
+        </div>
         @yield('content')
     </main>
 
