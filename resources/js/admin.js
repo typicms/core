@@ -46,7 +46,6 @@ import ItemList from './components/ItemList.vue';
 import ItemListCheckbox from './components/ItemListCheckbox.vue';
 import ItemListColumnHeader from './components/ItemListColumnHeader.vue';
 import ItemListEditButton from './components/ItemListEditButton.vue';
-import ItemListPositionInput from './components/ItemListPositionInput.vue';
 import ItemListShowButton from './components/ItemListShowButton.vue';
 import ItemListStatusButton from './components/ItemListStatusButton.vue';
 import ItemListTree from './components/ItemListTree.vue';
@@ -97,7 +96,6 @@ const app = createApp()
     .component('ItemListEditButton', ItemListEditButton)
     .component('ItemListShowButton', ItemListShowButton)
     .component('ItemListCheckbox', ItemListCheckbox)
-    .component('ItemListPositionInput', ItemListPositionInput)
     .component('History', History)
     .component('FileManager', FileManager)
     .component('FileManagerContent', FileManagerContent)

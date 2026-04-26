@@ -3,7 +3,7 @@
 @section('title', __('Terms'))
 
 @section('content')
-    <item-list url-base="/api/taxonomies/{{ $taxonomy->id }}/terms" fields="id,taxonomy_id,title,position" table="terms" title="terms" :publishable="false" :exportable="false" :searchable="['title']" :sorting="['position']">
+    <item-list url-base="/api/taxonomies/{{ $taxonomy->id }}/terms" fields="id,taxonomy_id,title,position" table="terms" title="terms" :publishable="false" :exportable="false" :searchable="['title']" :sorting="['position']" :draggable="$can('update terms')">
         <template #back-button>
             <x-core::back-button :back-url="route('admin::index-taxonomies')" :back-label="__('Taxonomies')" />
         </template>
@@ -15,21 +15,21 @@
         </template>
 
         <template #columns="{ sortArray }">
+            <item-list-column-header name="position" sortable :sort-array="sortArray" :label="$t('Order')"></item-list-column-header>
             <item-list-column-header name="checkbox" v-if="$can('update terms')||$can('delete terms')"></item-list-column-header>
             <item-list-column-header name="edit" v-if="$can('update terms')"></item-list-column-header>
-            <item-list-column-header name="position" sortable :sort-array="sortArray" :label="$t('Position')"></item-list-column-header>
             <item-list-column-header name="title_translated" sortable :sort-array="sortArray" :label="$t('Title')"></item-list-column-header>
         </template>
 
-        <template #table-row="{ model, checkedModels, loading }">
+        <template #table-row="{ model, checkedModels, loading, sortArray }">
+            <td class="drag-handle text-muted" v-if="$can('update partners')" :style="{ cursor: sortArray[0] === 'position' ? 'grab' : 'default' }">
+                <i :class="['icon-grip-vertical', { 'opacity-50': sortArray[0] !== 'position' }]"></i>
+            </td>
             <td class="checkbox" v-if="$can('update terms')||$can('delete terms')">
                 <item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox>
             </td>
             <td v-if="$can('update terms')">
                 <item-list-edit-button :url="'/admin/taxonomies/' + model.taxonomy_id + '/terms/' + model.id + '/edit'"></item-list-edit-button>
-            </td>
-            <td>
-                <item-list-position-input :model="model"></item-list-position-input>
             </td>
             <td>@{{ model.title_translated }}</td>
         </template>

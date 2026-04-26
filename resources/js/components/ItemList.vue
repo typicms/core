@@ -88,9 +88,28 @@
                             <slot name="columns" :sort-array="sortArray"></slot>
                         </tr>
                     </thead>
-                    <tbody>
+                    <draggable
+                        v-if="canDrag"
+                        :list="data.data"
+                        tag="tbody"
+                        handle=".drag-handle"
+                        item-key="id"
+                        :force-fallback="true"
+                        ghost-class="sortable-ghost"
+                        chosen-class="sortable-chosen"
+                        drag-class="sortable-drag"
+                        @start="onDragStart"
+                        @end="onDragEnd"
+                    >
+                        <template #item="{ element: model }">
+                            <tr>
+                                <slot name="table-row" :checked-models="checkedItems" :loading="loading" :model="model" :sort-array="sortArray"></slot>
+                            </tr>
+                        </template>
+                    </draggable>
+                    <tbody v-else>
                         <tr v-for="model in filteredItems" :key="model.id">
-                            <slot name="table-row" :checked-models="checkedItems" :loading="loading" :model="model"></slot>
+                            <slot name="table-row" :checked-models="checkedItems" :loading="loading" :model="model" :sort-array="sortArray"></slot>
                         </tr>
                     </tbody>
                 </table>
@@ -105,6 +124,7 @@ import { SearchIcon, SheetIcon } from '@lucide/vue';
 import alertify from 'alertify.js';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import draggable from 'vuedraggable';
 
 import fetcher from '../admin/fetcher';
 
@@ -163,6 +183,10 @@ const props = defineProps({
     translatable: {
         type: Boolean,
         default: true,
+    },
+    draggable: {
+        type: Boolean,
+        default: false,
     },
     table: {
         type: String,
@@ -304,6 +328,8 @@ const allChecked = computed(() => {
 const numberOfCheckedModels = computed(() => {
     return checkedItems.value.length;
 });
+
+const canDrag = computed(() => props.draggable && sortArray.value.length === 1 && sortArray.value[0] === 'position');
 
 async function fetchData() {
     startLoading();
@@ -598,6 +624,66 @@ async function toggleStatus(model) {
     } catch (error) {
         alertify.error(t(error.message) || t('Sorry, an error occurred.'));
     }
+}
+
+function onDragStart(evt) {
+    document.body.classList.add('drag-active');
+
+    const sourceWidths = Array.from(evt.item.children).map((cell) => cell.getBoundingClientRect().width);
+
+    requestAnimationFrame(() => {
+        const clone = document.querySelector('.sortable-drag');
+        if (!clone) {
+            return;
+        }
+        Array.from(clone.children).forEach((cell, i) => {
+            const width = sourceWidths[i];
+            if (width === undefined) {
+                return;
+            }
+            cell.style.width = width + 'px';
+            cell.style.minWidth = width + 'px';
+            cell.style.maxWidth = width + 'px';
+        });
+    });
+}
+
+async function onDragEnd() {
+    document.body.classList.remove('drag-active');
+
+    const offset = props.pagination ? (data.value.current_page - 1) * data.value.per_page : 0;
+    const updates = [];
+
+    data.value.data.forEach((model, index) => {
+        const newPosition = offset + index + 1;
+        if (model.position !== newPosition) {
+            model.position = newPosition;
+            updates.push(
+                fetcher(props.urlBase + '/' + model.id, {
+                    method: 'PATCH',
+                    body: JSON.stringify({ position: newPosition }),
+                }),
+            );
+        }
+    });
+
+    if (updates.length === 0) {
+        return;
+    }
+
+    startLoading();
+    try {
+        const responses = await Promise.all(updates);
+        const failed = responses.filter((response) => !response || !response.ok);
+        if (failed.length > 0) {
+            alertify.error(t('Some items could not be updated.'));
+        } else {
+            alertify.success(t('Order updated.'));
+        }
+    } catch (error) {
+        alertify.error(t(error.message) || t('Sorry, an error occurred.'));
+    }
+    stopLoading();
 }
 
 async function updatePosition(model) {

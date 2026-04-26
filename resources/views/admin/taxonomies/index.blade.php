@@ -3,16 +3,16 @@
 @section('title', __('Taxonomies'))
 
 @section('content')
-    <item-list url-base="/api/taxonomies" fields="id,title,name,validation_rule,position,result_string,modules" table="taxonomies" title="taxonomies" :publishable="false" :exportable="false" :searchable="['title,name,validation_rule,result_string']" :sorting="['position']">
+    <item-list url-base="/api/taxonomies" fields="id,title,name,validation_rule,position,result_string,modules" table="taxonomies" title="taxonomies" :publishable="false" :exportable="false" :searchable="['title,name,validation_rule,result_string']" :sorting="['position']" :draggable="$can('update taxonomies')">
         <template #top-buttons v-if="$can('create taxonomies')">
             <x-core::create-button :url="route('admin::create-taxonomy')" :label="__('Create taxonomy')" />
         </template>
 
         <template #columns="{ sortArray }">
+            <item-list-column-header name="position" sortable :sort-array="sortArray" :label="$t('Order')"></item-list-column-header>
             <item-list-column-header name="checkbox" v-if="$can('update taxonomies')||$can('delete taxonomies')"></item-list-column-header>
             <item-list-column-header name="edit" v-if="$can('update taxonomies')"></item-list-column-header>
             <item-list-column-header name="edit" v-if="$can('update terms')"></item-list-column-header>
-            <item-list-column-header name="position" sortable :sort-array="sortArray" :label="$t('Position')"></item-list-column-header>
             <item-list-column-header name="name" sortable :sort-array="sortArray" :label="$t('Name')"></item-list-column-header>
             <item-list-column-header name="title_translated" sortable :sort-array="sortArray" :label="$t('Title')"></item-list-column-header>
             <item-list-column-header name="validation_rule" sortable :sort-array="sortArray" :label="$t('Validation rule')"></item-list-column-header>
@@ -20,7 +20,10 @@
             <item-list-column-header name="modules" :label="$t('Modules')"></item-list-column-header>
         </template>
 
-        <template #table-row="{ model, checkedModels, loading }">
+        <template #table-row="{ model, checkedModels, loading, sortArray }">
+            <td class="drag-handle text-muted" v-if="$can('update partners')" :style="{ cursor: sortArray[0] === 'position' ? 'grab' : 'default' }">
+                <i :class="['icon-grip-vertical', { 'opacity-50': sortArray[0] !== 'position' }]"></i>
+            </td>
             <td class="checkbox" v-if="$can('update taxonomies')||$can('delete taxonomies')">
                 <item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox>
             </td>
@@ -29,9 +32,6 @@
             </td>
             <td v-if="$can('update terms')">
                 <a class="btn btn-light btn-xs" :href="'/admin/taxonomies/' + model.id + '/terms'">@lang('Terms')</a>
-            </td>
-            <td>
-                <item-list-position-input :model="model"></item-list-position-input>
             </td>
             <td>@{{ model.name }}</td>
             <td>@{{ model.title_translated }}</td>
