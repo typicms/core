@@ -1,10 +1,12 @@
-@push('js')
-    <script type="module">
-        new TomSelect('#parent_id', {
-            maxOptions: undefined,
-        });
-    </script>
-@endpush
+@if (!$model->id)
+    @push('js')
+        <script type="module">
+            new TomSelect('#parent_id', {
+                maxOptions: undefined,
+            });
+        </script>
+    @endpush
+@endif
 
 <x-core::header :$model :back-url="$model->indexUrl()" :back-label="__('Pages')" :default-title="__('New page')" />
 
