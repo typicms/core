@@ -1,7 +1,4 @@
 .typicms-navbar {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    font-size: 1rem;
-    line-height: 24px;
     height: var(--typicms-navbar-height);
     background-color: var(--bs-body-bg);
     border-bottom: 1px solid var(--bs-border-color);
@@ -12,7 +9,7 @@
     &-brand {
         @extend .btn;
         --bs-btn-active-border-color: transparent;
-        padding: 0.25rem;
+        padding: 0;
         font-size: 1.25rem;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -20,12 +17,17 @@
         &:focus-visible {
             @extend .focus-ring;
         }
+        &-logo {
+            width: 96px;
+            height: 34px;
+        }
     }
     .nav-link {
         border-radius: $border-radius;
         display: flex;
         align-items: center;
         white-space: nowrap;
+        font-size: 1rem;
     }
 }
 @include color-mode(dark) {
