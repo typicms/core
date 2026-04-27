@@ -2,6 +2,7 @@
     @extend .card;
     min-height: 0;
     @include media-breakpoint-down(lg) {
+        border-radius: 0;
         border-width: 0;
     }
 }

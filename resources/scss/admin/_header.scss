@@ -1,9 +1,14 @@
 .header {
     @extend .card-header;
-    border-top-left-radius: var(--bs-card-border-radius);
-    border-top-right-radius: var(--bs-card-border-radius);
-    @include media-breakpoint-down(lg) {
-        border-radius: 0;
+    &-bordered {
+        @include media-breakpoint-up(lg) {
+            border-radius: ($card-border-radius - 0.25rem) ($card-border-radius - 0.25rem) $border-radius $border-radius;
+            border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+            margin: 0.25rem 0.25rem 0 0.25rem;
+            &:first-child {
+                border-radius: ($card-border-radius - 0.2rem) ($card-border-radius - 0.2rem) $border-radius $border-radius;
+            }
+        }
     }
     &-top {
         display: flex;

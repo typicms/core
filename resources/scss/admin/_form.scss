@@ -2,6 +2,9 @@
     @extend .body;
     &-header {
         @extend .header;
+        &-bordered {
+            @extend .header-bordered;
+        }
         &-top {
             @extend .header-top;
         }

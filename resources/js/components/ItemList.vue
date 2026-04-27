@@ -1,6 +1,6 @@
 <template>
     <div :class="{ 'sub-list': subList }" class="item-list">
-        <div class="item-list-header">
+        <div :class="['item-list-header', { 'item-list-header-bordered': !subList }]">
             <div class="item-list-header-top">
                 <div>
                     <slot name="back-button"></slot>

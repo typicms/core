@@ -3,6 +3,9 @@
 
     &-header {
         @extend .header;
+        &-bordered {
+            @extend .header-bordered;
+        }
         &-top {
             @extend .header-top;
         }
@@ -15,6 +18,8 @@
     }
 
     &-modal {
+        &-header {
+        }
         &-dialog {
             --bs-modal-width: calc(100% - 6rem);
             height: 90vh;

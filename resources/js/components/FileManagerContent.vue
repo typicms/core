@@ -1,6 +1,6 @@
 <template>
     <div class="filemanager">
-        <div class="filemanager-header">
+        <div :class="['filemanager-header', { 'filemanager-header-bordered': !modal }]">
             <div class="filemanager-header-top">
                 <div>
                     <button v-if="path.length > 1" type="button" class="btn-back" @click="openFolder(path[path.length - 2])">

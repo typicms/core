@@ -2,6 +2,9 @@
     @extend .body;
     &-header {
         @extend .header;
+        &-bordered {
+            @extend .header-bordered;
+        }
         &-top {
             @extend .header-top;
         }
@@ -18,5 +21,9 @@
     }
     &.sub-list {
         border-radius: var(--bs-border-radius);
+        border-width: 1px;
+    }
+    &.sub-list &-header {
+        border-radius: 0;
     }
 }
