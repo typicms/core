@@ -1,0 +1,8 @@
+{
+    "# {{ slugPlural }}": "0 {{ slug }}|1 {{ slug }}|{count} {{ slugPlural }}",
+    "Back to {{ slugPlural }} list": "Volver a los {{ slugPlural }}",
+    "Edit {{ slug }}": "Editar {{ slug }}",
+    "Create {{ slug }}": "Crear {{ slug }}",
+    "New {{ slug }}": "Nuevo {{ slug }}",
+    "{{ modelPlural }}": "{{ modelPlural }}"
+}

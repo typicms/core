@@ -1,0 +1,9 @@
+@extends('admin::core.master')
+
+@section('title', __('New {{ slug }}'))
+
+@section('content')
+    {!! BootForm::open()->action(route('admin::index-{{ slugPlural }}'))->addClass('form') !!}
+    @include('admin::{{ slugPlural }}._form')
+    {!! BootForm::close() !!}
+@endsection

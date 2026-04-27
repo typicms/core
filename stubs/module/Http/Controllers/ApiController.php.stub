@@ -1,0 +1,60 @@
+<?php
+
+declare(strict_types=1);
+
+namespace TypiCMS\Modules\{{ modelPlural }}\Http\Controllers;
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
+use TypiCMS\Modules\Core\Filters\FilterOr;
+use TypiCMS\Modules\Core\Http\Controllers\BaseApiController;
+use TypiCMS\Modules\{{ modelPlural }}\Models\{{ model }};
+
+final class ApiController extends BaseApiController
+{
+    /** @return LengthAwarePaginator<int, mixed> */
+    public function index(Request $request): LengthAwarePaginator
+    {
+        $query = {{ model }}::query()->selectFields();
+
+        return QueryBuilder::for($query)
+            ->allowedSorts('status_translated', 'title_translated')
+            ->allowedFilters(
+                AllowedFilter::custom('title', new FilterOr),
+            )
+            ->allowedIncludes('image')
+            ->paginate($request->integer('per_page'));
+    }
+
+    protected function updatePartial({{ model }} ${{ slug }}, Request $request): void
+    {
+        foreach ($request->only('status') as $key => $content) {
+            if (${{ slug }}->isTranslatableAttribute($key)) {
+                foreach ($content as $lang => $value) {
+                    ${{ slug }}->setTranslation($key, $lang, $value);
+                }
+            } else {
+                ${{ slug }}->{$key} = $content;
+            }
+        }
+
+        ${{ slug }}->save();
+    }
+
+    public function duplicate({{ model }} ${{ slug }}): void
+    {
+        $new{{ model }} = ${{ slug }}->replicate();
+        $new{{ model }}->setTranslations('status', []);
+        $new{{ model }}->save();
+    }
+
+    public function destroy({{ model }} ${{ slug }}): JsonResponse
+    {
+        ${{ slug }}->delete();
+
+        return response()->json(status: 204);
+    }
+}

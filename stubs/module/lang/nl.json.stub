@@ -1,0 +1,8 @@
+{
+    "# {{ slugPlural }}": "Geen {{ slug }}|1 {{ slug }}|{count} {{ slugPlural }}",
+    "Back to {{ slugPlural }} list": "Terug naar de lijst",
+    "Edit {{ slug }}": "Verander {{ slug }}",
+    "Create {{ slug }}": "Maak een {{ slug }}",
+    "New {{ slug }}": "Nieuw {{ slug }}",
+    "{{ modelPlural }}": "{{ modelPlural }}"
+}

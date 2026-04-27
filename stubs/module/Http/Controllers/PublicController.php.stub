@@ -1,0 +1,33 @@
+<?php
+
+declare(strict_types=1);
+
+namespace TypiCMS\Modules\{{ modelPlural }}\Http\Controllers;
+
+use Illuminate\View\View;
+use TypiCMS\Modules\Core\Http\Controllers\BasePublicController;
+use TypiCMS\Modules\{{ modelPlural }}\Models\{{ model }};
+
+final class PublicController extends BasePublicController
+{
+    public function index(): View
+    {
+        $models = {{ model }}::query()
+            ->published()
+            ->order()
+            ->with('image')
+            ->get();
+
+        return view('public::{{ slugPlural }}.index', ['models' => $models]);
+    }
+
+    public function show(string $slug): View
+    {
+        $model = {{ model }}::query()
+            ->published()
+            ->whereSlugIs($slug)
+            ->firstOrFail();
+
+        return view('public::{{ slugPlural }}.show', ['model' => $model]);
+    }
+}

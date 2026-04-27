@@ -1,0 +1,28 @@
+@extends('public::pages.master')
+
+@section('bodyClass', 'body-{{ slugPlural }} body-{{ slugPlural }}-index body-page body-page-' . $page->id)
+
+@section('page')
+    <x-core::json-ld :schema="[
+        '@context' => 'https://schema.org',
+        '@type' => 'ItemList',
+        'itemListElement' => $models
+            ->map(
+                fn($item, $index) => [
+                    '@type' => 'ListItem',
+                    'position' => $index + 1,
+                    'url' => $item->url(),
+                ],
+            )
+            ->all(),
+    ]" />
+    <div class="page-body">
+        <div class="page-body-container">
+            @include('public::pages._main-content', ['page' => $page])
+            @include('public::files._document-list', ['model' => $page])
+            @include('public::files._image-list', ['model' => $page])
+
+            @includeWhen($models->count() > 0, 'public::{{ slugPlural }}._list', ['items' => $models])
+        </div>
+    </div>
+@endsection

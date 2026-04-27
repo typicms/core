@@ -1,0 +1,9 @@
+<ul class="{{ slug }}-list-results-list">
+    @foreach ($items as ${{ slug }})
+        <li class="{{ slug }}-list-results-item">
+            <a class="{{ slug }}-list-results-item-link" href="{{ ${{ slug }}->url() }}" title="{{ ${{ slug }}->title }}">
+                <span class="{{ slug }}-list-results-item-title">{{ ${{ slug }}->title }}</span>
+            </a>
+        </li>
+    @endforeach
+</ul>

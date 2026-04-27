@@ -1,0 +1,8 @@
+<li class="{{ slug }}-list-item">
+    <a class="{{ slug }}-list-item-link" href="{{ ${{ slug }}->url() }}" title="{{ ${{ slug }}->title }}">
+        <div class="{{ slug }}-list-item-title">{{ ${{ slug }}->title }}</div>
+        <div class="{{ slug }}-list-item-image-wrapper">
+            <img class="{{ slug }}-list-item-image" src="{{ imageOrDefault(${{ slug }}->image, 800, 600) }}" width="400" height="300" alt="{{ ${{ slug }}->image?->alt_attribute }}" />
+        </div>
+    </a>
+</li>

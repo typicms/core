@@ -1,0 +1,25 @@
+<?php
+
+declare(strict_types=1);
+
+use TypiCMS\Modules\{{ modelPlural }}\Models\{{ model }};
+
+return [
+    'model' => {{ model }}::class,
+    'linkable_to_page' => true,
+    'per_page' => 30,
+    'llms_txt' => true,
+    'order' => [
+        'id' => 'desc',
+    ],
+    'sidebar' => [
+        'icon' => '<i class="icon-grid-2x2"></i>',
+        'weight' => 8,
+    ],
+    'permissions' => [
+        'read {{ slugPlural }}' => 'Read',
+        'create {{ slugPlural }}' => 'Create',
+        'update {{ slugPlural }}' => 'Update',
+        'delete {{ slugPlural }}' => 'Delete',
+    ],
+];

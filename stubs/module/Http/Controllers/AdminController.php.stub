@@ -1,0 +1,56 @@
+<?php
+
+declare(strict_types=1);
+
+namespace TypiCMS\Modules\{{ modelPlural }}\Http\Controllers;
+
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use TypiCMS\Modules\Core\Http\Controllers\BaseAdminController;
+use TypiCMS\Modules\{{ modelPlural }}\Exports\Export;
+use TypiCMS\Modules\{{ modelPlural }}\Http\Requests\FormRequest;
+use TypiCMS\Modules\{{ modelPlural }}\Models\{{ model }};
+
+final class AdminController extends BaseAdminController
+{
+    public function index(): View
+    {
+        return view('admin::{{ slugPlural }}.index');
+    }
+
+    public function export(Request $request): BinaryFileResponse
+    {
+        $filename = date('Y-m-d').' '.config('app.name').' {{ slugPlural }}.xlsx';
+
+        return Excel::download(new Export, $filename);
+    }
+
+    public function create(): View
+    {
+        $model = new {{ model }};
+
+        return view('admin::{{ slugPlural }}.create', ['model' => $model]);
+    }
+
+    public function edit({{ model }} ${{ slug }}): View
+    {
+        return view('admin::{{ slugPlural }}.edit', ['model' => ${{ slug }}]);
+    }
+
+    public function store(FormRequest $request): RedirectResponse
+    {
+        ${{ slug }} = {{ model }}::query()->create($request->validated());
+
+        return $this->redirect($request, ${{ slug }})->withMessage(__('Item successfully created.'));
+    }
+
+    public function update({{ model }} ${{ slug }}, FormRequest $request): RedirectResponse
+    {
+        ${{ slug }}->update($request->validated());
+
+        return $this->redirect($request, ${{ slug }})->withMessage(__('Item successfully updated.'));
+    }
+}

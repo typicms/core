@@ -1,0 +1,68 @@
+<?php
+
+declare(strict_types=1);
+
+use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Route;
+use TypiCMS\Modules\Core\Models\Page;
+use TypiCMS\Modules\{{ modelPlural }}\Http\Controllers\AdminController;
+use TypiCMS\Modules\{{ modelPlural }}\Http\Controllers\ApiController;
+use TypiCMS\Modules\{{ modelPlural }}\Http\Controllers\PublicController;
+
+/*
+ * Front office routes
+ */
+if (($page = getPageLinkedToModule('{{ slugPlural }}')) instanceof Page) {
+    $middleware = $page->private ? ['public', 'auth'] : ['public'];
+    foreach (locales() as $lang) {
+        if ($page->isPublished($lang) && ($path = $page->path($lang))) {
+            Route::middleware($middleware)
+                ->prefix($path)
+                ->name($lang.'::')
+                ->group(function (Router $router): void {
+                    $router->get('/', [PublicController::class, 'index'])->name('index-{{ slugPlural }}');
+                    $router->get('{slug}', [PublicController::class, 'show'])->name('{{ slug }}');
+                });
+        }
+    }
+}
+
+/*
+ * Admin routes
+ */
+Route::middleware('admin')
+    ->prefix('admin')
+    ->name('admin::')
+    ->group(function (Router $router): void {
+        $router->get('{{ slugPlural }}', [AdminController::class, 'index'])->name('index-{{ slugPlural }}')->middleware('can:read {{ slugPlural }}');
+        $router
+            ->get('{{ slugPlural }}/export', [AdminController::class, 'export'])
+            ->name('export-{{ slugPlural }}')
+            ->middleware('can:read {{ slugPlural }}');
+        $router
+            ->get('{{ slugPlural }}/create', [AdminController::class, 'create'])
+            ->name('create-{{ slug }}')
+            ->middleware('can:create {{ slugPlural }}');
+        $router
+            ->get('{{ slugPlural }}/{{{ slug }}}/edit', [AdminController::class, 'edit'])
+            ->name('edit-{{ slug }}')
+            ->middleware('can:read {{ slugPlural }}');
+        $router
+            ->post('{{ slugPlural }}', [AdminController::class, 'store'])
+            ->name('store-{{ slug }}')
+            ->middleware('can:create {{ slugPlural }}');
+        $router
+            ->put('{{ slugPlural }}/{{{ slug }}}', [AdminController::class, 'update'])
+            ->name('update-{{ slug }}')
+            ->middleware('can:update {{ slugPlural }}');
+    });
+
+/*
+ * API routes
+ */
+Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router): void {
+    $router->get('{{ slugPlural }}', [ApiController::class, 'index'])->middleware('can:read {{ slugPlural }}');
+    $router->patch('{{ slugPlural }}/{{{ slug }}}', [ApiController::class, 'updatePartial'])->middleware('can:update {{ slugPlural }}');
+    $router->post('{{ slugPlural }}/{{{ slug }}}/duplicate', [ApiController::class, 'duplicate'])->middleware('can:create {{ slugPlural }}');
+    $router->delete('{{ slugPlural }}/{{{ slug }}}', [ApiController::class, 'destroy'])->middleware('can:delete {{ slugPlural }}');
+});

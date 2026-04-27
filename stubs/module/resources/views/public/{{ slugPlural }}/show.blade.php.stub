@@ -1,0 +1,52 @@
+@extends('public::core.master')
+
+@section('title', $model->title . ' – ' . __('{{ modelPlural }}') . ' – ' . $websiteTitle)
+@section('ogTitle', $model->title ?? '')
+@section('description', $model->summary ?? '')
+@section('ogImage', $model->ogImageUrl())
+@section('bodyClass', 'body-{{ slugPlural }} body-{{ slug }}-' . $model->id . ' body-page body-page-' . $page->id)
+
+@section('content')
+    <article class="{{ slug }}">
+        <header class="{{ slug }}-header">
+            <div class="{{ slug }}-header-container">
+                <div class="{{ slug }}-header-navigator">
+                    <x-core::items-navigator :$model :$page />
+                </div>
+                <h1 class="{{ slug }}-title">{{ $model->title }}</h1>
+            </div>
+        </header>
+        <div class="{{ slug }}-body">
+            {{-- <x-core::json-ld :schema="[
+                '@context' => 'https://schema.org',
+                '@type' => '',
+                'name' => $model->title,
+                'description' => $model->summary !== '' ? $model->summary : strip_tags($model->body),
+                'image' => [$model->image?->render()],
+                'mainEntityOfPage' => [
+                    '@type' => 'WebPage',
+                    '@id' => $model->url(),
+                ],
+            ]" /> --}}
+            @if ($model->summary)
+                <p class="{{ slug }}-summary">{!! nl2br($model->summary) !!}</p>
+            @endif
+
+            @if ($model->image)
+                <figure class="{{ slug }}-picture">
+                    <img class="{{ slug }}-picture-image" src="{{ $model->image->render(2000) }}" width="{{ $model->image->width }}" height="{{ $model->image->height }}" alt="" />
+                    @if ($model->image->description)
+                        <figcaption class="{{ slug }}-picture-legend">{{ $model->image->description }}</figcaption>
+                    @endif
+                </figure>
+            @endif
+
+            @if ($model->body)
+                <div class="rich-content">{!! $model->formattedBody() !!}</div>
+            @endif
+
+            @include('public::files._document-list')
+            @include('public::files._image-list')
+        </div>
+    </article>
+@endsection

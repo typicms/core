@@ -1,0 +1,3 @@
+{
+    "# {{ slugPlural }}": "No {{ slugPlural }}|1 {{ slug }}|{count} {{ slugPlural }}"
+}

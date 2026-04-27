@@ -1,0 +1,50 @@
+<?php
+
+declare(strict_types=1);
+
+namespace TypiCMS\Modules\{{ modelPlural }}\Providers;
+
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
+use Override;
+use TypiCMS\Modules\{{ modelPlural }}\Composers\SidebarViewComposer;
+
+class ModuleServiceProvider extends ServiceProvider
+{
+    #[Override]
+    public function register(): void
+    {
+        $this->mergeConfigFrom(__DIR__.'/../config/{{ slugPlural }}.php', 'typicms.modules.{{ slugPlural }}');
+    }
+
+    public function boot(): void
+    {
+        $this->loadRoutesFrom(__DIR__.'/../routes/{{ slugPlural }}.php');
+
+        $this->loadViewsFrom([
+            resource_path('views/admin'),
+            __DIR__.'/../../resources/views/admin',
+        ], 'admin');
+
+        $this->loadViewsFrom([
+            resource_path('views/public'),
+            __DIR__.'/../../resources/views/public',
+        ], 'public');
+
+        $this->publishes([
+            __DIR__.'/../resources/views/admin/{{ slugPlural }}' => resource_path('views/admin/{{ slugPlural }}'),
+        ], ['typicms-views', 'typicms-admin-views', 'typicms-admin-{{ slugPlural }}-views']);
+        $this->publishes([
+            __DIR__.'/../resources/views/public/{{ slugPlural }}' => resource_path('views/public/{{ slugPlural }}'),
+        ], ['typicms-views', 'typicms-public-views', 'typicms-public-{{ slugPlural }}-views']);
+
+        View::composer('admin::core._sidebar', SidebarViewComposer::class);
+
+        /*
+         * Add the page in the view.
+         */
+        View::composer('public::{{ slugPlural }}.*', function ($view): void {
+            $view->page = getPageLinkedToModule('{{ slugPlural }}');
+        });
+    }
+}

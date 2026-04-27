@@ -1,0 +1,37 @@
+<?php
+
+declare(strict_types=1);
+
+namespace TypiCMS\Modules\{{ modelPlural }}\Composers;
+
+use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
+use TypiCMS\Modules\Sidebar\SidebarGroup;
+use TypiCMS\Modules\Sidebar\SidebarItem;
+
+class SidebarViewComposer
+{
+    public function compose(View $view): void
+    {
+        if (Gate::denies('read {{ slugPlural }}')) {
+            return;
+        }
+
+        $view->offsetGet('sidebar')->group(
+            __(config('typicms.modules.{{ slugPlural }}.sidebar.group', 'Content')),
+            function (SidebarGroup $group): void {
+                $group->id = 'content';
+                $group->weight = 30;
+                $group->addItem(
+                    __(config('typicms.modules.{{ slugPlural }}.sidebar.label', '{{ modelPlural }}')),
+                    function (SidebarItem $item): void {
+                        $item->id = '{{ slugPlural }}';
+                        $item->icon = config('typicms.modules.{{ slugPlural }}.sidebar.icon');
+                        $item->weight = config('typicms.modules.{{ slugPlural }}.sidebar.weight');
+                        $item->route('admin::index-{{ slugPlural }}');
+                    },
+                );
+            },
+        );
+    }
+}
