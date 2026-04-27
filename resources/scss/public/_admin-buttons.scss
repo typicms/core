@@ -1,5 +1,6 @@
 .admin-buttons {
     position: relative;
+    z-index: 1;
     &-container {
         position: absolute;
         right: 0;
