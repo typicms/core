@@ -18,14 +18,11 @@
     }
 
     &-modal {
-        &-header {
-        }
         &-dialog {
             --bs-modal-width: calc(100% - 6rem);
-            height: 90vh;
         }
-        &-body {
-            height: 100%;
+        &-content {
+            height: 90vh;
         }
     }
 
