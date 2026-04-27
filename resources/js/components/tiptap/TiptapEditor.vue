@@ -83,8 +83,8 @@
                             :class="{ active: editor.isActive(listStyle.tag, { class: listStyle.class }) }"
                             @click="
                                 editor.isActive(listStyle.tag, { class: listStyle.class })
-                                    ? editor.commands.updateAttributes(listStyle.tag, { class: null })
-                                    : editor.commands.updateAttributes(listStyle.tag, { class: listStyle.class })
+                                    ? editor.chain().focus().updateAttributes(listStyle.tag, { class: null }).run()
+                                    : editor.chain().focus().updateAttributes(listStyle.tag, { class: listStyle.class }).run()
                             "
                         >
                             {{ t(listStyle.label) }}
