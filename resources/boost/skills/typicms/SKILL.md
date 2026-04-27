@@ -1,7 +1,7 @@
 ---
 name: TypiCMS Development
 description: This skill should be used when the user asks to "create a module", "add a TypiCMS module", "create a new content type", "add fields to a module", "work with translations", "customize a module", mentions TypiCMS architecture, module structure, or wants to understand how TypiCMS modules work.
-version: 2.0.0
+version: 2.1.0
 ---
 
 # TypiCMS Development Patterns
@@ -12,7 +12,12 @@ This skill provides guidance for developing with TypiCMS, a modular multilingual
 
 ### Module Architecture
 
-TypiCMS organizes functionality into self-contained modules in `Modules/`. Each module is a local Composer package with this structure:
+In a TypiCMS project, modules live in one of two places:
+
+- **Vendor modules** installed via Composer sit under `vendor/typicms/<modulename>/` and are read-only.
+- **User-created modules** (`php artisan typicms:create <Name>`) and **published vendor modules** (`php artisan typicms:publish <name>`) live at the project root under `Modules/<ModuleName>/` and are tracked by git.
+
+A module follows this structure:
 
 ```
 Modules/ModuleName/
@@ -30,7 +35,7 @@ Modules/ModuleName/
 │   └── Requests/
 │       └── FormRequest.php
 ├── Models/
-│   └── ModuleName.php
+│   └── ModelName.php
 ├── Observers/
 │   └── CustomObserver.php (optional)
 ├── Providers/
@@ -38,6 +43,19 @@ Modules/ModuleName/
 └── routes/
     └── modulename.php
 ```
+
+### Naming Conventions
+
+The skill uses two distinct placeholders. **Do not conflate them** — the model class is singular, the module folder/namespace is plural.
+
+| Placeholder       | Form                       | Used for                                                        | Example (`Things` module) |
+|-------------------|----------------------------|-----------------------------------------------------------------|---------------------------|
+| `ModuleName`      | PascalCase, plural         | Folder name and namespace segment                               | `Things`                  |
+| `modulename`      | lowercase, plural          | Route prefix, view namespace key, config key, table name        | `things`                  |
+| `ModelName`       | PascalCase, singular       | Eloquent model class name                                       | `Thing`                   |
+| `modelname`       | lowercase, singular        | Route-bound parameter and controller variable name              | `$thing`                  |
+
+Show/edit/create/update/destroy route names use the singular form (e.g. `edit-thing`); index/store route names use the plural form (e.g. `index-things`).
 
 ### Database Conventions
 
@@ -54,7 +72,7 @@ Supported locales are configured in `config/typicms.php`. Models use the `HasTra
 
 ### Step 1: Create the Model
 
-Models extend `Illuminate\Database\Eloquent\Model` directly and use trait-based composition:
+Models extend `Illuminate\Database\Eloquent\Model` directly, use trait-based composition, and prefer PHP 8 attributes (`#[ObservedBy]`, `#[Unguarded]`, `#[Appends]`) over the equivalent properties:
 
 ```php
 <?php
@@ -63,12 +81,17 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\ModuleName\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Appends;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Uri;
 use TypiCMS\Modules\Core\Models\File;
+use TypiCMS\Modules\Core\Observers\SlugObserver;
+use TypiCMS\Modules\Core\Observers\TipTapHTMLObserver;
 use TypiCMS\Modules\Core\Traits\HasAdminUrls;
 use TypiCMS\Modules\Core\Traits\HasBodyPresenter;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
@@ -82,7 +105,10 @@ use TypiCMS\Modules\Core\Traits\Navigable;
 use TypiCMS\Modules\Core\Traits\Publishable;
 use TypiCMS\Translatable\HasTranslations;
 
-class ModuleName extends Model
+#[ObservedBy([SlugObserver::class, TipTapHTMLObserver::class])]
+#[Unguarded]
+#[Appends(['thumb'])]
+class ModelName extends Model
 {
     use HasAdminUrls;
     use HasBodyPresenter;
@@ -96,10 +122,6 @@ class ModuleName extends Model
     use Historable;
     use Navigable;
     use Publishable;
-
-    protected $guarded = [];
-
-    protected $appends = ['thumb'];
 
     /** @var array<string> */
     public array $translatable = [
@@ -118,7 +140,7 @@ class ModuleName extends Model
     public function url(?string $locale = null): ?string
     {
         $locale ??= app()->getLocale();
-        $route = "{$locale}::modulename";
+        $route = "{$locale}::modelname";
         $slug = $this->translate('slug', $locale);
 
         if (Route::has($route) && $slug) {
@@ -132,7 +154,7 @@ class ModuleName extends Model
     {
         $url = $this->url($locale);
 
-        if (!$url) {
+        if (! $url) {
             return null;
         }
 
@@ -159,6 +181,21 @@ class ModuleName extends Model
 }
 ```
 
+If the model needs casts, add them via the `casts()` method (with `#[Override]`) rather than a `$casts` property:
+
+```php
+use Override;
+
+/** @return array<string, string> */
+#[Override]
+protected function casts(): array
+{
+    return [
+        'date' => 'datetime:Y-m-d',
+    ];
+}
+```
+
 ### Step 2: Create the Migration
 
 Use JSON columns for translatable fields:
@@ -179,7 +216,9 @@ Schema::create('modulename', function (Blueprint $table): void {
 
 ### Step 3: Create the Service Provider
 
-Register routes, config, views, and observers:
+Register routes, config, views, publishes, and view composers. Observers are attached on the model via `#[ObservedBy]` (Step 1), so the service provider does not call `Model::observe()`.
+
+Views are loaded into the shared `admin` and `public` namespaces, with the project's `resources/views/admin` (resp. `public`) listed first so user-published files override the module's built-in views.
 
 ```php
 <?php
@@ -190,39 +229,50 @@ namespace TypiCMS\Modules\ModuleName\Providers;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use TypiCMS\Modules\Core\Observers\SlugObserver;
-use TypiCMS\Modules\Core\Observers\TipTapHTMLObserver;
+use Override;
 use TypiCMS\Modules\ModuleName\Composers\SidebarViewComposer;
-use TypiCMS\Modules\ModuleName\Models\ModelName;
 
 class ModuleServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/modulename.php', 'typicms.modules.modulename');
+        $this->mergeConfigFrom(__DIR__.'/../config/modulename.php', 'typicms.modules.modulename');
     }
 
     public function boot(): void
     {
-        $this->loadRoutesFrom(__DIR__ . '/../routes/modulename.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/modulename.php');
 
-        $this->loadViewsFrom(__DIR__ . '/../../resources/views/', 'modulename');
+        $this->loadViewsFrom([
+            resource_path('views/admin'),
+            __DIR__.'/../../resources/views/admin',
+        ], 'admin');
+
+        $this->loadViewsFrom([
+            resource_path('views/public'),
+            __DIR__.'/../../resources/views/public',
+        ], 'public');
 
         $this->publishes([
-            __DIR__ . '/../../database/migrations/create_modulename_table.php.stub' => getMigrationFileName(
+            __DIR__.'/../../database/migrations/create_modulename_table.php.stub' => getMigrationFileName(
                 'create_modulename_table',
             ),
         ], 'typicms-migrations');
-        $this->publishes([__DIR__ . '/../../resources/views' => resource_path('views/vendor/modulename')], 'typicms-views');
-        $this->publishes([__DIR__ . '/../../resources/scss' => resource_path('scss')], 'typicms-resources');
-
-        // Observers
-        ModuleName::observe(new SlugObserver());
-        ModuleName::observe(new TipTapHTMLObserver());
+        $this->publishes([
+            __DIR__.'/../../resources/views/admin/modulename' => resource_path('views/admin/modulename'),
+        ], ['typicms-views', 'typicms-admin-views', 'typicms-admin-modulename-views']);
+        $this->publishes([
+            __DIR__.'/../../resources/views/public/modulename' => resource_path('views/public/modulename'),
+        ], ['typicms-views', 'typicms-public-views', 'typicms-public-modulename-views']);
+        $this->publishes([__DIR__.'/../../resources/scss' => resource_path('scss')], 'typicms-resources');
 
         View::composer('admin::core._sidebar', SidebarViewComposer::class);
 
-        View::composer('modulename::public.*', function ($view): void {
+        /*
+         * Inject the linked CMS page into all public views of this module.
+         */
+        View::composer('public::modulename.*', function ($view): void {
             $view->page = getPageLinkedToModule('modulename');
         });
     }
@@ -231,43 +281,47 @@ class ModuleServiceProvider extends ServiceProvider
 
 ### Step 4: Create Controllers
 
-**AdminController** - Extend `BaseAdminController`:
+**AdminController** — Extend `BaseAdminController`. View names use the shared `admin::` namespace (e.g. `admin::modulename.index`). The route-model-bound variable matches the singular `modelname` (e.g. `$thing` for the `Things` module):
 
 ```php
 final class AdminController extends BaseAdminController
 {
     public function index(): View
     {
-        return view('modulename::admin.index');
+        return view('admin::modulename.index');
     }
 
     public function create(): View
     {
-        return view('modulename::admin.create', ['model' => new ModelName()]);
+        $model = new ModelName;
+
+        return view('admin::modulename.create', ['model' => $model]);
     }
 
     public function edit(ModelName $modelname): View
     {
-        return view('modulename::admin.edit', ['model' => $modelname]);
+        return view('admin::modulename.edit', ['model' => $modelname]);
     }
 
     public function store(FormRequest $request): RedirectResponse
     {
-        $model = ModelName::query()->create($request->validated());
-        return $this->redirect($request, $model)->withMessage(__('Item successfully created.'));
+        $modelname = ModelName::query()->create($request->validated());
+
+        return $this->redirect($request, $modelname)->withMessage(__('Item successfully created.'));
     }
 
     public function update(ModelName $modelname, FormRequest $request): RedirectResponse
     {
         $modelname->update($request->validated());
+
         return $this->redirect($request, $modelname)->withMessage(__('Item successfully updated.'));
     }
 }
 ```
 
-**ApiController** - Extend `BaseApiController` for data tables and AJAX operations.
+**ApiController** — Extend `BaseApiController` for data tables and AJAX operations (typically `index`, `updatePartial`, `duplicate`, `destroy`).
 
-**PublicController** - Extend `BasePublicController` for frontend routes.
+**PublicController** — Extend `BasePublicController` for frontend routes. View names use the shared `public::` namespace (e.g. `public::modulename.index`).
 
 ### Step 5: Create Form Request
 
@@ -276,13 +330,14 @@ Use array notation with `.*` suffix for translatable fields:
 ```php
 class FormRequest extends AbstractFormRequest
 {
+    /** @return array<string, list<string>> */
     public function rules(): array
     {
         return [
             'image_id' => ['nullable', 'integer'],
             'og_image_id' => ['nullable', 'integer'],
             'title.*' => ['nullable', 'max:255'],
-            'slug.*' => ['nullable', 'alpha_dash', 'max:255', 'required_if:status.*,1'],
+            'slug.*' => ['nullable', 'alpha_dash', 'max:255', 'required_if:status.*,1', 'required_with:title.*'],
             'status.*' => ['boolean'],
             'summary.*' => ['nullable', 'max:1000'],
             'body.*' => ['nullable', 'max:30000'],
@@ -294,7 +349,14 @@ class FormRequest extends AbstractFormRequest
 ### Step 6: Create Config File
 
 ```php
+<?php
+
+declare(strict_types=1);
+
+use TypiCMS\Modules\ModuleName\Models\ModelName;
+
 return [
+    'model' => ModelName::class,
     'linkable_to_page' => true,
     'per_page' => 50,
     'order' => [
@@ -313,9 +375,17 @@ return [
 ];
 ```
 
+Optional flags recognised by the framework:
+
+| Key                | Effect                                                                               |
+|--------------------|--------------------------------------------------------------------------------------|
+| `has_feed`         | Exposes an RSS feed route (model must implement `Spatie\Feed\Feedable`)              |
+| `llms_txt`         | Includes the module's content in the locale-aware `/llms.txt` aggregator             |
+| `linkable_to_page` | Makes the module selectable as a CMS page target (`getPageLinkedToModule`)           |
+
 ### Step 7: Register the Module
 
-Add the module's service provider to `bootstrap/providers.php` BEFORE `AppServiceProvider::class`:
+Add the module's service provider to `bootstrap/providers.php` **before** `AppServiceProvider::class`. The namespace is `TypiCMS\Modules\` whether the module lives under `Modules/` or `vendor/typicms/`:
 
 ```php
 TypiCMS\Modules\ModuleName\Providers\ModuleServiceProvider::class,
@@ -341,18 +411,21 @@ TypiCMS\Modules\ModuleName\Providers\ModuleServiceProvider::class,
 
 ## Helper Functions
 
-| Function                                      | Description                                         |
-|-----------------------------------------------|-----------------------------------------------------|
-| `locales()`                                   | Get all configured locales                          |
-| `mainLocale()`                                | Get the primary locale                              |
-| `enabledLocales()`                            | Get only enabled locales                            |
-| `homeUrl()`                                   | Get home URL for current locale                     |
-| `column($name)`                               | Get JSON column path for locale (e.g., `title->en`) |
-| `imageOrDefault(?FileModel, ?width, ?height)` | Render image or default placeholder                 |
-| `getPageLinkedToModule($module)`              | Get CMS page linked to a module                     |
-| `getPagesLinkedToModule($module)`             | Get all CMS pages linked to a module                |
-| `modules()`                                   | Get all registered modules                          |
-| `websiteTitle(?locale)`                       | Get website title for locale                        |
+| Function                                      | Description                                                                       |
+|-----------------------------------------------|-----------------------------------------------------------------------------------|
+| `locales()`                                   | Get all configured locales                                                        |
+| `mainLocale()`                                | Get the primary locale                                                            |
+| `enabledLocales()`                            | Get only enabled locales                                                          |
+| `isLocaleEnabled($locale)`                    | Whether a given locale is enabled                                                 |
+| `homeUrl()`                                   | Get home URL for current locale                                                   |
+| `column($name)`                               | Get JSON column path for locale (e.g., `title->en`)                               |
+| `imageOrDefault(?FileModel, ?width, ?height)` | Render an `<img>` for a `File`, or a placeholder when null                        |
+| `showAdminButtons()`                          | Whether to show edit/admin buttons on the front-end (auth + non-preview check)    |
+| `getPageLinkedToModule($module)`              | Get CMS page linked to a module                                                   |
+| `getPagesLinkedToModule($module)`             | Get all CMS pages linked to a module                                              |
+| `modules()`                                   | Get all registered modules                                                        |
+| `websiteTitle(?locale)`                       | Get website title for locale                                                      |
+| `feeds()`                                     | List `{url, title}` for every module that exposes an RSS feed in the current locale |
 
 ## Observers
 

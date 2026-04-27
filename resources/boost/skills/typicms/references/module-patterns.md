@@ -27,17 +27,17 @@ if (($page = getPageLinkedToModule('modulename')) instanceof Page) {
         if ($page->isPublished($lang) && ($path = $page->path($lang))) {
             Route::middleware($middleware)
                 ->prefix($path)
-                ->name($lang . '::')
+                ->name($lang.'::')
                 ->group(function (Router $router): void {
                     $router->get('/', [PublicController::class, 'index'])->name('index-modulename');
-                    $router->get('{slug}', [PublicController::class, 'show'])->name('modulename');
+                    $router->get('{slug}', [PublicController::class, 'show'])->name('modelname');
                 });
         }
     }
 }
 
 /*
- * Admin routes
+ * Admin routes — index/store/export use the plural slug, the others use the singular.
  */
 Route::middleware('admin')
     ->prefix('admin')
@@ -47,16 +47,16 @@ Route::middleware('admin')
             ->name('index-modulename')
             ->middleware('can:read modulename');
         $router->get('modulename/create', [AdminController::class, 'create'])
-            ->name('create-modulename')
+            ->name('create-modelname')
             ->middleware('can:create modulename');
-        $router->get('modulename/{modulename}/edit', [AdminController::class, 'edit'])
-            ->name('edit-modulename')
+        $router->get('modulename/{modelname}/edit', [AdminController::class, 'edit'])
+            ->name('edit-modelname')
             ->middleware('can:read modulename');
         $router->post('modulename', [AdminController::class, 'store'])
-            ->name('store-modulename')
+            ->name('store-modelname')
             ->middleware('can:create modulename');
-        $router->put('modulename/{modulename}', [AdminController::class, 'update'])
-            ->name('update-modulename')
+        $router->put('modulename/{modelname}', [AdminController::class, 'update'])
+            ->name('update-modelname')
             ->middleware('can:update modulename');
     });
 
@@ -66,9 +66,9 @@ Route::middleware('admin')
 Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router): void {
     $router->get('modulename', [ApiController::class, 'index'])
         ->middleware('can:read modulename');
-    $router->patch('modulename/{modulename}', [ApiController::class, 'updatePartial'])
+    $router->patch('modulename/{modelname}', [ApiController::class, 'updatePartial'])
         ->middleware('can:update modulename');
-    $router->delete('modulename/{modulename}', [ApiController::class, 'destroy'])
+    $router->delete('modulename/{modelname}', [ApiController::class, 'destroy'])
         ->middleware('can:delete modulename');
 });
 ```
@@ -80,7 +80,7 @@ Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $r
 ```php
 public function index(Request $request): LengthAwarePaginator
 {
-    $query = ModuleName::query()
+    $query = ModelName::query()
         ->selectFields();
 
     return QueryBuilder::for($query)
@@ -96,7 +96,7 @@ public function index(Request $request): LengthAwarePaginator
 ### Partial Update for Translatable Fields
 
 ```php
-protected function updatePartial(ModuleName $model, Request $request): void
+protected function updatePartial(ModelName $model, Request $request): void
 {
     foreach ($request->only('status') as $key => $content) {
         if ($model->isTranslatableAttribute($key)) {
@@ -114,29 +114,31 @@ protected function updatePartial(ModuleName $model, Request $request): void
 
 ## Public Controller Patterns
 
+Public views live under the shared `public::` namespace.
+
 ```php
 final class PublicController extends BasePublicController
 {
     public function index(): View
     {
-        $models = ModuleName::query()
+        $models = ModelName::query()
             ->published()
             ->order()
             ->with('image')
             ->paginate(config('typicms.modules.modulename.per_page'));
 
-        return view('modulename::public.index', ['models' => $models]);
+        return view('public::modulename.index', ['models' => $models]);
     }
 
     public function show(string $slug): View
     {
-        $model = ModuleName::query()
+        $model = ModelName::query()
             ->published()
             ->whereSlugIs($slug)
-            ->with('image')
+            ->with(['image', 'images', 'documents'])
             ->firstOrFail();
 
-        return view('modulename::public.show', ['model' => $model]);
+        return view('public::modulename.show', ['model' => $model]);
     }
 }
 ```
@@ -204,15 +206,20 @@ public function ogImage(): BelongsTo
 
 ### Thumb Attribute
 
+Declare appended accessors with the `#[Appends]` attribute on the class instead of a `$appends` property:
+
 ```php
+use Illuminate\Database\Eloquent\Attributes\Appends;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
-protected $appends = ['thumb'];
-
-/** @return Attribute<string, null> */
-protected function thumb(): Attribute
+#[Appends(['thumb'])]
+class ModelName extends Model
 {
-    return Attribute::make(get: fn (): string => imageOrDefault($this->image, null, 54));
+    /** @return Attribute<string, null> */
+    protected function thumb(): Attribute
+    {
+        return Attribute::make(get: fn (): string => imageOrDefault($this->image, null, 54));
+    }
 }
 ```
 
@@ -224,7 +231,7 @@ For modules with drag-and-drop ordering:
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 
-class ModuleName extends Model implements Sortable
+class ModelName extends Model implements Sortable
 {
     use SortableTrait;
 
@@ -280,8 +287,8 @@ $table->unsignedInteger('position')->default(0);
 @section('title', __('New item'))
 
 @section('main')
-    {!! BootForm::open()->action(route('admin::store-modulename'))->multipart() !!}
-        @include('modulename::admin._form')
+    {!! BootForm::open()->action(route('admin::store-modelname'))->multipart() !!}
+        @include('admin::modulename._form')
     {!! BootForm::close() !!}
 @endsection
 ```
@@ -294,8 +301,8 @@ $table->unsignedInteger('position')->default(0);
 @section('title', $model->title)
 
 @section('main')
-    {!! BootForm::open()->action(route('admin::update-modulename', $model))->method('put')->multipart()->bind($model) !!}
-        @include('modulename::admin._form')
+    {!! BootForm::open()->action(route('admin::update-modelname', $model))->method('put')->multipart()->bind($model) !!}
+        @include('admin::modulename._form')
     {!! BootForm::close() !!}
 @endsection
 ```
@@ -312,13 +319,13 @@ namespace TypiCMS\Modules\ModuleName\Exports;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use TypiCMS\Modules\ModuleName\Models\ModuleName;
+use TypiCMS\Modules\ModuleName\Models\ModelName;
 
 class Export implements FromQuery, WithHeadings, WithMapping
 {
     public function query()
     {
-        return ModuleName::query()->order();
+        return ModelName::query()->order();
     }
 
     public function headings(): array
@@ -346,7 +353,7 @@ For RSS feed support:
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 
-class ModuleName extends Model implements Feedable
+class ModelName extends Model implements Feedable
 {
     public function toFeedItem(): FeedItem
     {
@@ -369,15 +376,18 @@ Add to config:
 
 ## Observer Patterns
 
+Attach observers via the `#[ObservedBy]` attribute on the model — not via `Model::observe()` in the service provider.
+
 ### SlugObserver (Multilingual)
 
-Use for models with `HasTranslations` trait. Auto-generates unique slugs per locale from the title field.
+Use for models with the `HasTranslations` trait. Auto-generates unique slugs per locale from the title field.
 
 ```php
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use TypiCMS\Modules\Core\Observers\SlugObserver;
 
-// In ModuleServiceProvider::boot()
-ModuleName::observe(new SlugObserver());
+#[ObservedBy([SlugObserver::class])]
+class ModelName extends Model {}
 ```
 
 **How it works:**
@@ -390,10 +400,11 @@ ModuleName::observe(new SlugObserver());
 Use for models without translations (simple string `slug` and `title` fields).
 
 ```php
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use TypiCMS\Modules\Core\Observers\SlugMonolingualObserver;
 
-// In ModuleServiceProvider::boot()
-ModuleName::observe(new SlugMonolingualObserver());
+#[ObservedBy([SlugMonolingualObserver::class])]
+class ModelName extends Model {}
 ```
 
 **How it works:**
@@ -403,13 +414,15 @@ ModuleName::observe(new SlugMonolingualObserver());
 
 ### TipTapHTMLObserver
 
-Use for models with TipTap rich text fields. Patches the HTML output to fix formatting issues (e.g., removes nested `<p>` tags inside `<li>` elements).
+Use for models with TipTap rich text fields. Patches the HTML output to fix formatting issues (e.g., removes nested `<p>` tags inside `<li>` elements). Combine with `SlugObserver` in a single attribute when both apply:
 
 ```php
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use TypiCMS\Modules\Core\Observers\SlugObserver;
 use TypiCMS\Modules\Core\Observers\TipTapHTMLObserver;
 
-// In ModuleServiceProvider::boot()
-ModuleName::observe(new TipTapHTMLObserver());
+#[ObservedBy([SlugObserver::class, TipTapHTMLObserver::class])]
+class ModelName extends Model {}
 ```
 
 **Requirements:**
@@ -439,12 +452,12 @@ php artisan typicms:publish modulename
 
 This copies the module to `/Modules/` for customization.
 
-## Creating New Module (Artisan)
+## Creating a New Module (Artisan)
 
 To scaffold a new module:
 
 ```bash
-php artisan typicms:create ModuleName
+php artisan typicms:create modulename
 ```
 
 This creates the basic module structure that can be customized.
