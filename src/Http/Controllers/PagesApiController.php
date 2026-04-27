@@ -125,8 +125,14 @@ final class PagesApiController extends BaseApiController
             return response()->json(['message' => 'The home page cannot be deleted.'], 403);
         }
 
+        $parent = $page->parent;
+
         $page->subpages()->update(['parent_id' => $page->parent_id]);
         $page->delete();
+
+        if ($parent && $parent->redirect && $parent->subpages()->doesntExist()) {
+            $parent->update(['redirect' => false]);
+        }
 
         return response()->json(status: 204);
     }
