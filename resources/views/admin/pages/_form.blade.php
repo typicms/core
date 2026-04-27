@@ -124,9 +124,6 @@
                         @if (!$model->id)
                             {!! BootForm::select(__('Add to menu'), 'add_to_menu', ['' => ''] + TypiCMS\Modules\Core\Models\Menu::all()->pluck('name', 'id')->all(), null, ['class' => 'form-control']) !!}
                         @endif
-
-                        {!! BootForm::textarea(__('Css'), 'css') !!}
-                        {!! BootForm::textarea(__('Js'), 'js') !!}
                     @endif
                 </div>
             </div>

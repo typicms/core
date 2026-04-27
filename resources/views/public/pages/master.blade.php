@@ -8,22 +8,6 @@
 
 @section('bodyClass', 'body-page body-page-' . $page->id)
 
-@if ($page->css)
-    @push('css')
-        <style>
-            {{ $page->css }}
-        </style>
-    @endpush
-@endif
-
-@if ($page->js)
-    @push('js')
-        <script>
-            {!! $page->js !!};
-        </script>
-    @endpush
-@endif
-
 @section('content')
 
 <x-core::json-ld :schema="[

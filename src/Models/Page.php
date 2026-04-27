@@ -54,8 +54,6 @@ use TypiCMS\Translatable\HasTranslations;
  * @property string $meta_title
  * @property string $meta_description
  * @property string $meta_keywords
- * @property string|null $css
- * @property string|null $js
  * @property string|null $module
  * @property string|null $template
  * @property Carbon|null $created_at

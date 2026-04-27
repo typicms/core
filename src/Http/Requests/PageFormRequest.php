@@ -26,8 +26,6 @@ class PageFormRequest extends AbstractFormRequest
             'is_home' => ['boolean'],
             'private' => ['boolean'],
             'redirect' => ['boolean'],
-            'css' => ['nullable', 'max:2000'],
-            'js' => ['nullable', 'max:2000'],
         ];
 
         if ($this->is_home) {
