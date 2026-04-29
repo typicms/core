@@ -79,7 +79,7 @@ Route::middleware('admin')
  */
 Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router): void {
     $router->get('pages', [PagesApiController::class, 'index'])->middleware('can:read pages');
-    $router->get('pages/links-for-editor', [PagesApiController::class, 'linksForEditor'])->middleware('can:read pages');
+    $router->get('pages/links-for-editor', [PagesApiController::class, 'linksForEditor']);
     $router->patch('pages/{page}', [PagesApiController::class, 'updatePartial'])->middleware('can:update pages');
     $router->post('pages/sort', [PagesApiController::class, 'sort'])->middleware('can:update pages');
     $router->delete('pages/{page}', [PagesApiController::class, 'destroy'])->middleware('can:delete pages');
