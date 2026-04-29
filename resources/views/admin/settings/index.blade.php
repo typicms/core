@@ -6,7 +6,7 @@
     {!! BootForm::open()->addClass('form') !!}
     {!! BootForm::bind($data) !!}
 
-    <div class="form-header">
+    <div class="form-header form-header-bordered">
         <div class="form-header-top">
             <h1 class="form-header-title">@lang('Settings')</h1>
         </div>

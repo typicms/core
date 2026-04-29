@@ -1,5 +1,5 @@
-<div class="header">
-    <div class="header-top">
+<div class="form-header form-header-bordered">
+    <div class="form-header-top">
         <x-core::title :$model :default-title="__('Profile')" />
     </div>
     <div class="header-toolbar">
