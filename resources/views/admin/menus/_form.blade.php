@@ -3,7 +3,7 @@
 <div class="form-body">
     <x-core::form-errors />
 
-    <div class="row row-gap-3">
+    <div class="row">
         <div class="col-lg-8">
             @if ($model->id)
                 {!! BootForm::hidden('name') !!}

@@ -13,7 +13,7 @@
     <div class="form-body">
         <x-core::form-errors />
 
-        <div class="row row-gap-3">
+        <div class="row">
             <div class="col-lg-8">
                 <div class="row gx-3">
                     <div class="col-md-6">
