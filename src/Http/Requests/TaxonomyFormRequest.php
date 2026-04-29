@@ -17,7 +17,7 @@ class TaxonomyFormRequest extends AbstractFormRequest
                 'required',
                 'max:255',
                 'alpha_dash',
-                Rule::unique('taxonomies', 'name')->ignore($this->taxonomy?->id),
+                Rule::unique('taxonomies')->ignore($this->route('taxonomy')),
             ],
             'title.*' => ['nullable', 'max:255'],
             'slug.*' => ['nullable', 'alpha_dash', 'max:255', 'required_with:title.*'],

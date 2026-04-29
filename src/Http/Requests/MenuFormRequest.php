@@ -14,7 +14,7 @@ class MenuFormRequest extends AbstractFormRequest
     {
         return [
             'image_id' => ['nullable', 'integer'],
-            'name' => ['required', 'max:255', 'alpha_dash', Rule::unique('menus', 'name')->ignore($this->menu?->id)],
+            'name' => ['required', 'max:255', 'alpha_dash', Rule::unique('menus')->ignore($this->route('menu'))],
             'class' => ['nullable', 'max:255'],
             'status.*' => ['boolean'],
         ];

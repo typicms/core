@@ -13,7 +13,7 @@ class RolesFormRequest extends AbstractFormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'min:4', 'max:255', Rule::unique('roles', 'name')->ignore($this->role?->id)],
+            'name' => ['required', 'min:4', 'max:255', Rule::unique('roles')->ignore($this->route('role'))],
         ];
     }
 }

@@ -26,7 +26,7 @@ class UsersFormRequest extends AbstractFormRequest
                 'required',
                 'email:rfc,dns',
                 'max:255',
-                Rule::unique('users', 'email')->ignore($this->user()?->id),
+                Rule::unique('users')->ignore($this->route('user')),
             ],
             'first_name' => ['required', 'max:255'],
             'last_name' => ['required', 'max:255'],

@@ -13,7 +13,7 @@ class BlockFormRequest extends AbstractFormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'max:255', 'alpha_dash', Rule::unique('blocks', 'name')->ignore($this->block?->id)],
+            'name' => ['required', 'max:255', 'alpha_dash', Rule::unique('blocks')->ignore($this->route('block'))],
             'status.*' => ['boolean'],
             'body.*' => ['nullable', 'max:20000'],
         ];
