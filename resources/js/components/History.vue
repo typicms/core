@@ -1,6 +1,6 @@
 <template>
     <div class="item-list">
-        <div class="item-list-header">
+        <div class="item-list-header item-list-header-bordered">
             <div class="item-list-header-top mb-0">
                 <h1 class="item-list-header-title">{{ t('Latest changes') }}</h1>
                 <button v-if="filteredItems.length > 0 && clearButton" id="clear-history" class="btn btn-light btn-sm" @click="clearHistory">

@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="dashboard">
-        <div class="dashboard-header">
+        <div class="dashboard-header header-bordered">
             <h1 class="dashboard-header-title">@lang('Welcome, :name!', ['name' => e(auth()->user()->first_name)])</h1>
         </div>
         <div class="dashboard-body">
