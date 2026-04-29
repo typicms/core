@@ -37,7 +37,7 @@ trait HasBodyPresenter
 
             $model = null;
             if (class_exists($classname)) {
-                $model = resolve($classname)->published()->find($match[2]);
+                $model = $classname::query()->published()->find($match[2]);
             }
 
             if ($model === null) {
