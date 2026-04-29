@@ -15,5 +15,5 @@
 
 <a class="nav-link" href="{{ $url }}">
     <span class="icon-eye me-1"></span>
-    <span class="d-none d-lg-inline">{{ __('View website', [], config('typicms.navbar_locale')) }}</span>
+    <span class="d-none d-lg-inline">{{ __('View website') }}</span>
 </a>

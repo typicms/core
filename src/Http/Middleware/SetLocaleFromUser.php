@@ -17,7 +17,7 @@ class SetLocaleFromUser
     public function handle(Request $request, Closure $next)
     {
         $userLocale = auth()->user()?->locale;
-        if (in_array($userLocale, locales(), true)) {
+        if (in_array($userLocale, adminLocales(), true)) {
             app()->setLocale($userLocale);
         }
 

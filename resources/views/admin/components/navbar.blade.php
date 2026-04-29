@@ -11,7 +11,7 @@
 
             <a class="typicms-navbar-brand navbar-brand" href="{{ route('admin::dashboard') }}">
                 {{-- <x-core::logo class="typicms-navbar-brand-logo" /> --}}
-                {{ websiteTitle(config('typicms.navbar_locale')) }}
+                {{ websiteTitle() }}
             </a>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
@@ -31,7 +31,7 @@
                         @can('edit profile')
                             <li>
                                 <a class="dropdown-item" href="{{ route('admin::profile') }}">
-                                    {{ __('Profile', [], config('typicms.navbar_locale')) }}
+                                    {{ __('Profile') }}
                                 </a>
                             </li>
                         @endcan
@@ -39,7 +39,7 @@
                             <form action="{{ route(mainLocale() . '::logout') }}" method="post">
                                 {{ csrf_field() }}
                                 <button class="dropdown-item" type="submit">
-                                    @lang('Logout', [], config('typicms.navbar_locale'))
+                                    @lang('Logout')
                                 </button>
                             </form>
                         </li>
@@ -50,7 +50,7 @@
                         <a class="nav-link" href="{{ route('admin::index-settings') }}">
                             <span class="icon-settings me-1"></span>
                             <span class="d-none d-lg-inline">
-                                {{ __('Settings', [], config('typicms.navbar_locale')) }}
+                                {{ __('Settings') }}
                             </span>
                         </a>
                     </li>

@@ -47,13 +47,7 @@
 
     <div class="row gx-3">
         <div class="col-6 col-lg-2">
-            {!! BootForm::select(__('Interface language'), 'locale', [
-                '' => '',
-                'en' => __('languages.en'),
-                'fr' => __('languages.fr'),
-                'nl' => __('languages.nl'),
-                'es' => __('languages.es'),
-            ])->required() !!}
+            {!! BootForm::select(__('Interface language'), 'locale', ['' => ''] + collect(adminLocales())->mapWithKeys(fn (string $locale): array => [$locale => __('languages.' . $locale)])->all())->required() !!}
         </div>
     </div>
 
