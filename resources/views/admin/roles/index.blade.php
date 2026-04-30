@@ -1,8 +1,4 @@
-@extends('admin::core.master')
-
-@section('title', __('Roles'))
-
-@section('content')
+<x-core::layouts.admin :title="__('Roles')">
     <item-list url-base="/api/roles" fields="id,name" table="roles" title="roles" :translatable="false" :publishable="false" :searchable="['name']" :sorting="['name']">
         <template #top-buttons v-if="$can('create roles')">
             <x-core::create-button :url="route('admin::create-role')" :label="__('Create role')" />
@@ -24,4 +20,4 @@
             <td>@{{ model.name }}</td>
         </template>
     </item-list>
-@endsection
+</x-core::layouts.admin>

@@ -1,8 +1,4 @@
-@extends('admin::core.master')
-
-@section('title', __('Settings'))
-
-@section('content')
+<x-core::layouts.admin :title="__('Settings')">
     {!! BootForm::open()->addClass('form') !!}
     {!! BootForm::bind($data) !!}
 
@@ -87,4 +83,4 @@
     </div>
 
     {!! BootForm::close() !!}
-@endsection
+</x-core::layouts.admin>

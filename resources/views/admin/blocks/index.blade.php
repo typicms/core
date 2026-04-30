@@ -1,8 +1,4 @@
-@extends('admin::core.master')
-
-@section('title', __('Content blocks'))
-
-@section('content')
+<x-core::layouts.admin :title="__('Content blocks')">
     <item-list url-base="/api/blocks" fields="id,name,body,status,body" table="blocks" title="blocks" :searchable="['name,body']" :sorting="['name']">
         <template #top-buttons v-if="$can('create blocks')">
             <x-core::create-button :url="route('admin::create-block')" :label="__('Create block')" />
@@ -30,4 +26,4 @@
             <td>@{{ model.body_translated }}</td>
         </template>
     </item-list>
-@endsection
+</x-core::layouts.admin>

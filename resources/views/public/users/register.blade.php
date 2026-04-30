@@ -1,11 +1,4 @@
-@extends('admin::core.master')
-
-@section('title', __('Register'))
-@section('bodyClass', 'auth-background')
-@section('sidebar', '')
-@section('mainClass', '')
-
-@section('content')
+<x-core::layouts.auth :title="__('Register')">
     <div id="register" class="container-register auth">
         <x-core::auth-header />
 
@@ -32,4 +25,4 @@
 
         {!! BootForm::close() !!}
     </div>
-@endsection
+</x-core::layouts.auth>

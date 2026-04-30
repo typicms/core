@@ -1,8 +1,4 @@
-@extends('admin::core.master')
-
-@section('title', __('Taxonomies'))
-
-@section('content')
+<x-core::layouts.admin :title="__('Taxonomies')">
     <item-list url-base="/api/taxonomies" fields="id,title,name,validation_rule,position,result_string,modules" table="taxonomies" title="taxonomies" :publishable="false" :exportable="false" :searchable="['title,name,validation_rule,result_string']" :sorting="['position']" :draggable="$can('update taxonomies')">
         <template #top-buttons v-if="$can('create taxonomies')">
             <x-core::create-button :url="route('admin::create-taxonomy')" :label="__('Create taxonomy')" />
@@ -42,4 +38,4 @@
             </td>
         </template>
     </item-list>
-@endsection
+</x-core::layouts.admin>

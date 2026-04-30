@@ -1,9 +1,5 @@
-@extends('admin::core.master')
-
-@section('title', __('New {{ slug }}'))
-
-@section('content')
+<x-layouts.admin :title="__('New {{ slug }}')">
     {!! BootForm::open()->action(route('admin::index-{{ slugPlural }}'))->addClass('form') !!}
     @include('admin::{{ slugPlural }}._form')
     {!! BootForm::close() !!}
-@endsection
+</x-layouts.admin>

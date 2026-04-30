@@ -1,30 +1,3 @@
-@extends('admin::core.master')
-
-@section('title', __('Login'))
-@section('bodyClass', 'auth-background')
-@section('sidebar', '')
-@section('mainClass', '')
-@section('navBar', '')
-
-@section('content')
-    <div id="login" class="container-login auth auth-sm">
-        <x-core::auth-header />
-        <div class="auth-form">
-            <h1 class="auth-title">{{ __('Create a passkey') }}</h1>
-            <p class="alert alert-info">@lang('Please create a passkey for future connections.')</p>
-            <x-core::status />
-            <div class="mb-3 d-grid">
-                <button class="btn btn-lg btn-primary" type="button" id="create-passkey-button">
-                    <i class="icon-key-round"></i>
-                    @lang('Create passkey')
-                </button>
-                <a class="text-body text-decoration-underline small text-center mt-3 d-block" href="{{ route('admin::dashboard') }}">@lang('I will do it later.')</a>
-            </div>
-        </div>
-        <x-core::back-to-website-link />
-    </div>
-@endsection
-
 @push('js')
     <script type="module">
         document.getElementById('create-passkey-button').addEventListener('click', async function() {
@@ -62,3 +35,22 @@
         });
     </script>
 @endpush
+
+<x-core::layouts.auth :title="__('Login')">
+    <div id="login" class="container-login auth auth-sm">
+        <x-core::auth-header />
+        <div class="auth-form">
+            <h1 class="auth-title">{{ __('Create a passkey') }}</h1>
+            <p class="alert alert-info">@lang('Please create a passkey for future connections.')</p>
+            <x-core::status />
+            <div class="mb-3 d-grid">
+                <button class="btn btn-lg btn-primary" type="button" id="create-passkey-button">
+                    <i class="icon-key-round"></i>
+                    @lang('Create passkey')
+                </button>
+                <a class="text-body text-decoration-underline small text-center mt-3 d-block" href="{{ route('admin::dashboard') }}">@lang('I will do it later.')</a>
+            </div>
+        </div>
+        <x-core::back-to-website-link />
+    </div>
+</x-core::layouts.auth>

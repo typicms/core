@@ -1,8 +1,4 @@
-@extends('admin::core.master')
-
-@section('title', __('{{ modelPlural }}'))
-
-@section('content')
+<x-layouts.admin :title="__('{{ modelPlural }}')">
     <item-list url-base="/api/{{ slugPlural }}" fields="id,image_id,status,title" table="{{ slugPlural }}" title="{{ slugPlural }}" include="image" :exportable="true" :searchable="['title']" :duplicable="false" :sorting="['title_translated']">
         <template #top-buttons v-if="$can('create {{ slugPlural }}')">
             <x-core::create-button :url="route('admin::create-{{ slug }}')" :label="__('Create {{ slug }}')" />
@@ -30,4 +26,4 @@
             <td>@{{ model.title_translated }}</td>
         </template>
     </item-list>
-@endsection
+</x-layouts.admin>

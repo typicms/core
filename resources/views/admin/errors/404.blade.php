@@ -1,10 +1,4 @@
-@extends('admin::core.master')
-
-@section('title', 'Error 404')
-
-@section('bodyClass', 'error-404')
-
-@section('content')
+<x-core::layouts.admin title="Error 404" body-class="error-404">
     <div class="error">
         <div class="error-header">
             <h1 class="error-title">@lang('Error :code', ['code' => '404'])</h1>
@@ -15,4 +9,4 @@
             </p>
         </div>
     </div>
-@endsection
+</x-core::layouts.admin>

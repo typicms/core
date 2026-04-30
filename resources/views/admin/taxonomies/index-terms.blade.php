@@ -1,8 +1,4 @@
-@extends('admin::core.master')
-
-@section('title', __('Terms'))
-
-@section('content')
+<x-core::layouts.admin :title="__('Terms')">
     <item-list url-base="/api/taxonomies/{{ $taxonomy->id }}/terms" fields="id,taxonomy_id,title,position" table="terms" title="terms" :publishable="false" :exportable="false" :searchable="['title']" :sorting="['position']" :draggable="$can('update terms')">
         <template #back-button>
             <x-core::back-button :back-url="route('admin::index-taxonomies')" :back-label="__('Taxonomies')" />
@@ -34,4 +30,4 @@
             <td>@{{ model.title_translated }}</td>
         </template>
     </item-list>
-@endsection
+</x-core::layouts.admin>

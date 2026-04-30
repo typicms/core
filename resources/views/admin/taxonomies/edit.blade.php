@@ -1,10 +1,6 @@
-@extends('admin::core.master')
-
-@section('title', $model->title)
-
-@section('content')
+<x-core::layouts.admin :title="$model->title" :model="$model">
     {!! BootForm::open()->put()->action(route('admin::update-taxonomy', $model->id))->addClass('form') !!}
     {!! BootForm::bind($model) !!}
     @include('admin::taxonomies._form')
     {!! BootForm::close() !!}
-@endsection
+</x-core::layouts.admin>

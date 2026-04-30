@@ -1,9 +1,5 @@
-@extends('admin::core.master')
-
-@section('title', __('New translation'))
-
-@section('content')
+<x-core::layouts.admin :title="__('New translation')">
     {!! BootForm::open()->action(route('admin::index-translations'))->addClass('form') !!}
     @include('admin::translations._form')
     {!! BootForm::close() !!}
-@endsection
+</x-core::layouts.admin>

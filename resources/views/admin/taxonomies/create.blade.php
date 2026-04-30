@@ -1,9 +1,5 @@
-@extends('admin::core.master')
-
-@section('title', __('New taxonomy'))
-
-@section('content')
+<x-core::layouts.admin :title="__('New taxonomy')">
     {!! BootForm::open()->action(route('admin::index-taxonomies'))->addClass('form') !!}
     @include('admin::taxonomies._form')
     {!! BootForm::close() !!}
-@endsection
+</x-core::layouts.admin>

@@ -282,29 +282,21 @@ $table->unsignedInteger('position')->default(0);
 ### create.blade.php
 
 ```blade
-@extends('admin::core.master')
-
-@section('title', __('New item'))
-
-@section('main')
+<x-layouts.admin :title="__('New :model', ['model' => __('modelname')])">
     {!! BootForm::open()->action(route('admin::store-modelname'))->multipart() !!}
-        @include('admin::modulename._form')
+    @include('admin::modulename._form')
     {!! BootForm::close() !!}
-@endsection
+</x-layouts.admin>
 ```
 
 ### edit.blade.php
 
 ```blade
-@extends('admin::core.master')
-
-@section('title', $model->title)
-
-@section('main')
+<x-layouts.admin :title="$model->title" :model="$model">
     {!! BootForm::open()->action(route('admin::update-modelname', $model))->method('put')->multipart()->bind($model) !!}
-        @include('admin::modulename._form')
+    @include('admin::modulename._form')
     {!! BootForm::close() !!}
-@endsection
+</x-layouts.admin>
 ```
 
 ## Export Class Pattern
@@ -461,3 +453,5 @@ php artisan typicms:create modulename
 ```
 
 This creates the basic module structure that can be customized.
+<x-layouts.admin :title="\_\_('New item')">
+</x-layouts.admin>

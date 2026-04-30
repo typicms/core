@@ -1,8 +1,4 @@
-@extends('admin::core.master')
-
-@section('title', __('Tags'))
-
-@section('content')
+<x-core::layouts.admin :title="__('Tags')">
     <item-list url-base="/api/tags" fields="id,tag,slug" table="tags" title="tags" :translatable="false" :publishable="false" :searchable="['tag']" :sorting="['tag']">
         <template #top-buttons v-if="$can('create tags')">
             <x-core::create-button :url="route('admin::create-tag')" :label="__('Create tag')" />
@@ -26,4 +22,4 @@
             <td>@{{ model.uses }}</td>
         </template>
     </item-list>
-@endsection
+</x-core::layouts.admin>

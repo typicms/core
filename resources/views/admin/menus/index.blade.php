@@ -1,8 +1,4 @@
-@extends('admin::core.master')
-
-@section('title', __('Menus'))
-
-@section('content')
+<x-core::layouts.admin :title="__('Menus')">
     <item-list url-base="/api/menus" fields="id,image_id,name,status" table="menus" title="menus" include="image" :searchable="['name']" :sorting="['name']">
         <template #top-buttons v-if="$can('create menus')">
             <x-core::create-button :url="route('admin::create-menu')" :label="__('Create menu')" />
@@ -30,4 +26,4 @@
             <td>@{{ model.name }}</td>
         </template>
     </item-list>
-@endsection
+</x-core::layouts.admin>

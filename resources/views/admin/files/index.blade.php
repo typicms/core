@@ -1,7 +1,3 @@
-@extends('admin::core.master')
-
-@section('title', __('Files'))
-
-@section('content')
+<x-core::layouts.admin :title="__('Files')">
     <file-manager-content :modal="false"></file-manager-content>
-@endsection
+</x-core::layouts.admin>

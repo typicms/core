@@ -1,8 +1,4 @@
-@extends('admin::core.master')
-
-@section('title', __('Translations'))
-
-@section('content')
+<x-core::layouts.admin :title="__('Translations')">
     <item-list url-base="/api/translations" fields="id,key,translation" table="translations" title="translations" :publishable="false" :searchable="['key,translation']" :sorting="['key']">
         <template #top-buttons v-if="$can('create translations')">
             <x-core::create-button :url="route('admin::create-translation')" :label="__('Create translation')" />
@@ -26,4 +22,4 @@
             <td>@{{ model.translation_translated }}</td>
         </template>
     </item-list>
-@endsection
+</x-core::layouts.admin>

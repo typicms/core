@@ -1,9 +1,5 @@
-@extends('admin::core.master')
-
-@section('title', __('New role'))
-
-@section('content')
+<x-core::layouts.admin :title="__('New role')">
     {!! BootForm::open()->action(route('admin::index-roles'))->addClass('form') !!}
     @include('admin::roles._form')
     {!! BootForm::close() !!}
-@endsection
+</x-core::layouts.admin>

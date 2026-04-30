@@ -1,12 +1,9 @@
-@extends('admin::core.master')
-
 @section('title')
     {{ __('Profile') }}
 @endsection
-
-@section('content')
+<x-core::layouts.admin :model="$model">
     {!! BootForm::open()->put()->action(route('admin::update-profile'))->addClass('form') !!}
     {!! BootForm::bind($model->toArray()) !!}
     @include('admin::users._profile_form')
     {!! BootForm::close() !!}
-@endsection
+</x-core::layouts.admin>
