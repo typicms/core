@@ -111,6 +111,8 @@ class PermissionSeeder extends Seeder
             ['id' => 97, 'name' => 'update terms', 'guard_name' => 'web'],
             ['id' => 98, 'name' => 'delete terms', 'guard_name' => 'web'],
             ['id' => 99, 'name' => 'edit profile', 'guard_name' => 'web'],
+            ['id' => 100, 'name' => 'receive contact notifications', 'guard_name' => 'web'],
+            ['id' => 101, 'name' => 'receive event registration notifications', 'guard_name' => 'web'],
         ];
 
         DB::table('permissions')->insert($permissions);
