@@ -1,0 +1,16 @@
+@mixin bordered-card-edge($position: top) {
+    border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+    @if $position == top {
+        border-radius: ($card-border-radius - 0.25rem) ($card-border-radius - 0.25rem) $border-radius $border-radius;
+        margin: 0.25rem 0.25rem 0 0.25rem;
+        &:first-child {
+            border-radius: ($card-border-radius - 0.2rem) ($card-border-radius - 0.2rem) $border-radius $border-radius;
+        }
+    } @else if $position == bottom {
+        border-radius: $border-radius $border-radius ($card-border-radius - 0.25rem) ($card-border-radius - 0.25rem);
+        margin: 0 0.25rem 0.25rem 0.25rem;
+        &:last-child {
+            border-radius: $border-radius $border-radius ($card-border-radius - 0.2rem) ($card-border-radius - 0.2rem);
+        }
+    }
+}

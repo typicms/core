@@ -2,12 +2,7 @@
     @extend .card-header;
     &-bordered {
         @include media-breakpoint-up(lg) {
-            border-radius: ($card-border-radius - 0.25rem) ($card-border-radius - 0.25rem) $border-radius $border-radius;
-            border: var(--bs-card-border-width) solid var(--bs-card-border-color);
-            margin: 0.25rem 0.25rem 0 0.25rem;
-            &:first-child {
-                border-radius: ($card-border-radius - 0.2rem) ($card-border-radius - 0.2rem) $border-radius $border-radius;
-            }
+            @include bordered-card-edge(top);
         }
     }
     &-top {
