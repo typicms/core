@@ -43,8 +43,6 @@ class Install extends Command
             ],
         ]);
 
-        $this->registerHelpersAutoload();
-
         app()->environment('local');
 
         // Set database credentials in .env and migrate
@@ -71,30 +69,6 @@ class Install extends Command
         $this->components->info("Access the admin panel at <href=https://{$domain}/en/otp-login>https://{$domain}/en/otp-login</>");
         $this->components->info('Enjoy TypiCMS!');
         title('');
-    }
-
-    private function registerHelpersAutoload(): void
-    {
-        $this->components->task('Registering app/helpers.php in composer autoload', function (): bool {
-            $composerPath = base_path('composer.json');
-            $composer = json_decode($this->files->get($composerPath), true);
-
-            $files = $composer['autoload']['files'] ?? [];
-
-            if (in_array('app/helpers.php', $files, true)) {
-                return true;
-            }
-
-            $files[] = 'app/helpers.php';
-            $composer['autoload']['files'] = $files;
-
-            $this->files->put(
-                $composerPath,
-                json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE).PHP_EOL,
-            );
-
-            return $this->runWithSpinner('composer dump-autoload');
-        });
     }
 
     private function canShellExec(): bool
