@@ -28,9 +28,15 @@ class Install extends Command
 
         $this->call('vendor:publish', [
             '--tag' => [
+                'typicms-bootstrap',
+            ],
+            '--force' => true,
+        ]);
+
+        $this->call('vendor:publish', [
+            '--tag' => [
                 'permission-migrations',
                 'typicms-config',
-                'typicms-bootstrap',
                 'typicms-helpers',
                 'typicms-resources',
                 'typicms-public',
