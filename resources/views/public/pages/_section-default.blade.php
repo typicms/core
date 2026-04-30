@@ -1,15 +1,26 @@
-<div class="section-default section-{{ $section->id }}" id="{{ $section->position }}-{{ $section->slug }}">
+<div @class([
+    'section-default',
+    $alignment ?? 'left',
+    $color ?? '',
+    $class ?? '',
+    'section-' . $section->id,
+]) id="{{ $section->position }}-{{ $section->slug }}">
     <div class="section-default-container">
         <x-core::edit-button :url="$section->editUrl()" />
         <div class="section-default-row">
             @if (!$section->image)
-                <div class="section-default-content">
-                    <h2 @class(['section-default-title', 'visually-hidden' => $section->hide_title])>{{ $section->title }}</h2>
+                <div class="section-default-content reveal">
+                    <h2 @class([
+                        'section-default-title',
+                        'visually-hidden' => $section->hide_title,
+                    ])>{{ $section->title }}</h2>
                     <div class="section-default-text rich-content">{!! $section->formattedBody() !!}</div>
                 </div>
             @else
                 <div class="section-default-left">
-                    <h2 @class(['section-default-title', 'visually-hidden' => $section->hide_title])>{{ $section->title }}</h2>
+                    @if (!$section->hide_title)
+                        <h2 class="section-default-title">{{ $section->title }}</h2>
+                    @endif
                     <div class="section-default-text rich-content">{!! $section->formattedBody() !!}</div>
                 </div>
                 <div class="section-default-right">

@@ -1,10 +1,7 @@
-@extends('public::core.master')
-
-@section('title', __('Error :code', ['code' => '419']) . ' – ' . websiteTitle())
-
-@section('bodyClass', 'error-419')
-
-@section('content')
+<x-core::layouts.public
+    :title="__('Error :code', ['code' => '419']) . ' – ' . websiteTitle()"
+    body-class="error-419"
+>
     <header class="page-header">
         <div class="page-header-container">
             <h1 class="page-title">
@@ -22,4 +19,4 @@
             </p>
         </div>
     </div>
-@endsection
+</x-core::layouts.public>

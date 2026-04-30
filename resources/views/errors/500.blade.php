@@ -1,10 +1,9 @@
-@extends('public::core.master')
+<x-core::layouts.public
+    :title="__('Error :code', ['code' => '500']) . ' – ' . websiteTitle()"
+    body-class="error-500"
+>
+    <x-slot:lang-switcher></x-slot:lang-switcher>
 
-@section('title', __('Error :code', ['code' => '500']) . ' – ' . websiteTitle())
-@section('bodyClass', 'error-500')
-@section('lang-switcher', '')
-
-@section('content')
     <header class="page-header">
         <div class="page-header-container">
             <h1 class="page-title">@lang('Server Error')</h1>
@@ -20,4 +19,4 @@
             </p>
         </div>
     </div>
-@endsection
+</x-core::layouts.public>

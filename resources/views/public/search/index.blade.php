@@ -1,10 +1,8 @@
-@extends('public::pages.master')
-
-@section('canonical', url()->full())
-
-@section('bodyClass', 'body-search body-search-index body-page body-page-' . $page->id)
-
-@section('page')
+<x-core::layouts.page
+    :page="$page"
+    :canonical="url()->full()"
+    :body-class="'body-search body-search-index body-page body-page-' . $page->id"
+>
     <div class="page-body">
         <div class="page-body-container">
             @if (!$errors->has('query'))
@@ -40,4 +38,4 @@
             @endif
         </div>
     </div>
-@endsection
+</x-core::layouts.page>

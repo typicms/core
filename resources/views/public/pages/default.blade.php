@@ -1,6 +1,4 @@
-@extends('public::pages.master')
-
-@section('page')
+<x-core::layouts.page :page="$page">
     <div class="page-body">
         <div class="page-body-container">
             @include('public::pages._subpages')
@@ -11,4 +9,4 @@
 
         @include('public::pages._sections', compact('page'))
     </div>
-@endsection
+</x-core::layouts.page>

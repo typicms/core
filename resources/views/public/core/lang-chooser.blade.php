@@ -1,13 +1,8 @@
-@extends('public::core.master')
+<x-core::layouts.public body-class="lang-chooser">
+    <x-slot:skip-links></x-slot:skip-links>
+    <x-slot:header></x-slot:header>
+    <x-slot:footer></x-slot:footer>
 
-@section('lang-switcher', '')
-@section('header', '')
-@section('primary-nav', '')
-@section('footer', '')
-@section('bodyClass', 'lang-chooser')
-@section('skip-links', '')
-
-@section('content')
     <div class="page-header lang-chooser-header">
         <h1 class="lang-chooser-title">Choose language</h1>
     </div>
@@ -21,4 +16,4 @@
             </li>
         @endforeach
     </ul>
-@endsection
+</x-core::layouts.public>
