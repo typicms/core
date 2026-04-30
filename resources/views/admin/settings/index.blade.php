@@ -78,10 +78,10 @@
         <div class="row">
             <div class="col-lg-12">
                 <h2 class="my-3">@lang('Contact')</h2>
-                {!! BootForm::text(__('Name'), 'contact_1_name') !!}
-                {!! BootForm::text(__('Phone'), 'contact_1_phone') !!}
-                {!! BootForm::text(__('Address'), 'contact_1_address') !!}
-                {!! BootForm::text(__('Email'), 'contact_1_email_address') !!}
+                {!! BootForm::text(__('Name'), 'contact_name') !!}
+                {!! BootForm::text(__('Phone'), 'contact_phone') !!}
+                {!! BootForm::text(__('Address'), 'contact_address') !!}
+                {!! BootForm::text(__('Email'), 'contact_email') !!}
             </div>
         </div>
     </div>
