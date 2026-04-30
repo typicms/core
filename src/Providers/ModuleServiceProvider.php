@@ -104,15 +104,67 @@ class ModuleServiceProvider extends ServiceProvider
 
         /*
          |--------------------------------------------------------------------------
-         | Publish images, fonts, js and scss files.
+         | Publish fonts.
+         |--------------------------------------------------------------------------
+         */
+        $this->publishes([
+            __DIR__.'/../../resources/fonts' => resource_path('fonts'),
+        ], ['typicms-resources', 'typicms-admin-resources', 'typicms-public-resources', 'typicms-fonts']);
+
+        /*
+         |--------------------------------------------------------------------------
+         | Publish images (shared between admin and public).
          |--------------------------------------------------------------------------
          */
         $this->publishes([
             __DIR__.'/../../resources/images' => resource_path('images'),
-            __DIR__.'/../../resources/fonts' => resource_path('fonts'),
-            __DIR__.'/../../resources/js' => resource_path('js'),
-            __DIR__.'/../../resources/scss' => resource_path('scss'),
-        ], 'typicms-resources');
+        ], ['typicms-resources', 'typicms-admin-resources', 'typicms-public-resources', 'typicms-images']);
+
+        /*
+         |--------------------------------------------------------------------------
+         | Publish admin scss files.
+         |--------------------------------------------------------------------------
+         */
+        $this->publishes([
+            __DIR__.'/../../resources/scss/_alertify.scss' => resource_path('scss/_alertify.scss'),
+            __DIR__.'/../../resources/scss/_auth.scss' => resource_path('scss/_auth.scss'),
+            __DIR__.'/../../resources/scss/_lucide-base.scss' => resource_path('scss/_lucide-base.scss'),
+            __DIR__.'/../../resources/scss/admin' => resource_path('scss/admin'),
+            __DIR__.'/../../resources/scss/admin.scss' => resource_path('scss/admin.scss'),
+        ], ['typicms-resources', 'typicms-admin-resources', 'typicms-admin-scss']);
+
+        /*
+         |--------------------------------------------------------------------------
+         | Publish public scss files.
+         |--------------------------------------------------------------------------
+         */
+        $this->publishes([
+            __DIR__.'/../../resources/scss/_lucide-base.scss' => resource_path('scss/_lucide-base.scss'),
+            __DIR__.'/../../resources/scss/public' => resource_path('scss/public'),
+            __DIR__.'/../../resources/scss/public.scss' => resource_path('scss/public.scss'),
+        ], ['typicms-resources', 'typicms-public-resources', 'typicms-public-scss']);
+
+        /*
+         |--------------------------------------------------------------------------
+         | Publish admin js/ts/vue files.
+         |--------------------------------------------------------------------------
+         */
+        $this->publishes([
+            __DIR__.'/../../resources/js/admin' => resource_path('js/admin'),
+            __DIR__.'/../../resources/js/admin.js' => resource_path('js/admin.js'),
+            __DIR__.'/../../resources/js/components' => resource_path('js/components'),
+            __DIR__.'/../../resources/js/composables' => resource_path('js/composables'),
+        ], ['typicms-resources', 'typicms-admin-resources', 'typicms-admin-js']);
+
+        /*
+         |--------------------------------------------------------------------------
+         | Publish public js/ts/vue files.
+         |--------------------------------------------------------------------------
+         */
+        $this->publishes([
+            __DIR__.'/../../resources/js/public' => resource_path('js/public'),
+            __DIR__.'/../../resources/js/public.js' => resource_path('js/public.js'),
+        ], ['typicms-resources', 'typicms-public-resources', 'typicms-public-js']);
 
         /*
          |--------------------------------------------------------------------------
