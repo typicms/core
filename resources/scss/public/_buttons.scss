@@ -1,0 +1,97 @@
+.base-button {
+    @extend .btn;
+    @extend .rounded-pill;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    &:focus-visible {
+        @include box-shadow($btn-focus-box-shadow);
+    }
+}
+
+.primary-btn {
+    @extend .base-button;
+    @include button-variant($primary, $primary, $light, $white, $primary, $primary, $gray-300, $primary, $primary);
+}
+
+.secondary-btn {
+    @extend .base-button;
+    @include button-variant($secondary, $secondary, $white, $white, $secondary, $secondary);
+}
+
+.light-btn {
+    @extend .base-button;
+    @include button-variant($light, $light, $body-color, $body-color, $body-color, $light, $body-color, $body-color, $light, $white, $white, $gray-600);
+}
+
+.white-btn {
+    @extend .base-button;
+    @include button-variant($white, $white, $primary, rgba($white, 20%), $white, $white);
+}
+
+.primary-outline-btn {
+    @extend .base-button;
+    @include button-variant(transparent, $primary, $primary, $primary, $primary, $light);
+}
+
+.secondary-outline-btn {
+    @extend .base-button;
+    @include button-variant(transparent, $secondary, $secondary, $secondary, $secondary, $light);
+}
+
+.light-outline-btn {
+    @extend .base-button;
+    @include button-variant(transparent, $light, $light, $light, $light, $primary);
+}
+
+.white-outline-btn {
+    @extend .base-button;
+    @include button-variant(rgba($white, 20%), $white, $white, $white, $white, $primary);
+}
+
+.secondary-new-tab-btn {
+    @extend .base-button;
+    @extend .new-tab-btn;
+    @include button-variant($secondary, $secondary, $primary, $white, $primary, $primary, $body-color, $body-color, $light);
+}
+
+.arrow-right-btn {
+    flex-direction: row-reverse;
+    &:before {
+        @extend .lucide-icon;
+        @extend .icon-arrow-right;
+        @include transition(transform 0.25s ease-out);
+        line-height: 1;
+        font-size: 1.5rem;
+    }
+    &:hover:before {
+        transform: translateX(0.25rem);
+    }
+}
+
+.arrow-left-btn {
+    flex-direction: row;
+    &:before {
+        @extend .lucide-icon;
+        @extend .icon-arrow-left;
+        @include transition(transform 0.25s ease-out);
+        line-height: 1;
+        font-size: 1.5rem;
+    }
+    &:hover:before {
+        transform: translateX(-0.25rem);
+    }
+}
+
+.new-tab-btn {
+    &:after {
+        @extend .lucide-icon;
+        @extend .icon-external-link;
+        font-size: 1.25rem;
+    }
+    &:hover:after {
+        transform: none;
+    }
+}
