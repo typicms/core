@@ -104,6 +104,25 @@ class ModuleServiceProvider extends ServiceProvider
 
         /*
          |--------------------------------------------------------------------------
+         | Publish bootstrap files.
+         |--------------------------------------------------------------------------
+         */
+        $this->publishes([
+            __DIR__.'/../../stubs/bootstrap/app.php' => base_path('bootstrap/app.php'),
+            __DIR__.'/../../stubs/bootstrap/providers.php' => base_path('bootstrap/providers.php'),
+        ], 'typicms-bootstrap');
+
+        /*
+         |--------------------------------------------------------------------------
+         | Publish helpers.
+         |--------------------------------------------------------------------------
+         */
+        $this->publishes([
+            __DIR__.'/../../stubs/app/helpers.php' => app_path('helpers.php'),
+        ], 'typicms-helpers');
+
+        /*
+         |--------------------------------------------------------------------------
          | Publish fonts.
          |--------------------------------------------------------------------------
          */
