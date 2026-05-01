@@ -95,12 +95,7 @@ function normalizeYoutubeUrl(url) {
         return `https://www.youtube.com/watch?v=${videoWithPlaylistMatch[1]}&list=${videoWithPlaylistMatch[2]}`;
     }
 
-    const patterns = [
-        /youtube\.com\/live\/([a-zA-Z0-9_-]+)/,
-        /youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/,
-        /youtu\.be\/([a-zA-Z0-9_-]+)/,
-        /youtube\.com\/embed\/([a-zA-Z0-9_-]+)/,
-    ];
+    const patterns = [/youtube\.com\/live\/([a-zA-Z0-9_-]+)/, /youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/, /youtu\.be\/([a-zA-Z0-9_-]+)/, /youtube\.com\/embed\/([a-zA-Z0-9_-]+)/];
 
     for (const pattern of patterns) {
         const match = url.match(pattern);
