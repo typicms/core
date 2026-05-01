@@ -1,13 +1,16 @@
-.image-cropper-launcher {
-    .image-cropper-preview {
-        display: block;
-        max-height: 320px;
-        width: auto;
-    }
-}
-
 .image-cropper {
     width: 100%;
+    &-preview {
+        border-radius: var(--bs-border-radius-lg);
+        display: block;
+        width: auto;
+    }
+    &-modal-dialog {
+        --bs-modal-width: calc(100% - 6rem);
+        .modal-content {
+            min-height: 90vh;
+        }
+    }
     &-container {
         max-width: 100%;
         overflow: hidden;

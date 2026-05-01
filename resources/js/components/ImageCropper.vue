@@ -1,13 +1,13 @@
 <template>
-    <div v-if="imageUrl" class="image-cropper-launcher">
-        <img class="image-cropper-preview img-fluid mb-3" :src="imageUrl" alt="" />
+    <div v-if="imageUrl" class="image-cropper-launcher mb-3">
+        <img class="image-cropper-preview img-fluid mb-2" :src="imageUrl" alt="" />
         <button type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" :data-bs-target="'#' + modalId">
             <crop-icon :size="18" stroke-width="2" />
             {{ t('Crop image') }}
         </button>
 
         <div :id="modalId" ref="modalElement" class="modal fade" tabindex="-1" :aria-labelledby="modalId + '-label'" aria-hidden="true">
-            <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-dialog image-cropper-modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 :id="modalId + '-label'" class="modal-title fs-5">{{ t('Crop image') }}</h1>
@@ -16,7 +16,7 @@
                     <div class="modal-body">
                         <div v-if="show" class="image-cropper">
                             <div class="image-cropper-container">
-                                <cropper-canvas ref="cropperCanvas" background>
+                                <cropper-canvas ref="cropperCanvas" background scale-step="0">
                                     <cropper-image ref="cropperImage" :src="imageUrl" alt="Image to crop" rotatable scalable skewable translatable></cropper-image>
                                     <cropper-shade hidden></cropper-shade>
                                     <cropper-handle action="select" plain></cropper-handle>
@@ -129,12 +129,7 @@ function initSelectionInsideImage() {
     }
 
     const inset = 0.05;
-    cropperSelection.value.$change(
-        bounds.x + bounds.width * inset,
-        bounds.y + bounds.height * inset,
-        bounds.width * (1 - inset * 2),
-        bounds.height * (1 - inset * 2),
-    );
+    cropperSelection.value.$change(bounds.x + bounds.width * inset, bounds.y + bounds.height * inset, bounds.width * (1 - inset * 2), bounds.height * (1 - inset * 2));
 }
 
 function onHidden() {
