@@ -1,15 +1,13 @@
 .modal {
-    &-content {
-        backdrop-filter: blur(1.5px);
-        box-shadow:
-            0 -0.5px 1px 0.5px #0004 inset,
-            0 5px 10px #00000022;
+    &-header {
+        @include bordered-card-edge(top);
+        background-color: var(--bs-modal-footer-bg);
     }
-}
-@include color-mode(dark) {
-    .modal {
-        &-content {
-            border-color: #fff3;
-        }
+    &-content {
+        box-shadow: var(--bs-box-shadow);
+    }
+    &-footer {
+        @include bordered-card-edge(bottom);
+        padding: var(--bs-modal-header-padding-y);
     }
 }

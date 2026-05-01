@@ -34,13 +34,6 @@ $border-radius-lg: 0.5rem;
 
 $spacer: 1.25rem;
 
-$modal-content-border-radius: 1rem;
-$modal-content-border-width: 0.25rem;
-$modal-content-border-color: #fffa;
-$modal-header-border-width: 1px;
-$modal-header-padding-y: 1rem;
-$modal-backdrop-opacity: 0.3;
-
 $box-shadow-sm: 0 0.5px 1px 1px rgba(0, 0, 0, 0.075);
 
 $table-group-separator-color: $gray-300;
@@ -67,9 +60,16 @@ $offcanvas-vertical-height: 100vh;
 $offcanvas-transition-duration: 0.3s;
 $offcanvas-border-width: 0;
 
+$modal-content-border-radius: 1rem;
+$modal-content-border-width: 0;
+$modal-header-padding-y: $spacer * 0.75;
+$modal-header-padding-x: $spacer;
+$modal-backdrop-opacity: 0.4;
+$modal-footer-bg: rgba(var(--bs-body-color-rgb), 0.02);
+
 $card-border-radius: $modal-content-border-radius;
-$card-border-width: 0;
-$card-cap-padding-y: $spacer * 0.75;
+$card-cap-padding-y: $modal-header-padding-y;
+$card-cap-padding-x: $modal-header-padding-x;
 $card-border-width: 1px;
 $card-border-color: var(--bs-border-color);
-$card-cap-bg: rgba(var(--bs-body-color-rgb), 0.02);
+$card-cap-bg: $modal-footer-bg;

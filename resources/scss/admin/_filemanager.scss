@@ -27,9 +27,6 @@
     }
 
     .modal & {
-        background-color: transparent;
-        overflow: hidden;
-        margin: 0;
         border: none;
         @include media-breakpoint-down(lg) {
             border-radius: $modal-content-border-radius;
@@ -37,8 +34,8 @@
     }
 
     .modal &-header {
+        @include bordered-card-edge(top);
         top: 0 !important;
-        background-color: transparent;
         &-top {
             margin-bottom: 0.75rem;
         }
