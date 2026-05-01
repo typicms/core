@@ -8,26 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 
 trait Navigable
 {
-    public function next(mixed $model, ?int $category_id = null): ?Model
+    public function next(?int $category_id = null): ?Model
     {
-        return $this->adjacent(1, $model, $category_id);
+        return $this->adjacent(1, $category_id);
     }
 
-    public function prev(mixed $model, ?int $category_id = null): ?Model
+    public function prev(?int $category_id = null): ?Model
     {
-        return $this->adjacent(-1, $model, $category_id);
+        return $this->adjacent(-1, $category_id);
     }
 
-    public function adjacent(int $direction, mixed $model, ?int $category_id = null): ?Model
+    public function adjacent(int $direction, ?int $category_id = null): ?Model
     {
-        $currentModel = $model;
         $models = static::query()
             ->published()
             ->order()
             ->get(['id', 'slug', 'title']);
 
         foreach ($models as $key => $model) {
-            if ($currentModel->id === $model->id) {
+            if ($this->id === $model->id) {
                 $adjacentKey = $key + $direction;
 
                 return $models[$adjacentKey] ?? null;
