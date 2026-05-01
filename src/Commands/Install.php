@@ -37,7 +37,6 @@ class Install extends Command
             '--tag' => [
                 'permission-migrations',
                 'typicms-config',
-                'typicms-helpers',
                 'typicms-resources',
                 'typicms-public',
                 'typicms-lang',
