@@ -264,7 +264,7 @@ $table->unsignedInteger('position')->default(0);
             <x-core::toggle-status-button />
 
             {!! TranslatableBootForm::textarea(__('Summary'), 'summary')->rows(4) !!}
-            <x-core::tiptap-editors :model="$model" name="body" :label="__('Body')" />
+            <x-core::tiptap-editors :$model name="body" :label="__('Body')" />
         </div>
         <div class="col-lg-4">
             <div class="right-column">
@@ -292,7 +292,7 @@ $table->unsignedInteger('position')->default(0);
 ### edit.blade.php
 
 ```blade
-<x-layouts.admin :title="$model->title" :model="$model">
+<x-layouts.admin :title="$model->title" :$model>
     {!! BootForm::open()->action(route('admin::update-modelname', $model))->method('put')->multipart()->bind($model) !!}
     @include('admin::modulename._form')
     {!! BootForm::close() !!}
