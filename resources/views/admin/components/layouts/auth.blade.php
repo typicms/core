@@ -23,6 +23,8 @@
         {{ $slot }}
     </div>
 
+    @include('admin::core._javascript')
+
     @vite('resources/js/admin.js')
 
     @stack('js')
