@@ -4,8 +4,8 @@ use Illuminate\Support\Str;
 use Spatie\LaravelPasskeys\Models\Passkey;
 use Symfony\Component\Uid\Uuid;
 use TypiCMS\Modules\Core\Models\User;
-use Webauthn\CredentialRecord;
 use Webauthn\PublicKeyCredentialDescriptor;
+use Webauthn\PublicKeyCredentialSource;
 use Webauthn\TrustPath\EmptyTrustPath;
 
 function createTestUser(array $attributes = []): User
@@ -23,7 +23,7 @@ function createPasskeyForUser(User $user): Passkey
     return Passkey::query()->create([
         'name' => 'Test passkey',
         'authenticatable_id' => $user->id,
-        'data' => CredentialRecord::create(
+        'data' => new PublicKeyCredentialSource(
             base64_decode(
                 'eHouz/Zi7+BmByHjJ/tx9h4a1WZsK4IzUmgGjkhyOodPGAyUqUp/B9yUkflXY3yHWsNtsrgCXQ3HjAIFUeZB+w==',
                 true,
