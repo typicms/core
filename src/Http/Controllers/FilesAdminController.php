@@ -64,12 +64,12 @@ final class FilesAdminController extends BaseAdminController
         $width = $image->width();
         $height = $image->height();
 
-        $pathInfo = pathinfo($file->path);
+        $pathInfo = pathinfo((string) $file->path);
         $path = $pathInfo['dirname'].'/'.$pathInfo['filename'].'-'.time().'.jpg';
         $encodedImage = $image->toJpeg(quality: 90);
         Storage::put($path, (string) $encodedImage);
 
-        $nameInfo = pathinfo($file->name);
+        $nameInfo = pathinfo((string) $file->name);
         $file->name = $nameInfo['filename'].'.jpg';
         $file->path = $path;
         $file->extension = 'jpg';
