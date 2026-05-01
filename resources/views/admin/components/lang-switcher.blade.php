@@ -2,11 +2,9 @@
 
 @php $lang = app()->getLocale(); @endphp
 
-@if ($enabledLocales = enabledLocales() and count($enabledLocales) > 1)
+@if (($enabledLocales = enabledLocales()) and count($enabledLocales) > 1)
     <nav class="lang-switcher dropdown">
-        <button class="lang-switcher-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownLangSwitcher">
-            {{ $lang }}
-        </button>
+        <button class="lang-switcher-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownLangSwitcher">{{ $lang }}</button>
         <ul class="lang-switcher-list dropdown-menu" aria-labelledby="dropdownLangSwitcher">
             @foreach ($enabledLocales as $locale)
                 @if ($locale !== $lang)
@@ -18,7 +16,7 @@
                     @endphp
                     <li>
                         <a class="lang-switcher-item" href="{{ $url }}" hreflang="{{ $locale }}">
-                            <abbr lang="{{ $locale }}" title="@lang('languages.' . $locale, [], $locale)">{{ $locale }}</abbr>
+                            <abbr lang="{{ $locale }}" title="{{ __('languages.' . $locale, [], $locale) }}">{{ $locale }}</abbr>
                         </a>
                     </li>
                 @endif

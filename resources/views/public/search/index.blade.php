@@ -1,15 +1,9 @@
-<x-core::layouts.page
-    :page="$page"
-    :canonical="url()->full()"
-    :body-class="'body-search body-search-index body-page body-page-' . $page->id"
->
+<x-core::layouts.page :$page :canonical="url()->full()" :body-class="'body-search body-search-index body-page body-page-' . $page->id">
     <div class="page-body">
         <div class="page-body-container">
             @if (!$errors->has('query'))
                 <div class="search-results">
-                    <h1 class="search-results-title">
-                        @lang('Search results for “:query”', ['query' => e((string) request()->string('query'))])
-                    </h1>
+                    <h1 class="search-results-title">{{ __('Search results for “:query”', ['query' => e((string) request()->string('query'))]) }}</h1>
 
                     @if ($count)
                         <div class="search-results-content">
@@ -20,17 +14,16 @@
                                         @choice($result['module'], $result['models']->count())
                                     </h2>
                                     <div class="search-results-module-results">
-                                        @include('public::' . $result['module'] . '._list-results', [
-                                            'items' => $result['models'],
-                                        ])
+                                        @include('public::' . $result['module'] . '._list-results',
+                                            [
+                                                'items' => $result['models']
+                                            ])
                                     </div>
                                 </div>
                             @endforeach
                         </div>
                     @else
-                        <p class="search-results-no-results text-center">
-                            @lang('There are no results that match your query.')
-                        </p>
+                        <p class="search-results-no-results text-center">{{ __('There are no results that match your query.') }}</p>
                     @endif
                 </div>
             @else

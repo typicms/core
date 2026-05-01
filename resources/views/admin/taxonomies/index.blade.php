@@ -1,5 +1,15 @@
 <x-core::layouts.admin :title="__('Taxonomies')">
-    <item-list url-base="/api/taxonomies" fields="id,title,name,validation_rule,position,result_string,modules" table="taxonomies" title="taxonomies" :publishable="false" :exportable="false" :searchable="['title,name,validation_rule,result_string']" :sorting="['position']" :draggable="$can('update taxonomies')">
+    <item-list
+        url-base="/api/taxonomies"
+        fields="id,title,name,validation_rule,position,result_string,modules"
+        table="taxonomies"
+        title="taxonomies"
+        :publishable="false"
+        :exportable="false"
+        :searchable="['title,name,validation_rule,result_string']"
+        :sorting="['position']"
+        :draggable="$can('update taxonomies')"
+    >
         <template #top-buttons v-if="$can('create taxonomies')">
             <x-core::create-button :url="route('admin::create-taxonomy')" :label="__('Create taxonomy')" />
         </template>
@@ -27,11 +37,13 @@
                 <item-list-edit-button :url="'/admin/taxonomies/' + model.id + '/edit'"></item-list-edit-button>
             </td>
             <td v-if="$can('update terms')">
-                <a class="btn btn-light btn-xs" :href="'/admin/taxonomies/' + model.id + '/terms'">@lang('Terms')</a>
+                <a class="btn btn-light btn-xs" :href="'/admin/taxonomies/' + model.id + '/terms'">{{ __('Terms') }}</a>
             </td>
             <td>@{{ model.name }}</td>
             <td>@{{ model.title_translated }}</td>
-            <td><small class="text-muted">@{{ model.validation_rule }}</small></td>
+            <td>
+                <small class="text-muted">@{{ model.validation_rule }}</small>
+            </td>
             <td>@{{ model.result_string_translated }}</td>
             <td>
                 <span class="badge text-bg-warning me-1" v-for="module in model.modules">@{{ module }}</span>

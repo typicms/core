@@ -10,11 +10,9 @@
 
         {!! BootForm::email(__('Email'), 'email')->addClass('form-control-lg')->autofocus(true)->required()->autocomplete('username') !!}
 
-        <div class="mb-3 d-grid">
-            {!! BootForm::submit(__('Send'), 'btn-primary')->addClass('btn-lg') !!}
-        </div>
+        <div class="mb-3 d-grid">{!! BootForm::submit(__('Send'), 'btn-primary')->addClass('btn-lg') !!}</div>
 
-        <a class="text-body text-decoration-underline small text-center mt-3 d-block" href="{{ route(app()->getLocale() . '::login') }}">@lang('Authenticate with a passkey.')</a>
+        <a class="text-body text-decoration-underline small text-center mt-3 d-block" href="{{ route(app()->getLocale() . '::login') }}">{{ __('Authenticate with a passkey.') }}</a>
         {!! BootForm::close() !!}
 
         <x-core::register-info />

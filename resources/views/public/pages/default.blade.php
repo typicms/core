@@ -1,4 +1,4 @@
-<x-core::layouts.page :page="$page">
+<x-core::layouts.page :$page>
     <div class="page-body">
         <div class="page-body-container">
             @include('public::pages._subpages')

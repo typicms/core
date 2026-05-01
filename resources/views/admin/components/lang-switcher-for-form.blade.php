@@ -8,14 +8,12 @@
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLangSwitcher">
             @foreach ($locales as $locale)
                 <a class="dropdown-item btn-lang-js @if (!session('allLocalesInForm') && $locale === (string) config('typicms.content_locale')) active @endif" href="#" data-locale="{{ $locale }}">
-                    @lang('languages.' . $locale)
+                    {{ __('languages.' . $locale) }}
                 </a>
             @endforeach
 
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item btn-lang-js @if (session('allLocalesInForm')) active @endif" href="#" data-locale="all">
-                @lang('All languages')
-            </a>
+            <a class="dropdown-item btn-lang-js @if (session('allLocalesInForm')) active @endif" href="#" data-locale="all">{{ __('All languages') }}</a>
         </div>
     </div>
 @endif

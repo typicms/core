@@ -3,9 +3,7 @@
     $contentLocale = (string) config('typicms.content_locale');
     if (isset($model) && $model->id && $contentLocale) {
         $locale = isLocaleEnabled($contentLocale) ? $contentLocale : app()->getLocale();
-        $url = method_exists($model, 'url')
-            ? $model->url($locale) ?? url('/')
-            : url('/');
+        $url = method_exists($model, 'url') ? $model->url($locale) ?? url('/') : url('/');
     } elseif (($module = Request::segment(2)) and Route::has($contentLocale . '::index-' . $module)) {
         $url = route($contentLocale . '::index-' . $module);
     } else {

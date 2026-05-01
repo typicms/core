@@ -6,6 +6,6 @@
                 <li>{{ $message }}</li>
             @endforeach
         </ul>
-        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="@lang('Close')"></button>
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="{{ __('Close') }}"></button>
     </div>
 @endif

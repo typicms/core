@@ -13,8 +13,11 @@
         <div class="mb-3">
             <div class="input-group">
                 <span class="input-group-text">{{ strtoupper($locale) }}</span>
-                {!! Form::text('translation[' . $locale . ']')->addClass('form-control')->addClass($errors->has('translation.' . $locale) ? 'is-invalid' : '') !!}
-                {!! $errors->first('translation.' . $locale, '<div class="invalid-feedback">:message</div>') !!}
+                {!!
+                    Form::text('translation[' . $locale . ']')
+                        ->addClass('form-control')
+                        ->addClass($errors->has('translation.' . $locale) ? 'is-invalid' : '')
+                !!} {!! $errors->first('translation.' . $locale, '<div class="invalid-feedback">:message</div>') !!}
             </div>
         </div>
     @endforeach

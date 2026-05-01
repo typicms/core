@@ -3,7 +3,14 @@
 @can('see navbar')
     <nav class="typicms-navbar navbar navbar-expand justify-content-between sticky-top">
         <div class="container-fluid">
-            <button class="btn btn-link d-lg-none px-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive" aria-label="{{ __('Toggle navigation') }}">
+            <button
+                class="btn btn-link d-lg-none px-1"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasResponsive"
+                aria-controls="offcanvasResponsive"
+                aria-label="{{ __('Toggle navigation') }}"
+            >
                 <span class="navbar-toggler-icon"></span>
             </button>
             <a class="typicms-navbar-brand navbar-brand" href="{{ route('admin::dashboard') }}">
@@ -17,9 +24,7 @@
                 <li class="nav-item dropdown">
                     <button class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="icon-circle-user-round me-1"></span>
-                        <span class="d-none d-lg-inline">
-                            {{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}
-                        </span>
+                        <span class="d-none d-lg-inline">{{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
@@ -27,17 +32,13 @@
                         </li>
                         @can('edit profile')
                             <li>
-                                <a class="dropdown-item" href="{{ route('admin::profile') }}">
-                                    {{ __('Profile') }}
-                                </a>
+                                <a class="dropdown-item" href="{{ route('admin::profile') }}">{{ __('Profile') }}</a>
                             </li>
                         @endcan
                         <li>
                             <form action="{{ route(mainLocale() . '::logout') }}" method="post">
                                 {{ csrf_field() }}
-                                <button class="dropdown-item" type="submit">
-                                    @lang('Logout')
-                                </button>
+                                <button class="dropdown-item" type="submit">{{ __('Logout') }}</button>
                             </form>
                         </li>
                     </ul>
@@ -46,9 +47,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin::index-settings') }}">
                             <span class="icon-settings me-1"></span>
-                            <span class="d-none d-lg-inline">
-                                {{ __('Settings') }}
-                            </span>
+                            <span class="d-none d-lg-inline">{{ __('Settings') }}</span>
                         </a>
                     </li>
                 @endcan

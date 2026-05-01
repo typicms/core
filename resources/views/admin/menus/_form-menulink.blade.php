@@ -12,20 +12,9 @@
     <x-core::form-errors />
     <div class="row">
         <div class="col-lg-8">
-            {!! BootForm::hidden('id') !!}
-            {!! BootForm::hidden('menu_id')->value($menu->id) !!}
-            {!! BootForm::hidden('position') !!}
-            {!! BootForm::hidden('parent_id') !!}
-            {!! TranslatableBootForm::text(__('Title'), 'title') !!}
-            <div class="mb-3">
-                {!! TranslatableBootForm::hidden('status')->value(0) !!}
-                {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}
-            </div>
-            {!! TranslatableBootForm::textarea(__('Description'), 'description')->rows(3) !!}
-            {!! BootForm::select(__('Page'), 'page_id', (new TypiCMS\Modules\Core\Models\Page())->allForSelect()) !!}
-            {!! BootForm::select(__('Section'), 'section_id', ['' => '']) !!}
-            {!! TranslatableBootForm::text(__('Website'), 'website')->type('url')->placeholder('https://') !!}
-            {!! BootForm::select(__('Target'), 'target', ['' => __('Active tab'), '_blank' => __('New tab')]) !!}
+            {!! BootForm::hidden('id') !!} {!! BootForm::hidden('menu_id')->value($menu->id) !!} {!! BootForm::hidden('position') !!} {!! BootForm::hidden('parent_id') !!} {!! TranslatableBootForm::text(__('Title'), 'title') !!}
+            <div class="mb-3">{!! TranslatableBootForm::hidden('status')->value(0) !!} {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}</div>
+            {!! TranslatableBootForm::textarea(__('Description'), 'description')->rows(3) !!} {!! BootForm::select(__('Page'), 'page_id', new TypiCMS\Modules\Core\Models\Page()->allForSelect()) !!} {!! BootForm::select(__('Section'), 'section_id', ['' => '']) !!} {!! TranslatableBootForm::text(__('Website'), 'website')->type('url')->placeholder('https://') !!} {!! BootForm::select(__('Target'), 'target', ['' => __('Active tab'), '_blank' => __('New tab')]) !!}
         </div>
         <div class="col-lg-4">
             <div class="right-column">
@@ -60,13 +49,13 @@
 
                 // Get sections and create <option> elements.
                 fetch('/api/pages/' + pageId + '/sections?sort=position&fields[page_sections]=id,position,title', {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-Requested-With': 'XMLHttpRequest',
-                            Authorization: `Bearer ${document.head.querySelector('meta[name="api-token"]').content}`,
-                            'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
-                        },
-                    })
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        Authorization: `Bearer ${document.head.querySelector('meta[name="api-token"]').content}`,
+                        'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
+                    },
+                })
                     .then((response) => response.json())
                     .then((data) => {
                         const sections = data.data;

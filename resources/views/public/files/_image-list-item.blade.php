@@ -1,6 +1,6 @@
 <li class="image-list-item">
     <a class="image-list-item-link lightbox-item" href="{{ $image->render(1600, 1600, ['resize']) }}" data-pswp-width="{{ $image->width }}" data-pswp-height="{{ $image->height }}">
-        <img class="image-list-item-image" src="{{ $image->render(null, 300) }}" width="{{ $image->width }}" height="{{ $image->height }}" alt="@lang('Click to enlarge')" />
+        <img class="image-list-item-image" src="{{ $image->render(null, 300) }}" width="{{ $image->width }}" height="{{ $image->height }}" alt="{{ __('Click to enlarge') }}" />
         @if ($image->description)
             <div class="hidden-caption-content">{{ $image->description }}</div>
         @endif

@@ -5,20 +5,18 @@
         @csrf
     </form>
 
-    <p class="text-center">@lang('Use your passkey to confirm it’s really you.')</p>
+    <p class="text-center">{{ __('Use your passkey to confirm it’s really you.') }}</p>
 
     <div class="mb-3 d-grid">
         <button class="btn btn-lg btn-primary" onclick="authenticateWithPasskey()">
             <i class="icon-key-round"></i>
-            @lang('Authenticate')
+            {{ __('Authenticate') }}
         </button>
     </div>
 
     @if ($message = session()->get('authenticatePasskey::message'))
-        <div class="text-danger">
-            @lang($message)
-        </div>
+        <div class="text-danger">{{ __($message) }}</div>
     @endif
 
-    <a class="text-body text-decoration-underline small text-center mt-3 d-block" href="{{ route(app()->getLocale() . '::otp-login') }}">@lang('Authenticate with a password.')</a>
+    <a class="text-body text-decoration-underline small text-center mt-3 d-block" href="{{ route(app()->getLocale() . '::otp-login') }}">{{ __('Authenticate with a password.') }}</a>
 </div>

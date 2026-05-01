@@ -7,37 +7,35 @@
 <div class="mb-3">
     <div class="form-check">
         {!! Form::checkbox('checked_permissions[]', 'see navbar')->id('permission-see-navbar')->addClass('form-check-input') !!}
-        <label class="form-check-label" for="permission-see-navbar">@lang('See navbar')</label>
+        <label class="form-check-label" for="permission-see-navbar">{{ __('See navbar') }}</label>
     </div>
     <div class="form-check">
         {!! Form::checkbox('checked_permissions[]', 'see dashboard')->id('permission-see-dashboard')->addClass('form-check-input') !!}
-        <label class="form-check-label" for="permission-see-dashboard">@lang('Access dashboard')</label>
+        <label class="form-check-label" for="permission-see-dashboard">{{ __('Access dashboard') }}</label>
     </div>
     <div class="form-check">
         {!! Form::checkbox('checked_permissions[]', 'read settings')->id('permission-read-settings')->addClass('form-check-input') !!}
-        <label class="form-check-label" for="permission-read-settings">@lang('See settings')</label>
+        <label class="form-check-label" for="permission-read-settings">{{ __('See settings') }}</label>
     </div>
     <div class="form-check">
         {!! Form::checkbox('checked_permissions[]', 'update settings')->id('permission-update-settings')->addClass('form-check-input') !!}
-        <label class="form-check-label" for="permission-update-settings">@lang('Change settings')</label>
+        <label class="form-check-label" for="permission-update-settings">{{ __('Change settings') }}</label>
     </div>
     <div class="form-check">
         {!! Form::checkbox('checked_permissions[]', 'see history')->id('permission-see-history')->addClass('form-check-input') !!}
-        <label class="form-check-label" for="permission-see-history">@lang('See history')</label>
+        <label class="form-check-label" for="permission-see-history">{{ __('See history') }}</label>
     </div>
     <div class="form-check">
         {!! Form::checkbox('checked_permissions[]', 'clear history')->id('permission-clear-history')->addClass('form-check-input') !!}
-        <label class="form-check-label" for="permission-clear-history">@lang('Empty history')</label>
+        <label class="form-check-label" for="permission-clear-history">{{ __('Empty history') }}</label>
     </div>
     <div class="form-check">
         {!! Form::checkbox('checked_permissions[]', 'see unpublished items')->id('permission-see-unpublished-items')->addClass('form-check-input') !!}
-        <label class="form-check-label" for="permission-see-unpublished-items">
-            @lang('Preview unpublished items')
-        </label>
+        <label class="form-check-label" for="permission-see-unpublished-items">{{ __('Preview unpublished items') }}</label>
     </div>
     <div class="form-check">
         {!! Form::checkbox('checked_permissions[]', 'impersonate users')->id('permission-impersonate-users')->addClass('form-check-input') !!}
-        <label class="form-check-label" for="permission-impersonate-users">@lang('Impersonate users')</label>
+        <label class="form-check-label" for="permission-impersonate-users">{{ __('Impersonate users') }}</label>
     </div>
 </div>
 
@@ -50,10 +48,12 @@
                 @foreach ($permissions as $permission => $label)
                     <div class="permissions-modules-item-checkbox checkbox">
                         <div class="form-check">
-                            {!! Form::checkbox('checked_permissions[]', $permission)->id('permission-' . Str::slug($permission))->addClass('form-check-input') !!}
-                            <label class="form-check-label" for="permission-{{ Str::slug($permission) }}">
-                                {{ __($label) }}
-                            </label>
+                            {!!
+                                Form::checkbox('checked_permissions[]', $permission)
+                                    ->id('permission-' . Str::slug($permission))
+                                    ->addClass('form-check-input')
+                            !!}
+                            <label class="form-check-label" for="permission-{{ Str::slug($permission) }}">{{ __($label) }}</label>
                         </div>
                     </div>
                 @endforeach

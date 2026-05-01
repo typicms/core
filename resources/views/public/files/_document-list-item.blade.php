@@ -3,8 +3,7 @@
         <i class="document-list-item-icon icon-file-down"></i>
         <div class="document-list-item-info">
             <span class="document-list-item-filename">{{ $document->presentTitle() }}</span>
-            <small class="document-list-item-meta">({{ mb_strtoupper($document->extension) }},
-                {{ $document->formattedFilesize() }})</small>
+            <small class="document-list-item-meta">({{ mb_strtoupper($document->extension) }}, {{ $document->formattedFilesize() }})</small>
         </div>
     </a>
 </li>

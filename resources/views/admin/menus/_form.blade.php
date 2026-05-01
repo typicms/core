@@ -11,13 +11,17 @@
                 {!! BootForm::text(__('Name'), 'name')->required()->autocomplete('off') !!}
             @endif
 
-            <div class="mb-3">
-                {!! TranslatableBootForm::hidden('status')->value(0) !!}
-                {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}
-            </div>
+            <div class="mb-3">{!! TranslatableBootForm::hidden('status')->value(0) !!} {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}</div>
 
             @if ($model->id)
-                <item-list-tree url-base="/api/menus/{{ $model->id }}/menulinks" fields="id,menu_id,page_id,position,parent_id,status,title,website" table="menulinks" title="menulinks" v-if="$can('read menulinks')" :sub-list="true">
+                <item-list-tree
+                    url-base="/api/menus/{{ $model->id }}/menulinks"
+                    fields="id,menu_id,page_id,position,parent_id,status,title,website"
+                    table="menulinks"
+                    title="menulinks"
+                    v-if="$can('read menulinks')"
+                    :sub-list="true"
+                >
                     <template #top-buttons v-if="$can('create menulinks')">
                         <x-core::create-button :url="route('admin::create-menulink', $model->id)" :label="__('Create menulink')" />
                     </template>
@@ -32,5 +36,4 @@
             </div>
         </div>
     </div>
-
 </div>

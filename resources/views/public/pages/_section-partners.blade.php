@@ -2,10 +2,10 @@
     <div class="partner-list-home">
         <div class="partner-list-home-container">
             <div class="partner-list-home-header">
-                <h2 class="partner-list-home-title">@lang('Partners')</h2>
+                <h2 class="partner-list-home-title">{{ __('Partners') }}</h2>
                 @if (Route::has(app()->getLocale() . '::index-partners'))
                     <div class="partner-list-home-action">
-                        <a class="partner-list-home-action-button" href="{{ route(app()->getLocale() . '::index-partners') }}">@lang('All partners')</a>
+                        <a class="partner-list-home-action-button" href="{{ route(app()->getLocale() . '::index-partners') }}">{{ __('All partners') }}</a>
                     </div>
                 @endif
             </div>

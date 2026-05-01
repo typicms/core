@@ -1,4 +1,4 @@
-<x-layouts.admin :title="$model->presentTitle()" :model="$model">
+<x-layouts.admin :title="$model->presentTitle()" :$model>
     {!! BootForm::open()->put()->action(route('admin::update-{{ slug }}', $model->id))->addClass('form') !!}
     {!! BootForm::bind($model) !!}
     @include('admin::{{ slugPlural }}._form')

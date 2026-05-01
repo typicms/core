@@ -10,7 +10,7 @@
                 {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}
             </div>
             {!! TranslatableBootForm::textarea(__('Summary'), 'summary')->rows(4) !!}
-            <x-core::tiptap-editors :model="$model" name="body" :label="__('Body')" />
+            <x-core::tiptap-editors :$model name="body" :label="__('Body')" />
         </div>
         <div class="col-lg-4">
             <div class="right-column">

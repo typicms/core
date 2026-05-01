@@ -11,9 +11,6 @@
         {!! BootForm::text(__('Name'), 'name')->required()->autocomplete('off') !!}
     @endif
 
-    <div class="mb-3">
-        {!! TranslatableBootForm::hidden('status')->value(0) !!}
-        {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}
-    </div>
-    <x-core::tiptap-editors :model="$model" name="body" :label="__('Body')" />
+    <div class="mb-3">{!! TranslatableBootForm::hidden('status')->value(0) !!} {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}</div>
+    <x-core::tiptap-editors :$model name="body" :label="__('Body')" />
 </div>

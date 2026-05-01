@@ -1,14 +1,18 @@
 <x-core::layouts.admin :title="__('Dashboard')">
     <div class="dashboard">
         <div class="dashboard-header header-bordered">
-            <h1 class="dashboard-header-title">@lang('Welcome, :name!', ['name' => e(auth()->user()->first_name)])</h1>
+            <h1 class="dashboard-header-title">{{ __('Welcome, :name!', ['name' => e(auth()->user()->first_name)]) }}</h1>
         </div>
-        <div class="dashboard-body">
-            {!! $welcomeMessage !!}
-        </div>
+        <div class="dashboard-body">{!! $welcomeMessage !!}</div>
     </div>
     @can('see history')
-        <history fields="history.id,history.created_at,history.title,history.locale,history.historable_id,history.historable_type,history.action,history.user_id" include="historable" :searchable="['title,historable_type,action,user_name']" :sorting="['-created_at']" @can('clear history'):clear-button="true"@endcan>
+        <history
+            fields="history.id,history.created_at,history.title,history.locale,history.historable_id,history.historable_type,history.action,history.user_id"
+            include="historable"
+            :searchable="['title,historable_type,action,user_name']"
+            :sorting="['-created_at']"
+            @can('clear history') :clear-button="true"@endcan
+        >
             <template #columns="{ sortArray }">
                 <item-list-column-header name="created_at" sortable :sort-array="sortArray" :label="$t('Date')"></item-list-column-header>
                 <item-list-column-header name="title" sortable :sort-array="sortArray" :label="$t('Title')"></item-list-column-header>

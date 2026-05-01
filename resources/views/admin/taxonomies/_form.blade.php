@@ -3,8 +3,7 @@
 <div class="form-body">
     <x-core::form-errors />
 
-    {!! BootForm::text(__('Name'), 'name')->required()->autocomplete('off') !!}
-    {!! TranslatableBootForm::text(__('Info for search results'), 'result_string') !!}
+    {!! BootForm::text(__('Name'), 'name')->required()->autocomplete('off') !!} {!! TranslatableBootForm::text(__('Info for search results'), 'result_string') !!}
 
     <x-core::title-and-slug-fields />
 
@@ -12,11 +11,11 @@
 
     {!! Form::hidden('modules[]')->value('') !!}
     @if ($modules)
-        <p class="form-label">@lang('Use in modules')</p>
+        <p class="form-label">{{ __('Use in modules') }}</p>
         @foreach ($modules as $module => $properties)
             <div class="form-check">
                 {!! Form::checkbox('modules[]', $module)->id($module)->addClass('form-check-input') !!}
-                <label class="form-check-label" for="{{ $module }}">@lang(ucfirst($module))</label>
+                <label class="form-check-label" for="{{ $module }}">{{ __(ucfirst($module)) }}</label>
             </div>
         @endforeach
     @endif

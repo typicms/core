@@ -1,12 +1,11 @@
 @props([
     'title' => '',
     'bodyClass' => 'auth-background',
-    'mainClass' => '',
+    'mainClass' => ''
 ])
 
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}" data-bs-theme="auto">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,9 +18,7 @@
 </head>
 
 <body @class([$bodyClass => filled($bodyClass)])>
-    <div id="app" @class([$mainClass => filled($mainClass)])>
-        {{ $slot }}
-    </div>
+    <div id="app" @class([$mainClass => filled($mainClass)])>{{ $slot }}</div>
 
     @include('admin::core._javascript')
 
@@ -32,15 +29,14 @@
     <script type="module">
         alertify.logPosition('bottom right');
         @if (session('message'))
-            alertify.success('{{ session('message') }}');
+        alertify.success('{{ session('message') }}');
         @endif
         @if (session('success'))
-            alertify.success('{{ session('success') }}');
+        alertify.success('{{ session('success') }}');
         @endif
         @if (session('error'))
-            alertify.error('{{ session('error') }}');
+        alertify.error('{{ session('error') }}');
         @endif
     </script>
 </body>
-
 </html>

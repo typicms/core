@@ -1,4 +1,4 @@
-<x-core::layouts.page :page="$page">
+<x-core::layouts.page :$page>
     <x-slot:header-title>
         <h1 class="header-title"><x-core::header-title /></h1>
     </x-slot:header-title>

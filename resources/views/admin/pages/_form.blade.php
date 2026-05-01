@@ -16,9 +16,7 @@
     <div class="row">
         <div class="col-lg-8">
             <div class="row gx-3">
-                <div class="col-md-6">
-                    {!! TranslatableBootForm::text(__('Title'), 'title') !!}
-                </div>
+                <div class="col-md-6">{!! TranslatableBootForm::text(__('Title'), 'title') !!}</div>
                 <div class="col-md-6">
                     @foreach (locales() as $locale)
                         <div class="mb-3 form-group-translation">
@@ -28,10 +26,16 @@
                             </label>
                             <div class="input-group">
                                 <span class="input-group-text">{{ $model->parentUri($locale) }}</span>
-                                <input class="form-control @if ($errors->has('slug.' . $locale)) is-invalid @endif" type="text" name="slug[{{ $locale }}]" id="slug[{{ $locale }}]" value="{{ $model->translate('slug', $locale) }}" data-slug="title[{{ $locale }}]" data-language="{{ $locale }}" />
-                                <button class="btn btn-outline-secondary btn-slug" type="button">
-                                    {{ __('Generate') }}
-                                </button>
+                                <input
+                                    class="form-control @if ($errors->has('slug.' . $locale)) is-invalid @endif"
+                                    type="text"
+                                    name="slug[{{ $locale }}]"
+                                    id="slug[{{ $locale }}]"
+                                    value="{{ $model->translate('slug', $locale) }}"
+                                    data-slug="title[{{ $locale }}]"
+                                    data-language="{{ $locale }}"
+                                />
+                                <button class="btn btn-outline-secondary btn-slug" type="button">{{ __('Generate') }}</button>
                                 {!! $errors->first('slug.' . $locale, '<div class="invalid-feedback">:message</div>') !!}
                             </div>
                         </div>
@@ -39,20 +43,27 @@
                 </div>
             </div>
             {!! TranslatableBootForm::hidden('uri') !!}
-            <div class="mb-3">
-                {!! TranslatableBootForm::hidden('status')->value(0) !!}
-                {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}
-            </div>
+            <div class="mb-3">{!! TranslatableBootForm::hidden('status')->value(0) !!} {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}</div>
 
             @if (!$model->id)
                 {!! BootForm::select(__('Subpage of'), 'parent_id', new TypiCMS\Modules\Core\Models\Page()->allForSelect(withPagesLinkedToAModule: false)) !!}
             @endif
 
-            <x-core::tiptap-editors :model="$model" name="body" :label="__('Body')" />
+            <x-core::tiptap-editors :$model name="body" :label="__('Body')" />
 
             @can('read page_sections')
                 @if ($model->id)
-                    <item-list url-base="/api/pages/{{ $model->id }}/sections" fields="id,image_id,page_id,position,status,title,template" table="page_sections" title="sections" include="image" :sub-list="true" :searchable="['title']" :sorting="['position']" :draggable="$can('update page_sections')">
+                    <item-list
+                        url-base="/api/pages/{{ $model->id }}/sections"
+                        fields="id,image_id,page_id,position,status,title,template"
+                        table="page_sections"
+                        title="sections"
+                        include="image"
+                        :sub-list="true"
+                        :searchable="['title']"
+                        :sorting="['position']"
+                        :draggable="$can('update page_sections')"
+                    >
                         <template #top-buttons v-if="$can('create page_sections')">
                             <x-core::create-button :url="route('admin::create-page_section', $model->id)" :label="__('Create page section')" />
                         </template>
@@ -83,9 +94,7 @@
                             <td><img v-if="model.image" :src="model.thumb" alt="" height="27" /></td>
                             <td>@{{ model.title_translated }}</td>
                             <td>
-                                <span class="badge text-bg-warning">
-                                    @{{ model.template.replace(new RegExp('-', 'g'), ' ') }}
-                                </span>
+                                <span class="badge text-bg-warning">@{{ model.template.replace(new RegExp('-', 'g'), ' ') }}</span>
                             </td>
                         </template>
                     </item-list>
@@ -100,7 +109,7 @@
                 @if ($model->redirect !== 1)
                     <file-manager></file-manager>
                     <file-field type="image" field="image_id" :init-file="{{ $model->image ?? 'null' }}"></file-field>
-                    <file-field type="image" field="og_image_id" :init-file="{{ $model->ogImage ?? 'null' }}" label="@lang('Social Share Image')" hint="1200 × 630 px"></file-field>
+                    <file-field type="image" field="og_image_id" :init-file="{{ $model->ogImage ?? 'null' }}" label="{{ __('Social Share Image') }}" hint="1200 × 630 px"></file-field>
                     <files-field :init-files="{{ $model->files }}"></files-field>
                     {!! TranslatableBootForm::textarea(__('Meta title'), 'meta_title')->rows(2) !!}
                     {!! TranslatableBootForm::textarea(__('Meta description'), 'meta_description')->rows(4) !!}
@@ -115,14 +124,21 @@
                         {!! BootForm::checkbox(__('Private'), 'private') !!}
                     @endif
 
-                    {!! BootForm::hidden('redirect')->value(0) !!}
-                    {!! BootForm::checkbox(__('Redirect to first child'), 'redirect') !!}
+                    {!! BootForm::hidden('redirect')->value(0) !!} {!! BootForm::checkbox(__('Redirect to first child'), 'redirect') !!}
                 </div>
                 @if ($model->redirect !== 1)
-                    {!! BootForm::select(__('Module'), 'module', getModulesForSelect())->disable($model->subpages->count() > 0)->formText($model->subpages->count() ? __('A page containing subpages cannot be linked to a module') : '') !!}
+                    {!!
+                        BootForm::select(__('Module'), 'module', getModulesForSelect())
+                            ->disable($model->subpages->count() > 0)
+                            ->formText($model->subpages->count() ? __('A page containing subpages cannot be linked to a module') : '')
+                    !!}
                     {!! BootForm::select(__('Template'), 'template', pageTemplates()) !!}
                     @if (!$model->id)
-                        {!! BootForm::select(__('Add to menu'), 'add_to_menu', ['' => ''] + TypiCMS\Modules\Core\Models\Menu::all()->pluck('name', 'id')->all(), null, ['class' => 'form-control']) !!}
+                        {!!
+                            BootForm::select(__('Add to menu'), 'add_to_menu', ['' => ''] + TypiCMS\Modules\Core\Models\Menu::all()->pluck('name', 'id')->all(), null, [
+                                'class' => 'form-control',
+                            ])
+                        !!}
                     @endif
                 @endif
             </div>
