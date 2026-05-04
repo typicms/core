@@ -20,13 +20,7 @@ return [
     ModuleServiceProvider::class,
 
     // TypiCMS Modules Service Providers.
-    TypiCMS\Modules\News\Providers\ModuleServiceProvider::class,
-    TypiCMS\Modules\Places\Providers\ModuleServiceProvider::class,
-    TypiCMS\Modules\Partners\Providers\ModuleServiceProvider::class,
-    TypiCMS\Modules\Events\Providers\ModuleServiceProvider::class,
-    TypiCMS\Modules\Projects\Providers\ModuleServiceProvider::class,
-    TypiCMS\Modules\Slides\Providers\ModuleServiceProvider::class,
-    TypiCMS\Modules\Contacts\Providers\ModuleServiceProvider::class,
+    // TypiCMS\Modules\News\Providers\ModuleServiceProvider::class,
 
     // Application Service Providers.
     AppServiceProvider::class,
