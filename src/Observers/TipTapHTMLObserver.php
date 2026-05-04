@@ -12,14 +12,30 @@ class TipTapHTMLObserver
 {
     public function saving(mixed $model): void
     {
-        if (property_exists($model, 'tipTapContent')) {
-            foreach ($model->tipTapContent as $richTextElement) {
-                $contents = $model->getTranslations($richTextElement);
-                foreach ($contents as $locale => $content) {
-                    $patchedContent = $this->patchTipTapHTML($content, $locale);
-                    $model->setTranslation($richTextElement, $locale, $patchedContent);
+        if (! property_exists($model, 'tipTapContent')) {
+            return;
+        }
+
+        $isTranslatable = method_exists($model, 'getTranslations')
+            && method_exists($model, 'setTranslation');
+
+        foreach ($model->tipTapContent as $richTextElement) {
+            if ($isTranslatable) {
+                foreach ($model->getTranslations($richTextElement) as $locale => $content) {
+                    $model->setTranslation(
+                        $richTextElement,
+                        $locale,
+                        $this->patchTipTapHTML($content, $locale),
+                    );
                 }
+
+                continue;
             }
+
+            $model->{$richTextElement} = $this->patchTipTapHTML(
+                $model->{$richTextElement},
+                app()->getLocale(),
+            );
         }
     }
 
