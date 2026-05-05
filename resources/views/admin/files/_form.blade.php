@@ -3,22 +3,30 @@
 <div class="form-body">
     <x-core::form-errors />
 
-    {!! BootForm::hidden('id') !!} {!! BootForm::hidden('type') !!} {!! BootForm::hidden('position')->value($model->position ?: 0) !!} {!! BootForm::hidden('path') !!} {!! BootForm::hidden('extension') !!} {!! BootForm::hidden('mimetype') !!} {!! BootForm::hidden('width') !!} {!! BootForm::hidden('height') !!}
+    <x-bootform::hidden name="id" />
+    <x-bootform::hidden name="type" />
+    <x-bootform::hidden name="position" :value="$model->position ?: 0" />
+    <x-bootform::hidden name="path" />
+    <x-bootform::hidden name="extension" />
+    <x-bootform::hidden name="mimetype" />
+    <x-bootform::hidden name="width" />
+    <x-bootform::hidden name="height" />
 
     @if ($model->type === 'f')
-        {!! BootForm::text(__('Name'), 'name')->autocomplete('off') !!}
+        <x-bootform::text :label="__('Name')" name="name" autocomplete="off" />
     @else
         <div class="row gx-3">
             <div class="col-lg-6">
-                {!! TranslatableBootForm::text(__('Title'), 'title') !!} {!! TranslatableBootForm::textarea(__('Description'), 'description') !!}
+                <x-transbootform::text :label="__('Title')" name="title" />
+                <x-transbootform::textarea :label="__('Description')" name="description" />
 
                 @if ($model->type === 'i')
-                    {!! TranslatableBootForm::text(__('Alt attribute'), 'alt_attribute') !!}
+                    <x-transbootform::text :label="__('Alt attribute')" name="alt_attribute" />
                 @endif
 
-                {!! BootForm::text(__('Display name'), 'name')->autocomplete('off') !!}
+                <x-bootform::text :label="__('Display name')" name="name" autocomplete="off" />
 
-                {!! BootForm::file(__('Replace file'), 'file') !!}
+                <x-bootform::file :label="__('Replace file')" name="file" />
             </div>
 
             <div class="col-lg-6">

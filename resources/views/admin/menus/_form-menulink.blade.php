@@ -12,15 +12,25 @@
     <x-core::form-errors />
     <div class="row">
         <div class="col-lg-8">
-            {!! BootForm::hidden('id') !!} {!! BootForm::hidden('menu_id')->value($menu->id) !!} {!! BootForm::hidden('position') !!} {!! BootForm::hidden('parent_id') !!} {!! TranslatableBootForm::text(__('Title'), 'title') !!}
-            <div class="mb-3">{!! TranslatableBootForm::hidden('status')->value(0) !!} {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}</div>
-            {!! TranslatableBootForm::textarea(__('Description'), 'description')->rows(3) !!} {!! BootForm::select(__('Page'), 'page_id', new TypiCMS\Modules\Core\Models\Page()->allForSelect()) !!} {!! BootForm::select(__('Section'), 'section_id', ['' => '']) !!} {!! TranslatableBootForm::text(__('Website'), 'website')->type('url')->placeholder('https://') !!} {!! BootForm::select(__('Target'), 'target', ['' => __('Active tab'), '_blank' => __('New tab')]) !!}
+            <x-bootform::hidden name="id" />
+            <x-bootform::hidden name="menu_id" :value="$menu->id" />
+            <x-bootform::hidden name="position" />
+            <x-bootform::hidden name="parent_id" />
+            <x-transbootform::text :label="__('Title')" name="title" />
+            <div class="mb-3">
+                <x-transbootform::checkbox :label="__('Published')" name="status" :unchecked-value="0" />
+            </div>
+            <x-transbootform::textarea :label="__('Description')" name="description" rows="3" />
+            <x-bootform::select :label="__('Page')" name="page_id" :options="new TypiCMS\Modules\Core\Models\Page()->allForSelect()" />
+            <x-bootform::select :label="__('Section')" name="section_id" :options="['' => '']" />
+            <x-transbootform::text :label="__('Website')" name="website" type="url" placeholder="https://" />
+            <x-bootform::select :label="__('Target')" name="target" :options="['' => __('Active tab'), '_blank' => __('New tab')]" />
         </div>
         <div class="col-lg-4">
             <div class="right-column">
                 <file-manager></file-manager>
                 <file-field type="image" field="image_id" :init-file="{{ $model->image ?? 'null' }}"></file-field>
-                {!! BootForm::text(__('Class'), 'class') !!}
+                <x-bootform::text :label="__('Class')" name="class" />
             </div>
         </div>
     </div>

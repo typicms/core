@@ -68,15 +68,19 @@
         @endforeach
 
         @if (!config('typicms.welcome_message_url'))
-            {!! BootForm::textarea(__('Administration Welcome Message'), 'welcome_message')->rows(3) !!}
+            <x-bootform::textarea :label="__('Administration Welcome Message')" name="welcome_message" rows="3" />
         @endif
 
-        {!! BootForm::hidden('auth_public')->value(0) !!} {!! BootForm::hidden('register')->value(0) !!}
+        <x-bootform::hidden name="auth_public" :value="0" />
+        <x-bootform::hidden name="register" :value="0" />
 
         <div class="row">
             <div class="col-lg-12">
                 <h2 class="my-3">{{ __('Contact') }}</h2>
-                {!! BootForm::text(__('Name'), 'contact_name') !!} {!! BootForm::text(__('Phone'), 'contact_phone') !!} {!! BootForm::text(__('Address'), 'contact_address') !!} {!! BootForm::text(__('Email'), 'contact_email') !!}
+                <x-bootform::text :label="__('Name')" name="contact_name" />
+                <x-bootform::text :label="__('Phone')" name="contact_phone" />
+                <x-bootform::text :label="__('Address')" name="contact_address" />
+                <x-bootform::text :label="__('Email')" name="contact_email" />
             </div>
         </div>
     </div>

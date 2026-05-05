@@ -4,7 +4,7 @@
     <x-core::form-errors />
 
     @if (!$model->id)
-        {!! BootForm::text(__('Key'), 'key')->required() !!}
+        <x-bootform::text :label="__('Key')" name="key" required />
     @endif
 
     <p class="form-label">{{ __('Translations') }}</p>

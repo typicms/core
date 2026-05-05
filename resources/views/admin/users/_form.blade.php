@@ -4,46 +4,66 @@
     <x-core::form-errors />
 
     <div class="row gx-3">
-        <div class="col-sm-6">{!! BootForm::text(__('First name'), 'first_name')->required()->autocomplete('off') !!}</div>
-        <div class="col-sm-6">{!! BootForm::text(__('Last name'), 'last_name')->required()->autocomplete('off') !!}</div>
+        <div class="col-sm-6">
+            <x-bootform::text :label="__('First name')" name="first_name" required autocomplete="off" />
+        </div>
+        <div class="col-sm-6">
+            <x-bootform::text :label="__('Last name')" name="last_name" required autocomplete="off" />
+        </div>
     </div>
 
     <div class="row gx-3">
-        <div class="col">{!! BootForm::email(__('Email'), 'email')->autocomplete('off')->required() !!}</div>
-        <div class="col">{!! BootForm::text(__('Phone'), 'phone')->autocomplete('off') !!}</div>
+        <div class="col">
+            <x-bootform::email :label="__('Email')" name="email" autocomplete="off" required />
+        </div>
+        <div class="col">
+            <x-bootform::text :label="__('Phone')" name="phone" autocomplete="off" />
+        </div>
     </div>
 
     <div class="row gx-3">
-        <div class="col">{!! BootForm::text(__('Street'), 'street') !!}</div>
-        <div class="col-md-2">{!! BootForm::text(__('Number'), 'number') !!}</div>
-        <div class="col-md-2">{!! BootForm::text(__('Box'), 'box') !!}</div>
+        <div class="col">
+            <x-bootform::text :label="__('Street')" name="street" />
+        </div>
+        <div class="col-md-2">
+            <x-bootform::text :label="__('Number')" name="number" />
+        </div>
+        <div class="col-md-2">
+            <x-bootform::text :label="__('Box')" name="box" />
+        </div>
     </div>
 
     <div class="row gx-3">
-        <div class="col">{!! BootForm::text(__('Postal code'), 'postal_code')->autocomplete('off') !!}</div>
-        <div class="col">{!! BootForm::text(__('City'), 'city') !!}</div>
-        <div class="col">{!! BootForm::text(__('Country'), 'country')->autocomplete('off') !!}</div>
+        <div class="col">
+            <x-bootform::text :label="__('Postal code')" name="postal_code" autocomplete="off" />
+        </div>
+        <div class="col">
+            <x-bootform::text :label="__('City')" name="city" />
+        </div>
+        <div class="col">
+            <x-bootform::text :label="__('Country')" name="country" autocomplete="off" />
+        </div>
     </div>
 
     <div class="row gx-3">
         <div class="col-6 col-lg-2">
-            {!!
-                BootForm::select(
-                    __('Interface language'),
-                    'locale',
-                    ['' => ''] + collect(adminLocales())->mapWithKeys(fn(string $locale): array => [$locale => __('languages.' . $locale)])->all(),
-                )->required()
-            !!}
+            <x-bootform::select
+                :label="__('Interface language')"
+                name="locale"
+                :options="['' => ''] + collect(adminLocales())->mapWithKeys(fn(string $locale): array => [$locale => __('languages.' . $locale)])->all()"
+                required
+            />
         </div>
     </div>
 
-    <div class="mb-3">{!! BootForm::hidden('activated')->value(0) !!} {!! BootForm::checkbox(__('Activated'), 'activated') !!}</div>
+    <div class="mb-3">
+        <x-bootform::checkbox :label="__('Activated')" name="activated" :unchecked-value="0" />
+    </div>
 
     <div class="mb-3">
         <p class="form-label">{{ __('Roles') }}</p>
         @if (auth()->user()->isSuperUser())
-            {!! BootForm::hidden('superuser')->value(0) !!}
-            {!! BootForm::checkbox(__('Superuser'), 'superuser') !!}
+            <x-bootform::checkbox :label="__('Superuser')" name="superuser" :unchecked-value="0" />
         @endif
 
         @if ($roles->count() > 0)

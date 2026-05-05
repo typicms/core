@@ -6,11 +6,13 @@
     <x-core::form-errors />
 
     @if ($model->id)
-        {!! BootForm::hidden('name') !!}
+        <x-bootform::hidden name="name" />
     @else
-        {!! BootForm::text(__('Name'), 'name')->required()->autocomplete('off') !!}
+        <x-bootform::text :label="__('Name')" name="name" required autocomplete="off" />
     @endif
 
-    <div class="mb-3">{!! TranslatableBootForm::hidden('status')->value(0) !!} {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}</div>
+    <div class="mb-3">
+        <x-transbootform::checkbox :label="__('Published')" name="status" :unchecked-value="0" />
+    </div>
     <x-core::tiptap-editors :$model name="body" :label="__('Body')" />
 </div>

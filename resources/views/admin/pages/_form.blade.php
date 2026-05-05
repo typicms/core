@@ -1,3 +1,5 @@
+@use(TypiCMS\Modules\Core\Models\Page)
+
 @if (!$model->id)
     @push('js')
         <script type="module">
@@ -16,7 +18,9 @@
     <div class="row">
         <div class="col-lg-8">
             <div class="row gx-3">
-                <div class="col-md-6">{!! TranslatableBootForm::text(__('Title'), 'title') !!}</div>
+                <div class="col-md-6">
+                    <x-transbootform::text :label="__('Title')" name="title" />
+                </div>
                 <div class="col-md-6">
                     @foreach (locales() as $locale)
                         <div class="mb-3 form-group-translation">
@@ -42,11 +46,15 @@
                     @endforeach
                 </div>
             </div>
-            {!! TranslatableBootForm::hidden('uri') !!}
-            <div class="mb-3">{!! TranslatableBootForm::hidden('status')->value(0) !!} {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}</div>
+
+            <x-transbootform::hidden name="uri" />
+
+            <div class="mb-3">
+                <x-transbootform::checkbox :label="__('Published')" name="status" :unchecked-value="0" />
+            </div>
 
             @if (!$model->id)
-                {!! BootForm::select(__('Subpage of'), 'parent_id', new TypiCMS\Modules\Core\Models\Page()->allForSelect(withPagesLinkedToAModule: false)) !!}
+                <x-bootform::select :label="__('Subpage of')" name="parent_id" :options="new Page()->allForSelect(withPagesLinkedToAModule: false)" />
             @endif
 
             <x-core::tiptap-editors :$model name="body" :label="__('Body')" />
@@ -106,39 +114,32 @@
 
         <div class="col-lg-4">
             <div class="right-column">
-                @if ($model->redirect !== 1)
+                @if (!$model->redirect)
                     <file-manager></file-manager>
                     <file-field type="image" field="image_id" :init-file="{{ $model->image ?? 'null' }}"></file-field>
                     <file-field type="image" field="og_image_id" :init-file="{{ $model->ogImage ?? 'null' }}" label="{{ __('Social Share Image') }}" hint="1200 × 630 px"></file-field>
                     <files-field :init-files="{{ $model->files }}"></files-field>
-                    {!! TranslatableBootForm::textarea(__('Meta title'), 'meta_title')->rows(2) !!}
-                    {!! TranslatableBootForm::textarea(__('Meta description'), 'meta_description')->rows(4) !!}
-                    {!! TranslatableBootForm::text(__('Meta keywords'), 'meta_keywords') !!}
+                    <x-transbootform::textarea :label="__('Meta title')" name="meta_title" rows="2" />
+                    <x-transbootform::textarea :label="__('Meta description')" name="meta_description" rows="4" />
+                    <x-transbootform::text :label="__('Meta keywords')" name="meta_keywords" />
                 @endif
 
                 <div class="mb-3">
-                    @if ($model->redirect !== 1)
-                        {!! BootForm::hidden('is_home')->value(0) !!}
-                        {!! BootForm::checkbox(__('Is home'), 'is_home') !!}
-                        {!! BootForm::hidden('private')->value(0) !!}
-                        {!! BootForm::checkbox(__('Private'), 'private') !!}
+                    @if (!$model->redirect)
+                        <x-bootform::checkbox :label="__('Is home')" name="is_home" :unchecked-value="0" />
+                        <x-bootform::checkbox :label="__('Private')" name="private" :unchecked-value="0" />
                     @endif
-
-                    {!! BootForm::hidden('redirect')->value(0) !!} {!! BootForm::checkbox(__('Redirect to first child'), 'redirect') !!}
+                    <x-bootform::checkbox :label="__('Redirect to first child')" name="redirect" :unchecked-value="0" />
                 </div>
-                @if ($model->redirect !== 1)
-                    {!!
-                        BootForm::select(__('Module'), 'module', getModulesForSelect())
-                            ->disable($model->subpages->count() > 0)
-                            ->formText($model->subpages->count() ? __('A page containing subpages cannot be linked to a module') : '')
-                    !!}
-                    {!! BootForm::select(__('Template'), 'template', pageTemplates()) !!}
+                @if (!$model->redirect)
+                    @if ($model->subpages->count() > 0)
+                        <x-bootform::select :label="__('Module')" name="module" :options="getModulesForSelect()" disabled :help="__('A page containing subpages cannot be linked to a module')" />
+                    @else
+                        <x-bootform::select :label="__('Module')" name="module" :options="getModulesForSelect()" />
+                    @endif
+                    <x-bootform::select :label="__('Template')" name="template" :options="pageTemplates()" />
                     @if (!$model->id)
-                        {!!
-                            BootForm::select(__('Add to menu'), 'add_to_menu', ['' => ''] + TypiCMS\Modules\Core\Models\Menu::all()->pluck('name', 'id')->all(), null, [
-                                'class' => 'form-control',
-                            ])
-                        !!}
+                        <x-bootform::select :label="__('Add to menu')" name="add_to_menu" :options="['' => ''] + TypiCMS\Modules\Core\Models\Menu::all()->pluck('name', 'id')->all()" />
                     @endif
                 @endif
             </div>

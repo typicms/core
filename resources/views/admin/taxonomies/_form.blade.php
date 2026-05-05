@@ -3,13 +3,14 @@
 <div class="form-body">
     <x-core::form-errors />
 
-    {!! BootForm::text(__('Name'), 'name')->required()->autocomplete('off') !!} {!! TranslatableBootForm::text(__('Info for search results'), 'result_string') !!}
+    <x-bootform::text :label="__('Name')" name="name" required autocomplete="off" />
+    <x-transbootform::text :label="__('Info for search results')" name="result_string" />
 
     <x-core::title-and-slug-fields />
 
-    {!! BootForm::text(__('Validation rule'), 'validation_rule')->placeholder('required|array|size:2')->required() !!}
+    <x-bootform::text :label="__('Validation rule')" name="validation_rule" placeholder="required|array|size:2" required />
 
-    {!! Form::hidden('modules[]')->value('') !!}
+    <x-bootform::hidden name="modules[]" value="" />
     @if ($modules)
         <p class="form-label">{{ __('Use in modules') }}</p>
         @foreach ($modules as $module => $properties)

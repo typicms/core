@@ -11,20 +11,25 @@
     <x-core::form-errors />
 
     <div class="row gx-3">
-        <div class="col-sm-6">{!! BootForm::text(__('First name'), 'first_name')->required()->autocomplete('off') !!}</div>
-        <div class="col-sm-6">{!! BootForm::text(__('Last name'), 'last_name')->required()->autocomplete('off') !!}</div>
+        <div class="col-sm-6">
+            <x-bootform::text :label="__('First name')" name="first_name" required autocomplete="off" />
+        </div>
+        <div class="col-sm-6">
+            <x-bootform::text :label="__('Last name')" name="last_name" required autocomplete="off" />
+        </div>
     </div>
 
     <div class="row gx-3">
-        <div class="col-sm-6">{!! BootForm::email(__('Email'), 'email')->autocomplete('off')->required() !!}</div>
         <div class="col-sm-6">
-            {!!
-                BootForm::select(
-                    __('Interface language'),
-                    'locale',
-                    collect(adminLocales())->mapWithKeys(fn(string $locale): array => [$locale => __('languages.' . $locale)])->all(),
-                )->required()
-            !!}
+            <x-bootform::email :label="__('Email')" name="email" autocomplete="off" required />
+        </div>
+        <div class="col-sm-6">
+            <x-bootform::select
+                :label="__('Interface language')"
+                name="locale"
+                :options="collect(adminLocales())->mapWithKeys(fn(string $locale): array => [$locale => __('languages.' . $locale)])->all()"
+                required
+            />
         </div>
     </div>
 
