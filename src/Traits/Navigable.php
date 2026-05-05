@@ -20,19 +20,22 @@ trait Navigable
 
     public function adjacent(int $direction, ?int $category_id = null): ?Model
     {
-        $models = static::query()
+        $columns = ['id', 'slug', 'title'];
+        if ($category_id){
+            $columns[] = 'category_id';
+        }
+        $collection = static::query()
             ->published()
+            ->when($category_id, fn ($query) => $query->where('category_id', $category_id))
             ->order()
-            ->get(['id', 'slug', 'title']);
+            ->get($columns);
 
-        foreach ($models as $key => $model) {
-            if ($this->id === $model->id) {
-                $adjacentKey = $key + $direction;
+        $key = $collection->search(fn (self $model): bool => $model->id === $this->id);
 
-                return $models[$adjacentKey] ?? null;
-            }
+        if ($key === false) {
+            return null;
         }
 
-        return null;
+        return $collection[$key + $direction] ?? null;
     }
 }
