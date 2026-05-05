@@ -1,8 +1,4 @@
-@extends('public::pages.master')
-
-@section('bodyClass', 'body-{{ slugPlural }} body-{{ slugPlural }}-index body-page body-page-' . $page->id)
-
-@section('page')
+<x-core::layouts.page :page="$page" :body-class="'body-{{ slugPlural }} body-{{ slugPlural }}-index body-page body-page-' . $page->id">
     <x-core::json-ld :schema="[
         '@context' => 'https://schema.org',
         '@type' => 'ItemList',
@@ -25,4 +21,4 @@
             @includeWhen($models->count() > 0, 'public::{{ slugPlural }}._list', ['items' => $models])
         </div>
     </div>
-@endsection
+</x-core::layouts.page>
