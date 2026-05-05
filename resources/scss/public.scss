@@ -25,13 +25,12 @@
 @import 'public/pagination';
 @import 'public/document-list';
 @import 'public/image-list';
+
 @import '/node_modules/photoswipe/dist/photoswipe';
+@import 'public/swiper';
 
 @import 'public/footer';
 @import 'public/anchor-top';
-
-@import 'public/swiper';
-@import 'public/navbar-hide-left-button';
 
 @media screen and (prefers-reduced-motion: no-preference) {
     @view-transition {
