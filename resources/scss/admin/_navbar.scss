@@ -8,12 +8,11 @@
     }
     &-brand {
         @extend .btn;
-        --bs-btn-active-border-color: transparent;
         padding: 0;
+        display: block;
         font-size: 1.25rem;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 50%;
         &:focus-visible {
             @extend .focus-ring;
         }
