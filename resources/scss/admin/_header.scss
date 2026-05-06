@@ -1,5 +1,8 @@
 .header {
     @extend .card-header;
+    @include media-breakpoint-down(lg) {
+        border-radius: 0 !important;
+    }
     &-bordered {
         @include media-breakpoint-up(lg) {
             @include bordered-card-edge(top);
