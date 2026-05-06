@@ -1,6 +1,6 @@
 <x-core::layouts.admin title="Error 404" body-class="error-404">
     <div class="error">
-        <div class="error-header">
+        <div class="error-header error-header-bordered">
             <h1 class="error-title">{{ __('Error :code', ['code' => '404']) }}</h1>
         </div>
         <div class="error-body">

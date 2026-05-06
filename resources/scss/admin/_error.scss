@@ -1,8 +1,13 @@
 .error {
     @extend .card;
-    width: 100%;
+    @include media-breakpoint-down(lg) {
+        margin: $grid-gutter-width;
+    }
     &-header {
         @extend .card-header;
+        &-bordered {
+            @include bordered-card-edge(top);
+        }
     }
     &-title {
         @extend .card-title;
