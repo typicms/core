@@ -1,28 +1,25 @@
 .auth-background {
     display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    align-items: center;
+    justify-content: center;
+    padding: $spacer;
 }
 .auth {
-    @extend .body;
-    margin: 5vh auto 0;
+    @extend .card;
     padding-top: 3rem;
     max-width: 36rem;
-    @include media-breakpoint-up(sm) {
-        box-shadow: $box-shadow;
-        margin-top: 14vh;
-    }
+    box-shadow: $box-shadow;
+    margin-bottom: 2rem;
     &-sm {
         max-width: 26rem;
     }
     &-title {
         @extend .visually-hidden;
     }
-
     &-form {
         padding: 2rem 3rem 3rem;
+        text-wrap: balance;
     }
-
     &-back-to-website {
         display: flex;
         justify-content: center;
@@ -38,7 +35,6 @@
             color: var(--bs-tertiary-color);
         }
     }
-
     &-header {
         text-align: center;
         &-logo {
@@ -48,14 +44,10 @@
             height: auto;
         }
     }
-
     .alert-not-a-member {
+        @include bordered-card-edge(bottom);
         padding: $spacer;
         background-color: var(--bs-tertiary-bg);
-        margin-bottom: 0;
-        @include media-breakpoint-up(lg) {
-            @include bordered-card-edge(bottom);
-        }
     }
 }
 

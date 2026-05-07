@@ -1,7 +1,6 @@
 @props([
     'title' => '',
     'bodyClass' => '',
-    'mainClass' => 'main',
     'page' => null,
     'model' => null
 ])
@@ -28,7 +27,7 @@
 >
     <x-core::navbar :$page :$model />
 
-    <div id="app" @class([$mainClass => filled($mainClass)])>
+    <div id="app" class="main">
         @isset($sidebar)
             {{ $sidebar }}
         @else

@@ -1,7 +1,6 @@
 @props([
     'title' => '',
-    'bodyClass' => 'auth-background',
-    'mainClass' => ''
+    'bodyClass' => 'auth-background'
 ])
 
 <!DOCTYPE html>
@@ -18,7 +17,7 @@
 </head>
 
 <body @class([$bodyClass => filled($bodyClass)])>
-    <div id="app" @class([$mainClass => filled($mainClass)])>{{ $slot }}</div>
+    {{ $slot }}
 
     @include('admin::core._javascript')
 

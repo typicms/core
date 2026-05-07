@@ -49,6 +49,7 @@ figure {
     }
     figcaption {
         @extend .figure-caption;
+        margin-top: $paragraph-margin-bottom * 0.5;
     }
 }
 
@@ -67,30 +68,39 @@ blockquote {
         margin-left: -0.5rem;
     }
 }
+
 .rich-content {
     img {
-        @include img-fluid;
-    }
-    img,
-    figure {
-        &[style*='float:left'] {
-            margin-right: 20px;
-            margin-bottom: 20px;
-            @include media-breakpoint-down(sm) {
-                float: none !important;
-                display: block;
-                margin-right: 0;
-                width: 100%;
-            }
+        object-fit: cover;
+        margin-bottom: $paragraph-margin-bottom;
+        &:not(.custom-size) {
+            width: 100%;
+            height: auto;
         }
-        &[style*='float:right'] {
-            margin-left: 20px;
-            margin-bottom: 20px;
-            @include media-breakpoint-down(sm) {
-                float: none !important;
-                display: block;
-                margin-left: 0;
-                width: 100%;
+    }
+    figure {
+        margin-bottom: $paragraph-margin-bottom * 0.5;
+        img {
+            margin-bottom: 0;
+        }
+    }
+    figure,
+    img {
+        border-radius: var(--bs-border-radius-lg);
+        @each $direction, $opposite in (left: right, right: left) {
+            &[style*='float:#{$direction}'],
+            &[style*='float: #{$direction}'] {
+                max-width: 40%;
+
+                @include media-breakpoint-down(sm) {
+                    float: none !important;
+                    display: block;
+                    max-width: 100%;
+                }
+
+                @include media-breakpoint-up(sm) {
+                    margin-#{$opposite}: $paragraph-margin-bottom;
+                }
             }
         }
     }
@@ -101,7 +111,7 @@ blockquote {
 }
 
 [data-youtube-video],
-[data-iframe-wrapper] {
+[data-media-embed] {
     margin-bottom: $paragraph-margin-bottom;
     iframe {
         aspect-ratio: 16 / 9;

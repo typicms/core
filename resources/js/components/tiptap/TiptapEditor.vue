@@ -59,7 +59,7 @@
                     <li>
                         <p class="dropdown-header text-uppercase fw-light">{{ t('Paragraph Style') }}</p>
                     </li>
-                    <li v-for="blockStyle in blockStyles">
+                    <li v-for="blockStyle in blockStyles" :key="`${blockStyle.tag}-${blockStyle.class}`">
                         <button
                             type="button"
                             class="dropdown-item small d-flex gap-1 align-items-center"
@@ -73,40 +73,44 @@
                             {{ t(blockStyle.label) }}
                         </button>
                     </li>
-                    <li v-if="editor.isActive('bulletList')">
-                        <p class="dropdown-header text-uppercase fw-light">{{ t('List Style') }}</p>
-                    </li>
-                    <li v-for="listStyle in listStyles" v-if="editor.isActive('bulletList')">
-                        <button
-                            type="button"
-                            class="dropdown-item small d-flex gap-1 align-items-center"
-                            :class="{ active: editor.isActive(listStyle.tag, { class: listStyle.class }) }"
-                            @click="
-                                editor.isActive(listStyle.tag, { class: listStyle.class })
-                                    ? editor.chain().focus().updateAttributes(listStyle.tag, { class: null }).run()
-                                    : editor.chain().focus().updateAttributes(listStyle.tag, { class: listStyle.class }).run()
-                            "
-                        >
-                            {{ t(listStyle.label) }}
-                        </button>
-                    </li>
-                    <li v-if="editor.isActive('link')">
-                        <p class="dropdown-header text-uppercase fw-light">{{ t('Link Style') }}</p>
-                    </li>
-                    <li v-for="linkStyle in linkStyles" v-if="editor.isActive('link')">
-                        <button
-                            type="button"
-                            class="dropdown-item small d-flex gap-1 align-items-center"
-                            :class="{ active: editor.isActive('link', { class: linkStyle.class }) }"
-                            @click="
-                                editor.isActive('link', { class: linkStyle.class })
-                                    ? editor.commands.updateAttributes('link', { class: null })
-                                    : editor.commands.updateAttributes('link', { class: linkStyle.class })
-                            "
-                        >
-                            {{ t(linkStyle.label) }}
-                        </button>
-                    </li>
+                    <template v-if="editor.isActive('bulletList')">
+                        <li>
+                            <p class="dropdown-header text-uppercase fw-light">{{ t('List Style') }}</p>
+                        </li>
+                        <li v-for="listStyle in listStyles" :key="`${listStyle.tag}-${listStyle.class}`">
+                            <button
+                                type="button"
+                                class="dropdown-item small d-flex gap-1 align-items-center"
+                                :class="{ active: editor.isActive(listStyle.tag, { class: listStyle.class }) }"
+                                @click="
+                                    editor.isActive(listStyle.tag, { class: listStyle.class })
+                                        ? editor.chain().focus().updateAttributes(listStyle.tag, { class: null }).run()
+                                        : editor.chain().focus().updateAttributes(listStyle.tag, { class: listStyle.class }).run()
+                                "
+                            >
+                                {{ t(listStyle.label) }}
+                            </button>
+                        </li>
+                    </template>
+                    <template v-if="editor.isActive('link')">
+                        <li>
+                            <p class="dropdown-header text-uppercase fw-light">{{ t('Link Style') }}</p>
+                        </li>
+                        <li v-for="linkStyle in linkStyles" :key="`${linkStyle.tag}-${linkStyle.class}`">
+                            <button
+                                type="button"
+                                class="dropdown-item small d-flex gap-1 align-items-center"
+                                :class="{ active: editor.isActive('link', { class: linkStyle.class }) }"
+                                @click="
+                                    editor.isActive('link', { class: linkStyle.class })
+                                        ? editor.commands.updateAttributes('link', { class: null })
+                                        : editor.commands.updateAttributes('link', { class: linkStyle.class })
+                                "
+                            >
+                                {{ t(linkStyle.label) }}
+                            </button>
+                        </li>
+                    </template>
                 </ul>
             </div>
             <div class="tiptap-separator"></div>
@@ -218,6 +222,39 @@
             >
                 <indent-decrease-icon size="18" stroke-width="1.5" />
             </button>
+            <template v-if="textAlign">
+                <div class="tiptap-separator"></div>
+                <button
+                    v-tooltip
+                    type="button"
+                    class="tiptap-button"
+                    :title="t('Align Left')"
+                    :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }"
+                    @click="editor.chain().focus().setTextAlign('left').run()"
+                >
+                    <align-left-icon size="18" stroke-width="1.5" />
+                </button>
+                <button
+                    v-tooltip
+                    type="button"
+                    class="tiptap-button"
+                    :title="t('Align Center')"
+                    :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }"
+                    @click="editor.chain().focus().setTextAlign('center').run()"
+                >
+                    <align-center-icon size="18" stroke-width="1.5" />
+                </button>
+                <button
+                    v-tooltip
+                    type="button"
+                    class="tiptap-button"
+                    :title="t('Align Right')"
+                    :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }"
+                    @click="editor.chain().focus().setTextAlign('right').run()"
+                >
+                    <align-right-icon size="18" stroke-width="1.5" />
+                </button>
+            </template>
             <div class="tiptap-separator"></div>
             <button v-tooltip type="button" class="tiptap-button" :title="t('Link')" :class="{ 'is-active': editor.isActive('link') }" :disabled="editor.isActive('image')" @click="openLinkDialog">
                 <link2-icon size="18" stroke-width="1.5" />
@@ -451,23 +488,12 @@
         <div class="rich-content-container-border">
             <editor-content class="rich-content-container" :editor="editor" :data-language="locale" />
         </div>
-        <textarea v-if="editor" :name="name" class="d-none">{{ editor.getHTML() }}</textarea>
-        <tiptap-link-dialog :id="'link-dialog-' + id + '-' + locale" v-model:link="link" v-model:show="linkDialogOpened" @save="setLink"></tiptap-link-dialog>
-        <tiptap-image-dialog :id="'image-dialog-' + id + '-' + locale" v-model:image="image" v-model:captioned="imageCaptioned" v-model:show="imageDialogOpened" @save="setImage"></tiptap-image-dialog>
-        <tiptap-iframe-dialog
-            :id="'youtube-dialog-' + id + '-' + locale"
-            v-model:video="youtube"
-            v-model:show="youtubeDialogOpened"
-            :title="t('YouTube Video')"
-            @save="addYoutube"
-        ></tiptap-iframe-dialog>
-        <tiptap-iframe-dialog :id="'iframe-dialog-' + id + '-' + locale" v-model:video="iframe" v-model:show="iframeDialogOpened" :title="t('Media embed')" @save="addIframe"></tiptap-iframe-dialog>
-        <tiptap-source-code-dialog
-            :id="'source-code-dialog-' + id + '-' + locale"
-            v-model:html="sourceCodeHtml"
-            v-model:show="sourceCodeDialogOpened"
-            @save="setSourceCode"
-        ></tiptap-source-code-dialog>
+        <textarea v-if="editor" :name="name" class="d-none" :value="editor.getHTML()"></textarea>
+        <tiptap-link-dialog :id="'link-dialog-' + id" v-model:link="link" v-model:show="linkDialogOpened" @save="setLink"></tiptap-link-dialog>
+        <tiptap-image-dialog :id="'image-dialog-' + id" v-model:image="image" v-model:captioned="imageCaptioned" v-model:show="imageDialogOpened" @save="setImage"></tiptap-image-dialog>
+        <tiptap-iframe-dialog :id="'youtube-dialog-' + id" v-model:video="youtube" v-model:show="youtubeDialogOpened" :title="t('YouTube Video')" @save="addYoutube"></tiptap-iframe-dialog>
+        <tiptap-iframe-dialog :id="'iframe-dialog-' + id" v-model:video="iframe" v-model:show="iframeDialogOpened" :title="t('Media embed')" @save="addIframe"></tiptap-iframe-dialog>
+        <tiptap-source-code-dialog :id="'source-code-dialog-' + id" v-model:html="sourceCodeHtml" v-model:show="sourceCodeDialogOpened" @save="setSourceCode"></tiptap-source-code-dialog>
     </div>
 </template>
 
@@ -506,6 +532,9 @@ export default {};
 
 <script setup>
 import {
+    AlignCenterIcon,
+    AlignLeftIcon,
+    AlignRightIcon,
     BetweenHorizontalEndIcon,
     BetweenHorizontalStartIcon,
     BetweenVerticalEndIcon,
@@ -547,6 +576,7 @@ import Paragraph from '@tiptap/extension-paragraph';
 import Subscript from '@tiptap/extension-subscript';
 import Superscript from '@tiptap/extension-superscript';
 import { TableKit } from '@tiptap/extension-table';
+import TextAlign from '@tiptap/extension-text-align';
 import Typography from '@tiptap/extension-typography';
 import Youtube from '@tiptap/extension-youtube';
 import StarterKit from '@tiptap/starter-kit';
@@ -583,7 +613,9 @@ const sourceCodeHtml = ref('');
 const sourceCodeDialogOpened = ref(false);
 
 const id = computed(() => {
-    return String(props.name).replace(/[^a-z0-9]/g, '');
+    return String(props.name)
+        .replace(/[^a-z0-9]/g, '-')
+        .replace(/-+$/, '');
 });
 
 const props = defineProps({
@@ -601,6 +633,37 @@ const props = defineProps({
     initContent: {
         type: String,
         default: '',
+    },
+    textAlign: {
+        type: Boolean,
+        default: false,
+    },
+    headingLevels: {
+        type: Array,
+        default: () => [1, 2, 3, 4, 5, 6],
+    },
+    blockStyles: {
+        type: Array,
+        default: () => [
+            { tag: 'paragraph', class: 'lead', label: 'Lead Paragraph' },
+            { tag: 'paragraph', class: 'alert alert-info', label: 'Alert Info' },
+            { tag: 'paragraph', class: 'alert alert-warning', label: 'Alert Warning' },
+            { tag: 'paragraph', class: 'alert alert-success', label: 'Alert Success' },
+            { tag: 'paragraph', class: 'alert alert-danger', label: 'Alert Danger' },
+        ],
+    },
+    listStyles: {
+        type: Array,
+        default: () => [{ tag: 'bulletList', class: 'arrow-list', label: 'Arrow List' }],
+    },
+    linkStyles: {
+        type: Array,
+        default: () => [
+            { tag: 'a', class: 'btn btn-primary', label: 'Button Primary' },
+            { tag: 'a', class: 'btn btn-secondary', label: 'Button Secondary' },
+            { tag: 'a', class: 'btn btn-outline-primary', label: 'Button Outline Primary' },
+            { tag: 'a', class: 'btn btn-outline-secondary', label: 'Button Outline Secondary' },
+        ],
     },
 });
 
@@ -659,29 +722,12 @@ const transformHtml = (html) => {
 
 const content = ref(transformHtml(props.initContent));
 
-const blockStyles = [
-    { tag: 'paragraph', class: 'lead', label: 'Lead Paragraph' },
-    { tag: 'paragraph', class: 'alert alert-info', label: 'Alert Info' },
-    { tag: 'paragraph', class: 'alert alert-warning', label: 'Alert Warning' },
-    { tag: 'paragraph', class: 'alert alert-success', label: 'Alert Success' },
-    { tag: 'paragraph', class: 'alert alert-danger', label: 'Alert Danger' },
-];
-
-const listStyles = [{ tag: 'bulletList', class: 'arrow-list', label: 'Arrow List' }];
-
-const linkStyles = [
-    { tag: 'a', class: 'btn btn-primary', label: 'Button Primary' },
-    { tag: 'a', class: 'btn btn-secondary', label: 'Button Secondary' },
-    { tag: 'a', class: 'btn btn-outline-primary', label: 'Button Outline Primary' },
-    { tag: 'a', class: 'btn btn-outline-secondary', label: 'Button Outline Secondary' },
-];
-
 const activeBlockStyle = computed(() => {
     if (!editor.value) {
         return null;
     }
 
-    return blockStyles.find((style) => editor.value.isActive(style.tag, { class: style.class })) || null;
+    return props.blockStyles.find((style) => editor.value.isActive(style.tag, { class: style.class })) || null;
 });
 
 const activeListStyle = computed(() => {
@@ -689,7 +735,7 @@ const activeListStyle = computed(() => {
         return null;
     }
 
-    return listStyles.find((style) => editor.value.isActive(style.tag, { class: style.class })) || null;
+    return props.listStyles.find((style) => editor.value.isActive(style.tag, { class: style.class })) || null;
 });
 
 const activeLinkStyle = computed(() => {
@@ -697,10 +743,8 @@ const activeLinkStyle = computed(() => {
         return null;
     }
 
-    return linkStyles.find((style) => editor.value.isActive('link', { class: style.class })) || null;
+    return props.linkStyles.find((style) => editor.value.isActive('link', { class: style.class })) || null;
 });
-
-const headingLevels = [2, 3, 4, 5];
 
 const CustomParagraph = Paragraph.extend({
     addAttributes() {
@@ -762,6 +806,32 @@ const CustomImage = Image.extend({
                     };
                 },
             },
+            dataOriginalWidth: {
+                default: null,
+                parseHTML: (element) => element.getAttribute('data-original-width'),
+                renderHTML: (attributes) => {
+                    if (!attributes.dataOriginalWidth) {
+                        return {};
+                    }
+
+                    return {
+                        'data-original-width': attributes.dataOriginalWidth,
+                    };
+                },
+            },
+            dataOriginalHeight: {
+                default: null,
+                parseHTML: (element) => element.getAttribute('data-original-height'),
+                renderHTML: (attributes) => {
+                    if (!attributes.dataOriginalHeight) {
+                        return {};
+                    }
+
+                    return {
+                        'data-original-height': attributes.dataOriginalHeight,
+                    };
+                },
+            },
         };
     },
 });
@@ -780,7 +850,7 @@ const editor = useEditor({
             paragraph: false,
             bulletList: false,
             heading: {
-                levels: headingLevels,
+                levels: props.headingLevels,
             },
             link: {
                 openOnClick: false,
@@ -812,6 +882,13 @@ const editor = useEditor({
         TableKit.configure({
             table: { resizable: false },
         }),
+        ...(props.textAlign
+            ? [
+                  TextAlign.configure({
+                      types: ['heading', 'paragraph'],
+                  }),
+              ]
+            : []),
     ],
     content: content.value,
 });
@@ -856,6 +933,8 @@ const openImageDialog = function () {
         alt: imageAttrs.alt,
         width: imageAttrs.width,
         height: imageAttrs.height,
+        dataOriginalWidth: imageAttrs.dataOriginalWidth,
+        dataOriginalHeight: imageAttrs.dataOriginalHeight,
         align: align,
         customSize: (isFigure ? figureAttrs.class : imageAttrs.class)?.includes('custom-size') || false,
     };
@@ -888,6 +967,8 @@ const setImage = function () {
                                     alt: image.value.alt,
                                     width: image.value.width,
                                     height: image.value.height,
+                                    dataOriginalWidth: image.value.dataOriginalWidth,
+                                    dataOriginalHeight: image.value.dataOriginalHeight,
                                     class: imageClass,
                                 },
                             },
@@ -913,6 +994,8 @@ const setImage = function () {
                         alt: image.value.alt,
                         width: image.value.width,
                         height: image.value.height,
+                        dataOriginalWidth: image.value.dataOriginalWidth,
+                        dataOriginalHeight: image.value.dataOriginalHeight,
                         style: style,
                         class: imageClass,
                     })
@@ -930,6 +1013,8 @@ const setImage = function () {
                         alt: image.value.alt,
                         width: image.value.width,
                         height: image.value.height,
+                        dataOriginalWidth: image.value.dataOriginalWidth,
+                        dataOriginalHeight: image.value.dataOriginalHeight,
                         class: imageClass,
                     })
                     .run();
@@ -948,6 +1033,8 @@ const setImage = function () {
                             alt: image.value.alt,
                             width: image.value.width,
                             height: image.value.height,
+                            dataOriginalWidth: image.value.dataOriginalWidth,
+                            dataOriginalHeight: image.value.dataOriginalHeight,
                             style: style,
                             class: imageClass,
                         },

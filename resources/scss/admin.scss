@@ -49,9 +49,7 @@ html {
 }
 body {
     min-height: 100%;
-    @include media-breakpoint-up(lg) {
-        background-color: var(--bs-tertiary-bg);
-    }
+    background-color: var(--bs-tertiary-bg);
 }
 @include color-mode(dark) {
     body {

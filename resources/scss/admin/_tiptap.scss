@@ -78,18 +78,9 @@
     }
 
     img {
-        height: auto;
-        max-width: 100%;
-        width: 100%;
         &.ProseMirror-selectednode {
             box-shadow: 0 0 $focus-ring-blur $focus-ring-width $focus-ring-color;
         }
-    }
-
-    img.custom-size {
-        width: revert-layer;
-        height: auto;
-        max-width: 100%;
     }
 
     code {
@@ -179,15 +170,5 @@
 
     .alert a {
         @extend .alert-link;
-    }
-
-    [data-media-embed],
-    [data-youtube-video] {
-        margin-bottom: $paragraph-margin-bottom;
-        iframe {
-            aspect-ratio: 16 / 9;
-            height: 100%;
-            width: 100%;
-        }
     }
 }
