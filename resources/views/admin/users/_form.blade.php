@@ -50,7 +50,7 @@
             <x-bootform::select
                 :label="__('Interface language')"
                 name="locale"
-                :options="['' => ''] + collect(adminLocales())->mapWithKeys(fn(string $locale): array => [$locale => __('languages.' . $locale)])->all()"
+                :options="collect(adminLocales())->mapWithKeys(fn(string $locale): array => [$locale => __('languages.' . $locale)])->all()"
                 required
             />
         </div>
