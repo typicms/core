@@ -88,7 +88,7 @@
                             <slot name="columns" :sort-array="sortArray"></slot>
                         </tr>
                     </thead>
-                    <draggable
+                    <Draggable
                         v-if="canDrag"
                         :list="data.data"
                         tag="tbody"
@@ -106,7 +106,7 @@
                                 <slot name="table-row" :checked-models="checkedItems" :loading="loading" :model="model" :sort-array="sortArray"></slot>
                             </tr>
                         </template>
-                    </draggable>
+                    </Draggable>
                     <tbody v-else>
                         <tr v-for="model in filteredItems" :key="model.id">
                             <slot name="table-row" :checked-models="checkedItems" :loading="loading" :model="model" :sort-array="sortArray"></slot>
@@ -124,7 +124,7 @@ import { SearchIcon, SheetIcon } from '@lucide/vue';
 import alertify from 'alertify.js';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import draggable from 'vuedraggable';
+import Draggable from 'vuedraggable';
 
 import fetcher from '../admin/fetcher';
 
@@ -456,7 +456,7 @@ async function destroy() {
                         const responseData = await response.json();
                         console.log(responseData);
                         message = responseData.message || message;
-                    } catch (error) {
+                    } catch {
                         // Ignore parse error
                     }
                 }

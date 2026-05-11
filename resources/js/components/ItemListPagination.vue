@@ -70,7 +70,7 @@ function getPages() {
     }
 
     if (props.limit === 0) {
-        return data.last_page;
+        return props.data.last_page;
     }
 
     const delta = props.limit,

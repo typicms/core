@@ -21,12 +21,9 @@
 
 <script setup>
 import Modal from 'bootstrap/js/dist/modal';
-import { computed, onMounted, ref, watch } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { onMounted, ref, watch } from 'vue';
 
 import FileManagerContent from './FileManagerContent.vue';
-
-const { t } = useI18n();
 
 const filePickerModal = ref(null);
 const show = defineModel('show', { default: false });
@@ -79,18 +76,11 @@ function closeModal() {
     show.value = false;
 }
 
-const classes = computed(() => {
-    return {
-        'filemanager-multiple': options.value.multiple,
-        'filemanager-single': options.value.single,
-    };
-});
-
 onMounted(() => {
     filePickerModal.value = new Modal('#filemanager-modal');
 
     const modal = document.querySelector('#filemanager-modal');
-    modal.addEventListener('hide.bs.modal', (event) => {
+    modal.addEventListener('hide.bs.modal', () => {
         document.activeElement.blur();
         show.value = false;
         if (options.value.emitOnClose) {

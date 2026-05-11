@@ -76,7 +76,7 @@ export default class Slug {
         }
 
         // Ensure separator is composable into regexes
-        const sep_esc = opts.separator.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
+        const sep_esc = opts.separator.replace(/([.*+?^=!:${}()|[\]/\\])/g, '\\$1');
         const re_trail = new RegExp('^' + sep_esc + '+|' + sep_esc + '+$', 'g');
         const re_multi = new RegExp(sep_esc + '+', 'g');
 

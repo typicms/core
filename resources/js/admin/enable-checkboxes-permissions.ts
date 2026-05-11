@@ -8,7 +8,7 @@ export default () => {
         wrapper.appendChild(label);
         const headingCheckbox = document.createElement('input');
         headingCheckbox.type = 'checkbox';
-        headingCheckbox.id = `check-all-checkbox-${++index}`;
+        headingCheckbox.id = `check-all-checkbox-${index + 1}`;
         headingCheckbox.classList.add('permissions-modules-item-title-checkbox', 'form-check-input');
         label.prepend(headingCheckbox);
     });

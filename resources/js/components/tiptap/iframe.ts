@@ -10,8 +10,10 @@ export interface IframeOptions {
 }
 
 declare module '@tiptap/core' {
+    // eslint-disable-next-line no-unused-vars
     interface Commands<ReturnType> {
         iframe: {
+            // eslint-disable-next-line no-unused-vars
             setIframe: (options: { src: string }) => ReturnType;
         };
     }

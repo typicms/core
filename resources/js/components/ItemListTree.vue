@@ -178,20 +178,6 @@ const url = computed(() => {
     return props.urlBase + '?' + query.join('&');
 });
 
-const flattenedModels = computed(() => {
-    const flattened = [];
-    function flatten(nodes) {
-        for (const node of nodes) {
-            flattened.push(node.data);
-            if (node.children && node.children.length > 0) {
-                flatten(node.children);
-            }
-        }
-    }
-    flatten(models.value);
-    return flattened;
-});
-
 const numberOfCheckedModels = computed(() => {
     return checkedItems.value.length;
 });
@@ -298,7 +284,7 @@ async function destroy() {
             } else {
                 failCount++;
             }
-        } catch (error) {
+        } catch {
             failCount++;
         }
     }
@@ -378,7 +364,7 @@ async function setStatus(status) {
                 body: JSON.stringify(newData),
             });
             return response.ok ? { success: true } : { success: false };
-        } catch (error) {
+        } catch {
             return { success: false };
         }
     });
@@ -476,7 +462,7 @@ async function toggle(node, event) {
             const responseData = await response.json();
             throw new Error(responseData.message);
         }
-    } catch (error) {
+    } catch {
         alertify.error(t('User preferences couldn’t be set.'));
     }
 }

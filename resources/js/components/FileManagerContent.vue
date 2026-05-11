@@ -93,7 +93,7 @@
                         :disabled="selectedFiles.length !== 1 || (selectedFiles[0].type !== Array.from(props.type)[0] && props.type !== '')"
                         class="btn btn-sm btn-primary filemanager-btn-add btn-add-single"
                         type="button"
-                        @click="selectSingleFile(selectedFiles[0])"
+                        @click="selectSingleFileForEditor(selectedFiles[0])"
                     >
                         {{ t('Select file') }}
                     </button>
@@ -208,19 +208,18 @@ if (sessionStorage.getItem('view')) {
     view.value = JSON.parse(sessionStorage.getItem('view'));
 }
 
+if (sessionStorage.getItem('folder')) {
+    folder.value = JSON.parse(sessionStorage.getItem('folder'));
+}
+
 const url = computed(() => {
     let url = urlBase.value;
     const params = new URLSearchParams();
 
     if (searchString.value) {
         params.append('search', searchString.value);
-    } else {
-        if (sessionStorage.getItem('folder')) {
-            folder.value = JSON.parse(sessionStorage.getItem('folder'));
-        }
-        if (folder.value.id !== '') {
-            params.append('folder_id', folder.value.id);
-        }
+    } else if (folder.value.id !== '') {
+        params.append('folder_id', folder.value.id);
     }
 
     const queryString = params.toString();
@@ -472,7 +471,7 @@ function addSingleFile(item) {
     closeModal();
 }
 
-function selectSingleFile(item) {
+function selectSingleFileForEditor(item) {
     emitter.emit('fileSelected', item);
     closeModal();
 }
@@ -523,7 +522,7 @@ function onDoubleClick(item) {
         addSingleFile(item);
     }
     if ((props.selectSingleFile && item.type === Array.from(props.type)[0]) || props.type === '') {
-        selectSingleFile(item);
+        selectSingleFileForEditor(item);
     }
 }
 
