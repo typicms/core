@@ -204,12 +204,15 @@ class Page extends Model
     /** @return array<int|string, string> */
     public function allForSelect(bool $withPagesLinkedToAModule = true): array
     {
+        $locale = in_array(app()->getLocale(), locales(), true) ? app()->getLocale() : mainLocale();
+
         $pages = static::query()
             ->order()
             ->when(! $withPagesLinkedToAModule, function (Builder $query): void {
                 $query->whereNull('module');
             })
             ->get()
+            ->each(fn (self $page) => $page->setLocale($locale))
             ->nest()
             ->listsFlattened();
 
