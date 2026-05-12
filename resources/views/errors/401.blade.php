@@ -10,7 +10,7 @@
             <p>
                 {{ __('Unauthorized') }}
                 <br />
-                {{ __('Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>']) }}
+                {!! __('Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>']) !!}
             </p>
         </div>
     </div>
