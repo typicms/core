@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Carbon;
 use Override;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
@@ -20,7 +21,7 @@ use TypiCMS\Modules\Core\Traits\HasSlugScope;
 /**
  * @property int $id
  * @property int $historable_id
- * @property string $historable_type
+ * @property string|null $historable_type
  * @property int|null $user_id
  * @property string|null $title
  * @property string|null $locale
@@ -62,6 +63,26 @@ class History extends Model
     public function historable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    /**
+     * Avoid "Class not found" when historable_type points at a missing class.
+     */
+    protected static function booted(): void
+    {
+        static::retrieved(function (self $history): void {
+            $type = $history->getAttributes()['historable_type'] ?? null;
+
+            if ($type === null) {
+                return;
+            }
+
+            $class = Relation::getMorphedModel($type) ?? $type;
+
+            if (! class_exists($class)) {
+                $history->setRelation('historable', null);
+            }
+        });
     }
 
     /** @return BelongsTo<User, $this> */
