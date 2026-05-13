@@ -144,7 +144,7 @@ final class LlmsTxtController extends Controller
                 }
 
                 $url = $item->url($locale);
-                $title = $item->translate('title', $locale);
+                $title = $this->getTitle($item, $locale);
 
                 if ($url && $title) {
                     $lines[] = "- [{$title}]({$url})";
@@ -155,5 +155,16 @@ final class LlmsTxtController extends Controller
         }
 
         return $lines;
+    }
+
+    private function getTitle(Model $item, string $locale): ?string
+    {
+        if (method_exists($item, 'isTranslatableAttribute') && $item->isTranslatableAttribute('title')) {
+            $title = $item->translate('title', $locale);
+        } else {
+            $title = $item->title ?? null;
+        }
+
+        return is_string($title) && $title !== '' ? $title : null;
     }
 }
