@@ -47,15 +47,15 @@
                 <a :href="'mailto:' + model.email">@{{ model.email }}</a>
             </td>
             <td>
-                <span class="badge text-bg-dark" v-if="model.activated">{{ __('Yes') }}</span>
+                <span class="badge bg-warning" v-if="model.activated">{{ __('Yes') }}</span>
                 <span class="badge text-bg-secondary" v-else>{{ __('No') }}</span>
             </td>
             <td>
                 @if (auth()->user()->isSuperUser())
-                    <span class="badge text-bg-dark me-1" v-if="model.superuser">Superuser</span>
+                    <span class="badge text-bg-warning me-1" v-if="model.superuser">Superuser</span>
                 @endif
 
-                <span class="badge text-bg-secondary me-1" v-for="role in model.roles">@{{ role.name }}</span>
+                <span class="badge text-bg-info me-1" v-for="role in model.roles">@{{ role.name }}</span>
             </td>
         </template>
     </item-list>
