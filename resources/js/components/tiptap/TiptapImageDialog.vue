@@ -39,7 +39,17 @@
                         <div class="col">
                             <label :for="props.id + '-height'" class="col-form-label">{{ t('Height') }}</label>
                             <div class="input-group">
-                                <input :id="props.id + '-height'" v-model="height" class="form-control" type="number" min="0" :step="baseline" :disabled="!customSize" @input="setWidth" @change="snapHeight" />
+                                <input
+                                    :id="props.id + '-height'"
+                                    v-model="height"
+                                    class="form-control"
+                                    type="number"
+                                    min="0"
+                                    :step="baseline"
+                                    :disabled="!customSize"
+                                    @input="setWidth"
+                                    @change="snapHeight"
+                                />
                                 <span class="input-group-text">px</span>
                             </div>
                         </div>
