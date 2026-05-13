@@ -21,9 +21,10 @@ trait Navigable
     public function adjacent(int $direction, ?int $category_id = null): ?Model
     {
         $columns = ['id', 'slug', 'title'];
-        if ($category_id){
+        if ($category_id) {
             $columns[] = 'category_id';
         }
+
         $collection = static::query()
             ->published()
             ->when($category_id, fn ($query) => $query->where('category_id', $category_id))

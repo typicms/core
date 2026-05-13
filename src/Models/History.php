@@ -68,6 +68,7 @@ class History extends Model
     /**
      * Avoid "Class not found" when historable_type points at a missing class.
      */
+    #[Override]
     protected static function booted(): void
     {
         static::retrieved(function (self $history): void {

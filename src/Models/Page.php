@@ -212,7 +212,7 @@ class Page extends Model
                 $query->whereNull('module');
             })
             ->get()
-            ->each(fn (self $page) => $page->setLocale($locale))
+            ->each(fn (self $page): Page => $page->setLocale($locale))
             ->nest()
             ->listsFlattened();
 
