@@ -4,7 +4,7 @@
         fields="id,first_name,last_name,email,activated,superuser,roles.name"
         table="users"
         title="users"
-        include="roles"
+        include="roles,rolesCount"
         :translatable="false"
         :publishable="false"
         :exportable="true"
@@ -23,7 +23,7 @@
             <item-list-column-header name="last_name" sortable :sort-array="sortArray" :label="$t('Last name')"></item-list-column-header>
             <item-list-column-header name="email" sortable :sort-array="sortArray" :label="$t('Email')"></item-list-column-header>
             <item-list-column-header name="activated" sortable :sort-array="sortArray" :label="$t('Activated')"></item-list-column-header>
-            <item-list-column-header name="role_names" :label="$t('Roles')"></item-list-column-header>
+            <item-list-column-header name="roles_count" sortable :sort-array="sortArray" :label="$t('Roles')"></item-list-column-header>
         </template>
 
         <template #table-row="{ model, checkedModels, loading }">

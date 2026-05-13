@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\QueryBuilder;
 use TypiCMS\Modules\Core\Filters\FilterOr;
 use TypiCMS\Modules\Core\Models\User;
@@ -27,8 +28,11 @@ final class UsersApiController extends BaseApiController
                 'users.superuser',
                 'roles.name',
             )
-            ->allowedIncludes('roles')
-            ->allowedSorts('first_name', 'last_name', 'email', 'superuser', 'activated')
+            ->allowedIncludes(
+                'roles',
+                AllowedInclude::count('rolesCount'),
+            )
+            ->allowedSorts('first_name', 'last_name', 'email', 'superuser', 'activated', 'roles_count')
             ->allowedFilters(
                 AllowedFilter::custom('first_name,last_name,email', new FilterOr),
             )
