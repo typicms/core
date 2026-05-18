@@ -7,7 +7,7 @@ use TypiCMS\Modules\Core\Models\Page;
 return [
     /*
      |--------------------------------------------------------------------------
-     | Default Social Share image
+     | Default Social Share Image
      |--------------------------------------------------------------------------
      */
     'og_image' => 'resources/images/og-image.png',
@@ -22,9 +22,27 @@ return [
      |
      */
     'locales' => [
-        'en' => 'en_US',
+        'en' => 'en_GB',
         'fr' => 'fr_FR',
         'nl' => 'nl_NL',
+    ],
+
+    /*
+     |--------------------------------------------------------------------------
+     | Admin interface locales
+     |--------------------------------------------------------------------------
+     |
+     | List of locales available for the admin user interface only. These do
+     | not need to be the same as the content locales above. A user can have
+     | their admin UI in a language that is not used for public content
+     | (e.g. English admin while the website is FR/NL only).
+     |
+     */
+    'admin_locales' => [
+        'en' => 'en_GB',
+        'fr' => 'fr_FR',
+        'nl' => 'nl_NL',
+        'es' => 'es_ES',
     ],
 
     /*
@@ -103,6 +121,18 @@ return [
         //         'body',
         //     ],
         // ],
+    ],
+
+    /*
+     |--------------------------------------------------------------------------
+     | llms.txt configuration.
+     |--------------------------------------------------------------------------
+     |
+     | List of menu names whose links are used as key pages in llms.txt.
+     |
+     */
+    'llms_txt' => [
+        'menus' => ['primary'],
     ],
 
     /*
