@@ -408,7 +408,7 @@ function checkPublished() {
     if (props.translatable) {
         statusVar = 'status_translated';
     }
-    checkedItems.value = filteredItems.value.filter((model) => model[statusVar] === 1);
+    checkedItems.value = filteredItems.value.filter((model) => Number(model[statusVar]) === 1);
 }
 
 function checkUnpublished() {
@@ -416,7 +416,7 @@ function checkUnpublished() {
     if (props.translatable) {
         statusVar = 'status_translated';
     }
-    checkedItems.value = filteredItems.value.filter((model) => model[statusVar] === 0);
+    checkedItems.value = filteredItems.value.filter((model) => Number(model[statusVar]) === 0);
 }
 
 async function destroy() {
@@ -597,8 +597,8 @@ async function duplicate() {
 
 async function toggleStatus(model) {
     const translatable = typeof model.status_translated !== 'undefined' ? props.translatable : false,
-        status = translatable ? model.status_translated : model.status,
-        newStatus = Math.abs(status - 1),
+        status = Number(translatable ? model.status_translated : model.status),
+        newStatus = status === 1 ? 0 : 1,
         newData = {
             status: {},
         },

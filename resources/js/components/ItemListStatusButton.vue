@@ -15,10 +15,8 @@ const props = defineProps({
 });
 
 const statusOn = computed(() => {
-    if (typeof props.model.status_translated === 'undefined') {
-        return parseInt(props.model.status) === 1;
-    } else {
-        return props.model.status_translated === 1;
-    }
+    const raw = typeof props.model.status_translated === 'undefined' ? props.model.status : props.model.status_translated;
+
+    return Number(raw) === 1;
 });
 </script>
