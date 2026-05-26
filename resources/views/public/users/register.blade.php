@@ -2,7 +2,9 @@
     <div id="register" class="container-register auth">
         <x-core::auth-header />
 
-        {!! BootForm::open()->addClass('auth-form')->id('registration-form') !!} {!! BootForm::hidden('locale')->value(app()->getLocale()) !!}
+        {!! BootForm::open()->addClass('auth-form')->id('registration-form') !!}
+
+        {!! BootForm::hidden('locale')->value(app()->getLocale()) !!}
 
         <h1 class="auth-title">{{ __('Register') }}</h1>
 

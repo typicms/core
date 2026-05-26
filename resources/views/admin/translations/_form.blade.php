@@ -17,7 +17,9 @@
                     Form::text('translation[' . $locale . ']')
                         ->addClass('form-control')
                         ->addClass($errors->has('translation.' . $locale) ? 'is-invalid' : '')
-                !!} {!! $errors->first('translation.' . $locale, '<div class="invalid-feedback">:message</div>') !!}
+                !!}
+
+                {!! $errors->first('translation.' . $locale, '<div class="invalid-feedback">:message</div>') !!}
             </div>
         </div>
     @endforeach

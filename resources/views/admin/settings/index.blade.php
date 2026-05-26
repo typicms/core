@@ -1,5 +1,7 @@
 <x-core::layouts.admin :title="__('Settings')">
-    {!! BootForm::open()->addClass('form') !!} {!! BootForm::bind($data) !!}
+    {!! BootForm::open()->addClass('form') !!}
+
+    {!! BootForm::bind($data) !!}
 
     <div class="form-header form-header-bordered">
         <div class="form-header-top">
