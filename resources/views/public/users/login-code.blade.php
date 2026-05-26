@@ -8,15 +8,9 @@
 
         <x-core::status />
 
-        {!!
-            BootForm::text(__('One time password'), 'one_time_password')
-                ->addClass('form-control-lg')
-                ->autofocus(true)
-                ->required()
-                ->autocomplete('one-time-code')
-        !!}
+        <x-bootform::text :label="__('One time password')" name="one_time_password" class="form-control-lg" autofocus required autocomplete="one-time-code" />
 
-        <div class="mb-3 d-grid">{!! BootForm::submit(__('Submit'), 'btn-primary')->addClass('btn-lg') !!}</div>
+        <div class="mb-3 d-grid"><x-bootform::submit :value="__('Submit')" type="btn-primary" class="btn-lg" /></div>
 
         {!! BootForm::close() !!}
 
