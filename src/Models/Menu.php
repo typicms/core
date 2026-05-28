@@ -80,7 +80,9 @@ class Menu extends Model
             ->first();
 
         if (! $menu) {
-            Log::info("No menu named “{$name}” found.");
+            if (! app()->isProduction()) {
+                Log::info("No menu named “{$name}” found.");
+            }
 
             return null;
         }
