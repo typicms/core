@@ -33,7 +33,8 @@ foreach (locales() as $lang) {
                 $router
                     ->middleware(['guest'])
                     ->post('register', [RegisterController::class, 'register'])
-                    ->name('register-action');
+                    ->name('register-action')
+                    ->middleware('throttle:5,1');
             }
 
             $router
@@ -47,13 +48,15 @@ foreach (locales() as $lang) {
                     );
                     $router
                         ->post('otp-login', [AuthController::class, 'submitOneTimePasswordLoginForm'])
-                        ->name('send-one-time-password');
+                        ->name('send-one-time-password')
+                        ->middleware('throttle:5,1');
                     $router->get('otp-login-code', [AuthController::class, 'showOneTimePasswordForm'])->name(
                         'login-code',
                     );
                     $router
                         ->post('otp-login-code', [AuthController::class, 'submitOneTimePassword'])
-                        ->name('submit-one-time-password');
+                        ->name('submit-one-time-password')
+                        ->middleware('throttle:5,1');
                 });
             $router
                 ->middleware(['auth'])

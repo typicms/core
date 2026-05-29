@@ -63,10 +63,6 @@ final class AuthController extends Controller
                 ->withErrors(['email' => __('Your account is not activated.')]);
         }
 
-        if ($this->rateLimitHit()) {
-            return back()->withInput($request->only('email'))->withErrors(['$errors' => __('Please try later.')]);
-        }
-
         session(['email' => $this->email]);
 
         $user->sendOneTimePassword();
@@ -115,19 +111,6 @@ final class AuthController extends Controller
         $authenticatableModel = config('auth.providers.users.model');
 
         return $authenticatableModel::query()->where('email', $this->email)->firstOrFail();
-    }
-
-    protected function rateLimitHit(): bool
-    {
-        $rateLimitKey = 'one-time-password-component-send-code.'.$this->email;
-
-        if (RateLimiter::tooManyAttempts($rateLimitKey, 10)) {
-            return true;
-        }
-
-        RateLimiter::hit($rateLimitKey, 60); // 60 seconds decay time
-
-        return false;
     }
 
     public function logout(Request $request): RedirectResponse|JsonResponse
