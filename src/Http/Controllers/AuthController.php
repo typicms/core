@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use Spatie\OneTimePasswords\Rules\OneTimePasswordRule;
+use TypiCMS\Modules\Core\Http\Requests\OneTimePasswordLoginRequest;
 use TypiCMS\Modules\Core\Models\User;
 
 final class AuthController extends Controller
@@ -48,12 +49,8 @@ final class AuthController extends Controller
         return view('public::users.create-passkey');
     }
 
-    protected function submitOneTimePasswordLoginForm(Request $request): RedirectResponse
+    protected function submitOneTimePasswordLoginForm(OneTimePasswordLoginRequest $request): RedirectResponse
     {
-        Validator::make($request->only('email'), [
-            'email' => ['required', 'email:rfc,dns', 'exists:users,email'],
-        ])->validate();
-
         $this->email = (string) $request->string('email');
         $user = $this->findUserOrFail();
 
