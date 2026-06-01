@@ -41,7 +41,7 @@ class MixedLoader extends FileLoader
     {
         try {
             return Translation::query()
-                ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(`translation`, '$.".$locale."')) AS translated")
+                ->selectRaw('JSON_UNQUOTE(JSON_EXTRACT(`translation`, ?)) AS translated', ['$.'.$locale])
                 ->addSelect('key')
                 ->pluck('translated', 'key')
                 ->all();

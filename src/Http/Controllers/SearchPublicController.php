@@ -40,24 +40,21 @@ final class SearchPublicController extends BasePublicController
                     foreach ($columns as $column) {
                         $query->orWhere(function ($query) use ($words, $column, $model): void {
                             foreach ($words as $word) {
-                                $word = addslashes($word);
                                 if (in_array($column, (array) $model->translatable, true)) {
                                     $query
                                         ->published()
                                         ->whereRaw(
                                             'JSON_UNQUOTE(JSON_EXTRACT(`'
                                             .$column
-                                            .'`, \'$.'
-                                            .app()->getLocale()
-                                            ."')) LIKE '%"
-                                            .$word
-                                            ."%' COLLATE utf8mb4_unicode_ci",
+                                            .'`, ?)) LIKE ? COLLATE utf8mb4_unicode_ci',
+                                            ['$.'.app()->getLocale(), '%'.$word.'%'],
                                         );
                                 } else {
                                     $query
                                         ->published()
                                         ->whereRaw(
-                                            '`'.$column."` LIKE '%".$word."%' COLLATE utf8mb4_unicode_ci",
+                                            '`'.$column.'` LIKE ? COLLATE utf8mb4_unicode_ci',
+                                            ['%'.$word.'%'],
                                         );
                                 }
                             }
@@ -67,28 +64,21 @@ final class SearchPublicController extends BasePublicController
                                 $query->published();
                                 $query->whereHas('sections', function ($query) use ($words, $column, $model): void {
                                     foreach ($words as $word) {
-                                        $word = addslashes($word);
                                         if (in_array($column, (array) $model->translatable, true)) {
                                             $query
                                                 ->published()
                                                 ->whereRaw(
                                                     'JSON_UNQUOTE(JSON_EXTRACT(`'
                                                     .$column
-                                                    .'`, \'$.'
-                                                    .app()->getLocale()
-                                                    ."')) LIKE '%"
-                                                    .$word
-                                                    ."%' COLLATE utf8mb4_unicode_ci",
+                                                    .'`, ?)) LIKE ? COLLATE utf8mb4_unicode_ci',
+                                                    ['$.'.app()->getLocale(), '%'.$word.'%'],
                                                 );
                                         } else {
                                             $query
                                                 ->published()
                                                 ->whereRaw(
-                                                    '`'
-                                                    .$column
-                                                    ."` LIKE '%"
-                                                    .$word
-                                                    ."%' COLLATE utf8mb4_unicode_ci",
+                                                    '`'.$column.'` LIKE ? COLLATE utf8mb4_unicode_ci',
+                                                    ['%'.$word.'%'],
                                                 );
                                         }
                                     }
