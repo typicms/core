@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Services;
 
+use enshrined\svgSanitize\Sanitizer;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -30,6 +31,10 @@ class FileUploader
 
         $filename = "$filenameWithoutExtension.$extension";
 
+        if ($extension === 'svg') {
+            $this->sanitizeSvg($file);
+        }
+
         $dimensions = getimagesize($file);
         [$width, $height] = $dimensions !== false ? $dimensions : [0, 0];
 
@@ -47,6 +52,17 @@ class FileUploader
         $type = Arr::get(config('file.types'), $extension, 'd');
 
         return ['filesize' => $filesize, 'mimetype' => $mimetype, 'extension' => $extension, 'filename' => $filename, 'width' => $width, 'height' => $height, 'path' => $path, 'type' => $type];
+    }
+
+    private function sanitizeSvg(UploadedFile $file): void
+    {
+        $sanitizer = new Sanitizer();
+        $sanitizedContent = $sanitizer->sanitize($file->getContent());
+
+        file_put_contents(
+            $file->getPathname(),
+            $sanitizedContent ?: ''
+        );
     }
 
     private function correctImageOrientation(UploadedFile $file): void
