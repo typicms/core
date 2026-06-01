@@ -9,6 +9,7 @@
         }
     ],
     "require": {
+        "enshrined/svg-sanitize": "^0.22.0",
         "laravel/framework": "~11.0"
     },
     "autoload": {
