@@ -34,12 +34,7 @@ class FileUploader
             $this->sanitizeSvg($file);
         }
 
-        [$width, $height] = getimagesize($file);
-        if ($extension === 'svg') {
-            preg_match("#viewbox=[\"']\d* \d* (\d*) (\d*)#i", $file->getContent(), $d);
-            $width = (float) $d[1];
-            $height = (float) $d[2];
-        }
+        [$width, $height] = $this->getImageDimensions($file, $extension);
 
         $filecounter = 1;
         while (Storage::disk($disk)->exists($path . '/' . $filename)) {
@@ -49,6 +44,29 @@ class FileUploader
         $type = Arr::get(config('file.types'), $extension, 'd');
 
         return compact('filesize', 'mimetype', 'extension', 'filename', 'width', 'height', 'path', 'type');
+    }
+
+    /** @return array{0: float|int, 1: float|int} */
+    private function getImageDimensions(UploadedFile $file, string $extension): array
+    {
+        if ($extension === 'svg') {
+            return $this->getSvgDimensions($file);
+        }
+
+        $dimensions = getimagesize($file);
+
+        return $dimensions !== false ? [$dimensions[0], $dimensions[1]] : [0, 0];
+    }
+
+    /** @return array{0: float, 1: float} */
+    private function getSvgDimensions(UploadedFile $file): array
+    {
+        preg_match("#viewbox=[\"']\d* \d* (\d*) (\d*)#i", $file->getContent(), $matches);
+
+        return [
+            (float) ($matches[1] ?? 0),
+            (float) ($matches[2] ?? 0),
+        ];
     }
 
     private function sanitizeSvg(UploadedFile $file): void
