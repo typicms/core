@@ -7,9 +7,22 @@ namespace TypiCMS\Modules\Core\Http\Requests;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Unique;
 use Override;
+use TypiCMS\Modules\Core\Models\User;
 
 class UsersFormRequest extends AbstractFormRequest
 {
+    #[Override]
+    public function authorize(): bool
+    {
+        $target = $this->route('user');
+
+        if ($target instanceof User && $target->isSuperUser()) {
+            return (bool) $this->user()?->isSuperUser();
+        }
+
+        return true;
+    }
+
     #[Override]
     protected function prepareForValidation(): void
     {
