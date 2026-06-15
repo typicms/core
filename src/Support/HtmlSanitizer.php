@@ -6,6 +6,7 @@ namespace TypiCMS\Modules\Core\Support;
 
 use DOMAttr;
 use DOMComment;
+use DOMDocument;
 use DOMElement;
 use DOMNode;
 
@@ -91,6 +92,40 @@ class HtmlSanitizer
     private const ALLOWED_STYLE_PROPERTIES = [
         'text-align', 'vertical-align', 'width', 'height', 'min-width', 'max-width',
     ];
+
+    public function sanitize(?string $html): string
+    {
+        if ($html === null || trim($html) === '') {
+            return '';
+        }
+
+        $dom = new DOMDocument('1.0', 'UTF-8');
+        libxml_use_internal_errors(true);
+        try {
+            $dom->loadHTML(
+                '<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><body>'
+                .$html
+                .'</body></html>',
+                LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD,
+            );
+
+            $body = $dom->getElementsByTagName('body')->item(0);
+            if (! $body) {
+                return '';
+            }
+
+            $this->sanitizeNode($body);
+
+            $result = '';
+            foreach ($body->childNodes as $child) {
+                $result .= $dom->saveHTML($child);
+            }
+
+            return $result;
+        } finally {
+            libxml_clear_errors();
+        }
+    }
 
     public function sanitizeNode(DOMNode $node): void
     {

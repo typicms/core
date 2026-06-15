@@ -7,6 +7,7 @@ namespace TypiCMS\Modules\Core\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
+use TypiCMS\Modules\Core\Support\HtmlSanitizer;
 
 final class DashboardAdminController extends BaseAdminController
 {
@@ -24,7 +25,8 @@ final class DashboardAdminController extends BaseAdminController
 
     private function fetchWelcomeMessage(): string
     {
-        $fallback = (string) config('typicms.welcome_message');
+        $sanitizer = new HtmlSanitizer;
+        $fallback = $sanitizer->sanitize((string) config('typicms.welcome_message'));
         $url = (string) config('typicms.welcome_message_url');
 
         if ($url === '' || ! $this->isAllowedUrl($url)) {
@@ -34,7 +36,7 @@ final class DashboardAdminController extends BaseAdminController
         $body = rescue(fn () => Http::timeout(2)->get($url)->body());
 
         if ($body !== null) {
-            return strip_tags($body, '<a><strong><em><br><p><ul><ol><li>');
+            return $sanitizer->sanitize($body);
         }
 
         return $fallback;
