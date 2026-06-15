@@ -72,7 +72,7 @@
                         for (let i = 0; i < sections.length; i++) {
                             let option = document.createElement('option');
                             option.value = sections[i].id;
-                            option.innerHTML = sections[i].title_translated + ' (#' + sections[i].id + ')';
+                            option.textContent = sections[i].title_translated + ' (#' + sections[i].id + ')';
                             if (sections[i].id === selectedSectionId) {
                                 option.selected = true;
                             }
