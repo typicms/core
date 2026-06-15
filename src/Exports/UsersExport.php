@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -20,8 +21,10 @@ use TypiCMS\Modules\Core\Models\User;
 /**
  * @implements WithMapping<mixed>
  */
-class UsersExport implements FromCollection, ShouldAutoSize, WithColumnFormatting, WithHeadings, WithMapping
+class UsersExport implements FromCollection, ShouldAutoSize, WithColumnFormatting, WithHeadings, WithMapping, WithStrictNullComparison
 {
+    use EscapesFormulas;
+
     /** @return Collection<int, User> */
     public function collection(): Collection
     {
@@ -47,16 +50,16 @@ class UsersExport implements FromCollection, ShouldAutoSize, WithColumnFormattin
         return [
             Date::dateTimeToExcel($row->created_at),
             Date::dateTimeToExcel($row->updated_at),
-            $row->last_name,
-            $row->first_name,
-            $row->email,
-            $row->phone,
-            $row->street,
-            $row->number,
-            $row->box,
-            $row->postal_code,
-            $row->city,
-            $row->country,
+            $this->escapeFormula($row->last_name),
+            $this->escapeFormula($row->first_name),
+            $this->escapeFormula($row->email),
+            $this->escapeFormula($row->phone),
+            $this->escapeFormula($row->street),
+            $this->escapeFormula($row->number),
+            $this->escapeFormula($row->box),
+            $this->escapeFormula($row->postal_code),
+            $this->escapeFormula($row->city),
+            $this->escapeFormula($row->country),
             $row->locale,
             $row->privacy_policy_accepted,
         ];
