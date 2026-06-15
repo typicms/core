@@ -7,6 +7,7 @@ namespace TypiCMS\Modules\Core\Observers;
 use DOMDocument;
 use DOMElement;
 use DOMXPath;
+use TypiCMS\Modules\Core\Support\HtmlSanitizer;
 
 class TipTapHTMLObserver
 {
@@ -90,6 +91,8 @@ class TipTapHTMLObserver
             if (! $body) {
                 return $content;
             }
+
+            (new HtmlSanitizer)->sanitizeNode($body);
 
             $result = '';
             foreach ($body->childNodes as $child) {
