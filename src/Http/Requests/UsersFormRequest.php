@@ -27,7 +27,7 @@ class UsersFormRequest extends AbstractFormRequest
     protected function prepareForValidation(): void
     {
         if (! $this->user()?->isSuperUser()) {
-            $this->request->remove('superuser');
+            $this->merge(['superuser' => false]);
         }
     }
 
