@@ -83,9 +83,15 @@ final class PagesApiController extends BaseApiController
     /** @return array<int, array{string, string}> */
     public function linksForEditor(Request $request): array
     {
-        $data = Page::query()
+        $query = Page::query()
             ->select(['id', 'parent_id', 'title'])
-            ->order()
+            ->order();
+
+        if ($request->user()->cannot('read pages')) {
+            $query->published()->where('private', false);
+        }
+
+        $data = $query
             ->get()
             ->nest()
             ->listsFlattened();
