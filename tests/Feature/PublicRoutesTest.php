@@ -14,6 +14,10 @@ afterEach(function (): void {
 
 describe('homepage', function (): void {
     test('redirects to default locale', function (): void {
+        if (!config('typicms.main_locale_in_url')) {
+            $this->markTestSkipped('Root URL only redirects when main locale is in URL.');
+        }
+
         $homepage = Page::query()->where('is_home', 1)->firstOrFail();
 
         $this->get('/')->assertRedirect($homepage->url(mainLocale()));
@@ -64,6 +68,8 @@ test('page returns 200', function (): void {
     $page = Page::query()
         ->published()
         ->whereNotNull('slug->en')
+        ->where('redirect', false)
+        ->whereNull('module')
         ->first();
 
     $this->assertNotNull($page, 'No published page with English slug found');
@@ -76,6 +82,8 @@ describe('lang switcher', function (): void {
             ->published()
             ->whereNotNull('slug->en')
             ->whereNotNull('slug->fr')
+            ->whereNull('module')
+            ->where('redirect', false)
             ->firstOrFail();
 
         $enUrl = $page->url('en');

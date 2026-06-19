@@ -1,5 +1,7 @@
 <?php
 
+use TypiCMS\Modules\Core\Models\Page;
+
 beforeEach(function (): void {
     $this->obLevel = ob_get_level();
 });
@@ -10,25 +12,39 @@ afterEach(function (): void {
     }
 });
 
+function publishedPage(): Page
+{
+    $page = Page::query()
+        ->published()
+        ->whereNotNull('slug->' . app()->getLocale())
+        ->where('redirect', false)
+        ->whereNull('module')
+        ->first();
+
+    expect($page)->not->toBeNull('No published page with English slug found');
+
+    return $page;
+}
+
 test('regular browser requests receive HTML responses', function (): void {
-    $this->get('/en')->assertOk()->assertHeader('Content-Type', 'text/html; charset=UTF-8');
+    $this->get(publishedPage()->url())->assertOk()->assertHeader('Content-Type', 'text/html; charset=UTF-8');
 });
 
 test('requests with Accept text/markdown header receive markdown', function (): void {
-    $this->get('/en', ['Accept' => 'text/markdown'])->assertOk()->assertHeader(
+    $this->get(publishedPage()->url(), ['Accept' => 'text/markdown'])->assertOk()->assertHeader(
         'Content-Type',
         'text/markdown; charset=UTF-8',
     );
 });
 
 test('requests from ClaudeBot user agent receive markdown', function (): void {
-    $this->get('/en', [
+    $this->get(publishedPage()->url(), [
         'User-Agent' => 'ClaudeBot/1.0',
     ])->assertOk()->assertHeader('Content-Type', 'text/markdown; charset=UTF-8');
 });
 
 test('requests to .md URLs receive markdown', function (): void {
-    $this->get('/en.md')->assertOk()->assertHeader('Content-Type', 'text/markdown; charset=UTF-8');
+    $this->get(publishedPage()->url() . '.md')->assertOk()->assertHeader('Content-Type', 'text/markdown; charset=UTF-8');
 });
 
 test('admin routes are not affected by markdown middleware', function (): void {
