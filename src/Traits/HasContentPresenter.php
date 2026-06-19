@@ -12,6 +12,12 @@ trait HasContentPresenter
             return '';
         }
 
-        return strip_tags((string) $this->title);
+        $title = (string) $this->title;
+
+        if ($title === '' && method_exists($this, 'isTranslatableAttribute') && $this->isTranslatableAttribute('title')) {
+            $title = (string) collect($this->getTranslations('title'))->first(fn ($value): bool => filled($value));
+        }
+
+        return strip_tags($title);
     }
 }
