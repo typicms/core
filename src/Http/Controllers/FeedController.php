@@ -17,7 +17,7 @@ final class FeedController
         $page = getPageLinkedToModule($module);
         abort_if(is_null($page), 404);
 
-        $model = resolve(ucfirst($module));
+        $model = resolve(config('typicms.modules.'.$module.'.model'));
         $items = $model->published()->order()->take(10)->get();
 
         $feed = [
