@@ -31,6 +31,7 @@
 
     @vite(['resources/scss/public.scss', 'resources/js/public.js'])
 
+    <x-core::hreflang-links :$page :$model />
     <x-core::feed-links />
 
     @stack('css')
