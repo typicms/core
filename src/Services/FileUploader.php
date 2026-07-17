@@ -10,16 +10,29 @@ use Illuminate\Support\Str;
 
 class FileUploader
 {
+    /**
+     * Extensions that are safe to store and serve statically from a public disk.
+     * An extension outside this list must never reach the filesystem: the web
+     * server derives the Content-Type from it, so anything renderable as
+     * markup (html, xhtml, xml…) would execute in the application’s origin.
+     *
+     * @var list<string>
+     */
+    public const SAFE_EXTENSIONS = [
+        'jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'svg', 'eps',
+        'pdf', 'json', 'rtf', 'txt', 'md',
+        'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'ppsx', 'sldx',
+        'mp3', 'wav', 'aac', 'aif', 'aiff', 'm4a',
+        'mp4', 'mov', 'avi',
+        'zip',
+    ];
+
     public function handle(UploadedFile $file, string $path = 'files', ?string $disk = null, ?string $filenameWithoutExtension = null): array
     {
         if ($disk === null) {
             $disk = config('filesystems.default');
         }
-        $extension = mb_strtolower($file->getClientOriginalExtension());
-        if (in_array($extension, ['jpg', 'jpeg', 'jpe'])) {
-            $extension = 'jpg';
-            $this->correctImageOrientation($file);
-        }
+        $extension = $this->normalizeExtension($file);
         $filesize = $file->getSize();
         $mimetype = $file->getClientMimeType();
 
@@ -30,7 +43,7 @@ class FileUploader
 
         $filename = "$filenameWithoutExtension.$extension";
 
-        if ($extension === 'svg') {
+        if ($this->isSvg($file, $extension)) {
             $this->sanitizeSvg($file);
         }
 
@@ -44,6 +57,28 @@ class FileUploader
         $type = Arr::get(config('file.types'), $extension, 'd');
 
         return compact('filesize', 'mimetype', 'extension', 'filename', 'width', 'height', 'path', 'type');
+    }
+
+    private function normalizeExtension(UploadedFile $file): string
+    {
+        $extension = mb_strtolower($file->getClientOriginalExtension());
+        if (!in_array($extension, self::SAFE_EXTENSIONS)) {
+            $extension = mb_strtolower((string) $file->guessExtension());
+        }
+        if (!in_array($extension, self::SAFE_EXTENSIONS)) {
+            $extension = 'bin';
+        }
+        if (in_array($extension, ['jpg', 'jpeg', 'jpe'])) {
+            $extension = 'jpg';
+            $this->correctImageOrientation($file);
+        }
+
+        return $extension;
+    }
+
+    private function isSvg(UploadedFile $file, string $extension): bool
+    {
+        return $extension === 'svg' || $file->guessExtension() === 'svg';
     }
 
     /** @return array{0: float|int, 1: float|int} */
