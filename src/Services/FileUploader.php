@@ -12,6 +12,23 @@ use Illuminate\Support\Str;
 
 class FileUploader
 {
+    /**
+     * Extensions that are safe to store and serve statically from a public disk.
+     * An extension outside this list must never reach the filesystem: the web
+     * server derives the Content-Type from it, so anything renderable as
+     * markup (html, xhtml, xml…) would execute in the application’s origin.
+     *
+     * @var list<string>
+     */
+    public const SAFE_EXTENSIONS = [
+        'jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'svg', 'eps',
+        'pdf', 'json', 'rtf', 'txt', 'md',
+        'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'ppsx', 'sldx',
+        'mp3', 'wav', 'aac', 'aif', 'aiff', 'm4a',
+        'mp4', 'mov', 'avi',
+        'zip',
+    ];
+
     /** @return array<string, mixed> */
     public function handle(
         UploadedFile $file,
@@ -28,7 +45,7 @@ class FileUploader
         $filenameWithoutExtension = $this->removeCroppaPattern($filenameWithoutExtension);
         $filenameWithoutExtension = Str::slug($filenameWithoutExtension) ?: Str::slug(Str::random());
 
-        if ($extension === 'svg') {
+        if ($this->isSvg($file, $extension)) {
             $this->sanitizeSvg($file);
         }
 
@@ -53,12 +70,25 @@ class FileUploader
     {
         $extension = mb_strtolower($file->getClientOriginalExtension());
 
+        if (! in_array($extension, self::SAFE_EXTENSIONS, true)) {
+            $extension = mb_strtolower((string) $file->guessExtension());
+        }
+
+        if (! in_array($extension, self::SAFE_EXTENSIONS, true)) {
+            $extension = 'bin';
+        }
+
         if (in_array($extension, ['jpg', 'jpeg', 'jpe'], true)) {
             $extension = 'jpg';
             $this->correctImageOrientation($file);
         }
 
         return $extension;
+    }
+
+    private function isSvg(UploadedFile $file, string $extension): bool
+    {
+        return $extension === 'svg' || $file->guessExtension() === 'svg';
     }
 
     private function removeCroppaPattern(string $filename): string
