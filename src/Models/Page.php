@@ -174,7 +174,8 @@ class Page extends Model
             $field .= '->'.app()->getLocale();
         }
 
-        $query->where($field, $uri);
+        // whereNotNull() to avoid /en/null match a page whose en uri is null.
+        $query->whereNotNull($field)->where($field, $uri);
     }
 
     /** @param Builder<Model> $query */
@@ -198,7 +199,7 @@ class Page extends Model
             $field .= '->'.app()->getLocale();
         }
 
-        $query->where($field, 'LIKE', $uri);
+        $query->whereNotNull($field)->where($field, 'LIKE', $uri);
     }
 
     /** @return array<int|string, string> */

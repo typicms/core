@@ -19,6 +19,7 @@ trait HasSlugScope
             $field .= '->'.app()->getLocale();
         }
 
-        $query->where($field, $slug);
+        // whereNotNull() to avoid /en/null match a page whose en uri is null.
+        $query->whereNotNull($field)->where($field, $slug);
     }
 }
