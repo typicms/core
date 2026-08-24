@@ -199,7 +199,7 @@ class Page extends Model
             $field .= '->'.app()->getLocale();
         }
 
-        $query->whereNotNull($field)->where($field, 'LIKE', $uri);
+        $query->whereNotNull($field)->whereLike($field, $uri);
     }
 
     /** @return array<int|string, string> */
