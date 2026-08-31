@@ -1,10 +1,11 @@
+@use('TypiCMS\Modules\Core\Support\ModuleUrl')
 @if (($latestNews = TypiCMS\Modules\News\Models\News::query()->published()->with('image')->order()->take(3)->get()) and $latestNews->count() > 0)
     <div class="news-list-home">
         <div class="news-list-home-container">
             <div class="news-list-home-header">
                 <h2 class="news-list-home-title">{{ __('Latest news') }}</h2>
                 <div class="news-list-home-action">
-                    <a class="news-list-home-action-button" href="{{ route(app()->getLocale() . '::index-news') }}">{{ __('All news') }}</a>
+                    <a class="news-list-home-action-button" href="{{ ModuleUrl::index('news') }}">{{ __('All news') }}</a>
                 </div>
             </div>
             @include('public::news._list', ['items' => $latestNews])

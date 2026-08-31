@@ -1,11 +1,12 @@
 @props(['model' => null])
+@use('TypiCMS\Modules\Core\Support\ModuleUrl')
 @php
     $contentLocale = (string) config('typicms.content_locale');
     if (isset($model) && $model->id && $contentLocale) {
         $locale = isLocaleEnabled($contentLocale) ? $contentLocale : app()->getLocale();
         $url = method_exists($model, 'url') ? $model->url($locale) ?? url('/') : url('/');
-    } elseif (($module = Request::segment(2)) and Route::has($contentLocale . '::index-' . $module)) {
-        $url = route($contentLocale . '::index-' . $module);
+    } elseif (($module = Request::segment(2)) and $moduleUrl = ModuleUrl::index($module, $contentLocale)) {
+        $url = $moduleUrl;
     } else {
         $url = url('/');
     }

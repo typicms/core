@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace TypiCMS\Modules\Core\Providers;
 
 use Exception;
+use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Override;
@@ -20,8 +22,11 @@ use TypiCMS\Modules\Core\Commands\Install;
 use TypiCMS\Modules\Core\Commands\Publish;
 use TypiCMS\Modules\Core\Composers\SidebarViewComposer;
 use TypiCMS\Modules\Core\Composers\SidebarViewCreator;
+use TypiCMS\Modules\Core\Http\Middleware\ModulePage;
+use TypiCMS\Modules\Core\Http\Middleware\RewriteModuleUri;
 use TypiCMS\Modules\Core\Models\Page;
 use TypiCMS\Modules\Core\Models\Setting;
+use TypiCMS\Modules\Core\Support\ModuleRoutes;
 
 class ModuleServiceProvider extends ServiceProvider
 {
@@ -32,6 +37,16 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        /*
+         * Modules linked to a page are routed by rewriting the request onto
+         * the internal path they registered their routes under.
+         */
+        $this->app->make(HttpKernel::class)->pushMiddleware(RewriteModuleUri::class);
+        Route::aliasMiddleware('module', ModulePage::class);
+
+        Page::saved(fn () => ModuleRoutes::forgetModulePages());
+        Page::deleted(fn () => ModuleRoutes::forgetModulePages());
+
         if (config('responsecache.enabled')) {
             Event::listen('eloquent.saved:*', fn () => ResponseCache::clear());
             Event::listen('eloquent.deleted:*', fn () => ResponseCache::clear());
@@ -307,12 +322,6 @@ class ModuleServiceProvider extends ServiceProvider
         View::composers([
             SidebarViewComposer::class => 'admin::core._sidebar',
         ]);
-        View::composer('public::search.*', function ($view): void {
-            $view->page = getPageLinkedToModule('search');
-        });
-        View::composer('public::tags.*', function ($view): void {
-            $view->page = getPageLinkedToModule('tags');
-        });
 
         Blade::componentNamespace('TypiCMS\\Modules\\Core\\Http\\Components', 'core');
         Blade::anonymousComponentPath(resource_path('views/admin/components'), 'core');

@@ -1,9 +1,11 @@
-@if (Route::has(app()->getLocale() . '::search'))
+@use('TypiCMS\Modules\Core\Support\ModuleUrl')
+@php($searchUrl = ModuleUrl::index('search'))
+@if ($searchUrl)
     <div class="modal fade modal-xl search-modal" id="search-modal" data-bs-backdrop="static" aria-hidden="true" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="container">
                 <div class="modal-content search-modal-content">
-                    <form class="search-form" method="get" action="{{ route(app()->getLocale() . '::search') }}">
+                    <form class="search-form" method="get" action="{{ $searchUrl }}">
                         <div class="input-group input-group-lg">
                             <input
                                 class="search-form-input form-control"

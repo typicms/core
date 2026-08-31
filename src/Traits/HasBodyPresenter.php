@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Traits;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+use TypiCMS\Modules\Core\Support\ModuleUrl;
 
 trait HasBodyPresenter
 {
@@ -46,10 +46,8 @@ trait HasBodyPresenter
 
             if ($module === 'page') {
                 $replacements[] = $model->url($lang) ?? '';
-            } elseif (Route::has($lang.'::'.$module)) {
-                $replacements[] = route($lang.'::'.$module, $model->slug);
             } else {
-                $replacements[] = '';
+                $replacements[] = ModuleUrl::item(Str::plural($module), $model->slug, $lang) ?? '';
             }
         }
 
