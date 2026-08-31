@@ -6,7 +6,6 @@ namespace TypiCMS\Modules\Core\Providers;
 
 use Exception;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
@@ -36,23 +35,6 @@ class ModuleServiceProvider extends ServiceProvider
         if (config('responsecache.enabled')) {
             Event::listen('eloquent.saved:*', fn () => ResponseCache::clear());
             Event::listen('eloquent.deleted:*', fn () => ResponseCache::clear());
-        }
-
-        /*
-         * Rebuild the cache when a page changes so new or moved pages stay
-         * reachable. Only runs when routes are actually cached (production).
-         */
-        if ($this->app->routesAreCached()) {
-            Page::saved(fn () => Artisan::call('route:cache'));
-            Page::deleted(fn () => Artisan::call('route:cache'));
-        }
-
-        /*
-         * Rebuild the cache when a setting changes.
-         * Only runs when routes are actually cached (production).
-         */
-        if ($this->app->configurationIsCached()) {
-            Setting::saved(fn () => Artisan::call('config:cache'));
         }
 
         /*
