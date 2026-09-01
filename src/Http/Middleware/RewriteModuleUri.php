@@ -40,16 +40,23 @@ class RewriteModuleUri
     }
 
     /**
+     * Rewrite the URI the way the router itself does when it retries a request
+     * without its trailing slash, see CompiledRouteCollection: duplicate the
+     * request, which drops the cached path, then set the new URI on it.
+     *
+     * The query string is carried over untouched rather than read back with
+     * getQueryString(), which sorts and re-encodes it and would change the
+     * full URL the response cache is keyed on.
+     *
      * @param  array{page: Page, locale: string, path: string}  $resolved
      */
     private function rewrite(Request $request, array $resolved): Request
     {
-        $server = $request->server->all();
-        $queryString = $request->getQueryString();
+        $rewritten = $request->duplicate();
 
-        $server['REQUEST_URI'] = '/'.$resolved['path'].($queryString === null ? '' : '?'.$queryString);
+        $query = explode('?', (string) $request->server->get('REQUEST_URI'), 2)[1] ?? null;
 
-        $rewritten = $request->duplicate(null, null, null, null, null, $server);
+        $rewritten->server->set('REQUEST_URI', '/'.$resolved['path'].($query === null ? '' : '?'.$query));
         $rewritten->attributes->set('typicms.module_page', $resolved['page']);
 
         return $rewritten;
