@@ -53,9 +53,15 @@ class ModuleServiceProvider extends ServiceProvider
 
         /*
          * Get configuration from DB and store it in the container.
+         *
+         * The settings are merged over the configuration, not under it, so
+         * that they win. config:cache boots the providers to collect the
+         * configuration, which bakes a copy of the settings into the cached
+         * file; were that copy to win, a setting edited in the admin panel
+         * would do nothing until someone rebuilt the cache.
          */
         config([
-            'typicms' => array_merge(new Setting()->allToArray(), config('typicms', [])),
+            'typicms' => array_merge(config('typicms', []), new Setting()->allToArray()),
         ]);
 
         Gate::before(function ($user) {
