@@ -7,6 +7,7 @@ namespace TypiCMS\Modules\Core\Support;
 use Closure;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Route;
+use Throwable;
 use TypiCMS\Modules\Core\Models\Page;
 
 /**
@@ -112,19 +113,30 @@ class ModuleRoutes
     /**
      * The pages linked to a module, read once per request.
      *
-     * Not the typicms.routes container binding: that one is resolved while
-     * routes are registered, long before a page save in the same request
-     * could change it.
+     * Read on first use rather than while routes are registered, so a page
+     * saved during the request is taken into account, and forgotten again
+     * whenever one of them changes.
      *
      * @return Collection<int, Page>
      */
     public static function modulePages(): Collection
     {
         if (! app()->bound(self::PAGES)) {
-            app()->instance(self::PAGES, Page::query()->whereNotNull('module')->get());
+            app()->instance(self::PAGES, self::readModulePages());
         }
 
         return app(self::PAGES);
+    }
+
+    /** @return Collection<int, Page> */
+    private static function readModulePages(): Collection
+    {
+        try {
+            return Page::query()->whereNotNull('module')->get();
+        } catch (Throwable) {
+            // No database yet, during install or a migration for example.
+            return new Collection;
+        }
     }
 
     /**
@@ -143,7 +155,7 @@ class ModuleRoutes
         $match = null;
         $matchedLength = 0;
 
-        foreach (static::modulePages() as $page) {
+        foreach (self::modulePages() as $page) {
             if ($page->module === null) {
                 continue;
             }

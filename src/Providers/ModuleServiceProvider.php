@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Providers;
 
-use Exception;
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
@@ -385,19 +384,11 @@ class ModuleServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/roles.php', 'typicms.modules.roles');
 
         /*
-         * Register TypiCMS routes.
+         * The pages linked to a module, kept for getPagesLinkedToModule().
+         * Bound, not shared: ModuleRoutes reads them once per request and
+         * forgets them when one of them is saved.
          */
-        $this->app->singleton('typicms.routes', function (): array {
-            try {
-                return Page::query()
-                    ->with('images', 'documents')
-                    ->whereNotNull('module')
-                    ->get()
-                    ->all();
-            } catch (Exception) {
-                return [];
-            }
-        });
+        $this->app->bind('typicms.routes', fn (): array => ModuleRoutes::modulePages()->all());
     }
 
     private function getMigrationFileName(string $name): string
