@@ -88,7 +88,7 @@ class ModuleServiceProvider extends ServiceProvider
         $this->loadViewsFrom([
             resource_path('views/mail'),
             __DIR__.'/../../resources/views/mail',
-        ], 'mail');
+        ], 'mails');
 
         $this->loadViewsFrom([
             resource_path('views/errors'),
