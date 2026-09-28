@@ -13,7 +13,7 @@ class MenuFormRequest extends AbstractFormRequest
     public function rules(): array
     {
         return [
-            'image_id' => ['nullable', 'integer'],
+            'image_id' => ['nullable', 'integer', 'exists:files,id'],
             'name' => ['required', 'max:255', 'alpha_dash', Rule::unique('menus')->ignore($this->route('menu'))],
             'class' => ['nullable', 'max:255'],
             'status.*' => ['boolean'],

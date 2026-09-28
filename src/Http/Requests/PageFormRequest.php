@@ -10,8 +10,8 @@ class PageFormRequest extends AbstractFormRequest
     public function rules(): array
     {
         $rules = [
-            'image_id' => ['nullable', 'integer'],
-            'og_image_id' => ['nullable', 'integer'],
+            'image_id' => ['nullable', 'integer', 'exists:files,id'],
+            'og_image_id' => ['nullable', 'integer', 'exists:files,id'],
             'module' => ['nullable', 'max:255'],
             'template' => ['nullable', 'max:255'],
             'title.*' => ['nullable', 'max:255'],
