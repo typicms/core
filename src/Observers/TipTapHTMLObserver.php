@@ -65,17 +65,16 @@ class TipTapHTMLObserver
                         continue;
                     }
 
-                    $paragraphs = $xpath->query('./p', $li);
-                    if ($paragraphs === false) {
-                        continue;
-                    }
-
-                    if ($paragraphs->length === 0) {
-                        continue;
-                    }
-
-                    $p = $paragraphs->item(0);
+                    /*
+                     * TipTap wraps list item text in a paragraph (<li><p>Text</p></li>): unwrap it,
+                     * but keep the paragraphs of structured list items (<li><h3>Title</h3><p>Text</p></li>).
+                     */
+                    $p = $li->firstElementChild;
                     if (! $p instanceof DOMElement) {
+                        continue;
+                    }
+
+                    if ($p->tagName !== 'p') {
                         continue;
                     }
 
