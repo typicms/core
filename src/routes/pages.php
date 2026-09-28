@@ -55,9 +55,6 @@ Route::middleware('admin')
             ->put('pages/{page}/sections/{section}', [PageSectionsAdminController::class, 'update'])
             ->name('update-page_section')
             ->middleware('can:update page_sections');
-        $router
-            ->post('pages/{page}/sections/sort', [PageSectionsAdminController::class, 'sort'])
-            ->name('sort-page_sections');
 
         $router->get('{uri}', [PagesAdminController::class, 'notFound'])->name('show-404-page-in-admin')->where(
             'uri',
