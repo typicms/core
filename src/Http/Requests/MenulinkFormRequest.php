@@ -10,7 +10,7 @@ class MenulinkFormRequest extends AbstractFormRequest
     public function rules(): array
     {
         return [
-            'image_id' => ['nullable', 'integer'],
+            'image_id' => ['nullable', 'integer', 'exists:files,id'],
             'menu_id' => ['required', 'integer'],
             'parent_id' => ['nullable', 'integer'],
             'page_id' => ['nullable', 'integer'],
