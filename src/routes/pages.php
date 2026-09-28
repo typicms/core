@@ -59,15 +59,6 @@ Route::middleware('admin')
             ->post('pages/{page}/sections/sort', [PageSectionsAdminController::class, 'sort'])
             ->name('sort-page_sections');
 
-        $router
-            ->get('sections', [PageSectionsAdminController::class, 'index'])
-            ->name('index-page_sections')
-            ->middleware('can:read page_sections');
-        $router
-            ->delete('sections/{section}', [PageSectionsAdminController::class, 'destroyMultiple'])
-            ->name('destroy-page_section')
-            ->middleware('can:delete page_sections');
-
         $router->get('{uri}', [PagesAdminController::class, 'notFound'])->name('show-404-page-in-admin')->where(
             'uri',
             '(.*)',
