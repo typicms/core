@@ -12,6 +12,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\ImageManager;
 use TypiCMS\Modules\Core\Http\Requests\FileFormRequest;
 use TypiCMS\Modules\Core\Models\File;
@@ -60,13 +61,13 @@ final class FilesAdminController extends BaseAdminController
         Croppa::delete('storage/'.$file->path);
 
         $manager = new ImageManager(new Driver);
-        $image = $manager->read($croppedImage->getRealPath());
+        $image = $manager->decode($croppedImage->getRealPath());
         $width = $image->width();
         $height = $image->height();
 
         $pathInfo = pathinfo((string) $file->path);
         $path = $pathInfo['dirname'].'/'.$pathInfo['filename'].'-'.time().'.jpg';
-        $encodedImage = $image->toJpeg(quality: 90);
+        $encodedImage = $image->encode(new JpegEncoder(quality: 90));
         Storage::put($path, (string) $encodedImage);
 
         $nameInfo = pathinfo((string) $file->name);
