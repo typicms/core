@@ -82,3 +82,8 @@
         }
     }
 }
+
+// Bootstrap 6 alpha leaves .collapse outside its cascade layers, so this override can't live in `custom`.
+.sidebar-panel-collapse:not(.sidebar-panel-collapse-animated) {
+    transition: none;
+}

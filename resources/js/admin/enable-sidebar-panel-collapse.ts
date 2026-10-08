@@ -23,6 +23,11 @@ export default (): void => {
     document.querySelectorAll('.sidebar-panel-collapse').forEach((panel: Element) => {
         const panelId: string | null = panel?.getAttribute('id');
 
+        // Bootstrap animates every open collapse from zero height on page load; animate user toggles only.
+        ['show.bs.collapse', 'hide.bs.collapse'].forEach((eventName) => {
+            panel.addEventListener(eventName, () => panel.classList.add('sidebar-panel-collapse-animated'));
+        });
+
         if (panelId) {
             panel?.addEventListener('hide.bs.collapse', async () => {
                 await updatePreferences(`menus_${panelId}_collapsed`, 'true');
