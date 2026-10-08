@@ -114,10 +114,6 @@
                 width: 100%;
                 font-size: 0.875rem;
                 text-wrap: balance;
-                .filemanager-item-removable-button {
-                    top: 50%;
-                    margin-top: -0.75rem;
-                }
             }
 
             &-horizontal &-wrapper {
@@ -163,29 +159,13 @@
                 display: inline-block;
                 position: relative;
 
-                &:hover &-button,
-                &:focus &-button {
-                    display: flex;
+                &-button {
+                    flex-shrink: 0;
+                    pointer-events: auto;
                 }
 
-                &-button {
-                    @extend .btn-outline;
-                    @extend .theme-primary;
-                    @extend .btn-xs;
-                    @extend .rounded-pill;
-                    --btn-border-color: var(--fg-body);
-                    --btn-color: var(--fg-body);
-                    --btn-bg: var(--bg-body);
-                    display: none;
-                    position: absolute;
-                    right: 5px;
-                    top: 5px;
-                    pointer-events: auto;
-                    padding: 0;
-                    height: 1.5rem;
-                    width: 1.5rem;
-                    align-items: center;
-                    justify-content: center;
+                &:not(:hover) &-button:not(:focus-visible) {
+                    opacity: 0;
                 }
             }
 

@@ -12,9 +12,6 @@
         <div>
             <div v-if="file" class="filemanager-item filemanager-item-with-name filemanager-item-horizontal filemanager-item-removable">
                 <div class="filemanager-item-wrapper">
-                    <button class="filemanager-item-removable-button" type="button" @click="remove">
-                        <x-icon :size="18" stroke-width="2" />
-                    </button>
                     <div v-if="file.type === 'i'" class="filemanager-item-icon">
                         <img class="filemanager-item-image" :alt="file.alt" :src="file.thumb_sm" />
                     </div>
@@ -25,6 +22,7 @@
                         <folder-icon v-if="file.type === 'f'" size="72" stroke-width="1.25" />
                     </div>
                     <div class="filemanager-item-name">{{ file.name }}</div>
+                    <button class="filemanager-item-removable-button btn-close" type="button" :aria-label="t('Remove')" @click="remove"></button>
                 </div>
             </div>
         </div>
@@ -38,7 +36,7 @@
 </template>
 
 <script setup>
-import { CirclePlusIcon, FileIcon, FileMusicIcon, FileVideo2Icon, FolderIcon, XIcon } from '@lucide/vue';
+import { CirclePlusIcon, FileIcon, FileMusicIcon, FileVideo2Icon, FolderIcon } from '@lucide/vue';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
