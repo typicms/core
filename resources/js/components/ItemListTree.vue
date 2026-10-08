@@ -78,7 +78,7 @@
                         {{ t('Edit') }}
                     </a>
 
-                    <div class="switch switch-sm me-3">
+                    <div class="switch me-3">
                         <input
                             :checked="(translatable ? node.data.status_translated : node.data.status) === 1"
                             :aria-label="t('Published')"
