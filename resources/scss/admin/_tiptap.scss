@@ -70,6 +70,7 @@
     /* Basic editor styles */
     .tiptap {
         @extend .form-control;
+        display: block; // Bootstrap 6 form controls are flex containers.
         border: 1px solid var(--border-color);
         border-radius: $border-radius;
         padding: $input-padding-y $input-padding-x;
