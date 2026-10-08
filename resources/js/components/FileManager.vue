@@ -1,18 +1,8 @@
 <template>
     <div id="filemanager">
-        <div v-if="modal" id="filemanager-modal" class="modal fade" tabindex="-1" aria-labelledby="filemanagerLabel" aria-hidden="true">
-            <div class="filemanager-modal-dialog modal-dialog modal-xl modal-dialog-centered">
-                <div class="filemanager-modal-content modal-content">
-                    <file-manager-content
-                        :single="options.single"
-                        :type="options.type"
-                        :select-single-file="options.selectSingleFile"
-                        :multiple="options.multiple"
-                        :modal="modal"
-                    ></file-manager-content>
-                </div>
-            </div>
-        </div>
+        <dialog v-if="modal" id="filemanager-modal" class="filemanager-dialog dialog dialog-xl" aria-labelledby="filemanagerLabel">
+            <file-manager-content :single="options.single" :type="options.type" :select-single-file="options.selectSingleFile" :multiple="options.multiple" :modal="modal"></file-manager-content>
+        </dialog>
         <div v-else>
             <file-manager-content :single="options.single" :type="options.type" :select-single-file="options.selectSingleFile" :multiple="options.multiple"></file-manager-content>
         </div>
@@ -20,7 +10,7 @@
 </template>
 
 <script setup>
-import Modal from 'bootstrap/js/dist/modal';
+import Dialog from 'bootstrap/js/dist/dialog.js';
 import { onMounted, ref, watch } from 'vue';
 
 import FileManagerContent from './FileManagerContent.vue';
@@ -77,10 +67,10 @@ function closeModal() {
 }
 
 onMounted(() => {
-    filePickerModal.value = new Modal('#filemanager-modal');
+    filePickerModal.value = new Dialog('#filemanager-modal');
 
     const modal = document.querySelector('#filemanager-modal');
-    modal.addEventListener('hide.bs.modal', () => {
+    modal.addEventListener('hide.bs.dialog', () => {
         document.activeElement.blur();
         show.value = false;
         if (options.value.emitOnClose) {

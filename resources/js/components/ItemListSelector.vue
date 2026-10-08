@@ -1,12 +1,12 @@
 <template>
     <div class="btn-group btn-group-sm item-list-selector">
-        <label :class="{ disabled: !filteredModels.length || loading }" class="btn btn-light mb-0">
+        <label :class="{ disabled: !filteredModels.length || loading }" class="btn-solid theme-secondary mb-0">
             <input
                 id="check-all-checkbox"
                 :checked="allChecked"
                 :disabled="!filteredModels.length || loading"
                 :model="allChecked"
-                class="form-check-input"
+                class="check theme-reset"
                 type="checkbox"
                 @click="allChecked ? $emit('check-none') : $emit('check-all')"
             />
@@ -16,22 +16,22 @@
             :disabled="!filteredModels.length || loading"
             aria-expanded="false"
             aria-haspopup="true"
-            class="btn btn-light dropdown-toggle dropdown-toggle-split"
-            data-bs-toggle="dropdown"
+            class="btn-solid theme-secondary menu-toggle-split"
+            data-bs-toggle="menu"
             type="button"
         ></button>
-        <div aria-labelledby="dropdownSelect" class="dropdown-menu">
-            <button class="dropdown-item" type="button" @click="$emit('check-all')">
+        <div aria-labelledby="dropdownSelect" class="menu">
+            <button class="menu-item" type="button" @click="$emit('check-all')">
                 {{ $t('All') }}
             </button>
-            <button class="dropdown-item" type="button" @click="$emit('check-none')">
+            <button class="menu-item" type="button" @click="$emit('check-none')">
                 {{ $t('None') }}
             </button>
-            <div v-if="publishable" class="dropdown-divider"></div>
-            <button v-if="publishable" class="dropdown-item" type="button" @click="$emit('check-published')">
+            <div v-if="publishable" class="menu-divider"></div>
+            <button v-if="publishable" class="menu-item" type="button" @click="$emit('check-published')">
                 {{ $t('Published items') }}
             </button>
-            <button v-if="publishable" class="dropdown-item" type="button" @click="$emit('check-unpublished')">
+            <button v-if="publishable" class="menu-item" type="button" @click="$emit('check-unpublished')">
                 {{ $t('Unpublished items') }}
             </button>
         </div>

@@ -7,16 +7,16 @@
 
     <p class="text-center">{{ __('Use your passkey to confirm it’s really you.') }}</p>
 
-    <div class="mb-3 d-grid">
-        <button class="btn btn-lg btn-primary" onclick="authenticateWithPasskey()">
+    <div class="mb-5 d-grid">
+        <button class="btn-lg btn-solid theme-primary" onclick="authenticateWithPasskey()">
             <i class="icon-key-round"></i>
             {{ __('Authenticate') }}
         </button>
     </div>
 
     @if ($message = session()->get('authenticatePasskey::message'))
-        <div class="text-danger">{{ __($message) }}</div>
+        <div class="fg-danger">{{ __($message) }}</div>
     @endif
 
-    <a class="text-body text-decoration-underline small text-center mt-3 d-block" href="{{ route(app()->getLocale() . '::otp-login') }}">{{ __('Authenticate with a password.') }}</a>
+    <a class="fg-body text-decoration-underline small text-center mt-5 d-block" href="{{ route(app()->getLocale() . '::otp-login') }}">{{ __('Authenticate with a password.') }}</a>
 </div>

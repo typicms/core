@@ -23,7 +23,7 @@
                 <item-list-status-button :model="model"></item-list-status-button>
             </td>
             <td>
-                <span class="badge text-bg-secondary">@{{ model.name }}</span>
+                <span class="badge theme-secondary">@{{ model.name }}</span>
             </td>
             <td>@{{ model.body_translated }}</td>
         </template>

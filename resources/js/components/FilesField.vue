@@ -1,9 +1,9 @@
 <template>
     <div>
         <input :value="fileIds.join()" name="file_ids" type="hidden" />
-        <div class="mb-3">
-            <p class="form-label mb-2">
-                {{ t(label) }} <small v-if="hint" class="text-muted"> ({{ t(hint) }})</small>
+        <div class="mb-5">
+            <p class="form-label mb-3">
+                {{ t(label) }} <small v-if="hint" class="fg-secondary"> ({{ t(hint) }})</small>
             </p>
             <p>
                 <button class="filemanager-field-btn-add" type="button" @click="openFilePicker">

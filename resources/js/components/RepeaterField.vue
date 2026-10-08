@@ -53,7 +53,7 @@
                 :required="required"
                 :value="modelValue"
                 :disabled="disabled"
-                class="form-select"
+                class="form-control"
                 @change="$emit('update:modelValue', $event.target.value)"
             >
                 <option v-for="(label, value) in items" :key="value" :value="value">{{ t(label) }}</option>
@@ -62,8 +62,7 @@
         </div>
         <div v-if="type === 'checkbox'" :class="{ 'form-group-translation': locale !== null }">
             <p class="form-label">{{ fieldLabel }}</p>
-            <div class="form-check">
-                <label :for="fieldId" class="form-check-label">{{ fieldLabel }}</label>
+            <div class="form-field">
                 <input :name="fieldNameComplete" type="hidden" value="0" />
                 <input
                     :id="fieldId"
@@ -75,17 +74,17 @@
                     :type="type"
                     :value="1"
                     :disabled="disabled"
-                    class="form-check-input"
+                    class="check"
                     @change="$emit('update:modelValue', $event.target.checked ? 1 : 0)"
                 />
+                <label :for="fieldId">{{ fieldLabel }}</label>
                 <div v-if="errors.length > 0" class="invalid-feedback">{{ errors[0] }}</div>
             </div>
         </div>
         <div v-if="type === 'radio'" :class="{ 'form-group-translation': locale !== null }">
             <p class="form-label">{{ fieldLabel }}</p>
             <input :name="fieldNameComplete" type="hidden" value="" />
-            <div v-for="(label, radioButtonValue) in items" :key="radioButtonValue" class="form-check">
-                <label :for="fieldId + '_' + radioButtonValue" class="form-check-label">{{ t(label) }}</label>
+            <div v-for="(label, radioButtonValue) in items" :key="radioButtonValue" class="form-field">
                 <input
                     :id="fieldId + '_' + radioButtonValue"
                     :checked="modelValue === radioButtonValue"
@@ -96,9 +95,10 @@
                     :type="type"
                     :value="radioButtonValue"
                     :disabled="disabled"
-                    class="form-check-input"
+                    class="radio"
                     @change="$emit('update:modelValue', radioButtonValue)"
                 />
+                <label :for="fieldId + '_' + radioButtonValue">{{ t(label) }}</label>
                 <div v-if="errors.length > 0" class="invalid-feedback">{{ errors[0] }}</div>
             </div>
         </div>

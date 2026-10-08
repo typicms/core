@@ -1,19 +1,15 @@
-import Modal from 'bootstrap/js/dist/modal';
+import Dialog from 'bootstrap/js/dist/dialog.js';
 
 export default () => {
     document.body.insertAdjacentHTML(
         'beforeend',
-        `<div id="preview-modal" class="modal fade">
-            <div class="preview-modal-dialog modal-dialog modal-xl modal-dialog-centered">
-                <div class="preview-modal-content modal-content">
-                    <iframe class="preview-modal-iframe" id="preview-content"></iframe>
-                    <button class="preview-modal-btn-close btn-close" type="button" id="close-preview" data-bs-dismiss="modal" aria-label="Close window"></button>
-                </div>
-            </div>
-        </div>`,
+        `<dialog id="preview-modal" class="preview-dialog dialog dialog-xl">
+            <iframe class="preview-dialog-iframe" id="preview-content"></iframe>
+            <button class="preview-dialog-btn-close btn-close" type="button" id="close-preview" data-bs-dismiss="dialog" aria-label="Close window"></button>
+        </dialog>`,
     );
 
-    const previewModal = new Modal('#preview-modal');
+    const previewModal = new Dialog('#preview-modal');
     const previewIframe = document.getElementById('preview-content') as HTMLIFrameElement;
     const closeButton = document.getElementById('close-preview');
 

@@ -9,7 +9,7 @@
         <div class="page-body-container">
             <p>{{ __('Too Many Requests') }}</p>
             <p>
-                <a class="btn btn-primary" href="{{ homeUrl() }}">{{ __('Back to homepage') }}</a>
+                <a class="btn-solid theme-primary" href="{{ homeUrl() }}">{{ __('Back to homepage') }}</a>
             </p>
         </div>
     </div>

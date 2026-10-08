@@ -1,7 +1,11 @@
-.footer {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-    &-container {
-        @extend .container-xl;
+@use 'bootstrap/scss/bootstrap' as bs;
+
+@layer custom {
+    .footer {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+        &-container {
+            @extend .xl\:container;
+        }
     }
 }

@@ -4,14 +4,14 @@
     <x-core::form-errors />
 
     <div class="row">
-        <div class="col-lg-8">
+        <div class="lg:col-8">
             @if ($model->id)
                 <x-bootform::hidden name="name" />
             @else
                 <x-bootform::text :label="__('Name')" name="name" required autocomplete="off" />
             @endif
 
-            <div class="mb-3">
+            <div class="mb-5">
                 <x-transbootform::checkbox :label="__('Published')" name="status" :unchecked-value="0" />
             </div>
 
@@ -30,7 +30,7 @@
                 </item-list-tree>
             @endif
         </div>
-        <div class="col-lg-4">
+        <div class="lg:col-4">
             <div class="right-column">
                 <file-manager></file-manager>
                 <file-field type="image" field="image_id" :init-file="{{ $model->image ?? 'null' }}"></file-field>

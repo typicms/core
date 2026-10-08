@@ -1,58 +1,64 @@
-.auth-background {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: $spacer;
-}
-.auth {
-    @extend .card;
-    padding-top: 3rem;
-    max-width: 36rem;
-    box-shadow: $box-shadow;
-    margin-bottom: 2rem;
-    &-sm {
-        max-width: 26rem;
-    }
-    &-title {
-        @extend .visually-hidden;
-    }
-    &-form {
-        padding: 2rem 3rem 3rem;
-        text-wrap: balance;
-    }
-    &-back-to-website {
+@use 'bootstrap/scss/bootstrap' as bs;
+@use 'tools' as *;
+@use 'admin/mixins' as *;
+
+@layer custom {
+    .auth-background {
         display: flex;
+        align-items: center;
         justify-content: center;
-        margin-bottom: 0;
-        &-link {
+        padding: 1.25rem;
+    }
+    .auth {
+        @extend .card;
+        padding-top: 3rem;
+        max-width: 36rem;
+        box-shadow: var(--box-shadow);
+        margin-bottom: 2rem;
+        &-sm {
+            max-width: 26rem;
+        }
+        &-title {
+            @extend .visually-hidden;
+        }
+        &-form {
+            padding: 2rem 3rem 3rem;
+            text-wrap: balance;
+        }
+        &-back-to-website {
             display: flex;
             justify-content: center;
-            align-items: center;
-            gap: 0.25rem;
-            font-size: $font-size-sm;
-            position: absolute;
-            margin-top: 20px;
-            color: var(--bs-tertiary-color);
+            margin-bottom: 0;
+            &-link {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 0.25rem;
+                font-size: var(--font-size-sm);
+                position: absolute;
+                margin-top: 20px;
+                color: var(--fg-4);
+            }
+        }
+        &-header {
+            text-align: center;
+            &-logo {
+                display: block;
+                margin: 0 auto;
+                width: 190px;
+                height: auto;
+            }
+        }
+        .alert-not-a-member {
+            @include bordered-card-edge(bottom);
+            padding: 1.25rem;
+            background-color: var(--bg-2);
         }
     }
-    &-header {
-        text-align: center;
-        &-logo {
-            display: block;
-            margin: 0 auto;
-            width: 190px;
-            height: auto;
-        }
-    }
-    .alert-not-a-member {
-        @include bordered-card-edge(bottom);
-        padding: $spacer;
-        background-color: var(--bs-tertiary-bg);
-    }
-}
 
-@include color-mode(dark) {
     .auth-header-logo {
-        filter: invert(1) brightness(1000) grayscale(100);
+        @include dark-mode {
+            filter: invert(1) brightness(1000) grayscale(100);
+        }
     }
 }

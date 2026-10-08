@@ -3,13 +3,13 @@ export default () => {
     const labels = document.querySelectorAll<HTMLLabelElement>('.permissions-modules-item-title');
     labels.forEach((label, index) => {
         let wrapper = document.createElement('div');
-        wrapper.classList.add('form-check');
+        wrapper.classList.add('form-field');
         label.parentNode?.insertBefore(wrapper, label);
         wrapper.appendChild(label);
         const headingCheckbox = document.createElement('input');
         headingCheckbox.type = 'checkbox';
         headingCheckbox.id = `check-all-checkbox-${index + 1}`;
-        headingCheckbox.classList.add('permissions-modules-item-title-checkbox', 'form-check-input');
+        headingCheckbox.classList.add('permissions-modules-item-title-checkbox', 'check');
         label.prepend(headingCheckbox);
     });
 

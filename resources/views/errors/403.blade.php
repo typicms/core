@@ -9,7 +9,7 @@
         <div class="page-body-container">
             <p>{{ __('You don’t have permission to access this page.') }}</p>
             <p>
-                <a class="btn btn-primary" href="{{ homeUrl() }}">{{ __('Back to homepage') }}</a>
+                <a class="btn-solid theme-primary" href="{{ homeUrl() }}">{{ __('Back to homepage') }}</a>
             </p>
         </div>
     </div>

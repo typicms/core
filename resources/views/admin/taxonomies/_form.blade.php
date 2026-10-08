@@ -14,9 +14,9 @@
     @if ($modules)
         <p class="form-label">{{ __('Use in modules') }}</p>
         @foreach ($modules as $module => $properties)
-            <div class="form-check">
-                {!! Form::checkbox('modules[]', $module)->id($module)->addClass('form-check-input') !!}
-                <label class="form-check-label" for="{{ $module }}">{{ __(ucfirst($module)) }}</label>
+            <div class="form-field">
+                {!! Form::checkbox('modules[]', $module)->id($module)->addClass('check') !!}
+                <label for="{{ $module }}">{{ __(ucfirst($module)) }}</label>
             </div>
         @endforeach
     @endif

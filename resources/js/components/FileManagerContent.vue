@@ -13,27 +13,27 @@
                         {{ path[path.length - 1].name }}
                     </h1>
                 </div>
-                <button v-if="modal" class="filemanager-modal-btn-close btn-close" type="button" data-bs-dismiss="modal" :aria-label="t('Close window')"></button>
+                <button v-if="modal" class="filemanager-modal-btn-close btn-close" type="button" data-bs-dismiss="dialog" :aria-label="t('Close window')"></button>
             </div>
             <div class="filemanager-header-toolbar">
-                <button class="btn btn-sm btn-light" type="button" @click="newFolder(folder.id)">
+                <button class="btn-sm btn-solid theme-secondary" type="button" @click="newFolder(folder.id)">
                     <folder-plus-icon size="16" />
                     {{ t('New folder') }}
                 </button>
                 <div class="btn-group btn-group-sm">
-                    <button id="dropdown-action-button" aria-expanded="true" aria-haspopup="true" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" type="button">
+                    <button id="dropdown-action-button" aria-expanded="true" aria-haspopup="true" class="btn-solid theme-secondary" data-bs-toggle="menu" type="button">
                         {{ t('Action') }}
                     </button>
 
-                    <div aria-labelledby="dropdown-action-button" class="dropdown-menu">
-                        <button :disabled="selectedItems.length === 0" class="dropdown-item" type="button" @click="deleteSelected">
+                    <div aria-labelledby="dropdown-action-button" class="menu">
+                        <button :disabled="selectedItems.length === 0" class="menu-item" type="button" @click="deleteSelected">
                             {{ t('Delete') }}
                         </button>
-                        <button :disabled="!folder.id || selectedItems.length === 0" class="dropdown-item" type="button" @click="moveToParentFolder()">
+                        <button :disabled="!folder.id || selectedItems.length === 0" class="menu-item" type="button" @click="moveToParentFolder()">
                             {{ t('Move to parent folder') }}
                         </button>
-                        <div class="dropdown-divider"></div>
-                        <button class="dropdown-item" disabled="disabled" type="button">
+                        <div class="menu-divider"></div>
+                        <button class="menu-item" disabled="disabled" type="button">
                             {{
                                 t('# items selected', selectedItems.length, {
                                     count: selectedItems.length,
@@ -43,21 +43,21 @@
                     </div>
                 </div>
                 <div class="btn-group btn-group-sm">
-                    <button :class="{ active: view === 'grid' }" class="btn btn-light" type="button" @click="switchView('grid')">
+                    <button :class="{ active: view === 'grid' }" class="btn-solid theme-secondary" type="button" @click="switchView('grid')">
                         <layout-grid-icon size="16" />
                         {{ t('Grid') }}
                     </button>
-                    <button :class="{ active: view === 'list' }" class="btn btn-light" type="button" @click="switchView('list')">
+                    <button :class="{ active: view === 'list' }" class="btn-solid theme-secondary" type="button" @click="switchView('list')">
                         <layout-list-icon size="16" />
                         {{ t('List') }}
                     </button>
                 </div>
                 <div class="d-flex align-items-center">
-                    <div v-if="loading" class="spinner-border spinner-border-sm text-dark" role="status">
+                    <div v-if="loading" class="spinner-border spinner-sm fg-body" role="status">
                         <span class="visually-hidden">{{ t('Loading…') }}</span>
                     </div>
                 </div>
-                <div class="d-flex gap-2 ms-auto">
+                <div class="d-flex gap-3 ms-auto">
                     <div class="input-group input-group-sm mb-0">
                         <div class="input-group-text">
                             <search-icon size="14" />
@@ -69,7 +69,7 @@
                         v-if="props.multiple"
                         id="add-selected-files-button"
                         :disabled="selectedFiles.length < 1"
-                        class="btn btn-sm btn-primary filemanager-btn-add btn-add-multiple"
+                        class="btn-sm btn-solid theme-primary filemanager-btn-add btn-add-multiple"
                         type="button"
                         @click="addSelectedFiles()"
                     >
@@ -80,7 +80,7 @@
                         v-if="props.single"
                         id="add-selected-file-button"
                         :disabled="selectedFiles.length !== 1 || (selectedFiles[0].type !== Array.from(props.type)[0] && props.type !== '')"
-                        class="btn btn-sm btn-primary filemanager-btn-add btn-add-single"
+                        class="btn-sm btn-solid theme-primary filemanager-btn-add btn-add-single"
                         type="button"
                         @click="addSingleFile(selectedFiles[0])"
                     >
@@ -91,7 +91,7 @@
                         v-if="props.selectSingleFile"
                         id="add-selected-file-button"
                         :disabled="selectedFiles.length !== 1 || (selectedFiles[0].type !== Array.from(props.type)[0] && props.type !== '')"
-                        class="btn btn-sm btn-primary filemanager-btn-add btn-add-single"
+                        class="btn-sm btn-solid theme-primary filemanager-btn-add btn-add-single"
                         type="button"
                         @click="selectSingleFileForEditor(selectedFiles[0])"
                     >
@@ -99,7 +99,7 @@
                     </button>
                 </div>
 
-                <button id="upload-files-button" class="btn btn-sm btn-light header-btn-add" v-bind="buttonProps" type="button">
+                <button id="upload-files-button" class="btn-sm btn-solid theme-secondary header-btn-add" v-bind="buttonProps" type="button">
                     <cloud-upload-icon size="16" />
                     {{ t('Upload files') }}
                 </button>
@@ -109,7 +109,7 @@
         <div class="filemanager-body">
             <UppyUploader ref="uppyUploaderRef" :folder-id="folder.id" @complete="fetchData"></UppyUploader>
             <div :class="{ 'filemanager-view-list': view === 'list' }" class="filemanager-list" @click="checkNone()">
-                <p v-if="filteredItems.length === 0" class="my-3 text-muted">{{ t('The folder is empty.') }}</p>
+                <p v-if="filteredItems.length === 0" class="my-5 fg-secondary">{{ t('The folder is empty.') }}</p>
                 <div
                     v-for="item in filteredItems"
                     :id="'item_' + item.id"

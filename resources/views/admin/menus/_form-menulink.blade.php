@@ -11,13 +11,13 @@
 <div class="form-body">
     <x-core::form-errors />
     <div class="row">
-        <div class="col-lg-8">
+        <div class="lg:col-8">
             <x-bootform::hidden name="id" />
             <x-bootform::hidden name="menu_id" :value="$menu->id" />
             <x-bootform::hidden name="position" />
             <x-bootform::hidden name="parent_id" />
             <x-transbootform::text :label="__('Title')" name="title" />
-            <div class="mb-3">
+            <div class="mb-5">
                 <x-transbootform::checkbox :label="__('Published')" name="status" :unchecked-value="0" />
             </div>
             <x-transbootform::textarea :label="__('Description')" name="description" rows="3" />
@@ -26,7 +26,7 @@
             <x-transbootform::text :label="__('Website')" name="website" type="url" placeholder="https://" />
             <x-bootform::select :label="__('Target')" name="target" :options="['' => __('Active tab'), '_blank' => __('New tab')]" />
         </div>
-        <div class="col-lg-4">
+        <div class="lg:col-4">
             <div class="right-column">
                 <file-manager></file-manager>
                 <file-field type="image" field="image_id" :init-file="{{ $model->image ?? 'null' }}"></file-field>

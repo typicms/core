@@ -3,7 +3,7 @@
         <div class="item-list-header item-list-header-bordered">
             <div class="item-list-header-top mb-0">
                 <h1 class="item-list-header-title">{{ t('Latest changes') }}</h1>
-                <button v-if="filteredItems.length > 0 && clearButton" id="clear-history" class="btn btn-light btn-sm" @click="clearHistory">
+                <button v-if="filteredItems.length > 0 && clearButton" id="clear-history" class="btn-solid theme-secondary btn-sm" @click="clearHistory">
                     {{ t('Clear') }}
                 </button>
             </div>
@@ -21,7 +21,7 @@
                     <tbody>
                         <tr v-for="model in filteredItems" :key="model.id">
                             <td>
-                                <small class="text-muted text-nowrap">{{ formatDateTime(model.created_at) }}</small>
+                                <small class="fg-secondary text-nowrap">{{ formatDateTime(model.created_at) }}</small>
                             </td>
                             <td>
                                 <a v-if="model.href" :href="model.href + '?locale=' + model.locale">{{ model.title }}</a>
@@ -47,10 +47,10 @@
 
             <div v-else>
                 <div v-if="loading">
-                    <span class="text-muted">{{ t('Loading…') }}</span>
+                    <span class="fg-secondary">{{ t('Loading…') }}</span>
                 </div>
                 <div v-else>
-                    <span class="text-muted">{{ searchString !== null ? t('Nothing found.') : t('History is empty.') }}</span>
+                    <span class="fg-secondary">{{ searchString !== null ? t('Nothing found.') : t('History is empty.') }}</span>
                 </div>
             </div>
         </div>

@@ -41,14 +41,14 @@
         <x-core::auth-header />
         <div class="auth-form">
             <h1 class="auth-title">{{ __('Create a passkey') }}</h1>
-            <p class="alert alert-info">{{ __('Please create a passkey for future connections.') }}</p>
+            <p class="alert theme-info">{{ __('Please create a passkey for future connections.') }}</p>
             <x-core::status />
-            <div class="mb-3 d-grid">
-                <button class="btn btn-lg btn-primary" type="button" id="create-passkey-button">
+            <div class="mb-5 d-grid">
+                <button class="btn-lg btn-solid theme-primary" type="button" id="create-passkey-button">
                     <i class="icon-key-round"></i>
                     {{ __('Create passkey') }}
                 </button>
-                <a class="text-body text-decoration-underline small text-center mt-3 d-block" href="{{ route('admin::dashboard') }}">{{ __('I will do it later.') }}</a>
+                <a class="fg-body text-decoration-underline small text-center mt-5 d-block" href="{{ route('admin::dashboard') }}">{{ __('I will do it later.') }}</a>
             </div>
         </div>
         <x-core::back-to-website-link />

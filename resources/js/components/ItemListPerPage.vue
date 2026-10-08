@@ -1,10 +1,10 @@
 <template>
     <div class="btn-group btn-group-sm item-list-per-page">
-        <button id="dropdownActions" :disabled="loading" aria-expanded="true" aria-haspopup="true" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" type="button">
+        <button id="dropdownActions" :disabled="loading" aria-expanded="true" aria-haspopup="true" class="btn-solid theme-secondary" data-bs-toggle="menu" type="button">
             {{ perPage }} {{ t('per page') }}
         </button>
-        <div aria-labelledby="dropdownActions" class="dropdown-menu">
-            <button v-for="value in values" :key="value" class="dropdown-item" type="button" @click="$emit('change-per-page', value)">
+        <div aria-labelledby="dropdownActions" class="menu">
+            <button v-for="value in values" :key="value" class="menu-item" type="button" @click="$emit('change-per-page', value)">
                 {{ value }}
             </button>
         </div>

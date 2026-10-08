@@ -1,22 +1,28 @@
-.form {
-    @extend .body;
-    &-header {
-        @extend .header;
-        &-bordered {
-            @extend .header-bordered;
+@use 'bootstrap/scss/bootstrap' as bs;
+@use 'body';
+@use 'header';
+
+@layer custom {
+    .form {
+        @extend .body;
+        &-header {
+            @extend .header;
+            &-bordered {
+                @extend .header-bordered;
+            }
+            &-top {
+                @extend .header-top;
+            }
+            &-title {
+                @extend .header-title;
+            }
+            &-toolbar {
+                @extend .header-toolbar;
+            }
         }
-        &-top {
-            @extend .header-top;
+        &-body {
+            @extend .card-body;
+            overflow: auto;
         }
-        &-title {
-            @extend .header-title;
-        }
-        &-toolbar {
-            @extend .header-toolbar;
-        }
-    }
-    &-body {
-        @extend .card-body;
-        overflow: auto;
     }
 }

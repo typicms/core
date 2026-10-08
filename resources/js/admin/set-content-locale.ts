@@ -18,17 +18,17 @@ export default (): void => {
         button.classList.add('active');
         if (locale === 'all') {
             document.querySelectorAll<HTMLElement>('.btn-preview').forEach((element: HTMLElement, index: number) => {
-                element.style.display = index === 0 ? 'block' : 'none';
+                element.style.display = index === 0 ? '' : 'none';
             });
             document.querySelectorAll<HTMLElement>('.form-group-translation').forEach((element) => {
-                element.style.display = 'block';
+                element.style.display = '';
             });
         } else {
             document.querySelectorAll<HTMLElement>('.btn-preview').forEach((element: HTMLElement) => {
-                element.style.display = element.dataset.language === locale ? 'block' : 'none';
+                element.style.display = element.dataset.language === locale ? '' : 'none';
             });
             document.querySelectorAll<HTMLElement>('.form-group-translation').forEach((element) => {
-                element.style.display = element.querySelector(`[data-language="${locale}"]`) ? 'block' : 'none';
+                element.style.display = element.querySelector(`[data-language="${locale}"]`) ? '' : 'none';
             });
         }
         const activeLocale = document.getElementById('active-locale');

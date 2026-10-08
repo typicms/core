@@ -1,3 +1,5 @@
-.alert-error {
-    border: 10px solid #f00;
+@layer custom {
+    .alert-error {
+        border: 10px solid #f00;
+    }
 }

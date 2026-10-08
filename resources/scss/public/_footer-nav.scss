@@ -1,14 +1,18 @@
-.footer-nav {
-    &-list {
-        @extend .nav;
-        @extend .nav-pills;
-    }
-    &-item {
-        @extend .nav-item;
-    }
-    &-link {
-        @extend .nav-link;
-    }
-    &-item.active &-link {
+@use 'bootstrap/scss/bootstrap' as bs;
+
+@layer custom {
+    .footer-nav {
+        &-list {
+            @extend .nav;
+            @extend .nav-pills;
+        }
+        &-item {
+            @extend .nav-item;
+        }
+        &-link {
+            @extend .nav-link;
+        }
+        &-item.active &-link {
+        }
     }
 }

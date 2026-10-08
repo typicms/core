@@ -1,36 +1,42 @@
-.typicms-navbar {
-    height: var(--typicms-navbar-height);
-    background-color: var(--bs-body-bg);
-    border-bottom: 1px solid var(--bs-border-color);
-    .container-fluid {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-    &-brand {
-        @extend .btn;
-        padding: 0;
-        display: block;
-        font-size: 1.25rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        &:focus-visible {
-            @extend .focus-ring;
+@use 'bootstrap/scss/bootstrap' as bs;
+@use '../tools' as *;
+@use 'variables' as *;
+
+@layer custom {
+    .typicms-navbar {
+        height: var(--typicms-navbar-height);
+        background-color: var(--bg-body);
+        border-bottom: 1px solid var(--border-color);
+        .container-fluid {
+            padding-left: 1rem;
+            padding-right: 1rem;
         }
-        &-logo {
-            width: 96px;
-            height: 34px;
+        &-brand {
+            @extend .btn;
+            --btn-bg: transparent;
+            --btn-hover-bg: transparent;
+            --btn-active-bg: transparent;
+            padding: 0;
+            display: block;
+            font-size: 1.25rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            &-logo {
+                width: 96px;
+                height: 34px;
+            }
+        }
+        .nav-link {
+            border-radius: $border-radius;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            font-size: 1rem;
         }
     }
-    .nav-link {
-        border-radius: $border-radius;
-        display: flex;
-        align-items: center;
-        white-space: nowrap;
-        font-size: 1rem;
-    }
-}
-@include color-mode(dark) {
     .typicms-navbar-brand-logo {
-        filter: invert(1) brightness(1000) grayscale(100);
+        @include dark-mode {
+            filter: invert(1) brightness(1000) grayscale(100);
+        }
     }
 }

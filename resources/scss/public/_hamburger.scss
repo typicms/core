@@ -1,52 +1,57 @@
-.hamburger {
-    @extend .btn;
-    @extend .btn-sm;
-    @extend .btn-link;
-    @extend .rounded-pill;
-    @include transition();
-    padding: 0;
-    z-index: 3000;
-    position: relative;
-    height: 50px;
-    width: 50px;
-    text-decoration: none;
-    background-color: transparent;
-    border: none;
-    &:focus-visible {
-        @extend .focus-ring;
-    }
-    @include media-breakpoint-up(lg) {
-        display: none;
-    }
-    &:before,
-    &:after {
+@use 'bootstrap/scss/bootstrap' as bs;
+@use '../tools' as *;
+
+@layer custom {
+    .hamburger {
+        @extend .btn;
+        @extend .btn-sm;
+        @extend .btn-link;
+        @extend .rounded-pill;
         @include transition();
-        left: calc(50% - 13px);
-        position: absolute;
-        content: '';
-        display: block;
-        background-color: var(--bs-primary);
-        height: 2px;
-        width: 26px;
-    }
-    &:before {
-        top: 20px;
-    }
-    &:after {
-        bottom: 20px;
-    }
-    &-open {
-        transform: rotate(45deg);
+        padding: 0;
+        z-index: 3000;
+        position: relative;
+        height: 50px;
+        width: 50px;
+        text-decoration: none;
+        background-color: transparent;
+        border: none;
         &:focus-visible {
-            @extend .focus-ring;
+            @include focus-ring(true);
+        }
+        @include media-breakpoint-up(lg) {
+            display: none;
+        }
+        &:before,
+        &:after {
+            @include transition();
+            left: calc(50% - 13px);
+            position: absolute;
+            content: '';
+            display: block;
+            background-color: var(--primary-base);
+            height: 2px;
+            width: 26px;
         }
         &:before {
-            top: 24px;
-            transform: rotate(-180deg);
+            top: 20px;
         }
         &:after {
-            bottom: 24px;
-            transform: rotate(90deg);
+            bottom: 20px;
+        }
+        &-open {
+            transform: rotate(45deg);
+            &:focus-visible {
+                @include focus-ring(true);
+            }
+            &:before {
+                top: 24px;
+                transform: rotate(-180deg);
+            }
+            &:after {
+                bottom: 24px;
+                transform: rotate(90deg);
+            }
         }
     }
 }

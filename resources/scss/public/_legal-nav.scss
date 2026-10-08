@@ -1,14 +1,18 @@
-.legal-nav {
-    &-list {
-        @extend .nav;
-        @extend .nav-pills;
-    }
-    &-item {
-        @extend .nav-item;
-    }
-    &-link {
-        @extend .nav-link;
-    }
-    &-item.active &-link {
+@use 'bootstrap/scss/bootstrap' as bs;
+
+@layer custom {
+    .legal-nav {
+        &-list {
+            @extend .nav;
+            @extend .nav-pills;
+        }
+        &-item {
+            @extend .nav-item;
+        }
+        &-link {
+            @extend .nav-link;
+        }
+        &-item.active &-link {
+        }
     }
 }

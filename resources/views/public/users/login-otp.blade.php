@@ -10,9 +10,9 @@
 
         <x-bootform::email :label="__('Email')" name="email" class="form-control-lg" autofocus required autocomplete="username" />
 
-        <div class="mb-3 d-grid"><x-bootform::submit :value="__('Send')" type="btn-primary" class="btn-lg" /></div>
+        <div class="mb-5 d-grid"><x-bootform::submit :value="__('Send')" type="btn-solid theme-primary" class="btn-lg" /></div>
 
-        <a class="text-body text-decoration-underline small text-center mt-3 d-block" href="{{ route(app()->getLocale() . '::login') }}">{{ __('Authenticate with a passkey.') }}</a>
+        <a class="fg-body text-decoration-underline small text-center mt-5 d-block" href="{{ route(app()->getLocale() . '::login') }}">{{ __('Authenticate with a passkey.') }}</a>
         {!! BootForm::close() !!}
 
         <x-core::register-info />

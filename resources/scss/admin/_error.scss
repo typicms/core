@@ -1,19 +1,24 @@
-.error {
-    @extend .card;
-    @include media-breakpoint-down(lg) {
-        margin: $grid-gutter-width;
-    }
-    &-header {
-        @extend .card-header;
-        &-bordered {
-            @include bordered-card-edge(top);
+@use 'bootstrap/scss/bootstrap' as bs;
+@use '../tools' as *;
+@use 'mixins' as *;
+
+@layer custom {
+    .error {
+        @extend .card;
+        @include media-breakpoint-down(lg) {
+            margin: 1.5rem;
         }
-    }
-    &-title {
-        @extend .card-title;
-        margin-bottom: 0;
-    }
-    &-body {
-        @extend .card-body;
+        &-header {
+            @extend .card-header;
+            &-bordered {
+                @include bordered-card-edge(top);
+            }
+        }
+        &-title {
+            margin-bottom: 0;
+        }
+        &-body {
+            @extend .card-body;
+        }
     }
 }

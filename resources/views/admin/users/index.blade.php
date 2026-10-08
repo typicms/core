@@ -35,7 +35,7 @@
             </td>
             <td v-if="$can('impersonate users')">
                 <a
-                    class="btn-impersonate btn btn-link btn-sm text-secondary"
+                    class="btn-impersonate btn-link btn-sm fg-secondary"
                     title="Impersonate"
                     onclick="if(!confirm('{{ __('Impersonate this user?') }}'))return false"
                     :href="'/admin/users/' + model.id + '/impersonate'"
@@ -47,15 +47,15 @@
                 <a :href="'mailto:' + model.email">@{{ model.email }}</a>
             </td>
             <td>
-                <span class="badge bg-warning" v-if="model.activated">{{ __('Yes') }}</span>
-                <span class="badge text-bg-secondary" v-else>{{ __('No') }}</span>
+                <span class="badge theme-warning" v-if="model.activated">{{ __('Yes') }}</span>
+                <span class="badge theme-secondary" v-else>{{ __('No') }}</span>
             </td>
             <td>
                 @if (auth()->user()->isSuperUser())
-                    <span class="badge text-bg-warning me-1" v-if="model.superuser">Superuser</span>
+                    <span class="badge me-1 theme-warning" v-if="model.superuser">Superuser</span>
                 @endif
 
-                <span class="badge text-bg-info me-1" v-for="role in model.roles">@{{ role.name }}</span>
+                <span class="badge me-1 theme-info" v-for="role in model.roles">@{{ role.name }}</span>
             </td>
         </template>
     </item-list>

@@ -10,7 +10,7 @@
     <p class="form-label">{{ __('Translations') }}</p>
 
     @foreach (locales() as $locale)
-        <div class="mb-3">
+        <div class="mb-5">
             <div class="input-group">
                 <span class="input-group-text">{{ strtoupper($locale) }}</span>
                 {!!

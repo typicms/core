@@ -1,79 +1,84 @@
-$navbar-height: 56px;
-.sidebar {
-    width: $offcanvas-horizontal-width;
-    flex-shrink: 0;
-    overflow-y: scroll;
-    @include media-breakpoint-up(lg) {
-        position: sticky;
-        height: calc(100vh - $navbar-height);
-        top: $navbar-height;
-    }
-    &-header {
-        display: flex;
-        justify-content: flex-end;
-        padding: 1rem 1rem 0 1rem;
-    }
-    &-menu {
-        @include list-unstyled();
-        margin-bottom: 0;
-        width: 100%;
-        padding: 1rem;
-    }
-    &-panel {
-        margin-bottom: 0.75rem;
-        &-title {
-            @extend .btn;
-            --bs-btn-active-border-color: transparent;
-            --bs-btn-color: var(--bs-tertiary-color);
-            --bs-btn-hover-color: var(--bs-secondary-color);
-            letter-spacing: 1px;
-            font-size: 0.75rem;
-            padding: 0.375rem 0.825rem;
-            text-transform: uppercase;
-            &:focus-visible {
-                @extend .focus-ring;
+@use 'bootstrap/scss/bootstrap' as bs;
+@use '../tools' as *;
+@use 'variables' as *;
+
+@layer custom {
+    .sidebar {
+        @include media-breakpoint-down(lg) {
+            display: contents;
+        }
+        @include media-breakpoint-up(lg) {
+            width: $drawer-width;
+            flex-shrink: 0;
+            overflow-y: scroll;
+            position: sticky;
+            height: calc(100vh - $navbar-height);
+            top: $navbar-height;
+        }
+        &-drawer {
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        &-header {
+            justify-content: flex-end;
+            padding: 1rem 1rem 0 1rem;
+            @include media-breakpoint-up(lg) {
+                display: none;
             }
         }
-        &-collapse {
+        &-menu {
             @include list-unstyled();
             margin-bottom: 0;
+            width: 100%;
+            padding: 1rem;
         }
-    }
-    &-item-link {
-        @extend .btn;
-        --bs-btn-active-border-color: transparent;
-        --bs-btn-color: var(--bs-body-color);
-        --bs-btn-hover-color: var(--bs-primary);
-        --bs-btn-active-color: var(--bs-primary-text-emphasis);
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        &:focus-visible {
-            @extend .focus-ring;
+        &-panel {
+            margin-bottom: 0.75rem;
+            &-title {
+                @extend .btn;
+                --btn-bg: transparent;
+                --btn-hover-bg: transparent;
+                --btn-active-bg: transparent;
+                --btn-active-border-color: transparent;
+                --btn-color: var(--fg-4);
+                --btn-hover-color: var(--fg-3);
+                --btn-min-height: 0;
+                letter-spacing: 1px;
+                font-size: 0.75rem;
+                padding: 0.375rem 0.825rem;
+                text-transform: uppercase;
+            }
+            &-collapse {
+                @include list-unstyled();
+                margin-bottom: 0;
+            }
         }
-        &-icon {
-            flex-shrink: 0;
+        &-item-link {
+            @extend .btn;
+            --btn-bg: transparent;
+            --btn-hover-bg: transparent;
+            --btn-active-bg: transparent;
+            --btn-active-border-color: transparent;
+            --btn-color: var(--fg-body);
+            --btn-hover-color: light-dark(var(--primary-base), var(--primary-fg-emphasis));
+            --btn-active-color: light-dark(var(--primary-fg-emphasis), var(--primary-base));
             display: flex;
             align-items: center;
+            justify-content: flex-start;
+            &-icon {
+                flex-shrink: 0;
+                display: flex;
+                align-items: center;
+            }
+            &-label {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                font-size: 0.9375rem;
+            }
+            .active & {
+                color: light-dark(var(--primary-base), var(--primary-fg-emphasis));
+            }
         }
-        &-label {
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            font-size: 0.9375rem;
-        }
-        .active & {
-            color: var(--bs-primary);
-        }
-    }
-}
-
-@include color-mode(dark) {
-    .sidebar-item-link {
-        --bs-btn-hover-color: var(--bs-primary-text-emphasis);
-        --bs-btn-active-color: var(--bs-primary);
-    }
-    .active .sidebar-item-link {
-        color: var(--bs-primary-text-emphasis);
     }
 }

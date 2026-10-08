@@ -25,14 +25,14 @@
                 ></item-list-actions>
                 <slot name="buttons"></slot>
                 <div class="d-flex align-items-center">
-                    <div v-if="loading" class="spinner-border spinner-border-sm text-dark" role="status">
+                    <div v-if="loading" class="spinner-border spinner-sm fg-body" role="status">
                         <span class="visually-hidden">{{ t('Loading…') }}</span>
                     </div>
                 </div>
-                <small v-if="!loading && total" class="text-muted align-self-center">
+                <small v-if="!loading && total" class="fg-secondary align-self-center">
                     {{ t('# ' + title, total, { count: total }) }}
                 </small>
-                <div class="d-flex ms-auto gap-2">
+                <div class="d-flex ms-auto gap-3">
                     <div v-if="searchable.length > 0" class="filters form-inline">
                         <div class="input-group input-group-sm mb-0">
                             <div class="input-group-text">
@@ -42,11 +42,19 @@
                         </div>
                     </div>
                     <div v-if="translatable && locales.length > 1" class="btn-group btn-group-sm">
-                        <button id="dropdownLangSwitcher" aria-expanded="false" aria-haspopup="true" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" type="button">
+                        <button
+                            id="dropdownLangSwitcher"
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            class="btn-solid theme-secondary"
+                            data-bs-toggle="menu"
+                            data-bs-placement="bottom-end"
+                            type="button"
+                        >
                             <span id="active-locale">{{ locales.find((item) => item.short === contentLocale).long }}</span>
                         </button>
-                        <div aria-labelledby="dropdownLangSwitcher" class="dropdown-menu dropdown-menu-right">
-                            <button v-for="locale in locales" :key="locale.short" :class="{ active: locale === contentLocale }" class="dropdown-item" type="button" @click="switchLocale(locale.short)">
+                        <div aria-labelledby="dropdownLangSwitcher" class="menu">
+                            <button v-for="locale in locales" :key="locale.short" :class="{ active: locale === contentLocale }" class="menu-item" type="button" @click="switchLocale(locale.short)">
                                 {{ locale.long }}
                             </button>
                         </div>
@@ -60,26 +68,26 @@
                     <input
                         v-if="$can('delete ' + table) || $can('update ' + table)"
                         :checked="isChecked(node.data)"
-                        class="form-check-input me-2"
+                        class="check me-3"
                         type="checkbox"
                         @change="toggleCheck(node)"
                         @click="captureModifierKeys($event)"
                     />
 
-                    <a v-if="$can('update ' + table)" :href="table + '/' + node.data.id + '/edit'" class="btn btn-light btn-xs me-2 ms-1">
+                    <a v-if="$can('update ' + table)" :href="table + '/' + node.data.id + '/edit'" class="btn-solid theme-secondary btn-xs me-3 ms-1">
                         {{ t('Edit') }}
                     </a>
 
-                    <button class="btn-status me-2" type="button" @click="toggleStatus(node)">
+                    <button class="btn-status me-3" type="button" @click="toggleStatus(node)">
                         <span v-if="translatable" :class="node.data.status_translated === 1 ? 'btn-status-icon-on' : 'btn-status-icon-off'" class="btn-status-icon"></span>
                         <span v-else :class="node.data.status === 1 ? 'btn-status-icon-on' : 'btn-status-icon-off'" class="btn-status-icon"></span>
                     </button>
-                    <house-icon v-if="node.data.is_home" class="text-secondary" size="16" />
-                    <lock-icon v-if="node.data.private" class="text-secondary" size="16" />
+                    <house-icon v-if="node.data.is_home" class="fg-secondary" size="16" />
+                    <lock-icon v-if="node.data.private" class="fg-secondary" size="16" />
                     <div class="title">{{ translatable ? node.data.title_translated : node.data.title }}</div>
-                    <corner-right-down-icon v-if="node.data.redirect" class="text-secondary" size="16" />
+                    <corner-right-down-icon v-if="node.data.redirect" class="fg-secondary" size="16" />
 
-                    <a v-if="node.data.module" :href="'/admin/' + node.data.module" class="btn btn-xs btn-warning fw-bold px-1 py-0">
+                    <a v-if="node.data.module" :href="'/admin/' + node.data.module" class="btn-xs btn-solid theme-warning fw-bold px-1 py-0">
                         {{ t(node.data.module.charAt(0).toUpperCase() + node.data.module.slice(1)) }}
                     </a>
                 </template>

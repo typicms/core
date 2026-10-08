@@ -15,8 +15,8 @@
     @if ($model->type === 'f')
         <x-bootform::text :label="__('Name')" name="name" autocomplete="off" />
     @else
-        <div class="row gx-3">
-            <div class="col-lg-6">
+        <div class="row gx-5">
+            <div class="lg:col-6">
                 <x-transbootform::text :label="__('Title')" name="title" />
                 <x-transbootform::textarea :label="__('Description')" name="description" />
 
@@ -29,12 +29,12 @@
                 <x-bootform::file :label="__('Replace file')" name="file" />
             </div>
 
-            <div class="col-lg-6">
+            <div class="lg:col-6">
                 @if ($model->type === 'i')
                     @if ($model->extension !== 'svg')
                         <image-cropper :image-url="'{{ Storage::url($model->path) }}'" :file-id="{{ $model->id }}"></image-cropper>
                     @else
-                        <img class="img-fluid mb-3" src="{{ Storage::url($model->path) }}" alt="{{ $model->alt_attribute }}" />
+                        <img class="img-fluid mb-5" src="{{ Storage::url($model->path) }}" alt="{{ $model->alt_attribute }}" />
                     @endif
                 @endif
 
@@ -45,7 +45,7 @@
                             <td>
                                 <div class="d-flex align-items-start justify-content-between">
                                     <a href="{{ Storage::url($model->path) }}" target="_blank" rel="noopener noreferrer">{{ Storage::url($model->path) }}</a>
-                                    <button class="btn btn-light btn-xs text-nowrap" type="button" onclick="copyToClipboard('{{ Storage::url($model->path) }}')">{{ __('Copy') }}</button>
+                                    <button class="btn-solid theme-secondary btn-xs text-nowrap" type="button" onclick="copyToClipboard('{{ Storage::url($model->path) }}')">{{ __('Copy') }}</button>
                                 </div>
                             </td>
                         </tr>

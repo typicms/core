@@ -1,78 +1,74 @@
 <template>
-    <div v-if="imageUrl" class="image-cropper-launcher mb-3">
-        <img class="image-cropper-preview img-fluid mb-2" :src="imageUrl" alt="" />
-        <button type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" :data-bs-target="'#' + modalId">
+    <div v-if="imageUrl" class="image-cropper-launcher mb-5">
+        <img class="image-cropper-preview img-fluid mb-3" :src="imageUrl" alt="" />
+        <button type="button" class="btn-sm btn-solid theme-secondary" data-bs-toggle="dialog" :data-bs-target="'#' + modalId">
             <crop-icon :size="18" stroke-width="2" />
             {{ t('Crop image') }}
         </button>
 
-        <div :id="modalId" ref="modalElement" class="modal fade" tabindex="-1" :aria-labelledby="modalId + '-label'" aria-hidden="true">
-            <div class="modal-dialog image-cropper-modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 :id="modalId + '-label'" class="modal-title fs-5">{{ t('Crop image') }}</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="t('Close')"></button>
+        <dialog :id="modalId" ref="modalElement" class="image-cropper-dialog dialog" :aria-labelledby="modalId + '-label'">
+            <div class="dialog-header">
+                <h1 :id="modalId + '-label'" class="dialog-title fs-lg">{{ t('Crop image') }}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="dialog" :aria-label="t('Close')"></button>
+            </div>
+            <div class="dialog-body">
+                <div v-if="show" class="image-cropper">
+                    <div class="image-cropper-container">
+                        <cropper-canvas ref="cropperCanvas" background scale-step="0">
+                            <cropper-image ref="cropperImage" :src="imageUrl" alt="Image to crop" rotatable scalable skewable translatable></cropper-image>
+                            <cropper-shade hidden></cropper-shade>
+                            <cropper-handle action="select" plain></cropper-handle>
+                            <cropper-selection ref="cropperSelection" movable resizable @change="onSelectionChange">
+                                <cropper-grid role="grid" covered></cropper-grid>
+                                <cropper-crosshair centered></cropper-crosshair>
+                                <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
+                                <cropper-handle action="n-resize"></cropper-handle>
+                                <cropper-handle action="e-resize"></cropper-handle>
+                                <cropper-handle action="s-resize"></cropper-handle>
+                                <cropper-handle action="w-resize"></cropper-handle>
+                                <cropper-handle action="ne-resize"></cropper-handle>
+                                <cropper-handle action="nw-resize"></cropper-handle>
+                                <cropper-handle action="se-resize"></cropper-handle>
+                                <cropper-handle action="sw-resize"></cropper-handle>
+                            </cropper-selection>
+                        </cropper-canvas>
                     </div>
-                    <div class="modal-body">
-                        <div v-if="show" class="image-cropper">
-                            <div class="image-cropper-container">
-                                <cropper-canvas ref="cropperCanvas" background scale-step="0">
-                                    <cropper-image ref="cropperImage" :src="imageUrl" alt="Image to crop" rotatable scalable skewable translatable></cropper-image>
-                                    <cropper-shade hidden></cropper-shade>
-                                    <cropper-handle action="select" plain></cropper-handle>
-                                    <cropper-selection ref="cropperSelection" movable resizable @change="onSelectionChange">
-                                        <cropper-grid role="grid" covered></cropper-grid>
-                                        <cropper-crosshair centered></cropper-crosshair>
-                                        <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
-                                        <cropper-handle action="n-resize"></cropper-handle>
-                                        <cropper-handle action="e-resize"></cropper-handle>
-                                        <cropper-handle action="s-resize"></cropper-handle>
-                                        <cropper-handle action="w-resize"></cropper-handle>
-                                        <cropper-handle action="ne-resize"></cropper-handle>
-                                        <cropper-handle action="nw-resize"></cropper-handle>
-                                        <cropper-handle action="se-resize"></cropper-handle>
-                                        <cropper-handle action="sw-resize"></cropper-handle>
-                                    </cropper-selection>
-                                </cropper-canvas>
-                            </div>
-                            <div class="image-cropper-actions">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-light" @click="rotate(-90)">
-                                        <rotate-ccw-icon :size="18" stroke-width="2" />
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-light" @click="rotate(90)">
-                                        <rotate-cw-icon :size="18" stroke-width="2" />
-                                    </button>
-                                </div>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-light" @click="flipHorizontal">
-                                        <flip-horizontal-icon :size="18" stroke-width="2" />
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-light" @click="flipVertical">
-                                        <flip-vertical-icon :size="18" stroke-width="2" />
-                                    </button>
-                                </div>
-                                <button type="button" class="btn btn-sm btn-light" @click="reset">
-                                    {{ t('Reset') }}
-                                </button>
-                            </div>
+                    <div class="image-cropper-actions">
+                        <div class="btn-group">
+                            <button type="button" class="btn-sm btn-solid theme-secondary" @click="rotate(-90)">
+                                <rotate-ccw-icon :size="18" stroke-width="2" />
+                            </button>
+                            <button type="button" class="btn-sm btn-solid theme-secondary" @click="rotate(90)">
+                                <rotate-cw-icon :size="18" stroke-width="2" />
+                            </button>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <small class="text-secondary me-auto">{{ t('This will overwrite the original file.') }}</small>
-                        <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">{{ t('Cancel') }}</button>
-                        <button type="button" class="btn btn-sm btn-primary" @click="saveCroppedImage">{{ t('Save cropped image') }}</button>
+                        <div class="btn-group">
+                            <button type="button" class="btn-sm btn-solid theme-secondary" @click="flipHorizontal">
+                                <flip-horizontal-icon :size="18" stroke-width="2" />
+                            </button>
+                            <button type="button" class="btn-sm btn-solid theme-secondary" @click="flipVertical">
+                                <flip-vertical-icon :size="18" stroke-width="2" />
+                            </button>
+                        </div>
+                        <button type="button" class="btn-sm btn-solid theme-secondary" @click="reset">
+                            {{ t('Reset') }}
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="dialog-footer">
+                <small class="fg-secondary me-auto">{{ t('This will overwrite the original file.') }}</small>
+                <button type="button" class="btn-sm btn-solid theme-secondary" data-bs-dismiss="dialog">{{ t('Cancel') }}</button>
+                <button type="button" class="btn-sm btn-solid theme-primary" @click="saveCroppedImage">{{ t('Save cropped image') }}</button>
+            </div>
+        </dialog>
     </div>
 </template>
 
 <script setup>
 import 'cropperjs';
 import { CropIcon, FlipHorizontalIcon, FlipVerticalIcon, RotateCcwIcon, RotateCwIcon } from '@lucide/vue';
-import Modal from 'bootstrap/js/dist/modal';
+import Dialog from 'bootstrap/js/dist/dialog.js';
 import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -143,15 +139,15 @@ onMounted(() => {
         return;
     }
 
-    modalInstance = Modal.getOrCreateInstance(modalElement.value);
-    modalElement.value.addEventListener('shown.bs.modal', onShown);
-    modalElement.value.addEventListener('hidden.bs.modal', onHidden);
+    modalInstance = Dialog.getOrCreateInstance(modalElement.value);
+    modalElement.value.addEventListener('shown.bs.dialog', onShown);
+    modalElement.value.addEventListener('hidden.bs.dialog', onHidden);
 });
 
 onBeforeUnmount(() => {
     if (modalElement.value) {
-        modalElement.value.removeEventListener('shown.bs.modal', onShown);
-        modalElement.value.removeEventListener('hidden.bs.modal', onHidden);
+        modalElement.value.removeEventListener('shown.bs.dialog', onShown);
+        modalElement.value.removeEventListener('hidden.bs.dialog', onHidden);
     }
     window.removeEventListener('resize', onResize);
     clearTimeout(resizeTimeout);

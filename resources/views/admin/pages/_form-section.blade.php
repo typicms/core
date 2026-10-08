@@ -4,25 +4,25 @@
     <x-core::form-errors />
 
     <div class="row">
-        <div class="col-lg-8">
+        <div class="lg:col-8">
             <x-bootform::hidden name="id" />
             <x-bootform::hidden name="page_id" :value="$page->id" />
 
             <x-core::title-and-slug-fields />
-            <div class="mb-3">
+            <div class="mb-5">
                 <x-transbootform::checkbox :label="__('Published')" name="status" :unchecked-value="0" />
             </div>
-            <div class="mb-3">
+            <div class="mb-5">
                 <x-bootform::checkbox :label="__('Hide title')" name="hide_title" :unchecked-value="0" />
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="md:col-6">
                     <x-bootform::select :label="__('Template')" name="template" :options="pageSectionTemplates()" />
                 </div>
             </div>
             <x-core::tiptap-editors :$model name="body" :label="__('Body')" />
         </div>
-        <div class="col-lg-4">
+        <div class="lg:col-4">
             <div class="right-column">
                 <file-manager></file-manager>
                 <file-field type="image" field="image_id" :init-file="{{ $model->image ?? 'null' }}"></file-field>

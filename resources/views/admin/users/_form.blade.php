@@ -3,16 +3,16 @@
 <div class="form-body">
     <x-core::form-errors />
 
-    <div class="row gx-3">
-        <div class="col-sm-6">
+    <div class="row gx-5">
+        <div class="sm:col-6">
             <x-bootform::text :label="__('First name')" name="first_name" required autocomplete="off" />
         </div>
-        <div class="col-sm-6">
+        <div class="sm:col-6">
             <x-bootform::text :label="__('Last name')" name="last_name" required autocomplete="off" />
         </div>
     </div>
 
-    <div class="row gx-3">
+    <div class="row gx-5">
         <div class="col">
             <x-bootform::email :label="__('Email')" name="email" autocomplete="off" required />
         </div>
@@ -21,19 +21,19 @@
         </div>
     </div>
 
-    <div class="row gx-3">
+    <div class="row gx-5">
         <div class="col">
             <x-bootform::text :label="__('Street')" name="street" />
         </div>
-        <div class="col-md-2">
+        <div class="md:col-2">
             <x-bootform::text :label="__('Number')" name="number" />
         </div>
-        <div class="col-md-2">
+        <div class="md:col-2">
             <x-bootform::text :label="__('Box')" name="box" />
         </div>
     </div>
 
-    <div class="row gx-3">
+    <div class="row gx-5">
         <div class="col">
             <x-bootform::text :label="__('Postal code')" name="postal_code" autocomplete="off" />
         </div>
@@ -45,8 +45,8 @@
         </div>
     </div>
 
-    <div class="row gx-3">
-        <div class="col-6 col-lg-2">
+    <div class="row gx-5">
+        <div class="col-6 lg:col-2">
             <x-bootform::select
                 :label="__('Interface language')"
                 name="locale"
@@ -56,11 +56,11 @@
         </div>
     </div>
 
-    <div class="mb-3">
+    <div class="mb-5">
         <x-bootform::checkbox :label="__('Activated')" name="activated" :unchecked-value="0" />
     </div>
 
-    <div class="mb-3">
+    <div class="mb-5">
         <p class="form-label">{{ __('Roles') }}</p>
         @if (auth()->user()->isSuperUser())
             <x-bootform::checkbox :label="__('Superuser')" name="superuser" :unchecked-value="0" />
@@ -68,13 +68,13 @@
 
         @if ($roles->count() > 0)
             @foreach ($roles as $role)
-                <div class="form-check">
+                <div class="form-field">
                     {!!
                         Form::checkbox('checked_roles[]', $role->id)
-                            ->addClass('form-check-input')
+                            ->addClass('check')
                             ->id('role-' . $role->name)
                     !!}
-                    <label class="form-check-label" for="{{ 'role-' . $role->name }}">{{ $role->name }}</label>
+                    <label for="{{ 'role-' . $role->name }}">{{ $role->name }}</label>
                 </div>
             @endforeach
         @endif

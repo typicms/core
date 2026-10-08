@@ -1,22 +1,62 @@
-.ts-control {
-    gap: 0.25rem;
-    padding: 0.25rem $input-padding-x;
-}
-.ts-wrapper.multi .ts-control > div {
-    margin: 0;
-}
-.ts-dropdown,
-.ts-control,
-.ts-control input {
-    color: var(--bs-body-color);
-}
-.ts-dropdown {
-    font-size: $font-size-sm;
-    white-space: nowrap;
-    &-content {
-        max-height: 250px;
+@use 'variables' as *;
+
+@layer custom {
+    .ts-wrapper {
+        padding: 0;
+        &.form-control {
+            min-height: var(--btn-input-min-height);
+        }
     }
-    .option {
-        text-overflow: ellipsis;
+    .ts-control {
+        gap: 0.25rem;
+        min-height: 100%;
+        padding: 0.25rem $input-padding-x;
+        background-color: var(--bg-body);
+        border: var(--border-width) solid var(--control-border-color, var(--border-color));
+        border-radius: var(--btn-input-border-radius);
+        .focus & {
+            outline: var(--focus-ring);
+            outline-offset: var(--focus-ring-offset);
+            box-shadow: none;
+        }
+        .ts-wrapper.single.input-active &,
+        .ts-wrapper.multi.has-items &,
+        .ts-wrapper.full & {
+            background-color: var(--bg-body);
+        }
+    }
+    .ts-wrapper.multi .ts-control > div {
+        margin: 0;
+        border-radius: var(--radius-3);
+        background-color: var(--bg-3);
+        color: var(--fg-body);
+        &.active {
+            background-color: var(--primary-bg);
+            color: var(--primary-contrast);
+        }
+    }
+    .ts-dropdown,
+    .ts-control,
+    .ts-control input {
+        color: var(--fg-body);
+    }
+    .ts-dropdown {
+        font-size: $font-size-sm;
+        white-space: nowrap;
+        z-index: var(--z-menu);
+        background-color: var(--bg-body);
+        border: var(--border-width) solid var(--border-color);
+        border-radius: var(--radius-5);
+        box-shadow: var(--box-shadow);
+        &-content {
+            max-height: 250px;
+        }
+        .option {
+            text-overflow: ellipsis;
+        }
+        .active {
+            background-color: var(--bg-3);
+            color: var(--fg-body);
+        }
     }
 }

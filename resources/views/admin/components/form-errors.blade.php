@@ -1,5 +1,5 @@
 @if ($errors->any())
-    <div class="alert alert-danger alert-dismissible" role="alert">
+    <div class="alert theme-danger alert-dismissible" role="alert">
         {{ __('The form contains errors:') }}
         <ul class="mb-0">
             @foreach ($errors->all() as $message)

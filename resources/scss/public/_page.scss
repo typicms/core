@@ -1,54 +1,59 @@
-.page {
-    &-header {
-        &-container {
-            @extend .container-xl;
-        }
-    }
+@use 'bootstrap/scss/bootstrap' as bs;
+@use '../tools' as *;
 
-    &-body {
-        &-container {
-            @extend .container-xl;
+@layer custom {
+    .page {
+        &-header {
+            &-container {
+                @extend .xl\:container;
+            }
         }
-    }
 
-    &-row {
-        @include make-row();
-    }
+        &-body {
+            &-container {
+                @extend .xl\:container;
+            }
+        }
 
-    &-content {
-        @include make-col-ready();
-        @include media-breakpoint-up(md) {
-            @include make-col(10);
+        &-row {
+            @include make-row();
         }
-        @include media-breakpoint-up(xxl) {
-            @include make-col(9);
-        }
-    }
 
-    &-left {
-        @include make-col-ready();
-        @include media-breakpoint-up(md) {
-            @include make-col(10);
+        &-content {
+            @include make-col-ready();
+            @include media-breakpoint-up(md) {
+                @include make-col(10);
+            }
+            @include media-breakpoint-up(2xl) {
+                @include make-col(9);
+            }
         }
-        @include media-breakpoint-up(xl) {
-            @include make-col(6);
-        }
-    }
 
-    &-right {
-        @include make-col-ready();
-        @include media-breakpoint-up(md) {
-            @include make-col(8);
+        &-left {
+            @include make-col-ready();
+            @include media-breakpoint-up(md) {
+                @include make-col(10);
+            }
+            @include media-breakpoint-up(xl) {
+                @include make-col(6);
+            }
         }
-        @include media-breakpoint-up(xl) {
-            @include make-col-offset(1);
-            @include make-col(5);
-        }
-    }
 
-    &-figure {
-        &-image {
-            @extend .img-fluid;
+        &-right {
+            @include make-col-ready();
+            @include media-breakpoint-up(md) {
+                @include make-col(8);
+            }
+            @include media-breakpoint-up(xl) {
+                @include make-col-offset(1);
+                @include make-col(5);
+            }
+        }
+
+        &-figure {
+            &-image {
+                @extend .img-fluid;
+            }
         }
     }
 }

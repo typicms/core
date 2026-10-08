@@ -1,27 +1,27 @@
 <template>
-    <div class="mb-3 form-group-translation">
+    <div class="mb-5 form-group-translation">
         <p v-if="label" class="form-label">{{ label }} ({{ locale }})</p>
         <div v-if="editor" class="tiptap-toolbar">
-            <div class="dropdown">
+            <div>
                 <button
-                    class="tiptap-button dropdown-toggle text-start d-flex justify-content-between align-items-center"
+                    class="tiptap-button text-start d-flex justify-content-between align-items-center"
                     style="width: 100px"
                     type="button"
-                    data-bs-toggle="dropdown"
+                    data-bs-toggle="menu"
                     aria-expanded="false"
                     :disabled="editor.isActive('image')"
                 >
-                    <span v-if="editor.isActive('heading')" class="">
+                    <span v-if="editor.isActive('heading')">
                         <template v-for="level in headingLevels" :key="level">
                             <span v-if="editor.isActive('heading', { level })">{{ t('Heading') }} {{ level }}</span>
                         </template>
                     </span>
                     <span v-else>{{ t('Normal') }}</span>
                 </button>
-                <ul class="dropdown-menu">
+                <ul class="menu">
                     <li>
                         <button
-                            class="dropdown-item small d-flex gap-1 align-items-center"
+                            class="menu-item small d-flex gap-1 align-items-center"
                             :class="{ active: editor.isActive('paragraph') }"
                             type="button"
                             @click="editor.chain().focus().setParagraph().run()"
@@ -31,7 +31,7 @@
                     </li>
                     <li v-for="level in headingLevels" :key="level">
                         <button
-                            class="dropdown-item small d-flex gap-1 align-items-center"
+                            class="menu-item small d-flex gap-1 align-items-center"
                             :class="{ active: editor.isActive('heading', { level }) }"
                             type="button"
                             @click="editor.chain().focus().toggleHeading({ level }).run()"
@@ -41,12 +41,12 @@
                     </li>
                 </ul>
             </div>
-            <div class="dropdown">
+            <div>
                 <button
-                    class="tiptap-button dropdown-toggle text-start d-flex justify-content-between align-items-center"
+                    class="tiptap-button text-start d-flex justify-content-between align-items-center"
                     style="width: 140px"
                     type="button"
-                    data-bs-toggle="dropdown"
+                    data-bs-toggle="menu"
                     aria-expanded="false"
                     :disabled="editor.isActive('image')"
                 >
@@ -55,14 +55,14 @@
                     <span v-else-if="activeLinkStyle" class="tiptap-style-label">{{ t(activeLinkStyle.label) }}</span>
                     <span v-else class="tiptap-style-label">{{ t('Style') }}</span>
                 </button>
-                <ul class="dropdown-menu">
+                <ul class="menu">
                     <li>
-                        <p class="dropdown-header text-uppercase fw-light">{{ t('Paragraph Style') }}</p>
+                        <p class="menu-header text-uppercase fw-light">{{ t('Paragraph Style') }}</p>
                     </li>
                     <li v-for="blockStyle in blockStyles" :key="`${blockStyle.tag}-${blockStyle.class}`">
                         <button
                             type="button"
-                            class="dropdown-item small d-flex gap-1 align-items-center"
+                            class="menu-item small d-flex gap-1 align-items-center"
                             :class="{ active: editor.isActive(blockStyle.tag, { class: blockStyle.class }) }"
                             @click="
                                 editor.isActive(blockStyle.tag, { class: blockStyle.class })
@@ -75,12 +75,12 @@
                     </li>
                     <template v-if="editor.isActive('bulletList')">
                         <li>
-                            <p class="dropdown-header text-uppercase fw-light">{{ t('List Style') }}</p>
+                            <p class="menu-header text-uppercase fw-light">{{ t('List Style') }}</p>
                         </li>
                         <li v-for="listStyle in listStyles" :key="`${listStyle.tag}-${listStyle.class}`">
                             <button
                                 type="button"
-                                class="dropdown-item small d-flex gap-1 align-items-center"
+                                class="menu-item small d-flex gap-1 align-items-center"
                                 :class="{ active: editor.isActive(listStyle.tag, { class: listStyle.class }) }"
                                 @click="
                                     editor.isActive(listStyle.tag, { class: listStyle.class })
@@ -94,12 +94,12 @@
                     </template>
                     <template v-if="editor.isActive('link')">
                         <li>
-                            <p class="dropdown-header text-uppercase fw-light">{{ t('Link Style') }}</p>
+                            <p class="menu-header text-uppercase fw-light">{{ t('Link Style') }}</p>
                         </li>
                         <li v-for="linkStyle in linkStyles" :key="`${linkStyle.tag}-${linkStyle.class}`">
                             <button
                                 type="button"
-                                class="dropdown-item small d-flex gap-1 align-items-center"
+                                class="menu-item small d-flex gap-1 align-items-center"
                                 :class="{ active: editor.isActive('link', { class: linkStyle.class }) }"
                                 @click="
                                     editor.isActive('link', { class: linkStyle.class })
@@ -285,36 +285,36 @@
             </button>
 
             <!-- Table-->
-            <div class="dropdown">
-                <button class="tiptap-button dropdown-toggle text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <div>
+                <button class="tiptap-button text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="menu" aria-expanded="false">
                     <sheet-icon size="18" stroke-width="1.5" />
                 </button>
-                <ul class="dropdown-menu">
+                <ul class="menu">
                     <li>
-                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" @click="editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()">
+                        <button type="button" class="menu-item small d-flex gap-1 align-items-center" @click="editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()">
                             <grid2x2-plus-icon size="18" stroke-width="1" />
                             {{ t('Insert table') }}
                         </button>
                     </li>
                     <li>
-                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" :disabled="!editor.can().deleteTable()" @click="editor.chain().focus().deleteTable().run()">
+                        <button type="button" class="menu-item small d-flex gap-1 align-items-center" :disabled="!editor.can().deleteTable()" @click="editor.chain().focus().deleteTable().run()">
                             <grid2x2-x-icon size="18" stroke-width="1" />
                             {{ t('Delete table') }}
                         </button>
                     </li>
                     <li>
-                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" :disabled="!editor.can().fixTables()" @click="editor.chain().focus().fixTables().run()">
+                        <button type="button" class="menu-item small d-flex gap-1 align-items-center" :disabled="!editor.can().fixTables()" @click="editor.chain().focus().fixTables().run()">
                             <grid2x2-check-icon size="18" stroke-width="1" />
                             {{ t('Fix tables') }}
                         </button>
                     </li>
                     <li>
-                        <hr class="dropdown-divider" />
+                        <hr class="menu-divider" />
                     </li>
                     <li>
                         <button
                             type="button"
-                            class="dropdown-item small d-flex gap-1 align-items-center"
+                            class="menu-item small d-flex gap-1 align-items-center"
                             :disabled="!editor.can().addColumnBefore()"
                             @click="editor.chain().focus().addColumnBefore().run()"
                         >
@@ -323,65 +323,60 @@
                         </button>
                     </li>
                     <li>
-                        <button
-                            type="button"
-                            class="dropdown-item small d-flex gap-1 align-items-center"
-                            :disabled="!editor.can().addColumnAfter()"
-                            @click="editor.chain().focus().addColumnAfter().run()"
-                        >
+                        <button type="button" class="menu-item small d-flex gap-1 align-items-center" :disabled="!editor.can().addColumnAfter()" @click="editor.chain().focus().addColumnAfter().run()">
                             <between-horizontal-start-icon size="18" stroke-width="1" />
                             {{ t('Add column after') }}
                         </button>
                     </li>
                     <li>
-                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" :disabled="!editor.can().deleteColumn()" @click="editor.chain().focus().deleteColumn().run()">
+                        <button type="button" class="menu-item small d-flex gap-1 align-items-center" :disabled="!editor.can().deleteColumn()" @click="editor.chain().focus().deleteColumn().run()">
                             <x-icon size="18" stroke-width="1" />
                             {{ t('Delete column') }}
                         </button>
                     </li>
                     <li>
-                        <hr class="dropdown-divider" />
+                        <hr class="menu-divider" />
                     </li>
                     <li>
-                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" :disabled="!editor.can().addRowBefore()" @click="editor.chain().focus().addRowBefore().run()">
+                        <button type="button" class="menu-item small d-flex gap-1 align-items-center" :disabled="!editor.can().addRowBefore()" @click="editor.chain().focus().addRowBefore().run()">
                             <between-vertical-end-icon size="18" stroke-width="1" />
                             {{ t('Add row before') }}
                         </button>
                     </li>
                     <li>
-                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" :disabled="!editor.can().addRowAfter()" @click="editor.chain().focus().addRowAfter().run()">
+                        <button type="button" class="menu-item small d-flex gap-1 align-items-center" :disabled="!editor.can().addRowAfter()" @click="editor.chain().focus().addRowAfter().run()">
                             <between-vertical-start-icon size="18" stroke-width="1" />
                             {{ t('Add row after') }}
                         </button>
                     </li>
                     <li>
-                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" :disabled="!editor.can().deleteRow()" @click="editor.chain().focus().deleteRow().run()">
+                        <button type="button" class="menu-item small d-flex gap-1 align-items-center" :disabled="!editor.can().deleteRow()" @click="editor.chain().focus().deleteRow().run()">
                             <x-icon size="18" stroke-width="1" />
                             {{ t('Delete row') }}
                         </button>
                     </li>
                     <li>
-                        <hr class="dropdown-divider" />
+                        <hr class="menu-divider" />
                     </li>
                     <li>
-                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" :disabled="!editor.can().mergeCells()" @click="editor.chain().focus().mergeCells().run()">
+                        <button type="button" class="menu-item small d-flex gap-1 align-items-center" :disabled="!editor.can().mergeCells()" @click="editor.chain().focus().mergeCells().run()">
                             <table-cells-merge-icon size="18" stroke-width="1" />
                             {{ t('Merge cells') }}
                         </button>
                     </li>
                     <li>
-                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" :disabled="!editor.can().splitCell()" @click="editor.chain().focus().splitCell().run()">
+                        <button type="button" class="menu-item small d-flex gap-1 align-items-center" :disabled="!editor.can().splitCell()" @click="editor.chain().focus().splitCell().run()">
                             <table-cells-split-icon size="18" stroke-width="1" />
                             {{ t('Split cell') }}
                         </button>
                     </li>
                     <li>
-                        <hr class="dropdown-divider" />
+                        <hr class="menu-divider" />
                     </li>
                     <li>
                         <button
                             type="button"
-                            class="dropdown-item small d-flex gap-1 align-items-center"
+                            class="menu-item small d-flex gap-1 align-items-center"
                             :disabled="!editor.can().toggleHeaderColumn()"
                             @click="editor.chain().focus().toggleHeaderColumn().run()"
                         >
@@ -391,7 +386,7 @@
                     <li>
                         <button
                             type="button"
-                            class="dropdown-item small d-flex gap-1 align-items-center"
+                            class="menu-item small d-flex gap-1 align-items-center"
                             :disabled="!editor.can().toggleHeaderRow()"
                             @click="editor.chain().focus().toggleHeaderRow().run()"
                         >
@@ -401,7 +396,7 @@
                     <li>
                         <button
                             type="button"
-                            class="dropdown-item small d-flex gap-1 align-items-center"
+                            class="menu-item small d-flex gap-1 align-items-center"
                             :disabled="!editor.can().toggleHeaderCell()"
                             @click="editor.chain().focus().toggleHeaderCell().run()"
                         >
@@ -582,7 +577,7 @@ import Youtube from '@tiptap/extension-youtube';
 import StarterKit from '@tiptap/starter-kit';
 import { EditorContent, useEditor } from '@tiptap/vue-3';
 import { BubbleMenu } from '@tiptap/vue-3/menus';
-import Tooltip from 'bootstrap/js/dist/tooltip';
+import Tooltip from 'bootstrap/js/dist/tooltip.js';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -646,10 +641,10 @@ const props = defineProps({
         type: Array,
         default: () => [
             { tag: 'paragraph', class: 'lead', label: 'Lead Paragraph' },
-            { tag: 'paragraph', class: 'alert alert-info', label: 'Alert Info' },
-            { tag: 'paragraph', class: 'alert alert-warning', label: 'Alert Warning' },
-            { tag: 'paragraph', class: 'alert alert-success', label: 'Alert Success' },
-            { tag: 'paragraph', class: 'alert alert-danger', label: 'Alert Danger' },
+            { tag: 'paragraph', class: 'alert theme-info', label: 'Alert Info' },
+            { tag: 'paragraph', class: 'alert theme-warning', label: 'Alert Warning' },
+            { tag: 'paragraph', class: 'alert theme-success', label: 'Alert Success' },
+            { tag: 'paragraph', class: 'alert theme-danger', label: 'Alert Danger' },
         ],
     },
     listStyles: {
@@ -659,10 +654,10 @@ const props = defineProps({
     linkStyles: {
         type: Array,
         default: () => [
-            { tag: 'a', class: 'btn btn-primary', label: 'Button Primary' },
-            { tag: 'a', class: 'btn btn-secondary', label: 'Button Secondary' },
-            { tag: 'a', class: 'btn btn-outline-primary', label: 'Button Outline Primary' },
-            { tag: 'a', class: 'btn btn-outline-secondary', label: 'Button Outline Secondary' },
+            { tag: 'a', class: 'btn-solid theme-primary', label: 'Button Primary' },
+            { tag: 'a', class: 'btn-solid theme-secondary', label: 'Button Secondary' },
+            { tag: 'a', class: 'btn-outline theme-primary', label: 'Button Outline Primary' },
+            { tag: 'a', class: 'btn-outline theme-secondary', label: 'Button Outline Secondary' },
         ],
     },
 });

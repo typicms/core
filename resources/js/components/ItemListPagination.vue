@@ -4,7 +4,7 @@
             <li :class="{ disabled: !data.prev_page_url }" class="page-item">
                 <button class="page-link pagination-prev-nav" @click="selectPage(data.current_page - 1)">
                     <small aria-hidden="true">←</small>
-                    <small class="ms-2">{{ $t('Previous') }}</small>
+                    <small class="ms-3">{{ $t('Previous') }}</small>
                 </button>
             </li>
             <li
@@ -22,7 +22,7 @@
             </li>
             <li :class="{ disabled: !data.next_page_url }" class="page-item">
                 <button class="page-link pagination-next-nav" @click="selectPage(data.current_page + 1)">
-                    <small class="me-2">{{ $t('Next') }}</small>
+                    <small class="me-3">{{ $t('Next') }}</small>
                     <small aria-hidden="true">→</small>
                 </button>
             </li>

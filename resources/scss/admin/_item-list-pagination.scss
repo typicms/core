@@ -1,25 +1,33 @@
-.item-list-pagination {
-    @extend .card-footer;
-    padding-block: $spacer * 0.5;
-    @include media-breakpoint-up(lg) {
-        @include bordered-card-edge(bottom);
-    }
-    .pagination {
-        gap: 0.2rem;
-        margin-bottom: 0;
-    }
-    .page-link {
-        min-width: 1.75rem;
-        border-radius: $pagination-border-radius;
-        height: 1.75rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .pagination-prev-nav,
-    .pagination-next-nav {
-        line-height: 0.1;
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
+@use 'bootstrap/scss/bootstrap' as bs;
+@use '../tools' as *;
+@use 'variables' as *;
+@use 'mixins' as *;
+
+@layer custom {
+    .item-list-pagination {
+        @extend .card-footer;
+        padding-block: $spacer * 0.5;
+        @include media-breakpoint-up(lg) {
+            @include bordered-card-edge(bottom);
+        }
+        .pagination {
+            gap: 0.2rem;
+            margin-bottom: 0;
+        }
+        .page-link {
+            min-width: 1.75rem;
+            min-height: 1.75rem;
+            border-radius: $border-radius-sm;
+            height: 1.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .pagination-prev-nav,
+        .pagination-next-nav {
+            line-height: 0.1;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
     }
 }

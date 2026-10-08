@@ -1,12 +1,12 @@
 <template>
-    <div class="mb-3">
-        <p class="form-label mb-2">
+    <div class="mb-5">
+        <p class="form-label mb-3">
             <span v-if="label">{{ t(label) }}</span>
             <span v-else-if="type === 'audio'">{{ t('Audio') }}</span>
             <span v-else-if="type === 'video'">{{ t('Video') }}</span>
             <span v-else-if="type === 'image'">{{ t('Image') }}</span>
             <span v-else>{{ t('Document') }}</span>
-            <small v-if="hint" class="text-muted"> ({{ t(hint) }})</small>
+            <small v-if="hint" class="fg-secondary"> ({{ t(hint) }})</small>
         </p>
         <input :id="field" v-model="fileId" :name="field" :rel="field" type="hidden" />
         <div>
@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        <div v-if="file === null" class="mb-3">
+        <div v-if="file === null" class="mb-5">
             <button class="filemanager-field-btn-add" type="button" @click="openFilePicker">
                 <circle-plus-icon size="16" />
                 {{ t('Add') }}

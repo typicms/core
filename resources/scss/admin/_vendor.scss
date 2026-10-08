@@ -1,0 +1,5 @@
+@use 'sass:meta';
+
+@layer vendor {
+    @include meta.load-css('tom-select/dist/css/tom-select');
+}

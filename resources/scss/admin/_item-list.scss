@@ -1,29 +1,35 @@
-.item-list {
-    @extend .body;
-    &-header {
-        @extend .header;
-        &-bordered {
-            @extend .header-bordered;
+@use 'bootstrap/scss/bootstrap' as bs;
+@use 'body';
+@use 'header';
+
+@layer custom {
+    .item-list {
+        @extend .body;
+        &-header {
+            @extend .header;
+            &-bordered {
+                @extend .header-bordered;
+            }
+            &-top {
+                @extend .header-top;
+            }
+            &-title {
+                @extend .header-title;
+            }
+            &-toolbar {
+                @extend .header-toolbar;
+            }
         }
-        &-top {
-            @extend .header-top;
+        &-body {
+            @extend .card-body;
+            overflow: auto;
         }
-        &-title {
-            @extend .header-title;
+        &.sub-list {
+            border-radius: var(--radius-5);
+            border-width: 1px;
         }
-        &-toolbar {
-            @extend .header-toolbar;
+        &.sub-list &-header {
+            border-radius: 0;
         }
-    }
-    &-body {
-        @extend .card-body;
-        overflow: auto;
-    }
-    &.sub-list {
-        border-radius: var(--bs-border-radius);
-        border-width: 1px;
-    }
-    &.sub-list &-header {
-        border-radius: 0;
     }
 }

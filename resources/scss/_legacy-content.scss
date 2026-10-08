@@ -1,0 +1,34 @@
+@use 'bootstrap/scss/bootstrap' as bs;
+
+// Bootstrap 5 classes found in rich-text content saved before the Bootstrap 6 upgrade.
+$legacy-themes: (
+    primary: primary,
+    secondary: secondary,
+    success: success,
+    danger: danger,
+    warning: warning,
+    info: info,
+    light: secondary,
+    dark: inverse,
+);
+
+@layer custom {
+    .lead {
+        font-size: var(--font-size-lg);
+        font-weight: var(--font-weight-light);
+    }
+
+    @each $legacy, $theme in $legacy-themes {
+        .alert-#{$legacy} {
+            @extend .theme-#{$theme};
+        }
+        .btn-#{$legacy} {
+            @extend .btn-solid;
+            @extend .theme-#{$theme};
+        }
+        .btn-outline-#{$legacy} {
+            @extend .btn-outline;
+            @extend .theme-#{$theme};
+        }
+    }
+}

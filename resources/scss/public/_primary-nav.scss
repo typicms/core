@@ -1,35 +1,41 @@
-.primary-nav {
-    &-list {
-        @extend .nav;
-        @include font-size($font-size-lg);
-        @include margin-bottom(1rem);
-        flex-direction: column;
-        align-items: center;
-        gap: 0.25rem;
-        @include media-breakpoint-up(lg) {
-            flex-grow: 1;
-            justify-content: center;
-            font-size: 1.25rem;
-            flex-direction: row;
-            align-items: flex-start;
-            margin-bottom: 0;
+@use 'bootstrap/scss/bootstrap' as bs;
+@use '../tools' as *;
+@use 'variables' as *;
+
+@layer custom {
+    .primary-nav {
+        &-list {
+            @extend .nav;
+            font-size: $font-size-lg;
+            margin-bottom: 1rem;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            @include media-breakpoint-up(lg) {
+                flex-grow: 1;
+                justify-content: center;
+                font-size: 1.25rem;
+                flex-direction: row;
+                align-items: flex-start;
+                margin-bottom: 0;
+            }
         }
-    }
-    &-item {
-        @extend .nav-item;
-        position: relative;
-        white-space: nowrap;
-    }
-    &-link {
-        @extend .btn;
-        @extend .btn-sm;
-        @extend .btn-link;
-        @extend .rounded-pill;
-        display: block;
-        text-decoration: none;
-        font-weight: 400;
-    }
-    &-item.active > &-link {
-        background-color: $gray-200;
+        &-item {
+            @extend .nav-item;
+            position: relative;
+            white-space: nowrap;
+        }
+        &-link {
+            @extend .btn;
+            @extend .btn-sm;
+            @extend .btn-link;
+            @extend .rounded-pill;
+            display: block;
+            text-decoration: none;
+            font-weight: 400;
+        }
+        &-item.active > &-link {
+            background-color: $gray-200;
+        }
     }
 }

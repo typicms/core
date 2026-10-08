@@ -11,7 +11,7 @@
         <x-bootform::text :label="__('Name')" name="name" required autocomplete="off" />
     @endif
 
-    <div class="mb-3">
+    <div class="mb-5">
         <x-transbootform::checkbox :label="__('Published')" name="status" :unchecked-value="0" />
     </div>
     <x-core::tiptap-editors :$model name="body" :label="__('Body')" />

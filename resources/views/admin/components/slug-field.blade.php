@@ -9,7 +9,7 @@
         group-class="form-group-translation"
     >
         <x-slot:after-addon>
-            <x-bootform::button :value="__('Generate')" type="btn-outline-secondary" class="btn-slug" />
+            <x-bootform::button :value="__('Generate')" type="btn-outline theme-secondary" class="btn-slug" />
         </x-slot:after-addon>
     </x-bootform::input-group>
 @endforeach

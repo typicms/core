@@ -1,5 +1,5 @@
 <template>
-    <a :href="url" class="btn btn-light btn-xs">{{ $t('Show') }}</a>
+    <a :href="url" class="btn-solid theme-secondary btn-xs">{{ $t('Show') }}</a>
 </template>
 
 <script setup>

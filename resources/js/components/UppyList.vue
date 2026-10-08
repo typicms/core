@@ -3,17 +3,17 @@
         <li v-for="file in files" :key="file.id" class="uppy-list-item">
             <div class="uppy-list-item-info">
                 <div class="uppy-list-item-status">
-                    <div v-if="!file.progress.uploadComplete && !file.error" class="spinner-border text-secondary spinner-border-sm" role="status">
+                    <div v-if="!file.progress.uploadComplete && !file.error" class="spinner-border fg-secondary spinner-sm" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
-                    <CircleCheckIcon v-else-if="file.progress.uploadComplete" :size="18" class="text-success" />
-                    <CircleXIcon v-else-if="file.error" :size="18" class="text-danger" />
+                    <CircleCheckIcon v-else-if="file.progress.uploadComplete" :size="18" class="fg-success" />
+                    <CircleXIcon v-else-if="file.error" :size="18" class="fg-danger" />
                 </div>
                 <span class="uppy-list-item-name">{{ file.name }}</span>
                 <span class="uppy-list-item-size">{{ formatFileSize(file.size) }}</span>
                 <button class="uppy-list-item-button" type="button" @click="removeFile(file.id)">{{ t('Cancel') }}</button>
             </div>
-            <div v-if="file.error" class="uppy-list-item-error text-danger">
+            <div v-if="file.error" class="uppy-list-item-error fg-danger">
                 {{ t(file.error) }}
             </div>
             <div

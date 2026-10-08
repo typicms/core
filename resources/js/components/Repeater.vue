@@ -1,16 +1,16 @@
 <template>
-    <div class="mb-3">
+    <div class="mb-5">
         <input v-if="items.length === 0" :name="name" type="hidden" />
         <label class="form-label">{{ t(title) }}</label>
 
-        <draggable v-if="items.length > 0" v-model="items" :group="'items_' + name" class="d-flex flex-column mb-3 gap-3" handle=".handle" item-key="id" @change="errors = []">
+        <draggable v-if="items.length > 0" v-model="items" :group="'items_' + name" class="d-flex flex-column mb-5 gap-5" handle=".handle" item-key="id" @change="errors = []">
             <template #item="{ element, index }">
                 <div class="d-flex card item border">
                     <div class="card-header border-bottom d-flex justify-content-between align-items-center">
-                        <grip-vertical class="handle text-secondary" size="16" />
-                        <button class="btn btn-danger btn-xs" @click.prevent="remove(element)">{{ t('Delete') }}</button>
+                        <grip-vertical class="handle fg-secondary" size="16" />
+                        <button class="btn-solid theme-danger btn-xs" @click.prevent="remove(element)">{{ t('Delete') }}</button>
                     </div>
-                    <div class="card-body d-flex justify-content-between flex-row flex-wrap gap-2">
+                    <div class="card-body d-flex justify-content-between flex-row flex-wrap gap-3">
                         <div v-for="field in fields" :key="field.name" :class="[{ 'flex-grow-1': field.type !== 'hidden' }, field.class]">
                             <template v-if="field.translatable">
                                 <repeater-field
@@ -39,7 +39,7 @@
             </template>
         </draggable>
         <div>
-            <button :disabled="maxItems !== null && items.length >= maxItems" class="btn btn-secondary btn-sm" @click.prevent="add">
+            <button :disabled="maxItems !== null && items.length >= maxItems" class="btn-solid theme-secondary btn-sm" @click.prevent="add">
                 <circle-plus-icon size="16" />
                 {{ t('Add') }}
             </button>

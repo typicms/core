@@ -1,0 +1,17 @@
+// Bootstrap 6 dropped the automatic caret of Bootstrap 5’s .dropdown-toggle.
+@layer custom {
+    [data-bs-toggle='menu']::after {
+        content: '';
+        display: inline-block;
+        flex-shrink: 0;
+        width: 0.75em;
+        height: 0.75em;
+        margin-inline-start: 0.25em;
+        vertical-align: -0.0625em;
+        background-color: currentcolor;
+        mask: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'%3e%3cpath d='m2 5 6 6 6-6'/%3e%3c/svg%3e") center / contain no-repeat;
+    }
+    .menu-toggle-split::after {
+        margin-inline-start: 0;
+    }
+}

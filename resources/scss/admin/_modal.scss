@@ -1,13 +1,13 @@
-.modal {
-    &-header {
-        @include bordered-card-edge(top);
-        background-color: var(--bs-modal-footer-bg);
-    }
-    &-content {
-        box-shadow: var(--bs-box-shadow);
-    }
-    &-footer {
-        @include bordered-card-edge(bottom);
-        padding: var(--bs-modal-header-padding-y);
+@use 'mixins' as *;
+
+@layer custom {
+    .dialog {
+        &-header {
+            @include bordered-card-edge(top);
+            background-color: var(--card-cap-bg);
+        }
+        &-footer {
+            @include bordered-card-edge(bottom);
+        }
     }
 }

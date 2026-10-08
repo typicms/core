@@ -1,21 +1,23 @@
-body.drag-active {
-    user-select: none;
-    cursor: grabbing;
-}
-
-.sortable-ghost {
-    visibility: hidden;
-}
-
-.sortable-drag {
-    box-shadow: $box-shadow-lg;
-    opacity: 1 !important;
-    td {
-        border-bottom-color: transparent !important;
+@layer custom {
+    body.drag-active {
+        user-select: none;
+        cursor: grabbing;
     }
-}
 
-.icon-grip-vertical {
-    display: block;
-    margin-top: 2px;
+    .sortable-ghost {
+        visibility: hidden;
+    }
+
+    .sortable-drag {
+        box-shadow: var(--box-shadow-lg);
+        opacity: 1 !important;
+        td {
+            border-bottom-color: transparent !important;
+        }
+    }
+
+    .icon-grip-vertical {
+        display: block;
+        margin-top: 2px;
+    }
 }

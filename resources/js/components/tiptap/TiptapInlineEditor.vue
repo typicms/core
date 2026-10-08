@@ -1,5 +1,5 @@
 <template>
-    <div class="mb-3 form-group-translation">
+    <div class="mb-5 form-group-translation">
         <label v-if="label" class="form-label">
             {{ label }}
             <span v-if="locale">({{ locale }})</span>
@@ -29,7 +29,7 @@
 <script setup>
 import StarterKit from '@tiptap/starter-kit';
 import { EditorContent, useEditor } from '@tiptap/vue-3';
-import Tooltip from 'bootstrap/js/dist/tooltip';
+import Tooltip from 'bootstrap/js/dist/tooltip.js';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 

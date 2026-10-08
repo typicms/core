@@ -1,8 +1,8 @@
 @if ($paginator->hasPages())
     <nav class="d-flex justify-items-center justify-content-between">
-        <div class="d-flex flex-fill d-flex align-items-center justify-content-center justify-content-sm-between flex-wrap">
+        <div class="d-flex flex-fill align-items-center justify-content-center sm:justify-content-between flex-wrap">
             <div>
-                <p class="small text-muted">
+                <p class="small fg-secondary">
                     {{
                         __(':from to :to results of :total', [
                             'from' => $paginator->firstItem(),

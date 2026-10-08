@@ -1,24 +1,22 @@
 <template>
-    <div :id="props.id" class="modal fade" tabindex="-1" :aria-labelledby="props.id + '-label'" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
-            <form class="modal-content" @submit.prevent="save">
-                <div class="modal-header">
-                    <h1 :id="props.id + '-label'" class="modal-title fs-5">{{ t('Edit Source Code') }}</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="t('Close')"></button>
+    <dialog :id="props.id" class="dialog dialog-xl" :aria-labelledby="props.id + '-label'">
+        <form class="d-contents" @submit.prevent="save">
+            <div class="dialog-header">
+                <h1 :id="props.id + '-label'" class="dialog-title fs-lg">{{ t('Edit Source Code') }}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="dialog" :aria-label="t('Close')"></button>
+            </div>
+            <div class="dialog-body">
+                <div class="mb-3">
+                    <label class="col-form-label">{{ t('HTML Source') }}</label>
+                    <div ref="editorContainer" class="editor-container"></div>
                 </div>
-                <div class="modal-body">
-                    <div class="mb-2">
-                        <label class="col-form-label">{{ t('HTML Source') }}</label>
-                        <div ref="editorContainer" class="editor-container"></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">{{ t('Cancel') }}</button>
-                    <button type="submit" class="btn btn-sm btn-primary">{{ t('OK') }}</button>
-                </div>
-            </form>
-        </div>
-    </div>
+            </div>
+            <div class="dialog-footer">
+                <button type="button" class="btn-sm btn-solid theme-secondary" data-bs-dismiss="dialog">{{ t('Cancel') }}</button>
+                <button type="submit" class="btn-sm btn-solid theme-primary">{{ t('OK') }}</button>
+            </div>
+        </form>
+    </dialog>
 </template>
 
 <script setup>
@@ -29,7 +27,7 @@ import { defaultHighlightStyle, indentOnInput, indentUnit, syntaxHighlighting } 
 import { searchKeymap } from '@codemirror/search';
 import { EditorState } from '@codemirror/state';
 import { drawSelection, EditorView, highlightActiveLine, highlightActiveLineGutter, keymap, lineNumbers } from '@codemirror/view';
-import Modal from 'bootstrap/js/dist/modal';
+import Dialog from 'bootstrap/js/dist/dialog.js';
 import { html as beautifyHtml } from 'js-beautify';
 import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -123,16 +121,16 @@ function save() {
 }
 
 onMounted(() => {
-    sourceCodeDialog.value = new Modal('#' + props.id, {
+    sourceCodeDialog.value = new Dialog('#' + props.id, {
         keyboard: false,
     });
 
     const modal = document.querySelector('#' + props.id);
-    modal.addEventListener('hide.bs.modal', () => {
+    modal.addEventListener('hide.bs.dialog', () => {
         const buttonElement = document.activeElement;
         buttonElement.blur();
     });
-    modal.addEventListener('hidden.bs.modal', () => {
+    modal.addEventListener('hidden.bs.dialog', () => {
         show.value = false;
         if (editorView.value) {
             editorView.value.destroy();
@@ -148,8 +146,8 @@ onMounted(() => {
 <style scoped>
 .editor-container {
     overflow: auto;
-    border-radius: var(--bs-border-radius);
-    border: 1px solid var(--bs-border-color);
+    border-radius: var(--radius-5);
+    border: 1px solid var(--border-color);
 }
 :deep(.cm-editor) {
     height: 50vh;

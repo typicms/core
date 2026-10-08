@@ -1,29 +1,33 @@
-.section-default {
-    &-container {
-        @extend .page-body-container;
-    }
+@use 'page';
 
-    &-row {
-        @extend .page-row;
-    }
+@layer custom {
+    .section-default {
+        &-container {
+            @extend .page-body-container;
+        }
 
-    &-content {
-        @extend .page-content;
-    }
+        &-row {
+            @extend .page-row;
+        }
 
-    &-left {
-        @extend .page-left;
-    }
+        &-content {
+            @extend .page-content;
+        }
 
-    &-right {
-        @extend .page-right;
-    }
+        &-left {
+            @extend .page-left;
+        }
 
-    &-figure {
-        @extend .page-figure;
+        &-right {
+            @extend .page-right;
+        }
 
-        &-image {
-            @extend .page-figure-image;
+        &-figure {
+            @extend .page-figure;
+
+            &-image {
+                @extend .page-figure-image;
+            }
         }
     }
 }

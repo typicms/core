@@ -4,9 +4,9 @@
     <nav class="typicms-navbar navbar navbar-expand justify-content-between sticky-top">
         <div class="container-fluid">
             <button
-                class="btn btn-link d-lg-none px-1"
+                class="btn-link lg:d-none px-1"
                 type="button"
-                data-bs-toggle="offcanvas"
+                data-bs-toggle="drawer"
                 data-bs-target="#offcanvasResponsive"
                 aria-controls="offcanvasResponsive"
                 aria-label="{{ __('Toggle navigation') }}"
@@ -21,24 +21,24 @@
                 <li class="nav-item">
                     <x-core::navbar-public-link :$page :$model />
                 </li>
-                <li class="nav-item dropdown">
-                    <button class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <li class="nav-item">
+                    <button class="nav-link" type="button" data-bs-toggle="menu" data-bs-placement="bottom-end" aria-expanded="false">
                         <span class="icon-circle-user-round me-1"></span>
-                        <span class="d-none d-lg-inline">{{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}</span>
+                        <span class="d-none lg:d-inline">{{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}</span>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
+                    <ul class="menu">
                         <li>
-                            <h6 class="dropdown-header">{{ auth()->user()->email }}</h6>
+                            <h6 class="menu-header">{{ auth()->user()->email }}</h6>
                         </li>
                         @can('edit profile')
                             <li>
-                                <a class="dropdown-item" href="{{ route('admin::profile') }}">{{ __('Profile') }}</a>
+                                <a class="menu-item" href="{{ route('admin::profile') }}">{{ __('Profile') }}</a>
                             </li>
                         @endcan
                         <li>
                             <form action="{{ route(mainLocale() . '::logout') }}" method="post">
                                 {{ csrf_field() }}
-                                <button class="dropdown-item" type="submit">{{ __('Logout') }}</button>
+                                <button class="menu-item" type="submit">{{ __('Logout') }}</button>
                             </form>
                         </li>
                     </ul>
@@ -47,7 +47,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin::index-settings') }}">
                             <span class="icon-settings me-1"></span>
-                            <span class="d-none d-lg-inline">{{ __('Settings') }}</span>
+                            <span class="d-none lg:d-inline">{{ __('Settings') }}</span>
                         </a>
                     </li>
                 @endcan

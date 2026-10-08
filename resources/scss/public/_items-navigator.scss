@@ -1,19 +1,26 @@
-.items-navigator {
-    &-back {
-        @extend .btn;
-        @extend .btn-sm;
-        @extend .btn-light;
-    }
-    &-previous-next {
-        @extend .btn-group;
-        @extend .btn-group-sm;
-    }
-    &-previous {
-        @extend .btn;
-        @extend .btn-light;
-    }
-    &-next {
-        @extend .btn;
-        @extend .btn-light;
+@use 'bootstrap/scss/bootstrap' as bs;
+
+@layer custom {
+    .items-navigator {
+        &-back {
+            @extend .btn;
+            @extend .btn-sm;
+            @extend .btn-solid;
+            @extend .theme-secondary;
+        }
+        &-previous-next {
+            @extend .btn-group;
+            @extend .btn-group-sm;
+        }
+        &-previous {
+            @extend .btn;
+            @extend .btn-solid;
+            @extend .theme-secondary;
+        }
+        &-next {
+            @extend .btn;
+            @extend .btn-solid;
+            @extend .theme-secondary;
+        }
     }
 }

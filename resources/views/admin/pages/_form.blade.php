@@ -16,14 +16,14 @@
     <x-core::form-errors />
 
     <div class="row">
-        <div class="col-lg-8">
-            <div class="row gx-3">
-                <div class="col-md-6">
+        <div class="lg:col-8">
+            <div class="row gx-5">
+                <div class="md:col-6">
                     <x-transbootform::text :label="__('Title')" name="title" />
                 </div>
-                <div class="col-md-6">
+                <div class="md:col-6">
                     @foreach (locales() as $locale)
-                        <div class="mb-3 form-group-translation">
+                        <div class="mb-5 form-group-translation">
                             <label class="form-label" for="slug[{{ $locale }}]">
                                 <span>{{ __('Url') }}</span>
                                 ({{ $locale }})
@@ -39,7 +39,7 @@
                                     data-slug="title[{{ $locale }}]"
                                     data-language="{{ $locale }}"
                                 />
-                                <button class="btn btn-outline-secondary btn-slug" type="button">{{ __('Generate') }}</button>
+                                <button class="btn-outline theme-secondary btn-slug" type="button">{{ __('Generate') }}</button>
                                 {!! $errors->first('slug.' . $locale, '<div class="invalid-feedback">:message</div>') !!}
                             </div>
                         </div>
@@ -49,7 +49,7 @@
 
             <x-transbootform::hidden name="uri" />
 
-            <div class="mb-3">
+            <div class="mb-5">
                 <x-transbootform::checkbox :label="__('Published')" name="status" :unchecked-value="0" />
             </div>
 
@@ -87,7 +87,7 @@
                         </template>
 
                         <template #table-row="{ model, checkedModels, loading, sortArray }">
-                            <td class="drag-handle text-muted" v-if="$can('update page_sections')" :style="{ cursor: sortArray[0] === 'position' ? 'grab' : 'default' }">
+                            <td class="drag-handle fg-secondary" v-if="$can('update page_sections')" :style="{ cursor: sortArray[0] === 'position' ? 'grab' : 'default' }">
                                 <i :class="['icon-grip-vertical', { 'opacity-50': sortArray[0] !== 'position' }]"></i>
                             </td>
                             <td class="checkbox" v-if="$can('update page_sections')||$can('delete page_sections')">
@@ -102,17 +102,17 @@
                             <td><img v-if="model.image" :src="model.thumb" alt="" height="27" /></td>
                             <td>@{{ model.title_translated }}</td>
                             <td>
-                                <span class="badge text-bg-warning">@{{ model.template.replace(new RegExp('-', 'g'), ' ') }}</span>
+                                <span class="badge theme-warning">@{{ model.template.replace(new RegExp('-', 'g'), ' ') }}</span>
                             </td>
                         </template>
                     </item-list>
                 @else
-                    <p class="alert alert-info">{{ __('Save this page first, then add sections.') }}</p>
+                    <p class="alert theme-info">{{ __('Save this page first, then add sections.') }}</p>
                 @endif
             @endcan
         </div>
 
-        <div class="col-lg-4">
+        <div class="lg:col-4">
             <div class="right-column">
                 @if (!$model->redirect)
                     <file-manager></file-manager>
@@ -124,7 +124,7 @@
                     <x-transbootform::text :label="__('Meta keywords')" name="meta_keywords" />
                 @endif
 
-                <div class="mb-3">
+                <div class="mb-5">
                     @if (!$model->redirect)
                         <x-bootform::checkbox :label="__('Is home')" name="is_home" :unchecked-value="0" />
                         <x-bootform::checkbox :label="__('Private')" name="private" :unchecked-value="0" />

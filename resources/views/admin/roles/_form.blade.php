@@ -3,8 +3,8 @@
 <x-core::header :$model :back-url="$model->indexUrl()" :back-label="__('Roles')" :default-title="__('New role')" :lang-switcher="false" />
 
 <div class="form-body">
-    <div class="row gx-3">
-        <div class="col-sm-6">
+    <div class="row gx-5">
+        <div class="sm:col-6">
             <x-bootform::text :label="__('Name')" name="name" required autocomplete="off" />
         </div>
     </div>

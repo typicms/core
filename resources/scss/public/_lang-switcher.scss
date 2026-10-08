@@ -1,21 +1,25 @@
-.lang-switcher {
-    text-transform: uppercase;
-    z-index: 1;
-    &-btn {
-        @extend .btn;
-        @extend .btn-link;
-        padding: 0.5rem 1rem;
-        line-height: 1.375;
-        border: none;
+@use 'bootstrap/scss/bootstrap' as bs;
+
+@layer custom {
+    .lang-switcher {
         text-transform: uppercase;
-        font-weight: normal;
-        width: 4rem;
-    }
-    &-list {
-        min-width: 0;
-        width: 4rem;
-    }
-    &-item {
-        padding: 0.5rem 1rem;
+        z-index: 1;
+        &-btn {
+            @extend .btn;
+            @extend .btn-link;
+            padding: 0.5rem 1rem;
+            line-height: 1.375;
+            border: none;
+            text-transform: uppercase;
+            font-weight: normal;
+            width: 4rem;
+        }
+        &-list {
+            min-width: 0;
+            width: 4rem;
+        }
+        &-item {
+            padding: 0.5rem 1rem;
+        }
     }
 }

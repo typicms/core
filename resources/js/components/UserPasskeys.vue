@@ -1,34 +1,34 @@
 <template>
     <div>
-        <form class="mb-2" @submit.prevent="addPassKey">
+        <form class="mb-3" @submit.prevent="addPassKey">
             <p class="form-label">
                 {{ t('Passkeys') }}
             </p>
-            <p v-if="passkeys.length === 0 && !loading" class="text-muted">
+            <p v-if="passkeys.length === 0 && !loading" class="fg-secondary">
                 <em>{{ t('This user has no passkeys.') }}</em>
             </p>
-            <button v-if="createButton" type="submit" class="btn btn-sm btn-light">
+            <button v-if="createButton" type="submit" class="btn-sm btn-solid theme-secondary">
                 <i class="icon-key-round"></i>
                 {{ t('Create a passkey') }}
             </button>
             <span v-if="error" class="invalid-feedback">{{ error }}</span>
         </form>
 
-        <div class="mb-3">
-            <div v-if="loading" class="spinner-border spinner-border-sm text-dark" role="status">
+        <div class="mb-5">
+            <div v-if="loading" class="spinner-border spinner-sm fg-body" role="status">
                 <span class="visually-hidden">{{ t('Loading…') }}</span>
             </div>
-            <ul v-if="passkeys.length > 0 && !loading" class="list-unstyled mb-0 d-flex flex-row flex-wrap gap-2">
-                <li v-for="passkey in passkeys" :key="passkey.id" class="px-3 border d-flex flex-row align-items-center gap-4 rounded">
-                    <key-round-icon class="text-body-tertiary" size="40" stroke-width="1.5" />
-                    <div class="d-flex flex-column py-3">
+            <ul v-if="passkeys.length > 0 && !loading" class="list-unstyled mb-0 d-flex flex-row flex-wrap gap-3">
+                <li v-for="passkey in passkeys" :key="passkey.id" class="px-5 border d-flex flex-row align-items-center gap-7 rounded">
+                    <key-round-icon class="fg-4" size="40" stroke-width="1.5" />
+                    <div class="d-flex flex-column py-5">
                         <div class="mb-1">{{ t('Name') }}: {{ passkey.name }}</div>
-                        <div class="small mb-2 text-body-tertiary">
+                        <div class="small mb-3 fg-4">
                             {{ t('Last used') }}:
                             {{ passkey.last_used_at ? formatDateTime(passkey.last_used_at) : t('Not used yet') }}
                         </div>
                         <div>
-                            <button class="btn btn-outline-danger btn-xs" type="button" @click="deletePasskey(passkey.id)">
+                            <button class="btn-outline theme-danger btn-xs" type="button" @click="deletePasskey(passkey.id)">
                                 {{ t('Delete') }}
                             </button>
                         </div>

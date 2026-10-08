@@ -1,24 +1,21 @@
-.preview-modal {
-    &-dialog {
-        --bs-modal-width: calc(100% - 6rem);
+@layer custom {
+    .preview-dialog {
+        --dialog-width: calc(100% - 6rem);
         height: 90vh;
-    }
-    &-content {
-        height: 100%;
         overflow: hidden;
-    }
-    &-iframe {
-        height: 100%;
-    }
-    &-btn-close {
-        background-color: var(--bs-white);
-        position: absolute;
-        right: 0.5rem;
-        top: 0.5rem;
-        padding: 0.5rem;
-        opacity: 0.9;
-        &:hover {
-            opacity: 1;
+        &-iframe {
+            height: 100%;
+        }
+        &-btn-close {
+            background-color: var(--white);
+            position: absolute;
+            right: 0.5rem;
+            top: 0.5rem;
+            padding: 0.5rem;
+            opacity: 0.9;
+            &:hover {
+                opacity: 1;
+            }
         }
     }
 }

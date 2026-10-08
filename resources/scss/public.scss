@@ -1,129 +1,163 @@
-@import 'public/variables';
-@import 'public/bootstrap';
-@import 'public/lucide';
-@import 'public/admin-buttons';
-@import 'public/errors';
-@import 'public/skip-to-content';
+@use 'layers';
+@use 'public/bootstrap' as bs;
+@use 'bootstrap/scss/bootstrap';
+@use 'tools' as *;
+@use 'public/variables' as *;
+@use 'public/vendor';
 
-@import 'public/lang-switcher';
-@import 'public/items-navigator';
+@use 'public/lucide';
+@use 'public/errors';
+@use 'public/skip-to-content';
 
-@import 'public/buttons';
+@use 'public/lang-switcher';
+@use 'public/items-navigator';
 
-@import 'public/primary-nav';
-@import 'public/social-nav';
-@import 'public/footer-nav';
-@import 'public/legal-nav';
+@use 'public/buttons';
+@use 'public/admin-buttons';
 
-@import 'public/header';
-@import 'public/hamburger';
-@import 'public/navigation';
+@use 'public/primary-nav';
+@use 'public/social-nav';
+@use 'public/footer-nav';
+@use 'public/legal-nav';
 
-@import 'public/page';
-@import 'public/section-default';
-@import 'public/share-links';
-@import 'public/pagination';
-@import 'public/document-list';
-@import 'public/image-list';
+@use 'public/header';
+@use 'public/hamburger';
+@use 'public/navigation';
 
-@import '/node_modules/photoswipe/dist/photoswipe';
-@import 'public/swiper';
+@use 'public/page';
+@use 'public/section-default';
+@use 'public/share-links';
+@use 'public/pagination';
+@use 'public/document-list';
+@use 'public/image-list';
 
-@import 'public/footer';
-@import 'public/anchor-top';
+@use 'public/swiper';
 
-@media screen and (prefers-reduced-motion: no-preference) {
-    @view-transition {
-        navigation: auto;
+@use 'public/footer';
+@use 'public/anchor-top';
+@use 'legacy-content';
+@use 'menu-toggle';
+
+@layer custom {
+    @media screen and (prefers-reduced-motion: no-preference) {
+        @view-transition {
+            navigation: auto;
+        }
     }
-}
 
-table {
-    @extend .table;
-}
-
-figure {
-    @extend .figure;
-    img {
-        @extend .figure-img;
+    table {
+        @extend .table;
     }
-    figcaption {
-        @extend .figure-caption;
-        margin-top: $paragraph-margin-bottom * 0.5;
-    }
-}
 
-blockquote {
-    color: var(--bs-gray-700);
-    border-left: 5px solid var(--bs-gray-300);
-    padding: 18px 25px 18px 22px;
-    background-color: var(--bs-gray-100);
-    quotes: '\201C' '\201D' '\2018' '\2019';
-    &:before {
-        color: #ccc;
-        content: open-quote;
-        font-size: 4em;
-        line-height: 0.1em;
-        vertical-align: -0.4em;
-        margin-left: -0.5rem;
+    h1 {
+        font-size: $font-size-base * 2;
     }
-}
+    h2 {
+        font-size: $font-size-base * 1.75;
+    }
+    h3 {
+        font-size: $font-size-base * 1.25;
+    }
+    h4 {
+        font-size: $font-size-base * 1.125;
+    }
+    h5 {
+        font-size: $font-size-base;
+    }
+    h6 {
+        font-size: $font-size-base * 0.85;
+    }
 
-.rich-content {
-    img {
-        object-fit: cover;
+    .alert {
+        border-width: 0;
         margin-bottom: $paragraph-margin-bottom;
-        &:not(.custom-size) {
-            width: 100%;
+    }
+
+    figure {
+        @extend .figure;
+        img {
+            max-width: 100%;
             height: auto;
         }
-    }
-    figure {
-        margin-bottom: $paragraph-margin-bottom * 0.5;
-        img {
-            margin-bottom: 0;
+        figcaption {
+            @extend .figure-caption;
+            margin-top: $paragraph-margin-bottom * 0.5;
         }
     }
-    figure,
-    img {
-        border-radius: var(--bs-border-radius-lg);
-        @each $direction, $opposite in (left: right, right: left) {
-            &[style*='float:#{$direction}'],
-            &[style*='float: #{$direction}'] {
-                max-width: 40%;
 
-                @include media-breakpoint-down(sm) {
-                    float: none !important;
-                    display: block;
-                    max-width: 100%;
-                }
+    blockquote {
+        color: var(--gray-700);
+        border-left: 5px solid var(--gray-300);
+        padding: 18px 25px 18px 22px;
+        background-color: var(--gray-100);
+        font-size: inherit;
+        quotes: '\201C' '\201D' '\2018' '\2019';
+        &:before {
+            color: #ccc;
+            content: open-quote;
+            font-size: 4em;
+            line-height: 0.1em;
+            vertical-align: -0.4em;
+            margin-left: -0.5rem;
+        }
+    }
 
-                @include media-breakpoint-up(sm) {
-                    margin-#{$opposite}: $paragraph-margin-bottom;
+    .rich-content {
+        img {
+            object-fit: cover;
+            margin-bottom: $paragraph-margin-bottom;
+            &:not(.custom-size) {
+                width: 100%;
+                height: auto;
+            }
+        }
+        figure {
+            margin-bottom: $paragraph-margin-bottom * 0.5;
+            img {
+                margin-bottom: 0;
+            }
+        }
+        figure,
+        img {
+            border-radius: var(--radius-9);
+            @each $direction, $opposite in (left: right, right: left) {
+                &[style*='float:#{$direction}'],
+                &[style*='float: #{$direction}'] {
+                    max-width: 40%;
+
+                    @include media-breakpoint-down(sm) {
+                        float: none !important;
+                        display: block;
+                        max-width: 100%;
+                    }
+
+                    @include media-breakpoint-up(sm) {
+                        margin-#{$opposite}: $paragraph-margin-bottom;
+                    }
                 }
             }
         }
     }
-}
 
-.required_mark {
-    color: var(--bs-red);
-}
-
-[data-youtube-video],
-[data-media-embed] {
-    margin-bottom: $paragraph-margin-bottom;
-    iframe {
-        aspect-ratio: 16 / 9;
-        height: 100%;
-        width: 100%;
+    .required_mark {
+        color: var(--red-500);
     }
-}
 
-.arrow-list li::marker {
-    content: '→ ';
-}
+    [data-youtube-video],
+    [data-media-embed] {
+        margin-bottom: $paragraph-margin-bottom;
+        iframe {
+            aspect-ratio: 16 / 9;
+            height: 100%;
+            width: 100%;
+        }
+    }
 
-.alert a {
-    @extend .alert-link;
+    .arrow-list li::marker {
+        content: '→ ';
+    }
+
+    .alert a {
+        @extend .alert-link;
+    }
 }

@@ -1,90 +1,88 @@
 <template>
-    <div :id="props.id" class="modal fade" tabindex="-1" :aria-labelledby="props.id + '-label'" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <form class="modal-content" @submit.prevent="save">
-                <div class="modal-header">
-                    <h1 :id="props.id + '-label'" class="modal-title fs-5">{{ t('Image') }}</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="t('Close')"></button>
+    <dialog :id="props.id" class="dialog" :aria-labelledby="props.id + '-label'">
+        <form class="d-contents" @submit.prevent="save">
+            <div class="dialog-header">
+                <h1 :id="props.id + '-label'" class="dialog-title fs-lg">{{ t('Image') }}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="dialog" :aria-label="t('Close')"></button>
+            </div>
+            <div class="dialog-body">
+                <div class="mb-3">
+                    <label :for="props.id + '-src'" class="col-form-label">{{ t('URL') }}</label>
+                    <div class="input-group">
+                        <input :id="props.id + '-src'" v-model="src" type="text" class="form-control" />
+                        <button type="button" class="btn-sm btn-solid theme-secondary" @click="browseServer">
+                            {{ t('Browse server') }}
+                        </button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <div class="mb-2">
-                        <label :for="props.id + '-src'" class="col-form-label">{{ t('URL') }}</label>
+                <div class="mb-3">
+                    <label :for="props.id + '-alt'" class="col-form-label">{{ t('Alt attribute') }}</label>
+                    <input :id="props.id + '-alt'" v-model="alt" type="text" class="form-control" />
+                </div>
+                <div class="form-field mt-5">
+                    <input :id="props.id + '-captioned'" v-model="captioned" class="check" type="checkbox" />
+                    <label :for="props.id + '-captioned'">{{ t('Captioned image') }}</label>
+                </div>
+                <div class="form-field mb-3">
+                    <input :id="props.id + '-custom-size'" v-model="customSize" class="check" type="checkbox" @change="onCustomSizeChange" />
+                    <label :for="props.id + '-custom-size'">{{ t('Custom size') }}</label>
+                </div>
+                <div v-show="customSize" class="row mb-3 gx-5">
+                    <div class="col">
+                        <label :for="props.id + '-width'" class="col-form-label">{{ t('Width') }}</label>
                         <div class="input-group">
-                            <input :id="props.id + '-src'" v-model="src" type="text" class="form-control" />
-                            <button type="button" class="btn btn-sm btn-light" @click="browseServer">
-                                {{ t('Browse server') }}
-                            </button>
+                            <input :id="props.id + '-width'" v-model="width" class="form-control" type="number" min="0" :disabled="!customSize" @input="setHeight" />
+                            <span class="input-group-text">px</span>
                         </div>
                     </div>
-                    <div class="mb-2">
-                        <label :for="props.id + '-alt'" class="col-form-label">{{ t('Alt attribute') }}</label>
-                        <input :id="props.id + '-alt'" v-model="alt" type="text" class="form-control" />
-                    </div>
-                    <div class="form-check mt-3">
-                        <input :id="props.id + '-captioned'" v-model="captioned" class="form-check-input" type="checkbox" />
-                        <label class="form-check-label" :for="props.id + '-captioned'">{{ t('Captioned image') }}</label>
-                    </div>
-                    <div class="form-check mb-2">
-                        <input :id="props.id + '-custom-size'" v-model="customSize" class="form-check-input" type="checkbox" @change="onCustomSizeChange" />
-                        <label class="form-check-label" :for="props.id + '-custom-size'">{{ t('Custom size') }}</label>
-                    </div>
-                    <div v-show="customSize" class="row mb-2 gx-3">
-                        <div class="col">
-                            <label :for="props.id + '-width'" class="col-form-label">{{ t('Width') }}</label>
-                            <div class="input-group">
-                                <input :id="props.id + '-width'" v-model="width" class="form-control" type="number" min="0" :disabled="!customSize" @input="setHeight" />
-                                <span class="input-group-text">px</span>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <label :for="props.id + '-height'" class="col-form-label">{{ t('Height') }}</label>
-                            <div class="input-group">
-                                <input
-                                    :id="props.id + '-height'"
-                                    v-model="height"
-                                    class="form-control"
-                                    type="number"
-                                    min="0"
-                                    :step="baseline"
-                                    :disabled="!customSize"
-                                    @input="setWidth"
-                                    @change="snapHeight"
-                                />
-                                <span class="input-group-text">px</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div v-show="customSize" class="form-check mb-2">
-                        <input :id="props.id + '-constrain'" v-model="constrain" class="form-check-input" type="checkbox" />
-                        <label class="form-check-label" :for="props.id + '-constrain'">{{ t('Constrain proportions') }}</label>
-                    </div>
-                    <div v-show="customSize" class="mt-3">
-                        <label class="form-label">{{ t('Alignment') }}</label>
-                        <div class="form-check">
-                            <input :id="props.id + '-align-none'" v-model="align" class="form-check-input" type="radio" value="none" />
-                            <label class="form-check-label" :for="props.id + '-align-none'">{{ t('None') }}</label>
-                        </div>
-                        <div class="form-check">
-                            <input :id="props.id + '-align-left'" v-model="align" class="form-check-input" type="radio" value="left" />
-                            <label class="form-check-label" :for="props.id + '-align-left'">{{ t('Left') }}</label>
-                        </div>
-                        <div class="form-check">
-                            <input :id="props.id + '-align-right'" v-model="align" class="form-check-input" type="radio" value="right" />
-                            <label class="form-check-label" :for="props.id + '-align-right'">{{ t('Right') }}</label>
+                    <div class="col">
+                        <label :for="props.id + '-height'" class="col-form-label">{{ t('Height') }}</label>
+                        <div class="input-group">
+                            <input
+                                :id="props.id + '-height'"
+                                v-model="height"
+                                class="form-control"
+                                type="number"
+                                min="0"
+                                :step="baseline"
+                                :disabled="!customSize"
+                                @input="setWidth"
+                                @change="snapHeight"
+                            />
+                            <span class="input-group-text">px</span>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">{{ t('Cancel') }}</button>
-                    <button type="submit" class="btn btn-sm btn-primary">{{ t('OK') }}</button>
+                <div v-show="customSize" class="form-field mb-3">
+                    <input :id="props.id + '-constrain'" v-model="constrain" class="check" type="checkbox" />
+                    <label :for="props.id + '-constrain'">{{ t('Constrain proportions') }}</label>
                 </div>
-            </form>
-        </div>
-    </div>
+                <div v-show="customSize" class="mt-5">
+                    <label class="form-label">{{ t('Alignment') }}</label>
+                    <div class="form-field">
+                        <input :id="props.id + '-align-none'" v-model="align" class="radio" type="radio" value="none" />
+                        <label :for="props.id + '-align-none'">{{ t('None') }}</label>
+                    </div>
+                    <div class="form-field">
+                        <input :id="props.id + '-align-left'" v-model="align" class="radio" type="radio" value="left" />
+                        <label :for="props.id + '-align-left'">{{ t('Left') }}</label>
+                    </div>
+                    <div class="form-field">
+                        <input :id="props.id + '-align-right'" v-model="align" class="radio" type="radio" value="right" />
+                        <label :for="props.id + '-align-right'">{{ t('Right') }}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="dialog-footer">
+                <button type="button" class="btn-sm btn-solid theme-secondary" data-bs-dismiss="dialog">{{ t('Cancel') }}</button>
+                <button type="submit" class="btn-sm btn-solid theme-primary">{{ t('OK') }}</button>
+            </div>
+        </form>
+    </dialog>
 </template>
 
 <script setup>
-import Modal from 'bootstrap/js/dist/modal';
+import Dialog from 'bootstrap/js/dist/dialog.js';
 import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -199,8 +197,8 @@ function getBaseline() {
     const target = document.querySelector('.rich-content-container') || document.documentElement;
     const styles = getComputedStyle(target);
     const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
-    const lineHeight = parseFloat(styles.getPropertyValue('--bs-body-line-height')) || 1.5;
-    const fontSizeRaw = styles.getPropertyValue('--bs-body-font-size').trim();
+    const lineHeight = parseFloat(styles.getPropertyValue('--body-line-height')) || 1.5;
+    const fontSizeRaw = styles.getPropertyValue('--body-font-size').trim();
 
     let fontSizePx;
     if (fontSizeRaw.endsWith('rem')) {
@@ -280,15 +278,15 @@ function save() {
 }
 
 onMounted(() => {
-    imageDialog.value = new Modal('#' + props.id);
+    imageDialog.value = new Dialog('#' + props.id);
     baseline.value = getBaseline();
 
     const modal = document.querySelector('#' + props.id);
-    modal.addEventListener('hide.bs.modal', () => {
+    modal.addEventListener('hide.bs.dialog', () => {
         const buttonElement = document.activeElement;
         buttonElement.blur();
     });
-    modal.addEventListener('hidden.bs.modal', () => {
+    modal.addEventListener('hidden.bs.dialog', () => {
         show.value = false;
         activeElement.value.focus();
     });

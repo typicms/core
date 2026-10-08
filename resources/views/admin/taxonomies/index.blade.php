@@ -27,7 +27,7 @@
         </template>
 
         <template #table-row="{ model, checkedModels, loading, sortArray }">
-            <td class="drag-handle text-muted" v-if="$can('update partners')" :style="{ cursor: sortArray[0] === 'position' ? 'grab' : 'default' }">
+            <td class="drag-handle fg-secondary" v-if="$can('update partners')" :style="{ cursor: sortArray[0] === 'position' ? 'grab' : 'default' }">
                 <i :class="['icon-grip-vertical', { 'opacity-50': sortArray[0] !== 'position' }]"></i>
             </td>
             <td class="checkbox" v-if="$can('update taxonomies')||$can('delete taxonomies')">
@@ -37,16 +37,16 @@
                 <item-list-edit-button :url="'/admin/taxonomies/' + model.id + '/edit'"></item-list-edit-button>
             </td>
             <td v-if="$can('update terms')">
-                <a class="btn btn-light btn-xs" :href="'/admin/taxonomies/' + model.id + '/terms'">{{ __('Terms') }}</a>
+                <a class="btn-solid theme-secondary btn-xs" :href="'/admin/taxonomies/' + model.id + '/terms'">{{ __('Terms') }}</a>
             </td>
             <td>@{{ model.name }}</td>
             <td>@{{ model.title_translated }}</td>
             <td>
-                <small class="text-muted">@{{ model.validation_rule }}</small>
+                <small class="fg-secondary">@{{ model.validation_rule }}</small>
             </td>
             <td>@{{ model.result_string_translated }}</td>
             <td>
-                <span class="badge text-bg-warning me-1" v-for="module in model.modules">@{{ module }}</span>
+                <span class="badge me-1 theme-warning" v-for="module in model.modules">@{{ module }}</span>
             </td>
         </template>
     </item-list>

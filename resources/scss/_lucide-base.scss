@@ -1,25 +1,29 @@
-@font-face {
-    font-family: 'lucide';
-    src: url('../fonts/lucide-subset.woff2?t=1751036098915') format('woff2');
-}
+@layer custom {
+    @font-face {
+        font-family: 'lucide';
+        src: url('../fonts/lucide-subset.woff2?t=1751036098915') format('woff2');
+    }
 
-.lucide-icon {
-    font-family: 'lucide' !important;
-    font-size: inherit;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
+    .lucide-icon {
+        font-family: 'lucide' !important;
+        font-size: inherit;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
 
-[class^='icon-'],
-[class*=' icon-'] {
-    @extend .lucide-icon;
+    [class^='icon-'],
+    [class*=' icon-'] {
+        @extend .lucide-icon;
+    }
 }
 
 @mixin generate-icons($icons) {
-    @each $name, $unicode in $icons {
-        .icon-#{$name}::before {
-            content: $unicode;
+    @layer custom {
+        @each $name, $unicode in $icons {
+            .icon-#{$name}::before {
+                content: $unicode;
+            }
         }
     }
 }

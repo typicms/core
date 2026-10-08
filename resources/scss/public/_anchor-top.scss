@@ -1,32 +1,38 @@
-.anchor-top {
-    @include transition($transition-fade);
-    position: fixed;
-    opacity: 1;
-    width: 40px;
-    height: 40px;
-    bottom: $container-padding-x * 0.75;
-    right: $container-padding-x * 0.75;
-    z-index: 1000;
-    @include media-breakpoint-up(sm) {
-        width: 50px;
-        height: 50px;
-        bottom: 4.5rem;
-    }
-    &.disabled {
-        opacity: 0;
-    }
-    &-button {
-        @extend .btn;
-        @extend .rounded-pill;
-        @include button-variant(#fff9, $primary, $primary, $primary, $primary, $white);
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        &:after {
-            display: none;
+@use 'bootstrap/scss/bootstrap' as bs;
+@use '../tools' as *;
+@use 'variables' as *;
+
+@layer custom {
+    .anchor-top {
+        @include transition($transition-fade);
+        position: fixed;
+        opacity: 1;
+        width: 40px;
+        height: 40px;
+        bottom: $container-padding-x * 0.75;
+        right: $container-padding-x * 0.75;
+        z-index: 1000;
+        @include media-breakpoint-up(sm) {
+            width: 50px;
+            height: 50px;
+            bottom: 4.5rem;
+        }
+        &.disabled {
+            opacity: 0;
+        }
+        &-button {
+            @extend .btn;
+            @extend .rounded-pill;
+            @include button-variant(color-mix(in oklch, var(--white) 60%, transparent), $primary, $primary, $primary, $primary, $white);
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &:after {
+                display: none;
+            }
         }
     }
 }

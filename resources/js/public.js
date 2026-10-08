@@ -1,6 +1,6 @@
-import Alert from 'bootstrap/js/dist/alert';
-import Collapse from 'bootstrap/js/dist/collapse';
-import Dropdown from 'bootstrap/js/dist/dropdown';
+import Alert from 'bootstrap/js/dist/alert.js';
+import Collapse from 'bootstrap/js/dist/collapse.js';
+import Menu from 'bootstrap/js/dist/menu.js';
 import Swiper from 'swiper';
 import { Autoplay, EffectFade, Navigation, Pagination, Parallax } from 'swiper/modules';
 

@@ -8,18 +8,18 @@
 
 @if (($taxonomies = \TypiCMS\Modules\Core\Models\Taxonomy::query()->whereJsonContains('modules', $module)->order()->get()) and $taxonomies->count() > 0)
     @foreach ($taxonomies as $taxonomy)
-        <div class="col-sm-6 col-xl-3">
+        <div class="sm:col-6 xl:col-3">
             <label class="form-label" for="">{{ __('validation.attributes.terms.' . $taxonomy->name) }}</label>
             <input type="hidden" name="terms[{{ $taxonomy->name }}][]" />
             @foreach ($taxonomy->terms as $term)
-                <div class="form-check {{ $errors->has('terms.' . $taxonomy->name) ? 'is-invalid' : '' }}">
+                <div class="form-field {{ $errors->has('terms.' . $taxonomy->name) ? 'is-invalid' : '' }}">
                     {!!
                         Form::checkbox('terms[' . $taxonomy->name . '][]', $term->id)
                             ->id('term_' . $term->id)
-                            ->addClass('form-check-input')
+                            ->addClass('check')
                             ->addClass($errors->has('terms.' . $taxonomy->name) ? 'is-invalid' : '')
                     !!}
-                    <label class="form-check-label" for="{{ 'term_' . $term->id }}">{{ $term->title }}</label>
+                    <label for="{{ 'term_' . $term->id }}">{{ $term->title }}</label>
                 </div>
             @endforeach
 

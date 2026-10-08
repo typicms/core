@@ -1,0 +1,13 @@
+@use 'sass:meta';
+
+@layer vendor {
+    @include meta.load-css('photoswipe/dist/photoswipe.css');
+
+    // Swiper core and module styles
+    @include meta.load-css('swiper/css');
+    @include meta.load-css('swiper/css/navigation');
+    @include meta.load-css('swiper/css/pagination');
+    @include meta.load-css('swiper/css/autoplay');
+    @include meta.load-css('swiper/css/effect-fade');
+    @include meta.load-css('swiper/css/parallax');
+}

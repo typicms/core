@@ -1,52 +1,58 @@
-.uppy-list {
-    @extend .list-group;
-    position: absolute;
-    left: $spacer;
-    right: $spacer;
-    z-index: 1;
-    box-shadow: $box-shadow;
-    &-item {
-        @extend .list-group-item;
-        display: flex;
-        flex-direction: column;
-        padding: 0.5rem 1rem;
-        gap: 0.25rem;
-        background-color: var(--bs-body-bg);
-        border: var(--bs-border-color) 1px solid;
-        position: relative;
-        overflow: hidden;
-        &-info {
-            z-index: 1;
+@use 'bootstrap/scss/bootstrap' as bs;
+@use '../tools' as *;
+@use 'variables' as *;
+
+@layer custom {
+    .uppy-list {
+        @extend .list-group;
+        position: absolute;
+        left: $spacer;
+        right: $spacer;
+        z-index: 1;
+        box-shadow: var(--box-shadow);
+        &-item {
+            @extend .list-group-item;
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-        }
-        &-status {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 18px;
-        }
-        &-size {
-            font-size: $font-size-sm;
-            margin-left: auto;
-            white-space: nowrap;
-        }
-        &-button {
-            @extend .btn;
-            @extend .btn-xs;
-            @extend .btn-light;
-        }
-        &-progress {
-            width: 100%;
-            &-bar {
-                @include transition($transition-base);
-                background-color: var(--bs-tertiary-bg);
-                position: absolute;
-                height: 100%;
-                top: 0;
-                left: 0;
+            flex-direction: column;
+            padding: 0.5rem 1rem;
+            gap: 0.25rem;
+            background-color: var(--bg-body);
+            border: var(--border-color) 1px solid;
+            position: relative;
+            overflow: hidden;
+            &-info {
+                z-index: 1;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 1rem;
+            }
+            &-status {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 18px;
+            }
+            &-size {
+                font-size: $font-size-sm;
+                margin-left: auto;
+                white-space: nowrap;
+            }
+            &-button {
+                @extend .btn-solid;
+                @extend .theme-secondary;
+                @extend .btn-xs;
+            }
+            &-progress {
+                width: 100%;
+                &-bar {
+                    @include transition();
+                    background-color: var(--bg-2);
+                    position: absolute;
+                    height: 100%;
+                    top: 0;
+                    left: 0;
+                }
             }
         }
     }
