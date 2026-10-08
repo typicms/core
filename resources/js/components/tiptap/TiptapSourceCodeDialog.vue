@@ -1,6 +1,6 @@
 <template>
     <dialog :id="props.id" class="dialog dialog-xl" :aria-labelledby="props.id + '-label'">
-        <form class="d-contents" @submit.prevent="save">
+        <form class="d-contents" @submit.prevent="show = false">
             <div class="dialog-header">
                 <h1 :id="props.id + '-label'" class="dialog-title fs-lg">{{ t('Edit Source Code') }}</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="dialog" :aria-label="t('Close')"></button>
@@ -12,7 +12,6 @@
                 </div>
             </div>
             <div class="dialog-footer">
-                <button type="button" class="btn-sm btn-solid theme-secondary" data-bs-dismiss="dialog">{{ t('Cancel') }}</button>
                 <button type="submit" class="btn-sm btn-solid theme-primary">{{ t('OK') }}</button>
             </div>
         </form>
@@ -113,22 +112,21 @@ watch(
 );
 
 function save() {
-    if (editorView.value) {
-        htmlContent.value = editorView.value.state.doc.toString();
+    if (!editorView.value) {
+        return;
     }
-    show.value = false;
+    htmlContent.value = editorView.value.state.doc.toString();
     emit('save');
 }
 
 onMounted(() => {
-    sourceCodeDialog.value = new Dialog('#' + props.id, {
-        keyboard: false,
-    });
+    sourceCodeDialog.value = new Dialog('#' + props.id);
 
     const modal = document.querySelector('#' + props.id);
     modal.addEventListener('hide.bs.dialog', () => {
         const buttonElement = document.activeElement;
         buttonElement.blur();
+        save();
     });
     modal.addEventListener('hidden.bs.dialog', () => {
         show.value = false;
