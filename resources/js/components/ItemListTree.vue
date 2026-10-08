@@ -78,10 +78,16 @@
                         {{ t('Edit') }}
                     </a>
 
-                    <button class="btn-status me-3" type="button" @click="toggleStatus(node)">
-                        <span v-if="translatable" :class="node.data.status_translated === 1 ? 'btn-status-icon-on' : 'btn-status-icon-off'" class="btn-status-icon"></span>
-                        <span v-else :class="node.data.status === 1 ? 'btn-status-icon-on' : 'btn-status-icon-off'" class="btn-status-icon"></span>
-                    </button>
+                    <div class="switch switch-sm me-3">
+                        <input
+                            :checked="(translatable ? node.data.status_translated : node.data.status) === 1"
+                            :aria-label="t('Published')"
+                            role="switch"
+                            switch
+                            type="checkbox"
+                            @change="toggleStatus(node)"
+                        />
+                    </div>
                     <house-icon v-if="node.data.is_home" class="fg-secondary" size="16" />
                     <lock-icon v-if="node.data.private" class="fg-secondary" size="16" />
                     <div class="title">{{ translatable ? node.data.title_translated : node.data.title }}</div>

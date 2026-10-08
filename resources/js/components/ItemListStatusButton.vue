@@ -1,11 +1,14 @@
 <template>
-    <button class="btn-status" type="button" @click="emitter.emit('toggleStatus', model)">
-        <span :class="statusOn ? 'btn-status-icon-on' : 'btn-status-icon-off'" class="btn-status-icon"></span>
-    </button>
+    <div class="switch switch-sm">
+        <input :checked="statusOn" :aria-label="t('Published')" role="switch" switch type="checkbox" @change="emitter.emit('toggleStatus', model)" />
+    </div>
 </template>
 
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const props = defineProps({
     model: {
