@@ -1,6 +1,7 @@
 @layer custom {
     .preview-dialog {
         --dialog-width: calc(100% - 6rem);
+        position: fixed;
         height: 90vh;
         overflow: hidden;
         &-iframe {
