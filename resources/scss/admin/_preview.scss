@@ -7,15 +7,13 @@
             height: 100%;
         }
         &-btn-close {
-            background-color: var(--white);
+            --btn-close-size: 2rem;
+            --btn-close-color: var(--gray-900);
+            --btn-close-opacity: 0.8;
+            --btn-close-hover-opacity: 1;
             position: absolute;
-            right: 0.5rem;
-            top: 0.5rem;
-            padding: 0.5rem;
-            opacity: 0.9;
-            &:hover {
-                opacity: 1;
-            }
+            right: 0.75rem;
+            top: 0.75rem;
         }
     }
 }
