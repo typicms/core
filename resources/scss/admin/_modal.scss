@@ -2,6 +2,8 @@
 
 @layer custom {
     .dialog {
+        // Bootstrap keeps closed dialogs in the layout (display: flex), out of the scroll area.
+        position: fixed;
         &-header {
             @include bordered-card-edge(top);
             background-color: var(--card-cap-bg);
