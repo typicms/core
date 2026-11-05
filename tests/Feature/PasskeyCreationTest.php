@@ -161,3 +161,60 @@ test('user without permission cannot list passkeys', function (): void {
         ->getJson("/api/users/{$user->id}/passkeys")
         ->assertForbidden();
 });
+
+test('user with update users permission cannot list a superusers passkeys', function (): void {
+    $user = createTestUser(['superuser' => false]);
+    $user->givePermissionTo('update users');
+
+    $superuser = createTestUser(['superuser' => true]);
+    createPasskeyForUser($superuser);
+
+    $this
+        ->actingAs($user, 'api')
+        ->getJson("/api/users/{$superuser->id}/passkeys")
+        ->assertForbidden();
+});
+
+test('user with update users permission cannot delete a superusers passkey', function (): void {
+    $user = createTestUser(['superuser' => false]);
+    $user->givePermissionTo('update users');
+
+    $superuser = createTestUser(['superuser' => true]);
+    $passkey = createPasskeyForUser($superuser);
+
+    $this
+        ->actingAs($user, 'api')
+        ->deleteJson("/api/passkeys/{$passkey->id}")
+        ->assertForbidden();
+
+    $this->assertDatabaseHas(Passkey::class, ['id' => $passkey->id]);
+});
+
+test('user with update users permission can delete a regular users passkey', function (): void {
+    $user = createTestUser(['superuser' => false]);
+    $user->givePermissionTo('update users');
+
+    $otherUser = createTestUser(['superuser' => false]);
+    $passkey = createPasskeyForUser($otherUser);
+
+    $this
+        ->actingAs($user, 'api')
+        ->deleteJson("/api/passkeys/{$passkey->id}")
+        ->assertSuccessful();
+
+    $this->assertDatabaseMissing(Passkey::class, ['id' => $passkey->id]);
+});
+
+test('superuser can delete another superusers passkey', function (): void {
+    $user = createTestUser(['superuser' => true]);
+
+    $superuser = createTestUser(['superuser' => true]);
+    $passkey = createPasskeyForUser($superuser);
+
+    $this
+        ->actingAs($user, 'api')
+        ->deleteJson("/api/passkeys/{$passkey->id}")
+        ->assertSuccessful();
+
+    $this->assertDatabaseMissing(Passkey::class, ['id' => $passkey->id]);
+});

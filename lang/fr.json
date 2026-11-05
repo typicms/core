@@ -692,6 +692,7 @@
     "The :attribute must contain at least one symbol.": "Le champ :attribute doit avoir au moins un symbole.",
     "The :attribute must contain at least one uppercase and one lowercase letter.": "Le champ :attribute doit avoir au moins une lettre majuscule et une lettre minuscule.",
     "The current logged in user cannot be deleted.": "L’utilisateur actuellement connecté ne peut pas être supprimé.",
+    "Only a superuser can delete a superuser.": "Seul un superutilisateur peut supprimer un superutilisateur.",
     "The folder is empty.": "Le dossier est vide.",
     "The form contains errors:": "Le formulaire contient des erreurs :",
     "The given :attribute has appeared in a data leak. Please choose a different :attribute.": "La valeur du champ :attribute est apparue dans une fuite de données. Veuillez choisir une valeur différente.",

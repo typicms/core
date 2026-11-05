@@ -8,6 +8,7 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Override;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -85,10 +86,14 @@ class Database extends Command
         DB::purge();
 
         $this->components->task('Creating database', function () use ($dbName): void {
-            DB::unprepared('CREATE DATABASE IF NOT EXISTS `'.$dbName.'`');
-            DB::unprepared('USE `'.$dbName.'`');
-            DB::connection()->setDatabaseName($dbName);
+            if (! collect(Schema::getSchemas())->contains('name', $dbName)) {
+                Schema::createDatabase($dbName);
+            }
         });
+
+        $this->laravel->make(Repository::class)->set('database.connections.mysql.database', $dbName);
+
+        DB::purge();
 
         if (count(DB::select('SHOW TABLES')) !== 0) {
             $this->components->error('The database '.$dbName.' is not empty, no migration and seed were done.');

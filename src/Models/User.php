@@ -9,6 +9,7 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Translation\HasLocalePreference;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
@@ -61,6 +62,9 @@ use TypiCMS\Modules\Core\Traits\Historable;
  * @property-read int|null $roles_count
  */
 #[Unguarded]
+#[Hidden([
+    'api_token',
+])]
 class User extends Model implements AuthenticatableContract, AuthorizableContract, HasLocalePreference, HasPasskeys
 {
     use Authenticatable;
