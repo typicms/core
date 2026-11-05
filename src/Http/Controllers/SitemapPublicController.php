@@ -49,6 +49,10 @@ final class SitemapPublicController extends Controller
                         continue;
                     }
 
+                    if (! method_exists($modelClass, 'published')) {
+                        continue;
+                    }
+
                     foreach ($modelClass::published()->get() as $item) {
                         $url = $item->url($locale);
                         if ($url) {

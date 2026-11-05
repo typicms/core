@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\View\View;
 use TypiCMS\Modules\Core\Models\Page;
 
 final class PagesPublicController extends BasePublicController
@@ -54,11 +54,6 @@ final class PagesPublicController extends BasePublicController
     {
         $homepage = $this->findHomepage();
 
-        if (! $homepage) {
-            Log::error('No homepage found.');
-            abort(404);
-        }
-
         return view('public::core.lang-chooser', [
             'homepage' => $homepage,
             'locales' => enabledLocales(),
@@ -67,9 +62,12 @@ final class PagesPublicController extends BasePublicController
 
     private function findPageByUri(?string $uri): Page
     {
+        if ($uri === null) {
+            return $this->findHomepage();
+        }
+
         return $this->pageQuery()
-            ->when($uri === null, fn ($query) => $query->where('is_home', 1))
-            ->when($uri !== null, fn ($query) => $query->whereUriIs($uri))
+            ->whereUriIs($uri)
             ->firstOrFail();
     }
 
@@ -80,7 +78,8 @@ final class PagesPublicController extends BasePublicController
             ->firstOrFail();
     }
 
-    private function pageQuery()
+    /** @return Builder<Page> */
+    private function pageQuery(): Builder
     {
         return Page::query()
             ->published()
@@ -108,9 +107,11 @@ final class PagesPublicController extends BasePublicController
 
         if (! view()->exists($templateDir.$template)) {
             info("Template {$template} not found, switching to default template.");
-            $template = 'default';
         }
 
-        return view($templateDir.$template, ['page' => $page, 'templateDir' => $templateDir]);
+        return view()->first(
+            [$templateDir.$template, $templateDir.'default'],
+            ['page' => $page, 'templateDir' => $templateDir],
+        );
     }
 }

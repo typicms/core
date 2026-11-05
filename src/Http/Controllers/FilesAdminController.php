@@ -65,8 +65,9 @@ final class FilesAdminController extends BaseAdminController
         $width = $image->width();
         $height = $image->height();
 
-        $pathInfo = pathinfo((string) $file->path);
-        $path = $pathInfo['dirname'].'/'.$pathInfo['filename'].'-'.time().'.jpg';
+        $directory = pathinfo((string) $file->path, PATHINFO_DIRNAME);
+        $filename = pathinfo((string) $file->path, PATHINFO_FILENAME);
+        $path = "{$directory}/{$filename}-".time().'.jpg';
         $encodedImage = $image->encode(new JpegEncoder(quality: 90));
         Storage::put($path, (string) $encodedImage);
 

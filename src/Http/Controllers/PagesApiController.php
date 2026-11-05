@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -81,13 +82,13 @@ final class PagesApiController extends BaseApiController
     }
 
     /** @return array<int, array{string, string}> */
-    public function linksForEditor(Request $request): array
+    public function linksForEditor(#[CurrentUser] User $user): array
     {
         $query = Page::query()
             ->select(['id', 'parent_id', 'title'])
             ->order();
 
-        if ($request->user()->cannot('read pages')) {
+        if ($user->cannot('read pages')) {
             $query->published()->where('private', false);
         }
 
