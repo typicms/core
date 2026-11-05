@@ -1,9 +1,9 @@
 <x-core::layouts.public
-    :title="$model->title . ' – ' . __('{{ modelPlural }}') . ' – ' . websiteTitle()"
+    :title="$model->title.' – '.__('{{ modelPlural }}').' – '.websiteTitle()"
     :og-title="$model->title ?? ''"
     :description="$model->summary ?? ''"
     :og-image="$model->ogImageUrl()"
-    :body-class="'body-{{ slugPlural }} body-{{ slug }}-' . $model->id . ' body-page body-page-' . $page->id"
+    :body-class="'body-{{ slugPlural }} body-{{ slug }}-'.$model->id.' body-page body-page-'.$page->id"
     :page="$page"
     :model="$model"
 >
@@ -34,7 +34,13 @@
 
             @if ($model->image)
                 <figure class="{{ slug }}-picture">
-                    <img class="{{ slug }}-picture-image" src="{{ $model->image->render(2000) }}" width="{{ $model->image->width }}" height="{{ $model->image->height }}" alt="" />
+                    <img
+                        class="{{ slug }}-picture-image"
+                        src="{{ $model->image->render(2000) }}"
+                        width="{{ $model->image->width }}"
+                        height="{{ $model->image->height }}"
+                        alt=""
+                    />
                     @if ($model->image->description)
                         <figcaption class="{{ slug }}-picture-legend">{{ $model->image->description }}</figcaption>
                     @endif

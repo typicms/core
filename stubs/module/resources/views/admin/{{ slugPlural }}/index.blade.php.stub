@@ -1,20 +1,47 @@
 <x-layouts.admin :title="__('{{ modelPlural }}')">
-    <item-list url-base="/api/{{ slugPlural }}" fields="id,image_id,status,title" table="{{ slugPlural }}" title="{{ slugPlural }}" include="image" :exportable="true" :searchable="['title']" :duplicable="false" :sorting="['title_translated']">
+    <item-list
+        url-base="/api/{{ slugPlural }}"
+        fields="id,image_id,status,title"
+        table="{{ slugPlural }}"
+        title="{{ slugPlural }}"
+        include="image"
+        :exportable="true"
+        :searchable="['title']"
+        :duplicable="false"
+        :sorting="['title_translated']"
+    >
         <template #top-buttons v-if="$can('create {{ slugPlural }}')">
             <x-core::create-button :url="route('admin::create-{{ slug }}')" :label="__('Create {{ slug }}')" />
         </template>
 
         <template #columns="{ sortArray }">
-            <item-list-column-header name="checkbox" v-if="$can('update {{ slugPlural }}')||$can('delete {{ slugPlural }}')"></item-list-column-header>
+            <item-list-column-header
+                name="checkbox"
+                v-if="$can('update {{ slugPlural }}')||$can('delete {{ slugPlural }}')"
+            ></item-list-column-header>
             <item-list-column-header name="edit" v-if="$can('update {{ slugPlural }}')"></item-list-column-header>
-            <item-list-column-header name="status_translated" sortable :sort-array="sortArray" :label="$t('Status')"></item-list-column-header>
+            <item-list-column-header
+                name="status_translated"
+                sortable
+                :sort-array="sortArray"
+                :label="$t('Status')"
+            ></item-list-column-header>
             <item-list-column-header name="image" :label="$t('Image')"></item-list-column-header>
-            <item-list-column-header name="title_translated" sortable :sort-array="sortArray" :label="$t('Title')"></item-list-column-header>
+            <item-list-column-header
+                name="title_translated"
+                sortable
+                :sort-array="sortArray"
+                :label="$t('Title')"
+            ></item-list-column-header>
         </template>
 
         <template #table-row="{ model, checkedModels, loading }">
             <td class="checkbox" v-if="$can('update {{ slugPlural }}')||$can('delete {{ slugPlural }}')">
-                <item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox>
+                <item-list-checkbox
+                    :model="model"
+                    :checked-models-prop="checkedModels"
+                    :loading="loading"
+                ></item-list-checkbox>
             </td>
             <td v-if="$can('update {{ slugPlural }}')">
                 <item-list-edit-button :url="'/admin/{{ slugPlural }}/' + model.id + '/edit'"></item-list-edit-button>

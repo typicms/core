@@ -1,5 +1,6 @@
-<x-core::layouts.page :page="$page" :body-class="'body-{{ slugPlural }} body-{{ slugPlural }}-index body-page body-page-' . $page->id">
-    <x-core::json-ld :schema="[
+<x-core::layouts.page :page="$page" :body-class="'body-{{ slugPlural }} body-{{ slugPlural }}-index body-page body-page-'.$page->id">
+    <x-core::json-ld
+        :schema="[
         '@context' => 'https://schema.org',
         '@type' => 'ItemList',
         'itemListElement' => $models
@@ -11,7 +12,8 @@
                 ],
             )
             ->all(),
-    ]" />
+    ]"
+    />
     <div class="page-body">
         <div class="page-body-container">
             @include('public::pages._main-content', ['page' => $page])
