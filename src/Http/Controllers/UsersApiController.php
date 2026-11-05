@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -39,19 +40,14 @@ final class UsersApiController extends BaseApiController
             ->paginate($request->integer('per_page'));
     }
 
-    public function updatePreferences(Request $request): void
+    public function updatePreferences(Request $request, #[CurrentUser] User $user): void
     {
-        /** @var User $user */
-        $user = $request->user();
         $user->preferences = array_merge((array) $user->preferences, $request->input());
         $user->save();
     }
 
-    public function destroy(User $user): JsonResponse
+    public function destroy(User $user, #[CurrentUser] User $currentUser): JsonResponse
     {
-        /** @var User $currentUser */
-        $currentUser = auth()->user();
-
         if ($currentUser->id === $user->id) {
             return response()->json([
                 'error' => true,
