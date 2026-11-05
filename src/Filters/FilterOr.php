@@ -16,7 +16,8 @@ class FilterOr implements Filter
 {
     public function __invoke(Builder $query, mixed $value, string $property): void
     {
-        $searchTerm = is_array($value) ? implode(',', $value) : $value;
+        $searchTerm = is_array($value) ? implode(',', array_filter($value, is_scalar(...))) : $value;
+        $searchTerm = is_scalar($searchTerm) ? (string) $searchTerm : '';
         $columns = explode(',', $property);
         $locale = request()->string('locale')->value();
 
@@ -37,9 +38,11 @@ class FilterOr implements Filter
                     $sql = "unaccent(\"{$column}\"::jsonb->>?) ILIKE unaccent(?)";
                     $bindings = [$locale, "%{$searchTerm}%"];
                 } else {
-                    $collation = $driver !== 'mariadb'
-                        ? ' COLLATE '.((string) $connection->getConfig('collation') ?: 'utf8mb4_unicode_ci')
-                        : '';
+                    $configuredCollation = $connection->getConfig('collation');
+                    $collation = is_string($configuredCollation) && $configuredCollation !== ''
+                        ? $configuredCollation
+                        : 'utf8mb4_unicode_ci';
+                    $collation = $driver !== 'mariadb' ? " COLLATE {$collation}" : '';
                     $sql = "JSON_UNQUOTE(JSON_EXTRACT(`{$column}`, ?)) LIKE ?{$collation}";
                     $bindings = ["$.{$locale}", "%{$searchTerm}%"];
                 }

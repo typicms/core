@@ -18,6 +18,6 @@ trait HasOgImage
             return $this->image->render(1200, 630);
         }
 
-        return Vite::asset(config('typicms.og_image'));
+        return Vite::asset(config()->string('typicms.og_image'));
     }
 }

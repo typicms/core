@@ -80,17 +80,17 @@ class Publish extends Command
         ]);
 
         foreach ($manager->listContents('from://', true) as $file) {
-            if (mb_substr((string) $file['path'], 0, 15) === 'resources/views') {
+            if (mb_substr($file->path(), 0, 15) === 'resources/views') {
                 continue;
             }
 
-            if (mb_substr((string) $file['path'], 0, 16) === 'resources/assets') {
+            if (mb_substr($file->path(), 0, 16) === 'resources/assets') {
                 continue;
             }
 
-            $path = Str::after($file['path'], 'from://');
-            if ($file['type'] === 'file' && (! $manager->fileExists('to://'.$path) || $this->option('force'))) {
-                $manager->write('to://'.$path, $manager->read($file['path']));
+            $path = Str::after($file->path(), 'from://');
+            if ($file->isFile() && (! $manager->fileExists('to://'.$path) || $this->option('force'))) {
+                $manager->write('to://'.$path, $manager->read($file->path()));
             }
         }
     }

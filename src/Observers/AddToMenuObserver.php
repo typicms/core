@@ -36,6 +36,6 @@ class AddToMenuObserver
     {
         $position = Menulink::query()->where('menu_id', $id)->max('position');
 
-        return $position + 1;
+        return (is_numeric($position) ? (int) $position : 0) + 1;
     }
 }

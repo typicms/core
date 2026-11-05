@@ -19,22 +19,25 @@ final class TaxonomiesAdminController extends BaseAdminController
     public function create(): View
     {
         $model = new Taxonomy;
-        $modules = array_filter(
-            config('typicms.modules'),
-            fn (array $item): bool => isset($item['has_taxonomies']) && $item['has_taxonomies'] === true,
-        );
+        $modules = $this->modulesWithTaxonomies();
 
         return view('admin::taxonomies.create', ['model' => $model, 'modules' => $modules]);
     }
 
     public function edit(Taxonomy $taxonomy): View
     {
-        $modules = array_filter(
-            config('typicms.modules'),
-            fn (array $item): bool => isset($item['has_taxonomies']) && $item['has_taxonomies'] === true,
-        );
+        $modules = $this->modulesWithTaxonomies();
 
         return view('admin::taxonomies.edit', ['model' => $taxonomy, 'modules' => $modules]);
+    }
+
+    /** @return array<array<mixed>> */
+    private function modulesWithTaxonomies(): array
+    {
+        return array_filter(
+            (array) config('typicms.modules'),
+            fn (mixed $item): bool => is_array($item) && ($item['has_taxonomies'] ?? false) === true,
+        );
     }
 
     public function store(TaxonomyFormRequest $request): RedirectResponse

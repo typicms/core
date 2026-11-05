@@ -52,7 +52,7 @@ trait Publishable
     {
         return Attribute::make(set: function ($status) {
             if (is_array($status)) {
-                return json_encode(array_map(fn ($item): int => (int) $item, $status));
+                return json_encode(array_map(fn (mixed $item): int => is_numeric($item) ? (int) $item : 0, $status));
             }
 
             return $status;

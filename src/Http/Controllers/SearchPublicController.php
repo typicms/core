@@ -25,6 +25,9 @@ final class SearchPublicController extends BasePublicController
         }
 
         $config = config('typicms.search');
+        if (! is_array($config)) {
+            $config = [];
+        }
         $words = array_filter(explode(' ', $data['query']));
 
         foreach ($config as $key => $data) {
@@ -32,8 +35,14 @@ final class SearchPublicController extends BasePublicController
                 continue;
             }
 
-            $model = resolve($data['model']);
-            $columns = $data['columns'];
+            $modelClass = $data['model'] ?? null;
+            $columns = $data['columns'] ?? null;
+            if (! is_string($modelClass) || ! is_array($columns)) {
+                continue;
+            }
+
+            $columns = array_filter($columns, is_string(...));
+            $model = resolve($modelClass);
             $query = $model
                 ->query()
                 ->where(function ($query) use ($words, $columns, $model, $key): void {

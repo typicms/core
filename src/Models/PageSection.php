@@ -106,7 +106,9 @@ class PageSection extends Model implements Sortable
             return null;
         }
 
-        return "{$pageUrl}#{$this->position}-{$this->translate('slug', $locale)}";
+        $slug = $this->translate('slug', $locale);
+
+        return "{$pageUrl}#{$this->position}-".(is_string($slug) ? $slug : '');
     }
 
     public function previewUrl(?string $locale = null): ?string

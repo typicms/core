@@ -26,8 +26,10 @@ final class DashboardAdminController extends BaseAdminController
     private function fetchWelcomeMessage(): string
     {
         $sanitizer = new HtmlSanitizer;
-        $fallback = $sanitizer->sanitize((string) config('typicms.welcome_message'));
-        $url = (string) config('typicms.welcome_message_url');
+        $welcomeMessage = config('typicms.welcome_message');
+        $fallback = $sanitizer->sanitize(is_string($welcomeMessage) ? $welcomeMessage : '');
+        $welcomeMessageUrl = config('typicms.welcome_message_url');
+        $url = is_string($welcomeMessageUrl) ? $welcomeMessageUrl : '';
 
         if ($url === '' || ! $this->isAllowedUrl($url)) {
             return $fallback;

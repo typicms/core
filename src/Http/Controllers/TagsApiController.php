@@ -16,7 +16,7 @@ use TypiCMS\Modules\Core\Models\Tag;
 
 final class TagsApiController extends BaseApiController
 {
-    /** @return LengthAwarePaginator<int, mixed> */
+    /** @return LengthAwarePaginator<int, Tag> */
     public function index(Request $request): LengthAwarePaginator
     {
         $query = Tag::query()->selectFields();

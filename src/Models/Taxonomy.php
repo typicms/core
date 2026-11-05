@@ -89,7 +89,7 @@ class Taxonomy extends Model implements Sortable
             ->pluck('title', 'id')
             ->all();
 
-        return ['' => ''] + $items;
+        return ['' => ''] + array_filter($items, is_string(...));
     }
 
     /** @return HasMany<Term, $this> */

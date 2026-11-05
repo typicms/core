@@ -48,6 +48,14 @@ class RolesFormRequest extends AbstractFormRequest
         ];
     }
 
+    /** @return list<string> */
+    public function checkedPermissions(): array
+    {
+        $permissions = $this->validated('checked_permissions', []);
+
+        return array_values(array_filter(is_array($permissions) ? $permissions : [], is_string(...)));
+    }
+
     /**
      * Permissions this request adds to or removes from the role.
      *
@@ -56,7 +64,9 @@ class RolesFormRequest extends AbstractFormRequest
     private function changedPermissions(): array
     {
         $role = $this->route('role');
-        $current = $role instanceof Role ? $role->permissions()->pluck('name')->all() : [];
+        $current = $role instanceof Role
+            ? array_filter($role->permissions()->pluck('name')->all(), is_string(...))
+            : [];
         $submitted = array_filter($this->array('checked_permissions'), is_string(...));
 
         return array_values(array_unique([
