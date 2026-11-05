@@ -5,8 +5,8 @@ use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class() extends Migration {
-
+return new class extends Migration
+{
     public function up(): void
     {
         Schema::create('pages', function (Blueprint $table): void {
