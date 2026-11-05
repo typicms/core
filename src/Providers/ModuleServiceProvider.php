@@ -41,7 +41,7 @@ class ModuleServiceProvider extends ServiceProvider
          * Get configuration from DB and store it in the container.
          */
         config([
-            'typicms' => array_merge(new Setting()->allToArray(), (array) config('typicms', [])),
+            'typicms' => array_merge((array) config('typicms', []), new Setting()->allToArray()),
         ]);
 
         Gate::before(function ($user) {
