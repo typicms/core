@@ -23,7 +23,7 @@ final class UsersAdminController extends BaseAdminController
 
     public function export(Request $request): BinaryFileResponse
     {
-        $filename = date('Y-m-d').' '.config('app.name').' users.xlsx';
+        $filename = date('Y-m-d').' '.config()->string('app.name').' users.xlsx';
 
         return Excel::download(new UsersExport, $filename);
     }
@@ -60,7 +60,7 @@ final class UsersAdminController extends BaseAdminController
     public function store(UsersFormRequest $request): RedirectResponse
     {
         $user = User::query()->create($request->safe()->except('checked_roles'));
-        $user->roles()->sync($request->validated('checked_roles', []));
+        $user->roles()->sync($request->checkedRoles());
 
         return $this->redirect($request, $user);
     }
@@ -68,7 +68,7 @@ final class UsersAdminController extends BaseAdminController
     public function update(User $user, UsersFormRequest $request): RedirectResponse
     {
         $user->update($request->safe()->except('checked_roles'));
-        $user->roles()->sync($request->validated('checked_roles', []));
+        $user->roles()->sync($request->checkedRoles());
 
         return $this->redirect($request, $user);
     }

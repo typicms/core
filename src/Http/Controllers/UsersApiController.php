@@ -16,7 +16,7 @@ use TypiCMS\Modules\Core\Models\User;
 
 final class UsersApiController extends BaseApiController
 {
-    /** @return LengthAwarePaginator<int, mixed> */
+    /** @return LengthAwarePaginator<int, User> */
     public function index(Request $request): LengthAwarePaginator
     {
         return QueryBuilder::for(User::class)
@@ -42,7 +42,7 @@ final class UsersApiController extends BaseApiController
 
     public function updatePreferences(Request $request, #[CurrentUser] User $user): void
     {
-        $user->preferences = array_merge((array) $user->preferences, $request->input());
+        $user->preferences = array_merge((array) $user->preferences, $request->all());
         $user->save();
     }
 

@@ -6,7 +6,6 @@ namespace TypiCMS\Modules\Core\Services;
 
 use enshrined\svgSanitize\Sanitizer;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -29,14 +28,25 @@ class FileUploader
         'zip',
     ];
 
-    /** @return array<string, mixed> */
+    /**
+     * @return array{
+     *     filesize: int|false,
+     *     mimetype: string,
+     *     extension: string,
+     *     filename: string,
+     *     width: float|int,
+     *     height: float|int,
+     *     path: string|false,
+     *     type: string
+     * }
+     */
     public function handle(
         UploadedFile $file,
         string $path = 'files',
         ?string $disk = null,
         ?string $filenameWithoutExtension = null,
     ): array {
-        $disk ??= config('filesystems.default');
+        $disk ??= config()->string('filesystems.default');
         $extension = $this->normalizeExtension($file);
         $filesize = $file->getSize();
         $mimetype = $file->getClientMimeType();
@@ -52,7 +62,8 @@ class FileUploader
         [$width, $height] = $this->getImageDimensions($file, $extension);
         $filename = $this->generateUniqueFilename($filenameWithoutExtension, $extension, $path, $disk);
         $path = $file->storeAs($path, $filename, $disk);
-        $type = Arr::get(config('file.types'), $extension, 'd');
+        $types = config('file.types');
+        $type = is_array($types) && is_string($types[$extension] ?? null) ? $types[$extension] : 'd';
 
         return [
             'filesize' => $filesize,
@@ -107,7 +118,7 @@ class FileUploader
             return $this->getSvgDimensions($file);
         }
 
-        $dimensions = getimagesize((string) $file);
+        $dimensions = rescue(fn (): array|false => getimagesize($file->getPathname()), false, report: false);
 
         return $dimensions !== false ? [$dimensions[0], $dimensions[1]] : [0, 0];
     }

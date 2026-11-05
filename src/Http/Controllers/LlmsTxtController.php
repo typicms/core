@@ -86,7 +86,7 @@ final class LlmsTxtController extends Controller
                 $page = $menulink->page;
                 if ($page instanceof Page && $page->isPublished($locale)) {
                     $title = $page->translate('title', $locale);
-                    if ($title) {
+                    if (is_string($title) && $title !== '') {
                         $pages[$title] = $page->url($locale);
                     }
                 }
@@ -103,7 +103,7 @@ final class LlmsTxtController extends Controller
     private function addLatestModuleItems(array $lines, string $locale): array
     {
         foreach ((array) config('typicms.modules') as $moduleName => $properties) {
-            if (! ($properties['llms_txt'] ?? false)) {
+            if (! is_array($properties) || ! ($properties['llms_txt'] ?? false)) {
                 continue;
             }
 
@@ -138,7 +138,8 @@ final class LlmsTxtController extends Controller
                 continue;
             }
 
-            $lines[] = "### {$page->translate('title', $locale)}";
+            $pageTitle = $page->translate('title', $locale);
+            $lines[] = '### '.(is_string($pageTitle) ? $pageTitle : '');
             $lines[] = '';
 
             foreach ($items as $item) {

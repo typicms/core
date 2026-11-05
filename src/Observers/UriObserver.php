@@ -30,6 +30,7 @@ class UriObserver
 
         foreach (locales() as $locale) {
             $slug = $page->getTranslation('slug', $locale);
+            $slug = is_string($slug) ? $slug : null;
             $parentUri = $parentUris[$locale] ?? '';
             if ($parentUri) {
                 $uri = $parentUri;

@@ -19,7 +19,7 @@ use TypiCMS\Modules\Core\Filters\FilterOr;
 use TypiCMS\Modules\Core\Models\User;
 
 /**
- * @implements WithMapping<mixed>
+ * @implements WithMapping<User>
  */
 class UsersExport implements FromCollection, ShouldAutoSize, WithColumnFormatting, WithHeadings, WithMapping, WithStrictNullComparison
 {
@@ -44,12 +44,15 @@ class UsersExport implements FromCollection, ShouldAutoSize, WithColumnFormattin
             ->get();
     }
 
-    /** @return array<int, mixed> */
+    /**
+     * @param  User  $row
+     * @return array<int, mixed>
+     */
     public function map(mixed $row): array
     {
         return [
-            Date::dateTimeToExcel($row->created_at),
-            Date::dateTimeToExcel($row->updated_at),
+            $row->created_at ? Date::dateTimeToExcel($row->created_at) : null,
+            $row->updated_at ? Date::dateTimeToExcel($row->updated_at) : null,
             $this->escapeFormula($row->last_name),
             $this->escapeFormula($row->first_name),
             $this->escapeFormula($row->email),

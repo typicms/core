@@ -14,10 +14,20 @@ trait HasConfigurableOrder
     #[Scope]
     protected function order(Builder $query): void
     {
-        if ($order = config('typicms.modules.'.$this->getTable().'.order')) {
-            foreach ($order as $field => $direction) {
-                $query->orderBy($field, $direction);
+        $order = config("typicms.modules.{$this->getTable()}.order");
+
+        if (! is_array($order)) {
+            return;
+        }
+
+        foreach ($order as $field => $direction) {
+            $direction = is_string($direction) ? mb_strtolower($direction) : null;
+
+            if (! is_string($field) || ! in_array($direction, ['asc', 'desc'], true)) {
+                continue;
             }
+
+            $query->orderBy($field, $direction);
         }
     }
 }

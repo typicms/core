@@ -14,7 +14,7 @@ use TypiCMS\Modules\Core\Models\Translation;
 
 final class TranslationsApiController extends BaseApiController
 {
-    /** @return LengthAwarePaginator<int, mixed> */
+    /** @return LengthAwarePaginator<int, Translation> */
     public function index(Request $request): LengthAwarePaginator
     {
         $query = Translation::query()->selectFields();

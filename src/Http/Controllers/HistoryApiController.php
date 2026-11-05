@@ -15,7 +15,7 @@ use TypiCMS\Modules\Core\Models\User;
 
 final class HistoryApiController extends BaseApiController
 {
-    /** @return LengthAwarePaginator<int, mixed> */
+    /** @return LengthAwarePaginator<int, History> */
     public function index(Request $request): LengthAwarePaginator
     {
         $query = History::query();

@@ -61,7 +61,7 @@ class ModuleServiceProvider extends ServiceProvider
          * would do nothing until someone rebuilt the cache.
          */
         config([
-            'typicms' => array_merge(config('typicms', []), new Setting()->allToArray()),
+            'typicms' => array_merge((array) config('typicms', []), new Setting()->allToArray()),
         ]);
 
         Gate::before(function ($user) {

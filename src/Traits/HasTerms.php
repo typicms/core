@@ -14,7 +14,7 @@ trait HasTerms
 {
     public static function bootHasTerms(): void
     {
-        static::saved(function (mixed $model): void {
+        static::saved(function (self $model): void {
             if (request()->has('terms')) {
                 $data = array_filter(Arr::flatten(request()->array('terms')));
                 $model->terms()->sync($data);

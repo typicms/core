@@ -15,7 +15,7 @@ use TypiCMS\Modules\Core\Models\Term;
 
 final class TermsApiController extends BaseApiController
 {
-    /** @return LengthAwarePaginator<int, mixed> */
+    /** @return LengthAwarePaginator<int, Term> */
     public function index(Taxonomy $taxonomy, Request $request): LengthAwarePaginator
     {
         $query = Term::query()->selectFields()->where('taxonomy_id', $taxonomy->id);
