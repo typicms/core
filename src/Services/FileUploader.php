@@ -118,7 +118,7 @@ class FileUploader
             return $this->getSvgDimensions($file);
         }
 
-        $dimensions = getimagesize((string) $file);
+        $dimensions = rescue(fn (): array|false => getimagesize($file->getPathname()), false, report: false);
 
         return $dimensions !== false ? [$dimensions[0], $dimensions[1]] : [0, 0];
     }
