@@ -86,7 +86,7 @@ async function fetchData() {
 async function addPassKey() {
     const response = await fetcher('/api/passkeys/generate-options');
     const options = await response.json();
-    const startAuthenticationResponse = await window.startRegistration(options);
+    const startAuthenticationResponse = await window.startRegistration({ optionsJSON: options });
 
     try {
         await fetcher('/api/passkeys', {

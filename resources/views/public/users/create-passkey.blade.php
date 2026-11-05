@@ -12,7 +12,7 @@
                 },
             });
             const options = await responseOptions.json();
-            const startAuthenticationResponse = await window.startRegistration(options);
+            const startAuthenticationResponse = await window.startRegistration({ optionsJSON: options });
 
             const response = await fetch('/api/passkeys', {
                 method: 'POST',
