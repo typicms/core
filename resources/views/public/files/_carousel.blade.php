@@ -1,6 +1,6 @@
 @if ($model->images->count() > 0)
     <div class="carousel-container">
-        <div @class(['carousel', 'carousel-swiper' => $model->images->count() > 1, 'swiper-container'])>
+        <div @class(['carousel', 'carousel-swiper' => $model->images->count() > 1, 'swiper'])>
             <div class="swiper-wrapper">
                 @foreach ($model->images as $image)
                     <img
@@ -13,8 +13,8 @@
                 @endforeach
             </div>
             @if ($model->images->count() > 1)
-                <div class="carousel-button carousel-button-prev swiper-button-prev swiper-button-white"></div>
-                <div class="carousel-button carousel-button-next swiper-button-next swiper-button-white"></div>
+                <div class="carousel-button carousel-button-prev swiper-button-prev"></div>
+                <div class="carousel-button carousel-button-next swiper-button-next"></div>
             @endif
         </div>
         @if ($model->images->count() > 1)
