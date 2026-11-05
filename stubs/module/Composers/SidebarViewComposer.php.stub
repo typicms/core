@@ -8,26 +8,33 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 use TypiCMS\Modules\Sidebar\SidebarGroup;
 use TypiCMS\Modules\Sidebar\SidebarItem;
+use TypiCMS\Modules\Sidebar\SidebarManager;
 
 class SidebarViewComposer
 {
     public function compose(View $view): void
     {
+        $sidebar = $view->offsetGet('sidebar');
+
+        if (! $sidebar instanceof SidebarManager) {
+            return;
+        }
+
         if (Gate::denies('read {{ slugPlural }}')) {
             return;
         }
 
-        $view->offsetGet('sidebar')->group(
-            __(config('typicms.modules.{{ slugPlural }}.sidebar.group', 'Content')),
+        $sidebar->group(
+            __(config()->string('typicms.modules.{{ slugPlural }}.sidebar.group', 'Content')),
             function (SidebarGroup $group): void {
                 $group->id = 'content';
                 $group->weight = 30;
                 $group->addItem(
-                    __(config('typicms.modules.{{ slugPlural }}.sidebar.label', '{{ modelPlural }}')),
+                    __(config()->string('typicms.modules.{{ slugPlural }}.sidebar.label', '{{ modelPlural }}')),
                     function (SidebarItem $item): void {
                         $item->id = '{{ slugPlural }}';
-                        $item->icon = config('typicms.modules.{{ slugPlural }}.sidebar.icon');
-                        $item->weight = config('typicms.modules.{{ slugPlural }}.sidebar.weight');
+                        $item->icon = config()->string('typicms.modules.{{ slugPlural }}.sidebar.icon');
+                        $item->weight = config()->integer('typicms.modules.{{ slugPlural }}.sidebar.weight');
                         $item->route('admin::index-{{ slugPlural }}');
                     },
                 );
