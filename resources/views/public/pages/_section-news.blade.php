@@ -5,7 +5,10 @@
             <div class="news-list-home-header">
                 <h2 class="news-list-home-title">{{ __('Latest news') }}</h2>
                 <div class="news-list-home-action">
-                    <a class="news-list-home-action-button" href="{{ ModuleUrl::index('news') }}">{{ __('All news') }}</a>
+                    <a
+                        class="news-list-home-action-button"
+                        href="{{ ModuleUrl::index('news') }}"
+                    >{{ __('All news') }}</a>
                 </div>
             </div>
             @include('public::news._list', ['items' => $latestNews])

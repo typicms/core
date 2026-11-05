@@ -1,6 +1,12 @@
 <x-bootform::hidden name="id" />
 
-<x-core::header :$model :back-url="$model->indexUrl()" :back-label="__('Roles')" :default-title="__('New role')" :lang-switcher="false" />
+<x-core::header
+    :$model
+    :back-url="$model->indexUrl()"
+    :back-label="__('Roles')"
+    :default-title="__('New role')"
+    :lang-switcher="false"
+/>
 
 <div class="form-body">
     <div class="row gx-3">

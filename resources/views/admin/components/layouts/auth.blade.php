@@ -1,6 +1,6 @@
 @props([
     'title' => '',
-    'bodyClass' => 'auth-background'
+    'bodyClass' => 'auth-background',
 ])
 
 <!DOCTYPE html>

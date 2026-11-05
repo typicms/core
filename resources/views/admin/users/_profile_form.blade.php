@@ -27,11 +27,15 @@
             <x-bootform::select
                 :label="__('Interface language')"
                 name="locale"
-                :options="collect(adminLocales())->mapWithKeys(fn(string $locale): array => [$locale => __('languages.' . $locale)])->all()"
+                :options="collect(adminLocales())->mapWithKeys(fn (string $locale): array => [$locale => __('languages.'.$locale)])->all()"
                 required
             />
         </div>
     </div>
 
-    <user-passkeys url-base="/api/users/{{ $model->id }}/passkeys" new-passkey-name="{{ auth()->user()->first_name }}'s passkey" :create-button="true"></user-passkeys>
+    <user-passkeys
+        url-base="/api/users/{{ $model->id }}/passkeys"
+        new-passkey-name="{{ auth()->user()->first_name }}'s passkey"
+        :create-button="true"
+    ></user-passkeys>
 </div>

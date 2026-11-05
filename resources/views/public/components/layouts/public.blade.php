@@ -7,7 +7,7 @@
     'canonical' => null,
     'bodyClass' => '',
     'page' => null,
-    'model' => null
+    'model' => null,
 ])
 
 <!DOCTYPE html>
@@ -37,7 +37,7 @@
     @stack('css')
 </head>
 
-<body @class(['body-' . app()->getLocale(), $bodyClass => filled($bodyClass)]) id="top">
+<body @class(['body-'.app()->getLocale(), $bodyClass => filled($bodyClass)]) id="top">
     <div class="skip-to-content">
         <a href="#main" class="skip-to-content-link">{{ __('Skip to content') }}</a>
     </div>
@@ -46,7 +46,10 @@
 
     @auth
         @if (auth()->user()->isImpersonating())
-            <a class="stop-impersonation-button" href="{{ route(app()->getLocale() . '::stop-impersonation') }}">{{ __('Stop impersonation') }}</a>
+            <a
+                class="stop-impersonation-button"
+                href="{{ route(app()->getLocale() . '::stop-impersonation') }}"
+            >{{ __('Stop impersonation') }}</a>
         @endif
     @endauth
 
@@ -70,7 +73,7 @@
                     >
                         <span class="visually-hidden">{{ __('Menu') }}</span>
                     </button>
-                    <div class="navigation collapse fade" id="navigation-container" data-bs-parent="#navigation">
+                    <div class="navigation fade collapse" id="navigation-container" data-bs-parent="#navigation">
                         <nav class="primary-nav" aria-label="{{ __('Primary navigation') }}">
                             @menu('primary')
                         </nav>

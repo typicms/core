@@ -6,7 +6,10 @@
                 <h2 class="partner-list-home-title">{{ __('Partners') }}</h2>
                 @if ($partnersUrl = ModuleUrl::index('partners'))
                     <div class="partner-list-home-action">
-                        <a class="partner-list-home-action-button" href="{{ $partnersUrl }}">{{ __('All partners') }}</a>
+                        <a
+                            class="partner-list-home-action-button"
+                            href="{{ $partnersUrl }}"
+                        >{{ __('All partners') }}</a>
                     </div>
                 @endif
             </div>

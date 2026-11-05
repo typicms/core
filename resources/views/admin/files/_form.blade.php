@@ -1,4 +1,10 @@
-<x-core::header :$model :back-url="$model->indexUrl()" :back-label="$model->folder?->name ?? __('Files')" :default-title="__('New file')" :preview="false" />
+<x-core::header
+    :$model
+    :back-url="$model->indexUrl()"
+    :back-label="$model->folder?->name ?? __('Files')"
+    :default-title="__('New file')"
+    :preview="false"
+/>
 
 <div class="form-body">
     <x-core::form-errors />
@@ -32,9 +38,16 @@
             <div class="col-lg-6">
                 @if ($model->type === 'i')
                     @if ($model->extension !== 'svg')
-                        <image-cropper :image-url="'{{ Storage::url($model->path) }}'" :file-id="{{ $model->id }}"></image-cropper>
+                        <image-cropper
+                            :image-url="'{{ Storage::url($model->path) }}'"
+                            :file-id="{{ $model->id }}"
+                        ></image-cropper>
                     @else
-                        <img class="img-fluid mb-3" src="{{ Storage::url($model->path) }}" alt="{{ $model->alt_attribute }}" />
+                        <img
+                            class="img-fluid mb-3"
+                            src="{{ Storage::url($model->path) }}"
+                            alt="{{ $model->alt_attribute }}"
+                        />
                     @endif
                 @endif
 
@@ -44,8 +57,18 @@
                             <th class="w-25">{{ __('URL') }}</th>
                             <td>
                                 <div class="d-flex align-items-start justify-content-between">
-                                    <a href="{{ Storage::url($model->path) }}" target="_blank" rel="noopener noreferrer">{{ Storage::url($model->path) }}</a>
-                                    <button class="btn btn-light btn-xs text-nowrap" type="button" onclick="copyToClipboard('{{ Storage::url($model->path) }}')">{{ __('Copy') }}</button>
+                                    <a
+                                        href="{{ Storage::url($model->path) }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >{{ Storage::url($model->path) }}</a>
+                                    <button
+                                        class="btn btn-light btn-xs text-nowrap"
+                                        type="button"
+                                        onclick="copyToClipboard('{{ Storage::url($model->path) }}')"
+                                    >
+                                        {{ __('Copy') }}
+                                    </button>
                                 </div>
                             </td>
                         </tr>

@@ -7,7 +7,7 @@
 
     <p class="text-center">{{ __('Use your passkey to confirm it’s really you.') }}</p>
 
-    <div class="mb-3 d-grid">
+    <div class="d-grid mb-3">
         <button class="btn btn-lg btn-primary" onclick="authenticateWithPasskey()">
             <i class="icon-key-round"></i>
             {{ __('Authenticate') }}
@@ -18,5 +18,8 @@
         <div class="text-danger">{{ __($message) }}</div>
     @endif
 
-    <a class="text-body text-decoration-underline small text-center mt-3 d-block" href="{{ route(app()->getLocale() . '::otp-login') }}">{{ __('Authenticate with a password.') }}</a>
+    <a
+        class="text-body text-decoration-underline small d-block mt-3 text-center"
+        href="{{ route(app()->getLocale() . '::otp-login') }}"
+    >{{ __('Authenticate with a password.') }}</a>
 </div>

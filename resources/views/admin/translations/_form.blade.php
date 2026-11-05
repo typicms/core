@@ -1,9 +1,15 @@
-<x-core::header :$model :back-url="$model->indexUrl()" :back-label="__('Translations')" :default-title="__('New translation')" :lang-switcher="false" />
+<x-core::header
+    :$model
+    :back-url="$model->indexUrl()"
+    :back-label="__('Translations')"
+    :default-title="__('New translation')"
+    :lang-switcher="false"
+/>
 
 <div class="form-body">
     <x-core::form-errors />
 
-    @if (!$model->id)
+    @if (! $model->id)
         <x-bootform::text :label="__('Key')" name="key" required />
     @endif
 
@@ -14,9 +20,9 @@
             <div class="input-group">
                 <span class="input-group-text">{{ strtoupper($locale) }}</span>
                 {!!
-                    Form::text('translation[' . $locale . ']')
+                    Form::text('translation['.$locale.']')
                         ->addClass('form-control')
-                        ->addClass($errors->has('translation.' . $locale) ? 'is-invalid' : '')
+                        ->addClass($errors->has('translation.'.$locale) ? 'is-invalid' : '')
                 !!}
 
                 {!! $errors->first('translation.' . $locale, '<div class="invalid-feedback">:message</div>') !!}

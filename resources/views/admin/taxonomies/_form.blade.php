@@ -1,4 +1,9 @@
-<x-core::header :$model :back-url="$model->indexUrl()" :back-label="__('Taxonomies')" :default-title="__('New taxonomy')" />
+<x-core::header
+    :$model
+    :back-url="$model->indexUrl()"
+    :back-label="__('Taxonomies')"
+    :default-title="__('New taxonomy')"
+/>
 
 <div class="form-body">
     <x-core::form-errors />
@@ -8,7 +13,12 @@
 
     <x-core::title-and-slug-fields />
 
-    <x-bootform::text :label="__('Validation rule')" name="validation_rule" placeholder="required|array|size:2" required />
+    <x-bootform::text
+        :label="__('Validation rule')"
+        name="validation_rule"
+        placeholder="required|array|size:2"
+        required
+    />
 
     <x-bootform::hidden name="modules[]" value="" />
     @if ($modules)
