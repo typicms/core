@@ -36,7 +36,7 @@ final class RolesAdminController extends BaseAdminController
     {
         Permissions::sync();
 
-        $role = Role::query()->create($request->safe()->only('name'));
+        $role = Role::query()->create(['name' => $request->validated('name')]);
         $role->syncPermissions($request->checkedPermissions());
 
         return $this->redirect($request, $role);
@@ -46,7 +46,7 @@ final class RolesAdminController extends BaseAdminController
     {
         Permissions::sync();
 
-        $role->update($request->safe()->only('name'));
+        $role->update(['name' => $request->validated('name')]);
         $role->syncPermissions($request->checkedPermissions());
         $role->forgetCachedPermissions();
 

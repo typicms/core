@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Override;
 use Spatie\LaravelPasskeys\Http\Controllers\AuthenticateUsingPasskeyController as BaseController;
 use Spatie\LaravelPasskeys\Http\Requests\AuthenticateUsingPasskeysRequest;
+use UnexpectedValueException;
 
 final class AuthenticateUsingPasskeyController extends BaseController
 {
@@ -26,6 +27,10 @@ final class AuthenticateUsingPasskeyController extends BaseController
             session()->flash('authenticatePasskey::message', __('Your account is not activated.'));
 
             return back();
+        }
+
+        if (! $result instanceof RedirectResponse) {
+            throw new UnexpectedValueException('The passkey authentication must return a redirect.');
         }
 
         return $result;

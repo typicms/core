@@ -15,7 +15,8 @@ trait HasContentPresenter
         $title = (string) $this->title;
 
         if ($title === '' && method_exists($this, 'isTranslatableAttribute') && $this->isTranslatableAttribute('title')) {
-            $title = (string) collect($this->getTranslations('title'))->first(fn ($value): bool => filled($value));
+            $firstTitle = collect($this->getTranslations('title'))->first(fn (mixed $value): bool => filled($value));
+            $title = is_string($firstTitle) ? $firstTitle : '';
         }
 
         return strip_tags($title);

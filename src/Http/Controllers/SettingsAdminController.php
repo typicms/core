@@ -47,7 +47,7 @@ final class SettingsAdminController extends BaseAdminController
 
             foreach ($array as $key_name => $value) {
                 $model = Setting::query()->firstOrCreate(['key_name' => $key_name, 'group_name' => $group_name]);
-                $model->value = $value;
+                $model->value = is_scalar($value) ? (string) $value : null;
                 $model->save();
             }
         }

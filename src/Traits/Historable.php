@@ -66,8 +66,8 @@ trait Historable
     /**
      * Write History row.
      *
-     * @param  array<string, mixed>  $old
-     * @param  array<string, mixed>  $new
+     * @param  array<mixed>  $old
+     * @param  array<mixed>  $new
      */
     public function writeHistory(string $action, ?string $title = null, array $old = [], array $new = []): void
     {

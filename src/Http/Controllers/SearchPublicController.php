@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
@@ -41,62 +43,32 @@ final class SearchPublicController extends BasePublicController
                 continue;
             }
 
+            if (! is_subclass_of($modelClass, Model::class)) {
+                continue;
+            }
+
             $columns = array_filter($columns, is_string(...));
-            $model = resolve($modelClass);
-            $query = $model
-                ->query()
-                ->where(function ($query) use ($words, $columns, $model, $key): void {
-                    foreach ($columns as $column) {
-                        $query->orWhere(function ($query) use ($words, $column, $model): void {
-                            foreach ($words as $word) {
-                                if (in_array($column, (array) $model->translatable, true)) {
-                                    $query
-                                        ->published()
-                                        ->whereRaw(
-                                            'JSON_UNQUOTE(JSON_EXTRACT(`'
-                                            .$column
-                                            .'`, ?)) LIKE ? COLLATE utf8mb4_unicode_ci',
-                                            ['$.'.app()->getLocale(), '%'.$word.'%'],
-                                        );
-                                } else {
-                                    $query
-                                        ->published()
-                                        ->whereRaw(
-                                            '`'.$column.'` LIKE ? COLLATE utf8mb4_unicode_ci',
-                                            ['%'.$word.'%'],
-                                        );
-                                }
-                            }
-                        });
-                        if ($key === 'pages') { // search in page sections
-                            $query->orWhere(function ($query) use ($words, $column, $model): void {
-                                $query->published();
-                                $query->whereHas('sections', function ($query) use ($words, $column, $model): void {
-                                    foreach ($words as $word) {
-                                        if (in_array($column, (array) $model->translatable, true)) {
-                                            $query
-                                                ->published()
-                                                ->whereRaw(
-                                                    'JSON_UNQUOTE(JSON_EXTRACT(`'
-                                                    .$column
-                                                    .'`, ?)) LIKE ? COLLATE utf8mb4_unicode_ci',
-                                                    ['$.'.app()->getLocale(), '%'.$word.'%'],
-                                                );
-                                        } else {
-                                            $query
-                                                ->published()
-                                                ->whereRaw(
-                                                    '`'.$column.'` LIKE ? COLLATE utf8mb4_unicode_ci',
-                                                    ['%'.$word.'%'],
-                                                );
-                                        }
-                                    }
-                                });
-                            });
+            $model = new $modelClass;
+            $query = $model->newQuery()->where(function (Builder $query) use ($words, $columns, $model, $key): void {
+                foreach ($columns as $column) {
+                    $query->orWhere(function (Builder $query) use ($words, $column, $model): void {
+                        foreach ($words as $word) {
+                            $this->whereWordMatches($query, $model, $column, $word);
                         }
+                    });
+                    if ($key === 'pages') { // search in page sections
+                        $query->orWhere(function (Builder $query) use ($words, $column, $model): void {
+                            $query->scopes(['published']);
+                            $query->whereHas('sections', function (Builder $query) use ($words, $column, $model): void {
+                                foreach ($words as $word) {
+                                    $this->whereWordMatches($query, $model, $column, $word);
+                                }
+                            });
+                        });
                     }
-                });
-            $items = $query->order()->get();
+                }
+            });
+            $items = $query->tap(fn (Builder $query) => $query->scopes(['order']))->get();
             $numberOfItems = $items->count();
             if ($numberOfItems) {
                 $tabs[] = ['module' => $key, 'count' => $numberOfItems];
@@ -108,5 +80,24 @@ final class SearchPublicController extends BasePublicController
         return view('public::search.index', ['results' => $results, 'count' => $count, 'tabs' => $tabs])->withErrors(
             $validator,
         );
+    }
+
+    /** @param Builder<Model> $query */
+    private function whereWordMatches(Builder $query, Model $model, string $column, string $word): void
+    {
+        $query->scopes(['published']);
+
+        $isTranslatable = method_exists($model, 'isTranslatableAttribute') && $model->isTranslatableAttribute($column) === true;
+
+        if ($isTranslatable) {
+            $query->whereRaw(
+                "JSON_UNQUOTE(JSON_EXTRACT(`{$column}`, ?)) LIKE ? COLLATE utf8mb4_unicode_ci",
+                ['$.'.app()->getLocale(), "%{$word}%"],
+            );
+
+            return;
+        }
+
+        $query->whereRaw("`{$column}` LIKE ? COLLATE utf8mb4_unicode_ci", ["%{$word}%"]);
     }
 }

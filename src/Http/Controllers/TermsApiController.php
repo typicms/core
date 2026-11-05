@@ -32,8 +32,12 @@ final class TermsApiController extends BaseApiController
     {
         foreach ($request->only('position') as $key => $content) {
             if ($term->isTranslatableAttribute($key)) {
+                if (! is_array($content)) {
+                    continue;
+                }
+
                 foreach ($content as $lang => $value) {
-                    $term->setTranslation($key, $lang, $value);
+                    $term->setTranslation($key, (string) $lang, $value);
                 }
             } else {
                 $term->{$key} = $content;

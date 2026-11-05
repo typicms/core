@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -25,9 +26,10 @@ final class ApiController extends BaseApiController
             )
             ->paginate($request->integer('per_page'));
 
-        $data->setCollection(collect($data->items())->map(function ($item) {
-            if (property_exists($item, 'body_translated')) {
-                $item->body_translated = mb_trim(strip_tags(html_entity_decode((string) $item->body_translated)), '"');
+        $data->setCollection(collect($data->items())->map(function (Model $item): Model {
+            $body = $item->getAttribute('body_translated');
+            if (is_string($body)) {
+                $item->setAttribute('body_translated', mb_trim(strip_tags(html_entity_decode($body)), '"'));
             }
 
             return $item;
@@ -40,8 +42,12 @@ final class ApiController extends BaseApiController
     {
         foreach ($request->only('status') as $key => $content) {
             if ($block->isTranslatableAttribute($key)) {
+                if (! is_array($content)) {
+                    continue;
+                }
+
                 foreach ($content as $lang => $value) {
-                    $block->setTranslation($key, $lang, $value);
+                    $block->setTranslation($key, (string) $lang, $value);
                 }
             } else {
                 $block->{$key} = $content;

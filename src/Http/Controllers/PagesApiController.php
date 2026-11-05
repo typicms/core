@@ -114,14 +114,20 @@ final class PagesApiController extends BaseApiController
 
     public function sort(Request $request): void
     {
-        $data = $request->only('moved', 'item');
-        foreach ($data['item'] as $position => $item) {
-            /** @var Page|null $page */
-            $page = Page::query()->find($item['id']);
-            $page?->update([
-                'position' => (int) $position + 1,
-                'parent_id' => $item['parent_id'],
-                'private' => $item['private'],
+        foreach ($request->array('item') as $position => $item) {
+            if (! is_int($position) || ! is_array($item)) {
+                continue;
+            }
+
+            $page = Page::query()->find($item['id'] ?? null);
+            if (! $page instanceof Page) {
+                continue;
+            }
+
+            $page->update([
+                'position' => $position + 1,
+                'parent_id' => $item['parent_id'] ?? null,
+                'private' => $item['private'] ?? null,
             ]);
         }
     }
@@ -148,8 +154,12 @@ final class PagesApiController extends BaseApiController
     {
         foreach ($request->only('status') as $key => $content) {
             if ($page->isTranslatableAttribute($key)) {
+                if (! is_array($content)) {
+                    continue;
+                }
+
                 foreach ($content as $lang => $value) {
-                    $page->setTranslation($key, $lang, $value);
+                    $page->setTranslation($key, (string) $lang, $value);
                 }
             } else {
                 $page->{$key} = $content;

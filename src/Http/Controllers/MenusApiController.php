@@ -32,8 +32,12 @@ final class MenusApiController extends BaseApiController
     {
         foreach ($request->only('status') as $key => $content) {
             if ($menu->isTranslatableAttribute($key)) {
+                if (! is_array($content)) {
+                    continue;
+                }
+
                 foreach ($content as $lang => $value) {
-                    $menu->setTranslation($key, $lang, $value);
+                    $menu->setTranslation($key, (string) $lang, $value);
                 }
             } else {
                 $menu->{$key} = $content;

@@ -34,8 +34,12 @@ final class PageSectionsApiController extends BaseApiController
     {
         foreach ($request->only('status', 'position') as $key => $content) {
             if ($section->isTranslatableAttribute($key)) {
+                if (! is_array($content)) {
+                    continue;
+                }
+
                 foreach ($content as $lang => $value) {
-                    $section->setTranslation($key, $lang, $value);
+                    $section->setTranslation($key, (string) $lang, $value);
                 }
             } else {
                 $section->{$key} = $content;

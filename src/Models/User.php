@@ -122,8 +122,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected static function boot(): void
     {
         parent::boot();
-        static::creating(function ($user): void {
-            $user->api_token = Str::uuid();
+        static::creating(function (self $user): void {
+            $user->api_token = Str::uuid()->toString();
         });
     }
 
