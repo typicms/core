@@ -49,8 +49,12 @@ final class MenulinksApiController extends BaseApiController
     {
         foreach ($request->only('status') as $key => $content) {
             if ($menulink->isTranslatableAttribute($key)) {
+                if (! is_array($content)) {
+                    continue;
+                }
+
                 foreach ($content as $lang => $value) {
-                    $menulink->setTranslation($key, $lang, $value);
+                    $menulink->setTranslation($key, (string) $lang, $value);
                 }
             } else {
                 $menulink->{$key} = $content;
@@ -62,13 +66,19 @@ final class MenulinksApiController extends BaseApiController
 
     public function sort(Menu $menu, Request $request): void
     {
-        $data = $request->only('moved', 'item');
-        foreach ($data['item'] as $position => $item) {
-            /** @var Menulink|null $menulink */
-            $menulink = Menulink::query()->find($item['id']);
-            $menulink?->update([
-                'position' => (int) $position + 1,
-                'parent_id' => $item['parent_id'],
+        foreach ($request->array('item') as $position => $item) {
+            if (! is_int($position) || ! is_array($item)) {
+                continue;
+            }
+
+            $menulink = Menulink::query()->find($item['id'] ?? null);
+            if (! $menulink instanceof Menulink) {
+                continue;
+            }
+
+            $menulink->update([
+                'position' => $position + 1,
+                'parent_id' => $item['parent_id'] ?? null,
             ]);
         }
     }

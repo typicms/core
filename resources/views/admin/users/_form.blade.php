@@ -52,7 +52,7 @@
     </div>
 
     <div class="row gx-3">
-        <div class="col-6 col-lg-2">
+        <div class="col-lg-2 col-6">
             <x-bootform::select
                 :label="__('Interface language')"
                 name="locale"

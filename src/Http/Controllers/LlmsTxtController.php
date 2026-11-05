@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -103,7 +104,7 @@ final class LlmsTxtController extends Controller
     private function addLatestModuleItems(array $lines, string $locale): array
     {
         foreach ((array) config('typicms.modules') as $moduleName => $properties) {
-            if (! is_array($properties) || ! ($properties['llms_txt'] ?? false)) {
+            if (! is_string($moduleName) || ! is_array($properties) || ! ($properties['llms_txt'] ?? false)) {
                 continue;
             }
 
@@ -129,7 +130,8 @@ final class LlmsTxtController extends Controller
                 continue;
             }
 
-            $items = $modelClass::published()
+            $items = $modelClass::query()
+                ->tap(fn (Builder $query) => $query->scopes(['published']))
                 ->latest()
                 ->take(20)
                 ->get();
@@ -143,14 +145,14 @@ final class LlmsTxtController extends Controller
             $lines[] = '';
 
             foreach ($items as $item) {
-                if (! $item->isPublished($locale)) {
+                if (! method_exists($item, 'isPublished') || $item->isPublished($locale) !== true) {
                     continue;
                 }
 
-                $url = $item->url($locale);
+                $url = method_exists($item, 'url') ? $item->url($locale) : null;
                 $title = $this->getTitle($item, $locale);
 
-                if ($url && $title) {
+                if (is_string($url) && $url !== '' && $title) {
                     $lines[] = "- [{$title}]({$url})";
                 }
             }

@@ -41,7 +41,7 @@ use TypiCMS\Translatable\HasTranslations;
  * @property int|null $parent_id
  * @property int $position
  * @property bool $private
- * @property array<string, mixed> $data
+ * @property array<mixed> $data
  * @property bool $isLeaf
  * @property bool $isExpanded
  * @property bool $is_home

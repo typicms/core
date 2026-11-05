@@ -8,7 +8,6 @@ use Bkwld\Croppa\Facades\Croppa;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -32,13 +31,16 @@ final class FilesAdminController extends BaseAdminController
 
     public function update(File $file, FileFormRequest $request): RedirectResponse
     {
-        $file->fill(Arr::except($request->validated(), 'file'));
+        $attributes = $request->validated();
+        unset($attributes['file']);
+        $file->fill($attributes);
 
         if ($request->hasFile('file')) {
             Croppa::delete('storage/'.$file->path);
             $newFile = new FileUploader()->handle($request->file('file'));
             $file->name = $newFile['filename'];
-            $file->fill(Arr::except($newFile, 'filename'));
+            unset($newFile['filename']);
+            $file->fill($newFile);
         }
 
         $file->save();

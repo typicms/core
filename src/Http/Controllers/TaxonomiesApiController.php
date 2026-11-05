@@ -31,8 +31,12 @@ final class TaxonomiesApiController extends BaseApiController
     {
         foreach ($request->only('position') as $key => $content) {
             if ($taxonomy->isTranslatableAttribute($key)) {
+                if (! is_array($content)) {
+                    continue;
+                }
+
                 foreach ($content as $lang => $value) {
-                    $taxonomy->setTranslation($key, $lang, $value);
+                    $taxonomy->setTranslation($key, (string) $lang, $value);
                 }
             } else {
                 $taxonomy->{$key} = $content;

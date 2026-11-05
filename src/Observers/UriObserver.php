@@ -15,7 +15,7 @@ class UriObserver
     {
         $slugs = $page->getTranslations('slug');
         foreach ($slugs as $locale => $slug) {
-            $uri = $this->incrementWhileExists($page, $slug, $locale);
+            $uri = $this->incrementWhileExists($page, is_string($slug) ? $slug : null, $locale);
             $page->setTranslation('uri', $locale, $uri);
         }
     }
@@ -73,11 +73,11 @@ class UriObserver
         }
     }
 
-    /** @return array<string, string> */
+    /** @return array<string> */
     private function getParentUris(Page $page): array
     {
         if ($page->parent !== null) {
-            return $page->parent->getTranslations('uri');
+            return array_filter($page->parent->getTranslations('uri'), is_string(...));
         }
 
         return [];

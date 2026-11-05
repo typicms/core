@@ -61,7 +61,7 @@ class Tag extends Model
     #[Scope]
     protected function published(Builder $query): void {}
 
-    /** @return array<string, \Illuminate\Support\Collection<(int|string), mixed>> */
+    /** @return array<string, Collection<int, Model>> */
     public function getTaggedItemsGrouped(): array
     {
         $taggables = DB::table('taggables')->where('tag_id', $this->id)->get();
@@ -70,18 +70,17 @@ class Tag extends Model
 
         foreach ($taggables as $taggable) {
             $modelClass = $taggable->taggable_type;
-            $modelId = $taggable->taggable_id;
 
-            if (! class_exists($modelClass)) {
+            if (! is_string($modelClass) || ! is_subclass_of($modelClass, Model::class)) {
                 continue;
             }
 
             try {
-                $model = $modelClass::query()->find($modelId);
-                if ($model) {
+                $model = $modelClass::query()->find($taggable->taggable_id);
+                if ($model instanceof Model) {
                     $type = $model->getTable();
                     if (! isset($grouped[$type])) {
-                        $grouped[$type] = collect();
+                        $grouped[$type] = new Collection;
                     }
 
                     $grouped[$type]->push($model);

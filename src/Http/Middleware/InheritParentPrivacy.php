@@ -8,6 +8,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use TypiCMS\Modules\Core\Models\Page;
+use UnexpectedValueException;
 
 class InheritParentPrivacy
 {
@@ -21,6 +22,12 @@ class InheritParentPrivacy
             }
         }
 
-        return $next($request);
+        $response = $next($request);
+
+        if (! $response instanceof Response) {
+            throw new UnexpectedValueException('The next middleware must return a response.');
+        }
+
+        return $response;
     }
 }

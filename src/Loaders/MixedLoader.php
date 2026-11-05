@@ -17,7 +17,7 @@ class MixedLoader extends FileLoader
      * @param  string  $locale
      * @param  string  $group
      * @param  null|string  $namespace
-     * @return array<string, string>
+     * @return array<mixed>
      */
     #[Override]
     public function load($locale, $group, $namespace = null): array
@@ -36,7 +36,7 @@ class MixedLoader extends FileLoader
         return $this->loadNamespaced($locale, $group, $namespace);
     }
 
-    /** @return array<string, string> */
+    /** @return array<string> */
     public function loadFromDatabase(string $locale, string $group, ?string $namespace = null): array
     {
         try {

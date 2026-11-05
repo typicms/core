@@ -7,7 +7,6 @@ namespace TypiCMS\Modules\Core\Http\Controllers;
 use Bkwld\Croppa\Facades\Croppa;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use stdClass;
 use TypiCMS\Modules\Core\Http\Requests\FileFormRequest;
 use TypiCMS\Modules\Core\Models\File;
@@ -63,11 +62,14 @@ final class FilesApiController extends BaseApiController
     {
         $data = $request->validated();
         $model = new File;
-        $model->fill(Arr::except($data, 'name'));
+        $attributes = $data;
+        unset($attributes['name']);
+        $model->fill($attributes);
         if ($request->hasFile('name')) {
             $file = new FileUploader()->handle($request->file('name'));
             $model->name = $file['filename'];
-            $model->fill(Arr::except($file, 'filename'));
+            unset($file['filename']);
+            $model->fill($file);
         } else {
             $name = $data['name'] ?? null;
             $model->name = is_string($name) ? $name : null;
