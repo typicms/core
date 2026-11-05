@@ -15,7 +15,7 @@ use TypiCMS\Modules\{{ modelPlural }}\Models\{{ model }};
 
 final class ApiController extends BaseApiController
 {
-    /** @return LengthAwarePaginator<int, mixed> */
+    /** @return LengthAwarePaginator<int, {{ model }}> */
     public function index(Request $request): LengthAwarePaginator
     {
         $query = {{ model }}::query()->selectFields();
@@ -33,8 +33,12 @@ final class ApiController extends BaseApiController
     {
         foreach ($request->only('status') as $key => $content) {
             if (${{ slug }}->isTranslatableAttribute($key)) {
+                if (! is_array($content)) {
+                    continue;
+                }
+
                 foreach ($content as $lang => $value) {
-                    ${{ slug }}->setTranslation($key, $lang, $value);
+                    ${{ slug }}->setTranslation($key, (string) $lang, $value);
                 }
             } else {
                 ${{ slug }}->{$key} = $content;

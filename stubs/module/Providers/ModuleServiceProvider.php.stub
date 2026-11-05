@@ -6,6 +6,7 @@ namespace TypiCMS\Modules\{{ modelPlural }}\Providers;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\View as ViewInstance;
 use Override;
 use TypiCMS\Modules\{{ modelPlural }}\Composers\SidebarViewComposer;
 
@@ -43,8 +44,8 @@ class ModuleServiceProvider extends ServiceProvider
         /*
          * Add the page in the view.
          */
-        View::composer('public::{{ slugPlural }}.*', function ($view): void {
-            $view->page = getPageLinkedToModule('{{ slugPlural }}');
+        View::composer('public::{{ slugPlural }}.*', function (ViewInstance $view): void {
+            $view->with('page', getPageLinkedToModule('{{ slugPlural }}'));
         });
     }
 }
