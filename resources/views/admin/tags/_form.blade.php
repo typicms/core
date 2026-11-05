@@ -1,4 +1,10 @@
-<x-core::header :$model :back-url="$model->indexUrl()" :back-label="__('Tags')" :default-title="__('New tag')" :lang-switcher="false" />
+<x-core::header
+    :$model
+    :back-url="$model->indexUrl()"
+    :back-label="__('Tags')"
+    :default-title="__('New tag')"
+    :lang-switcher="false"
+/>
 
 <div class="form-body">
     <x-core::form-errors />
@@ -19,7 +25,7 @@
     @if ($model->id)
         @php
             $taggedItems = $model->getTaggedItemsGrouped();
-            $totalCount = array_sum(array_map(fn($items) => $items->count(), $taggedItems));
+            $totalCount = array_sum(array_map(fn ($items) => $items->count(), $taggedItems));
         @endphp
         @if ($totalCount > 0)
             <div class="mt-3">
@@ -32,9 +38,12 @@
                         </h3>
                         <ul class="list-group list-group-flush">
                             @foreach ($items as $item)
-                                <li class="list-group-item d-flex gap-2 align-items-center px-0">
+                                <li class="list-group-item d-flex align-items-center gap-2 px-0">
                                     @if (method_exists($item, 'editUrl'))
-                                        <a class="btn btn-xs btn-light" href="{{ $item->editUrl() }}">{{ __('Edit') }}</a>
+                                        <a
+                                            class="btn btn-xs btn-light"
+                                            href="{{ $item->editUrl() }}"
+                                        >{{ __('Edit') }}</a>
                                     @endif
                                     <div>
                                         @if (method_exists($item, 'presentTitle'))

@@ -21,10 +21,18 @@
                 <x-transbootform::checkbox :label="__('Published')" name="status" :unchecked-value="0" />
             </div>
             <x-transbootform::textarea :label="__('Description')" name="description" rows="3" />
-            <x-bootform::select :label="__('Page')" name="page_id" :options="new TypiCMS\Modules\Core\Models\Page()->allForSelect()" />
+            <x-bootform::select
+                :label="__('Page')"
+                name="page_id"
+                :options="new TypiCMS\Modules\Core\Models\Page()->allForSelect()"
+            />
             <x-bootform::select :label="__('Section')" name="section_id" :options="['' => '']" />
             <x-transbootform::text :label="__('Website')" name="website" type="url" placeholder="https://" />
-            <x-bootform::select :label="__('Target')" name="target" :options="['' => __('Active tab'), '_blank' => __('New tab')]" />
+            <x-bootform::select
+                :label="__('Target')"
+                name="target"
+                :options="['' => __('Active tab'), '_blank' => __('New tab')]"
+            />
         </div>
         <div class="col-lg-4">
             <div class="right-column">

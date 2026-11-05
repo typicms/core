@@ -14,7 +14,7 @@
         <div class="form-check">
             {!!
                 Form::checkbox('checked_permissions[]', $permission)
-                    ->id('permission-' . Str::slug($permission))
+                    ->id('permission-'.Str::slug($permission))
                     ->addClass('form-check-input')
             !!}
             <label class="form-check-label" for="permission-{{ Str::slug($permission) }}">{{ __($label) }}</label>
@@ -26,17 +26,20 @@
     <h2 class="my-4">{{ __('Modules permissions') }}</h2>
     <div class="permissions-modules-items">
         @foreach (Permissions::grouped() as $module => $permissions)
-            <div class="permissions-modules-item mt-2 mb-4">
+            <div class="permissions-modules-item mb-4 mt-2">
                 <label class="permissions-modules-item-title">{{ $module }}</label>
                 @foreach ($permissions as $permission => $label)
                     <div class="permissions-modules-item-checkbox checkbox">
                         <div class="form-check">
                             {!!
                                 Form::checkbox('checked_permissions[]', $permission)
-                                    ->id('permission-' . Str::slug($permission))
+                                    ->id('permission-'.Str::slug($permission))
                                     ->addClass('form-check-input')
                             !!}
-                            <label class="form-check-label" for="permission-{{ Str::slug($permission) }}">{{ __($label) }}</label>
+                            <label
+                                class="form-check-label"
+                                for="permission-{{ Str::slug($permission) }}"
+                            >{{ __($label) }}</label>
                         </div>
                     </div>
                 @endforeach

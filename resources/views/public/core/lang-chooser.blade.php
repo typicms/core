@@ -20,7 +20,10 @@
     <ul class="lang-chooser-list">
         @foreach (enabledLocales() as $locale)
             <li class="lang-chooser-list-item">
-                <a class="lang-chooser-list-anchor" href="{{ $homepage->url($locale) }}">{{ __('languages.' . $locale, [], $locale) }}</a>
+                <a
+                    class="lang-chooser-list-anchor"
+                    href="{{ $homepage->url($locale) }}"
+                >{{ __('languages.' . $locale, [], $locale) }}</a>
             </li>
         @endforeach
     </ul>

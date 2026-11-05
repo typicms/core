@@ -7,7 +7,8 @@
             $prevUrl = $model->prev()?->url();
             $nextUrl = $model->next()?->url();
         @endphp
-        <a @class(['items-navigator-previous', 'disabled' => !$prevUrl]) href="{{ $prevUrl }}">← {{ __('Previous') }}</a>
-        <a @class(['items-navigator-next', 'disabled' => !$nextUrl]) href="{{ $nextUrl }}">{{ __('Next') }} →</a>
+        <a @class(['items-navigator-previous', 'disabled' => ! $prevUrl]) href="{{ $prevUrl }}"
+            >← {{ __('Previous') }}</a>
+        <a @class(['items-navigator-next', 'disabled' => ! $nextUrl]) href="{{ $nextUrl }}">{{ __('Next') }} →</a>
     </div>
 </div>

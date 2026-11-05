@@ -1,5 +1,11 @@
-@if (Route::has(app()->getLocale() . '::search'))
-    <div class="modal fade modal-xl search-modal" id="search-modal" data-bs-backdrop="static" aria-hidden="true" tabindex="-1">
+@if (Route::has(app()->getLocale().'::search'))
+    <div
+        class="modal fade modal-xl search-modal"
+        id="search-modal"
+        data-bs-backdrop="static"
+        aria-hidden="true"
+        tabindex="-1"
+    >
         <div class="modal-dialog modal-dialog-centered">
             <div class="container">
                 <div class="modal-content search-modal-content">

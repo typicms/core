@@ -59,7 +59,11 @@
             </a>
         </li>
         <li class="share-links-item">
-            <a class="share-links-link share-links-mail" href="mailto:?subject={{ rawurlencode($model->title) }}&body={{ url()->current() }}" aria-label="{{ __('Share via email') }}">
+            <a
+                class="share-links-link share-links-mail"
+                href="mailto:?subject={{ rawurlencode($model->title) }}&body={{ url()->current() }}"
+                aria-label="{{ __('Share via email') }}"
+            >
                 <span class="share-links-icon share-links-mail-icon" aria-hidden="true"></span>
             </a>
         </li>

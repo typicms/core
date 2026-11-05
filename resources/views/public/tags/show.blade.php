@@ -1,7 +1,7 @@
 <x-core::layouts.public
-    :title="$model->tag . ' – ' . __('Tags') . ' – ' . websiteTitle()"
+    :title="$model->tag.' – '.__('Tags').' – '.websiteTitle()"
     :og-title="$model->tag"
-    :body-class="'body-tags body-tag-' . $model->id . ' body-page body-page-' . $page->id"
+    :body-class="'body-tags body-tag-'.$model->id.' body-page body-page-'.$page->id"
     :$page
     :$model
 >

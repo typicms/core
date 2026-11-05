@@ -1,4 +1,4 @@
-<x-core::layouts.public :title="__('Page Not Found') . ' – ' . websiteTitle()" body-class="error-404">
+<x-core::layouts.public :title="__('Page Not Found').' – '.websiteTitle()" body-class="error-404">
     <header class="page-header">
         <div class="page-header-container">
             <h1 class="page-title">{{ __('Page Not Found') }}</h1>

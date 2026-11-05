@@ -22,7 +22,12 @@
                     <x-core::navbar-public-link :$page :$model />
                 </li>
                 <li class="nav-item dropdown">
-                    <button class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button
+                        class="nav-link dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
                         <span class="icon-circle-user-round me-1"></span>
                         <span class="d-none d-lg-inline">{{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}</span>
                     </button>

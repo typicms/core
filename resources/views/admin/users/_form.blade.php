@@ -1,4 +1,10 @@
-<x-core::header :$model :back-url="$model->indexUrl()" :back-label="__('Users')" :default-title="__('New user')" :lang-switcher="false" />
+<x-core::header
+    :$model
+    :back-url="$model->indexUrl()"
+    :back-label="__('Users')"
+    :default-title="__('New user')"
+    :lang-switcher="false"
+/>
 
 <div class="form-body">
     <x-core::form-errors />
@@ -50,7 +56,7 @@
             <x-bootform::select
                 :label="__('Interface language')"
                 name="locale"
-                :options="collect(adminLocales())->mapWithKeys(fn(string $locale): array => [$locale => __('languages.' . $locale)])->all()"
+                :options="collect(adminLocales())->mapWithKeys(fn (string $locale): array => [$locale => __('languages.'.$locale)])->all()"
                 required
             />
         </div>
@@ -72,7 +78,7 @@
                     {!!
                         Form::checkbox('checked_roles[]', $role->id)
                             ->addClass('form-check-input')
-                            ->id('role-' . $role->name)
+                            ->id('role-'.$role->name)
                     !!}
                     <label class="form-check-label" for="{{ 'role-' . $role->name }}">{{ $role->name }}</label>
                 </div>
