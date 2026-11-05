@@ -90,11 +90,17 @@ final class PasskeysApiController extends BaseApiController
         /** @var User $currentUser */
         $currentUser = auth()->user();
 
-        if ($currentUser->can('update users')) {
+        $isOwnPasskey = ! $user instanceof User || $user->id === $currentUser->id;
+
+        if ($currentUser->can('edit profile') && $isOwnPasskey) {
             return;
         }
 
-        if ($currentUser->can('edit profile') && (! $user instanceof User || $user->id === $currentUser->id)) {
+        if ($user instanceof User && $user->isSuperUser() && ! $currentUser->isSuperUser()) {
+            throw new AuthorizationException;
+        }
+
+        if ($currentUser->can('update users')) {
             return;
         }
 

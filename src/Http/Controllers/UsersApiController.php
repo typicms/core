@@ -59,6 +59,13 @@ final class UsersApiController extends BaseApiController
             ], 403);
         }
 
+        if ($user->isSuperUser() && ! $currentUser->isSuperUser()) {
+            return response()->json([
+                'error' => true,
+                'message' => __('Only a superuser can delete a superuser.'),
+            ], 403);
+        }
+
         if (method_exists($user, 'hasRunningSubscription') && $user->hasRunningSubscription()) {
             return response()->json([
                 'error' => true,
