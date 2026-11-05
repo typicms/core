@@ -15,29 +15,68 @@
         </template>
 
         <template #columns="{ sortArray }">
-            <item-list-column-header name="position" sortable :sort-array="sortArray" :label="$t('Order')"></item-list-column-header>
-            <item-list-column-header name="checkbox" v-if="$can('update taxonomies')||$can('delete taxonomies')"></item-list-column-header>
+            <item-list-column-header
+                name="position"
+                sortable
+                :sort-array="sortArray"
+                :label="$t('Order')"
+            ></item-list-column-header>
+            <item-list-column-header
+                name="checkbox"
+                v-if="$can('update taxonomies')||$can('delete taxonomies')"
+            ></item-list-column-header>
             <item-list-column-header name="edit" v-if="$can('update taxonomies')"></item-list-column-header>
             <item-list-column-header name="edit" v-if="$can('update terms')"></item-list-column-header>
-            <item-list-column-header name="name" sortable :sort-array="sortArray" :label="$t('Name')"></item-list-column-header>
-            <item-list-column-header name="title_translated" sortable :sort-array="sortArray" :label="$t('Title')"></item-list-column-header>
-            <item-list-column-header name="validation_rule" sortable :sort-array="sortArray" :label="$t('Validation rule')"></item-list-column-header>
-            <item-list-column-header name="result_string_translated" sortable :sort-array="sortArray" :label="$t('Info for search results')"></item-list-column-header>
+            <item-list-column-header
+                name="name"
+                sortable
+                :sort-array="sortArray"
+                :label="$t('Name')"
+            ></item-list-column-header>
+            <item-list-column-header
+                name="title_translated"
+                sortable
+                :sort-array="sortArray"
+                :label="$t('Title')"
+            ></item-list-column-header>
+            <item-list-column-header
+                name="validation_rule"
+                sortable
+                :sort-array="sortArray"
+                :label="$t('Validation rule')"
+            ></item-list-column-header>
+            <item-list-column-header
+                name="result_string_translated"
+                sortable
+                :sort-array="sortArray"
+                :label="$t('Info for search results')"
+            ></item-list-column-header>
             <item-list-column-header name="modules" :label="$t('Modules')"></item-list-column-header>
         </template>
 
         <template #table-row="{ model, checkedModels, loading, sortArray }">
-            <td class="drag-handle fg-secondary" v-if="$can('update partners')" :style="{ cursor: sortArray[0] === 'position' ? 'grab' : 'default' }">
+            <td
+                class="drag-handle fg-secondary"
+                v-if="$can('update partners')"
+                :style="{ cursor: sortArray[0] === 'position' ? 'grab' : 'default' }"
+            >
                 <i :class="['icon-grip-vertical', { 'opacity-50': sortArray[0] !== 'position' }]"></i>
             </td>
             <td class="checkbox" v-if="$can('update taxonomies')||$can('delete taxonomies')">
-                <item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox>
+                <item-list-checkbox
+                    :model="model"
+                    :checked-models-prop="checkedModels"
+                    :loading="loading"
+                ></item-list-checkbox>
             </td>
             <td v-if="$can('update taxonomies')">
                 <item-list-edit-button :url="'/admin/taxonomies/' + model.id + '/edit'"></item-list-edit-button>
             </td>
             <td v-if="$can('update terms')">
-                <a class="btn-solid theme-secondary btn-xs" :href="'/admin/taxonomies/' + model.id + '/terms'">{{ __('Terms') }}</a>
+                <a
+                    class="btn-solid theme-secondary btn-xs"
+                    :href="'/admin/taxonomies/' + model.id + '/terms'"
+                >{{ __('Terms') }}</a>
             </td>
             <td>@{{ model.name }}</td>
             <td>@{{ model.title_translated }}</td>
@@ -46,7 +85,7 @@
             </td>
             <td>@{{ model.result_string_translated }}</td>
             <td>
-                <span class="badge me-1 theme-warning" v-for="module in model.modules">@{{ module }}</span>
+                <span class="badge theme-warning me-1" v-for="module in model.modules">@{{ module }}</span>
             </td>
         </template>
     </item-list>

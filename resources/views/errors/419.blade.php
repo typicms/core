@@ -1,4 +1,4 @@
-<x-core::layouts.public :title="__('Page Expired') . ' – ' . websiteTitle()" body-class="error-419">
+<x-core::layouts.public :title="__('Page Expired').' – '.websiteTitle()" body-class="error-419">
     <header class="page-header">
         <div class="page-header-container">
             <h1 class="page-title">{{ __('Page Expired') }}</h1>

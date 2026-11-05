@@ -21,18 +21,39 @@
         </template>
 
         <template #columns="{ sortArray }">
-            <item-list-column-header name="position" sortable :sort-array="sortArray" :label="$t('Order')"></item-list-column-header>
-            <item-list-column-header name="checkbox" v-if="$can('update terms')||$can('delete terms')"></item-list-column-header>
+            <item-list-column-header
+                name="position"
+                sortable
+                :sort-array="sortArray"
+                :label="$t('Order')"
+            ></item-list-column-header>
+            <item-list-column-header
+                name="checkbox"
+                v-if="$can('update terms')||$can('delete terms')"
+            ></item-list-column-header>
             <item-list-column-header name="edit" v-if="$can('update terms')"></item-list-column-header>
-            <item-list-column-header name="title_translated" sortable :sort-array="sortArray" :label="$t('Title')"></item-list-column-header>
+            <item-list-column-header
+                name="title_translated"
+                sortable
+                :sort-array="sortArray"
+                :label="$t('Title')"
+            ></item-list-column-header>
         </template>
 
         <template #table-row="{ model, checkedModels, loading, sortArray }">
-            <td class="drag-handle fg-secondary" v-if="$can('update partners')" :style="{ cursor: sortArray[0] === 'position' ? 'grab' : 'default' }">
+            <td
+                class="drag-handle fg-secondary"
+                v-if="$can('update partners')"
+                :style="{ cursor: sortArray[0] === 'position' ? 'grab' : 'default' }"
+            >
                 <i :class="['icon-grip-vertical', { 'opacity-50': sortArray[0] !== 'position' }]"></i>
             </td>
             <td class="checkbox" v-if="$can('update terms')||$can('delete terms')">
-                <item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox>
+                <item-list-checkbox
+                    :model="model"
+                    :checked-models-prop="checkedModels"
+                    :loading="loading"
+                ></item-list-checkbox>
             </td>
             <td v-if="$can('update terms')">
                 <item-list-edit-button :url="'/admin/taxonomies/' + model.taxonomy_id + '/terms/' + model.id + '/edit'"></item-list-edit-button>

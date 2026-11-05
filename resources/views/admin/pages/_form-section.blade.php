@@ -1,4 +1,9 @@
-<x-core::header :$model :back-url="$page->editUrl()" :back-label="$page->title" :default-title="__('New page section')" />
+<x-core::header
+    :$model
+    :back-url="$page->editUrl()"
+    :back-label="$page->title"
+    :default-title="__('New page section')"
+/>
 
 <div class="form-body">
     <x-core::form-errors />

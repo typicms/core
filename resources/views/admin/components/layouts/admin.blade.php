@@ -2,7 +2,7 @@
     'title' => '',
     'bodyClass' => '',
     'page' => null,
-    'model' => null
+    'model' => null,
 ])
 
 <!DOCTYPE html>
@@ -19,12 +19,10 @@
     @vite('resources/scss/admin.scss')
 </head>
 
-<body
-    @class([
-        'has-navbar' => auth()->user()?->can('see navbar'),
-        $bodyClass => filled($bodyClass)
-    ])
->
+<body @class([
+    'has-navbar' => auth()->user()?->can('see navbar'),
+    $bodyClass => filled($bodyClass),
+])>
     <x-core::navbar :$page :$model />
 
     <div id="app" class="main">

@@ -2,9 +2,9 @@
 
 @foreach ($locales as $locale)
     <x-bootform::input-group
-        :label="__('Slug') . ' <span>(' . $locale . ')</span>'"
-        :name="'slug[' . $locale . ']'"
-        :data-slug="'title[' . $locale . ']'"
+        :label="__('Slug').' <span>('.$locale.')</span>'"
+        :name="'slug['.$locale.']'"
+        :data-slug="'title['.$locale.']'"
         :data-language="$locale"
         group-class="form-group-translation"
     >

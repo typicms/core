@@ -16,19 +16,51 @@
         </template>
 
         <template #columns="{ sortArray }">
-            <item-list-column-header name="checkbox" v-if="$can('update users')||$can('delete users')"></item-list-column-header>
+            <item-list-column-header
+                name="checkbox"
+                v-if="$can('update users')||$can('delete users')"
+            ></item-list-column-header>
             <item-list-column-header name="edit" v-if="$can('update users')"></item-list-column-header>
             <item-list-column-header name="impersonate" v-if="$can('impersonate users')"></item-list-column-header>
-            <item-list-column-header name="first_name" sortable :sort-array="sortArray" :label="$t('First name')"></item-list-column-header>
-            <item-list-column-header name="last_name" sortable :sort-array="sortArray" :label="$t('Last name')"></item-list-column-header>
-            <item-list-column-header name="email" sortable :sort-array="sortArray" :label="$t('Email')"></item-list-column-header>
-            <item-list-column-header name="activated" sortable :sort-array="sortArray" :label="$t('Activated')"></item-list-column-header>
-            <item-list-column-header name="roles_count" sortable :sort-array="sortArray" :label="$t('Roles')"></item-list-column-header>
+            <item-list-column-header
+                name="first_name"
+                sortable
+                :sort-array="sortArray"
+                :label="$t('First name')"
+            ></item-list-column-header>
+            <item-list-column-header
+                name="last_name"
+                sortable
+                :sort-array="sortArray"
+                :label="$t('Last name')"
+            ></item-list-column-header>
+            <item-list-column-header
+                name="email"
+                sortable
+                :sort-array="sortArray"
+                :label="$t('Email')"
+            ></item-list-column-header>
+            <item-list-column-header
+                name="activated"
+                sortable
+                :sort-array="sortArray"
+                :label="$t('Activated')"
+            ></item-list-column-header>
+            <item-list-column-header
+                name="roles_count"
+                sortable
+                :sort-array="sortArray"
+                :label="$t('Roles')"
+            ></item-list-column-header>
         </template>
 
         <template #table-row="{ model, checkedModels, loading }">
             <td class="checkbox" v-if="$can('update users')||$can('delete users')">
-                <item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox>
+                <item-list-checkbox
+                    :model="model"
+                    :checked-models-prop="checkedModels"
+                    :loading="loading"
+                ></item-list-checkbox>
             </td>
             <td v-if="$can('update users')">
                 <item-list-edit-button :url="'/admin/users/' + model.id + '/edit'"></item-list-edit-button>
@@ -52,10 +84,10 @@
             </td>
             <td>
                 @if (auth()->user()->isSuperUser())
-                    <span class="badge me-1 theme-warning" v-if="model.superuser">Superuser</span>
+                    <span class="badge theme-warning me-1" v-if="model.superuser">Superuser</span>
                 @endif
 
-                <span class="badge me-1 theme-info" v-for="role in model.roles">@{{ role.name }}</span>
+                <span class="badge theme-info me-1" v-for="role in model.roles">@{{ role.name }}</span>
             </td>
         </template>
     </item-list>

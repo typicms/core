@@ -1,4 +1,4 @@
-<x-core::layouts.public :title="__('Something went wrong') . ' – ' . websiteTitle()" body-class="error-500">
+<x-core::layouts.public :title="__('Something went wrong').' – '.websiteTitle()" body-class="error-500">
     <x-slot:lang-switcher></x-slot:lang-switcher>
 
     <header class="page-header">

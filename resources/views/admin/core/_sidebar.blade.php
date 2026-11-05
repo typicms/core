@@ -1,5 +1,9 @@
 <div class="sidebar">
-    <dialog class="sidebar-drawer lg:drawer drawer-start" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
+    <dialog
+        class="sidebar-drawer lg:drawer drawer-start"
+        id="offcanvasResponsive"
+        aria-labelledby="offcanvasResponsiveLabel"
+    >
         <div class="sidebar-header drawer-header">
             <button
                 class="btn-close"

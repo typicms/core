@@ -14,16 +14,16 @@
             @foreach ($taxonomy->terms as $term)
                 <div class="form-field {{ $errors->has('terms.' . $taxonomy->name) ? 'is-invalid' : '' }}">
                     {!!
-                        Form::checkbox('terms[' . $taxonomy->name . '][]', $term->id)
-                            ->id('term_' . $term->id)
+                        Form::checkbox('terms['.$taxonomy->name.'][]', $term->id)
+                            ->id('term_'.$term->id)
                             ->addClass('check')
-                            ->addClass($errors->has('terms.' . $taxonomy->name) ? 'is-invalid' : '')
+                            ->addClass($errors->has('terms.'.$taxonomy->name) ? 'is-invalid' : '')
                     !!}
                     <label for="{{ 'term_' . $term->id }}">{{ $term->title }}</label>
                 </div>
             @endforeach
 
-            @if ($errors->has('terms.' . $taxonomy->name))
+            @if ($errors->has('terms.'.$taxonomy->name))
                 <div class="invalid-feedback">{{ $errors->first('terms.' . $taxonomy->name) }}</div>
             @endif
         </div>

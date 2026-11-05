@@ -25,7 +25,10 @@
                     :sub-list="true"
                 >
                     <template #top-buttons v-if="$can('create menulinks')">
-                        <x-core::create-button :url="route('admin::create-menulink', $model->id)" :label="__('Create menulink')" />
+                        <x-core::create-button
+                            :url="route('admin::create-menulink', $model->id)"
+                            :label="__('Create menulink')"
+                        />
                     </template>
                 </item-list-tree>
             @endif

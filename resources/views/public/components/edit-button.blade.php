@@ -3,18 +3,18 @@
     'page' => null,
     'model' => null,
     'logout' => false,
-    'show' => showAdminButtons()
+    'show' => showAdminButtons(),
 ])
 
 @php
     $url ??=
         match (true) {
             $model !== null => $model->editUrl(),
-            $page?->module && Route::has('admin::index-' . $page->module) => route('admin::index-' . $page->module),
+            $page?->module && Route::has('admin::index-'.$page->module) => route('admin::index-'.$page->module),
             $page !== null => $page->editUrl(),
             default => route('admin::dashboard'),
-        } .
-        '?locale=' .
+        }.
+        '?locale='.
         app()->getLocale();
 @endphp
 

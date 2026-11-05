@@ -22,7 +22,13 @@
                     <x-core::navbar-public-link :$page :$model />
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link" type="button" data-bs-toggle="menu" data-bs-placement="bottom-end" aria-expanded="false">
+                    <button
+                        class="nav-link"
+                        type="button"
+                        data-bs-toggle="menu"
+                        data-bs-placement="bottom-end"
+                        aria-expanded="false"
+                    >
                         <span class="icon-circle-user-round me-1"></span>
                         <span class="d-none lg:d-inline">{{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}</span>
                     </button>

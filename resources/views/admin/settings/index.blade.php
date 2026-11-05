@@ -10,7 +10,10 @@
         <div class="form-header-toolbar">
             <button class="btn-sm btn-solid theme-primary" type="submit">{{ __('Save') }}</button>
             @if (config('responsecache.enabled'))
-                <a class="btn-sm btn-solid theme-secondary me-3" href="{{ route('admin::clear-cache') }}">{{ __('Clear cache') }}</a>
+                <a
+                    class="btn-sm btn-solid theme-secondary me-3"
+                    href="{{ route('admin::clear-cache') }}"
+                >{{ __('Clear cache') }}</a>
             @endif
         </div>
     </div>
@@ -22,7 +25,12 @@
                 <div class="mb-5">
                     <div class="input-group">
                         <span class="input-group-text">{{ strtoupper($locale) }}</span>
-                        <input class="form-control" type="text" name="{{ $locale }}[website_title]" value="{{ $data->$locale->website_title ?? '' }}" />
+                        <input
+                            class="form-control"
+                            type="text"
+                            name="{{ $locale }}[website_title]"
+                            value="{{ $data->$locale->website_title ?? '' }}"
+                        />
                     </div>
                 </div>
             @endforeach
@@ -34,7 +42,12 @@
                 <div class="mb-3">
                     <div class="input-group">
                         <span class="input-group-text">{{ strtoupper($locale) }}</span>
-                        <textarea class="form-control" name="{{ $locale }}[website_description]" rows="3" maxlength="400">{{ $data->$locale->website_description ?? '' }}</textarea>
+                        <textarea
+                            class="form-control"
+                            name="{{ $locale }}[website_description]"
+                            rows="3"
+                            maxlength="400"
+                        >{{ $data->$locale->website_description ?? '' }}</textarea>
                     </div>
                 </div>
             @endforeach
@@ -46,7 +59,14 @@
             @foreach (locales() as $locale)
                 <div class="form-field d-inline-grid me-5">
                     <input type="hidden" name="{{ $locale }}[status]" value="0" />
-                    <input class="check" type="checkbox" name="{{ $locale }}[status]" id="{{ $locale }}[status]" value="1" @if (isset($data->$locale) and $data->$locale->status) checked @endif />
+                    <input
+                        class="check"
+                        type="checkbox"
+                        name="{{ $locale }}[status]"
+                        id="{{ $locale }}[status]"
+                        value="1"
+                        @if (isset($data->$locale) and $data->$locale->status) checked @endif
+                    />
                     <label for="{{ $locale }}[status]">{{ strtoupper($locale) }}</label>
                 </div>
             @endforeach
@@ -57,12 +77,17 @@
             <div class="mb-5">
                 <div class="input-group">
                     <span class="input-group-text">{{ strtoupper($locale) }}</span>
-                    <input class="form-control" type="text" name="{{ $locale }}[website_baseline]" value="{{ $data->$locale->website_baseline ?? '' }}" />
+                    <input
+                        class="form-control"
+                        type="text"
+                        name="{{ $locale }}[website_baseline]"
+                        value="{{ $data->$locale->website_baseline ?? '' }}"
+                    />
                 </div>
             </div>
         @endforeach
 
-        @if (!config('typicms.welcome_message_url'))
+        @if (! config('typicms.welcome_message_url'))
             <x-bootform::textarea :label="__('Administration Welcome Message')" name="welcome_message" rows="3" />
         @endif
 

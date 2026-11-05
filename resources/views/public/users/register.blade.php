@@ -12,11 +12,17 @@
 
         <x-bootform::email :label="__('Email')" name="email" class="form-control-lg" required autocomplete="username" />
         <div class="row gx-5">
-            <div class="sm:col-6"><x-bootform::text :label="__('First name')" name="first_name" class="form-control-lg" required /></div>
-            <div class="sm:col-6"><x-bootform::text :label="__('Last name')" name="last_name" class="form-control-lg" required /></div>
+            <div class="sm:col-6">
+                <x-bootform::text :label="__('First name')" name="first_name" class="form-control-lg" required />
+            </div>
+            <div class="sm:col-6">
+                <x-bootform::text :label="__('Last name')" name="last_name" class="form-control-lg" required />
+            </div>
         </div>
 
-        <div class="mb-5 mt-5 d-grid"><x-bootform::submit :value="__('Register')" type="btn-solid theme-primary" class="btn-lg" /></div>
+        <div class="d-grid mb-5 mt-5">
+            <x-bootform::submit :value="__('Register')" type="btn-solid theme-primary" class="btn-lg" />
+        </div>
 
         {!! BootForm::close() !!}
     </div>

@@ -1,4 +1,10 @@
-<x-core::header :$model :back-url="$model->indexUrl()" :back-label="__('Tags')" :default-title="__('New tag')" :lang-switcher="false" />
+<x-core::header
+    :$model
+    :back-url="$model->indexUrl()"
+    :back-label="__('Tags')"
+    :default-title="__('New tag')"
+    :lang-switcher="false"
+/>
 
 <div class="form-body">
     <x-core::form-errors />
@@ -10,7 +16,11 @@
         <div class="md:col-6">
             <x-bootform::input-group :label="__('Slug')" name="slug" data-slug="tag">
                 <x-slot:after-addon>
-                    <x-bootform::button :value="__('Generate')" type="btn-outline theme-secondary" :class="'btn-slug'" />
+                    <x-bootform::button
+                        :value="__('Generate')"
+                        type="btn-outline theme-secondary"
+                        :class="'btn-slug'"
+                    />
                 </x-slot:after-addon>
             </x-bootform::input-group>
         </div>
@@ -19,7 +29,7 @@
     @if ($model->id)
         @php
             $taggedItems = $model->getTaggedItemsGrouped();
-            $totalCount = array_sum(array_map(fn($items) => $items->count(), $taggedItems));
+            $totalCount = array_sum(array_map(fn ($items) => $items->count(), $taggedItems));
         @endphp
         @if ($totalCount > 0)
             <div class="mt-5">
@@ -32,9 +42,12 @@
                         </h3>
                         <ul class="list-group list-group-flush">
                             @foreach ($items as $item)
-                                <li class="list-group-item d-flex gap-3 align-items-center px-0">
+                                <li class="list-group-item d-flex align-items-center gap-3 px-0">
                                     @if (method_exists($item, 'editUrl'))
-                                        <a class="btn-xs btn-solid theme-secondary" href="{{ $item->editUrl() }}">{{ __('Edit') }}</a>
+                                        <a
+                                            class="btn-xs btn-solid theme-secondary"
+                                            href="{{ $item->editUrl() }}"
+                                        >{{ __('Edit') }}</a>
                                     @endif
                                     <div>
                                         @if (method_exists($item, 'presentTitle'))

@@ -8,9 +8,18 @@
 
         <x-core::status />
 
-        <x-bootform::text :label="__('One time password')" name="one_time_password" class="form-control-lg" autofocus required autocomplete="one-time-code" />
+        <x-bootform::text
+            :label="__('One time password')"
+            name="one_time_password"
+            class="form-control-lg"
+            autofocus
+            required
+            autocomplete="one-time-code"
+        />
 
-        <div class="mb-5 d-grid"><x-bootform::submit :value="__('Submit')" type="btn-solid theme-primary" class="btn-lg" /></div>
+        <div class="d-grid mb-5">
+            <x-bootform::submit :value="__('Submit')" type="btn-solid theme-primary" class="btn-lg" />
+        </div>
 
         {!! BootForm::close() !!}
 
