@@ -35,7 +35,7 @@ final class RegisterController extends Controller
         $user = User::query()->create($data);
 
         $roleName = config('typicms.registration.role');
-        if ($roleName && Role::query()->where('name', $roleName)->exists()) {
+        if (is_string($roleName) && $roleName !== '' && Role::query()->where('name', $roleName)->exists()) {
             $user->assignRole($roleName);
         }
 

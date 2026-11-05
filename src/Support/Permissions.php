@@ -82,7 +82,7 @@ class Permissions
      */
     public static function sync(): void
     {
-        $missing = array_diff(self::names(), Permission::query()->pluck('name')->all());
+        $missing = array_diff(self::names(), array_filter(Permission::query()->pluck('name')->all(), is_string(...)));
 
         if ($missing === []) {
             return;

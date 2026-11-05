@@ -84,6 +84,14 @@ class UsersFormRequest extends AbstractFormRequest
         return true;
     }
 
+    /** @return list<int> */
+    public function checkedRoles(): array
+    {
+        $roles = $this->validated('checked_roles', []);
+
+        return array_values(array_map(intval(...), array_filter(is_array($roles) ? $roles : [], is_numeric(...))));
+    }
+
     /**
      * Roles this request gives to or takes from the user.
      *
@@ -92,7 +100,9 @@ class UsersFormRequest extends AbstractFormRequest
     private function changedRoles(): array
     {
         $target = $this->route('user');
-        $current = $target instanceof User ? $target->roles()->pluck('id')->all() : [];
+        $current = $target instanceof User
+            ? array_map(intval(...), array_filter($target->roles()->pluck('id')->all(), is_numeric(...)))
+            : [];
         $submitted = array_map(intval(...), array_filter($this->array('checked_roles'), is_numeric(...)));
 
         return array_values(array_unique([

@@ -12,6 +12,7 @@ final class TagsPublicController extends BasePublicController
     public function index(): View
     {
         $perPage = config('typicms.modules.tags.per_page');
+        $perPage = is_numeric($perPage) ? (int) $perPage : null;
         $models = Tag::query()->paginate($perPage);
 
         return view('public::tags.index', ['models' => $models]);

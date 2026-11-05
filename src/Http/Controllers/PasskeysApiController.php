@@ -37,8 +37,10 @@ final class PasskeysApiController extends BaseApiController
         try {
             $storePasskeyAction->execute(
                 $user,
-                $request->passkey,
-                $request->options ?? $this->previouslyGeneratedPasskeyOptions(),
+                $request->string('passkey')->toString(),
+                $request->filled('options')
+                    ? $request->string('options')->toString()
+                    : $this->previouslyGeneratedPasskeyOptions() ?? '',
                 request()->getHost(),
                 ['name' => (string) $request->string('name')],
             );
@@ -76,7 +78,9 @@ final class PasskeysApiController extends BaseApiController
 
     protected function previouslyGeneratedPasskeyOptions(): ?string
     {
-        return session()->pull('passkey-registration-options');
+        $options = session()->pull('passkey-registration-options');
+
+        return is_string($options) ? $options : null;
     }
 
     /**

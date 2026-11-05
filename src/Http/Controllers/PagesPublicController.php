@@ -102,7 +102,7 @@ final class PagesPublicController extends BasePublicController
 
     private function renderPage(Page $page): View
     {
-        $templateDir = config('typicms.template_dir', 'public').'::pages.';
+        $templateDir = config()->string('typicms.template_dir', 'public').'::pages.';
         $template = $page->template ?: 'default';
 
         if (! view()->exists($templateDir.$template)) {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Exports;
 
+use Stringable;
+
 trait EscapesFormulas
 {
     /**
@@ -13,7 +15,7 @@ trait EscapesFormulas
      */
     protected function escapeFormula(mixed $value): ?string
     {
-        if ($value === null) {
+        if (! is_scalar($value) && ! $value instanceof Stringable) {
             return null;
         }
 

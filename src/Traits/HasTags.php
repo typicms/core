@@ -12,7 +12,7 @@ trait HasTags
 {
     public static function bootHasTags(): void
     {
-        static::saved(function (mixed $model): void {
+        static::saved(function (self $model): void {
             if (request()->has('tags')) {
                 $tags = array_filter(array_map(trim(...), explode(',', (string) request()->string('tags'))));
 

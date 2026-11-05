@@ -74,7 +74,7 @@ class History extends Model
         static::retrieved(function (self $history): void {
             $type = $history->getAttributes()['historable_type'] ?? null;
 
-            if ($type === null) {
+            if (! is_string($type)) {
                 return;
             }
 

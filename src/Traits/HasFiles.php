@@ -11,9 +11,9 @@ trait HasFiles
 {
     public static function bootHasFiles(): void
     {
-        static::saved(function (mixed $model): void {
+        static::saved(function (self $model): void {
             if (request()->has('file_ids')) {
-                $model->syncIds((string) request()->string('file_ids'));
+                $model->syncIds(request()->string('file_ids')->toString());
             }
         });
     }

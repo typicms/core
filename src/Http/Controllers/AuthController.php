@@ -79,7 +79,8 @@ final class AuthController extends Controller
                 ->with('status', __('Please enter your email address first.'));
         }
 
-        $this->email = session('email');
+        $email = session('email');
+        $this->email = is_string($email) ? $email : null;
         session()->forget('email');
         $user = $this->findUserOrFail();
 
@@ -105,6 +106,10 @@ final class AuthController extends Controller
     protected function findUserOrFail(): User
     {
         $authenticatableModel = config('auth.providers.users.model');
+
+        if (! is_string($authenticatableModel) || ! is_a($authenticatableModel, User::class, true)) {
+            $authenticatableModel = User::class;
+        }
 
         return $authenticatableModel::query()->where('email', $this->email)->firstOrFail();
     }

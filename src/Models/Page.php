@@ -122,8 +122,8 @@ class Page extends Model
 
     public function parentUri(string $locale): string
     {
-        $parentUri = $this->translate('uri', $locale) ?: '/';
-        $parentUri = explode('/', (string) $parentUri);
+        $uri = $this->translate('uri', $locale);
+        $parentUri = explode('/', is_string($uri) && $uri !== '' ? $uri : '/');
         array_pop($parentUri);
 
         return implode('/', $parentUri).'/';
@@ -138,11 +138,12 @@ class Page extends Model
     {
         $locale ??= app()->getLocale();
         $uri = $this->translate('uri', $locale);
+        $uri = is_string($uri) ? $uri : '';
         if (mainLocale() !== $locale || config('typicms.main_locale_in_url')) {
-            $uri = $uri ? $locale.'/'.$uri : $locale;
+            $uri = $uri !== '' ? "{$locale}/{$uri}" : $locale;
         }
 
-        return $uri ?: '/';
+        return $uri !== '' ? $uri : '/';
     }
 
     public function url(?string $locale = null): string

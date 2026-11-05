@@ -12,40 +12,55 @@ trait Historable
 {
     public static function bootHistorable(): void
     {
-        static::created(function (mixed $model): void {
+        static::created(function (self $model): void {
             $model->writeHistory('created', Str::limit($model->presentTitle(), 200, '…'), [], $model->toArray());
         });
 
-        static::updated(function (mixed $model): void {
-            $action = 'updated';
-
+        static::updated(function (self $model): void {
             $new = [];
             $old = [];
-            foreach ($model->attributes as $key => $value) {
-                if ($model->translatable && in_array($key, $model->translatable, true)) {
-                    $values = (array) json_decode($value);
-                    $originalValues = (array) json_decode((string) $model->original[$key]);
+            foreach ($model->getAttributes() as $key => $value) {
+                if ($model->isTranslatableHistoryAttribute($key)) {
+                    $values = (array) json_decode(is_string($value) ? $value : '');
+                    $original = $model->getRawOriginal($key);
+                    $originalValues = (array) json_decode(is_string($original) ? $original : '');
+                    $newTranslations = [];
+                    $oldTranslations = [];
                     foreach ($values as $locale => $newItem) {
                         if (isset($originalValues[$locale]) && $newItem !== $originalValues[$locale]) {
-                            $new[$key][$locale] = $newItem;
-                            $old[$key][$locale] = $originalValues[$locale];
+                            $newTranslations[$locale] = $newItem;
+                            $oldTranslations[$locale] = $originalValues[$locale];
                         }
                     }
-                } else {
-                    $originalValue = $model->original[$key] ?? '';
-                    if ($value !== $originalValue) {
-                        $new[$key] = $value;
-                        $old[$key] = $originalValue;
+
+                    if ($newTranslations !== []) {
+                        $new[$key] = $newTranslations;
+                        $old[$key] = $oldTranslations;
                     }
+
+                    continue;
+                }
+
+                $originalValue = $model->getRawOriginal($key) ?? '';
+                if ($value !== $originalValue) {
+                    $new[$key] = $value;
+                    $old[$key] = $originalValue;
                 }
             }
 
-            $model->writeHistory($action, Str::limit($model->presentTitle(), 200, '…'), $old, $new);
+            $model->writeHistory('updated', Str::limit($model->presentTitle(), 200, '…'), $old, $new);
         });
 
-        static::deleted(function (mixed $model): void {
+        static::deleted(function (self $model): void {
             $model->writeHistory('deleted', Str::limit($model->presentTitle(), 200, '…'));
         });
+    }
+
+    private function isTranslatableHistoryAttribute(string $key): bool
+    {
+        return property_exists($this, 'translatable')
+            && is_array($this->translatable)
+            && in_array($key, $this->translatable, true);
     }
 
     /**

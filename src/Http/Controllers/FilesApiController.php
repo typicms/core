@@ -69,7 +69,8 @@ final class FilesApiController extends BaseApiController
             $model->name = $file['filename'];
             $model->fill(Arr::except($file, 'filename'));
         } else {
-            $model->name = $data['name'];
+            $name = $data['name'] ?? null;
+            $model->name = is_string($name) ? $name : null;
         }
 
         $model->save();
@@ -97,7 +98,10 @@ final class FilesApiController extends BaseApiController
 
         $file->delete();
 
-        Croppa::delete('storage/'.$file->getOriginal('path'));
+        $originalPath = $file->getOriginal('path');
+        if (is_string($originalPath)) {
+            Croppa::delete("storage/{$originalPath}");
+        }
 
         return response()->json(status: 204);
     }
