@@ -28,7 +28,7 @@ use TypiCMS\Translatable\HasTranslations;
  * @property int|null $section_id
  * @property int|null $parent_id
  * @property int|null $image_id
- * @property array<string, mixed> $data
+ * @property array<mixed> $data
  * @property Collection<int, Model> $items
  * @property string|null $href
  * @property bool $isLeaf

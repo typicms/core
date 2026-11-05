@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Carbon\CarbonInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Response;
@@ -53,11 +55,18 @@ final class SitemapPublicController extends Controller
                         continue;
                     }
 
-                    foreach ($modelClass::published()->get() as $item) {
-                        $url = $item->url($locale);
-                        if ($url) {
-                            $sitemap->add($url, $item->updated_at?->toDateTimeString());
+                    $items = $modelClass::query()
+                        ->tap(fn (Builder $query) => $query->scopes(['published']))
+                        ->get();
+
+                    foreach ($items as $item) {
+                        $url = method_exists($item, 'url') ? $item->url($locale) : null;
+                        if (! is_string($url) || $url === '') {
+                            continue;
                         }
+
+                        $updatedAt = $item->getAttribute('updated_at');
+                        $sitemap->add($url, $updatedAt instanceof CarbonInterface ? $updatedAt->toDateTimeString() : null);
                     }
                 }
             }

@@ -15,7 +15,7 @@ trait HasSlugScope
     protected function whereSlugIs(Builder $query, string $slug): void
     {
         $field = 'slug';
-        if (in_array($field, $this->translatable ?? [], true)) {
+        if (property_exists($this, 'translatable') && is_array($this->translatable) && in_array($field, $this->translatable, true)) {
             $field .= '->'.app()->getLocale();
         }
 

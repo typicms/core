@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\View as ViewInstance;
 use Override;
 use Spatie\ResponseCache\Facades\ResponseCache;
 use TypiCMS\Modules\Core\Commands\Create;
@@ -25,6 +26,7 @@ use TypiCMS\Modules\Core\Http\Middleware\ModulePage;
 use TypiCMS\Modules\Core\Http\Middleware\RewriteModuleUri;
 use TypiCMS\Modules\Core\Models\Page;
 use TypiCMS\Modules\Core\Models\Setting;
+use TypiCMS\Modules\Core\Models\User;
 use TypiCMS\Modules\Core\Support\ModuleRoutes;
 
 class ModuleServiceProvider extends ServiceProvider
@@ -64,11 +66,7 @@ class ModuleServiceProvider extends ServiceProvider
             'typicms' => array_merge((array) config('typicms', []), new Setting()->allToArray()),
         ]);
 
-        Gate::before(function ($user) {
-            if ($user->isSuperUser()) {
-                return true;
-            }
-        });
+        Gate::before(fn (User $user): ?bool => $user->isSuperUser() ? true : null);
 
         Paginator::defaultView('public::core.pagination.bootstrap-5');
         Paginator::defaultSimpleView('public::core.pagination.simple-bootstrap-5');
@@ -327,6 +325,12 @@ class ModuleServiceProvider extends ServiceProvider
         View::composers([
             SidebarViewComposer::class => 'admin::core._sidebar',
         ]);
+        View::composer('public::search.*', function (ViewInstance $view): void {
+            $view->with('page', getPageLinkedToModule('search'));
+        });
+        View::composer('public::tags.*', function (ViewInstance $view): void {
+            $view->with('page', getPageLinkedToModule('tags'));
+        });
 
         Blade::componentNamespace('TypiCMS\\Modules\\Core\\Http\\Components', 'core');
         Blade::anonymousComponentPath(resource_path('views/admin/components'), 'core');

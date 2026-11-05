@@ -77,7 +77,7 @@ class Taxonomy extends Model implements Sortable
         ];
     }
 
-    /** @return array<string, string> */
+    /** @return array<int|string, string> */
     public function allForSelect(): array
     {
         $locale = in_array(app()->getLocale(), locales(), true) ? app()->getLocale() : mainLocale();

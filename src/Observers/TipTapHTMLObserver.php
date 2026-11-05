@@ -18,25 +18,32 @@ class TipTapHTMLObserver
             return;
         }
 
-        $isTranslatable = method_exists($model, 'getTranslations')
-            && method_exists($model, 'setTranslation');
+        $richTextElements = $model->tipTapContent;
+        if (! is_array($richTextElements)) {
+            return;
+        }
 
-        foreach ($model->tipTapContent as $richTextElement) {
-            if ($isTranslatable) {
-                foreach ($model->getTranslations($richTextElement) as $locale => $content) {
+        foreach ($richTextElements as $richTextElement) {
+            if (! is_string($richTextElement)) {
+                continue;
+            }
+
+            if (method_exists($model, 'getTranslations') && method_exists($model, 'setTranslation')) {
+                foreach ((array) $model->getTranslations($richTextElement) as $locale => $content) {
                     $model->setTranslation(
                         $richTextElement,
                         $locale,
-                        $this->patchTipTapHTML($content, $locale),
+                        $this->patchTipTapHTML(is_string($content) ? $content : null, (string) $locale),
                     );
                 }
 
                 continue;
             }
 
-            $model->{$richTextElement} = $this->patchTipTapHTML(
-                $model->{$richTextElement},
-                app()->getLocale(),
+            $content = $model->getAttribute($richTextElement);
+            $model->setAttribute(
+                $richTextElement,
+                $this->patchTipTapHTML(is_string($content) ? $content : null, app()->getLocale()),
             );
         }
     }
