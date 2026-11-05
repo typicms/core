@@ -116,6 +116,10 @@ final class LlmsTxtController extends Controller
                 continue;
             }
 
+            if (! method_exists($modelClass, 'published')) {
+                continue;
+            }
+
             $page = getPageLinkedToModule($moduleName);
             if (! $page instanceof Page) {
                 continue;
@@ -125,8 +129,7 @@ final class LlmsTxtController extends Controller
                 continue;
             }
 
-            $items = $modelClass::query()
-                ->published()
+            $items = $modelClass::published()
                 ->latest()
                 ->take(20)
                 ->get();
@@ -159,7 +162,7 @@ final class LlmsTxtController extends Controller
 
     private function getTitle(Model $item, string $locale): ?string
     {
-        if (method_exists($item, 'isTranslatableAttribute') && $item->isTranslatableAttribute('title')) {
+        if (method_exists($item, 'isTranslatableAttribute') && method_exists($item, 'translate') && $item->isTranslatableAttribute('title')) {
             $title = $item->translate('title', $locale);
         } else {
             $title = $item->title ?? null;

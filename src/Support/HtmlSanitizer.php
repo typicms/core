@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Support;
 
-use DOMAttr;
 use DOMComment;
 use DOMDocument;
 use DOMElement;
@@ -191,10 +190,6 @@ class HtmlSanitizer
         $allowed = array_merge(self::GLOBAL_ATTRIBUTES, self::ALLOWED_ELEMENTS[$tag]);
 
         foreach (iterator_to_array($element->attributes) as $attribute) {
-            if (! $attribute instanceof DOMAttr) {
-                continue;
-            }
-
             $name = strtolower($attribute->nodeName);
 
             if (str_starts_with($name, 'on')) {

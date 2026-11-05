@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use TypiCMS\Translatable\HasTranslations;
 
 trait Publishable
 {
@@ -15,7 +16,7 @@ trait Publishable
     {
         $locale ??= app()->getLocale();
 
-        if (in_array('status', $this->translatable ?? [], true)) {
+        if ($this->hasTranslatableStatus()) {
             return (bool) $this->translate('status', $locale);
         }
 
@@ -32,12 +33,18 @@ trait Publishable
             || ! request()->boolean('preview')
         ) {
             $field = 'status';
-            if (in_array($field, $this->translatable ?? [], true)) {
+            if ($this->hasTranslatableStatus()) {
                 $field .= '->'.app()->getLocale();
             }
 
             $query->where($field, '1');
         }
+    }
+
+    private function hasTranslatableStatus(): bool
+    {
+        return in_array(HasTranslations::class, class_uses_recursive($this), true)
+            && $this->isTranslatableAttribute('status');
     }
 
     /** @return Attribute<string, null> */

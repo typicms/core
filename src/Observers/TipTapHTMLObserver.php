@@ -7,11 +7,12 @@ namespace TypiCMS\Modules\Core\Observers;
 use DOMDocument;
 use DOMElement;
 use DOMXPath;
+use Illuminate\Database\Eloquent\Model;
 use TypiCMS\Modules\Core\Support\HtmlSanitizer;
 
 class TipTapHTMLObserver
 {
-    public function saving(mixed $model): void
+    public function saving(Model $model): void
     {
         if (! property_exists($model, 'tipTapContent')) {
             return;

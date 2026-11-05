@@ -691,6 +691,7 @@
     "The :attribute must contain at least one symbol.": "Het :attribute moet minimaal één symbool bevatten.",
     "The :attribute must contain at least one uppercase and one lowercase letter.": "Het :attribute moet minimaal één hoofdletter en één kleine letter bevatten.",
     "The current logged in user cannot be deleted.": "De momenteel ingelogde gebruiker kan niet worden verwijderd.",
+    "Only a superuser can delete a superuser.": "Alleen een superuser kan een superuser verwijderen.",
     "The folder is empty.": "De map is leeg.",
     "The form contains errors:": "Het formulier bevat fouten:",
     "The given :attribute has appeared in a data leak. Please choose a different :attribute.": "Het :attribute is aangetroffen in een datalek. Geef een ander :attribute.",

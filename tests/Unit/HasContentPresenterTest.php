@@ -51,3 +51,15 @@ it('returns an empty string for a non-persisted model', function (): void {
 
     expect($model->presentTitle())->toBe('');
 });
+
+it('presents the title of a model without translations', function (): void {
+    $model = new class extends Model
+    {
+        use HasContentPresenter;
+    };
+
+    $model->exists = true;
+    $model->setRawAttributes(['title' => '<b>Hello</b>']);
+
+    expect($model->presentTitle())->toBe('Hello');
+});
