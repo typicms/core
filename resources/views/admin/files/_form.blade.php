@@ -41,6 +41,8 @@
                         <image-cropper
                             :image-url="'{{ Storage::url($model->path) }}'"
                             :file-id="{{ $model->id }}"
+                            :focal-x="{{ $model->focal_x ?? 'null' }}"
+                            :focal-y="{{ $model->focal_y ?? 'null' }}"
                         ></image-cropper>
                     @else
                         <img

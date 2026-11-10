@@ -1,10 +1,23 @@
 <template>
     <div v-if="imageUrl" class="image-cropper-launcher mb-3">
-        <img class="image-cropper-preview img-fluid mb-2" :src="imageUrl" alt="" />
-        <button type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" :data-bs-target="'#' + modalId">
-            <crop-icon :size="18" stroke-width="2" />
-            {{ t('Crop image') }}
+        <button type="button" class="image-cropper-focal mb-2" :title="t('Click on the image to set the focal point')" @click="setFocalPoint">
+            <img ref="previewImage" class="image-cropper-preview img-fluid" :src="imageUrl" alt="" />
+            <span v-if="hasFocalPoint" class="image-cropper-focal-marker" :style="{ left: focalPointX + '%', top: focalPointY + '%' }"></span>
         </button>
+        <input type="hidden" name="focal_x" :value="hasFocalPoint ? focalPointX : ''" />
+        <input type="hidden" name="focal_y" :value="hasFocalPoint ? focalPointY : ''" />
+        <div class="d-flex flex-wrap align-items-center gap-2">
+            <button type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" :data-bs-target="'#' + modalId">
+                <crop-icon :size="18" stroke-width="2" />
+                {{ t('Crop image') }}
+            </button>
+            <button v-if="hasFocalPoint" type="button" class="btn btn-sm btn-light" @click="resetFocalPoint">
+                {{ t('Reset focal point') }}
+            </button>
+            <small class="text-secondary">
+                {{ hasFocalPoint ? t('Focal point') + ': ' + focalPointX + '% / ' + focalPointY + '%' : t('Click on the image to set the focal point') }}
+            </small>
+        </div>
 
         <div :id="modalId" ref="modalElement" class="modal fade" tabindex="-1" :aria-labelledby="modalId + '-label'" aria-hidden="true">
             <div class="modal-dialog image-cropper-modal-dialog modal-dialog-centered">
@@ -73,7 +86,7 @@
 import 'cropperjs';
 import { CropIcon, FlipHorizontalIcon, FlipVerticalIcon, RotateCcwIcon, RotateCwIcon } from '@lucide/vue';
 import Modal from 'bootstrap/js/dist/modal';
-import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
@@ -87,6 +100,14 @@ const props = defineProps({
         type: Number,
         required: true,
     },
+    focalX: {
+        type: Number,
+        default: null,
+    },
+    focalY: {
+        type: Number,
+        default: null,
+    },
 });
 
 const emit = defineEmits(['cropped']);
@@ -97,6 +118,28 @@ const cropperCanvas = ref(null);
 const cropperImage = ref(null);
 const cropperSelection = ref(null);
 const show = ref(false);
+const previewImage = ref(null);
+const focalPointX = ref(props.focalX);
+const focalPointY = ref(props.focalY);
+const hasFocalPoint = computed(() => focalPointX.value !== null && focalPointY.value !== null);
+
+function setFocalPoint(event) {
+    const rect = previewImage.value?.getBoundingClientRect();
+
+    if (!rect || !rect.width || !rect.height) {
+        return;
+    }
+
+    const clamp = (value) => Math.min(100, Math.max(0, Math.round(value)));
+
+    focalPointX.value = clamp(((event.clientX - rect.left) / rect.width) * 100);
+    focalPointY.value = clamp(((event.clientY - rect.top) / rect.height) * 100);
+}
+
+function resetFocalPoint() {
+    focalPointX.value = null;
+    focalPointY.value = null;
+}
 
 let modalInstance = null;
 let resizeTimeout = null;

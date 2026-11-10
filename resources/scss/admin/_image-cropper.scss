@@ -5,6 +5,26 @@
         display: block;
         width: auto;
     }
+    &-focal {
+        position: relative;
+        display: inline-block;
+        max-width: 100%;
+        padding: 0;
+        border: 0;
+        background: none;
+        cursor: crosshair;
+        &-marker {
+            position: absolute;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 2px solid var(--bs-white);
+            border-radius: 50%;
+            background-color: rgba(var(--bs-primary-rgb), 0.5);
+            box-shadow: 0 0 0 1px rgba(var(--bs-black-rgb), 0.5);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+    }
     &-modal-dialog {
         --bs-modal-width: calc(100% - 6rem);
         .modal-content {
