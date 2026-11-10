@@ -77,6 +77,24 @@ class File extends Model
         return $this->title ?: ($this->name ?? '');
     }
 
+    public function hasFocalPoint(): bool
+    {
+        return $this->focal_x !== null && $this->focal_y !== null;
+    }
+
+    /**
+     * Return the focal point as a CSS position (e.g. "25% 80%"),
+     * usable for object-position, background-position or transform-origin.
+     */
+    public function focalPosition(?string $default = null): ?string
+    {
+        if (! $this->hasFocalPoint()) {
+            return $default;
+        }
+
+        return "{$this->focal_x}% {$this->focal_y}%";
+    }
+
     public function formattedFilesize(int $precision = 0): string
     {
         $base = log((float) ($this->filesize ?? 0), 1024);
