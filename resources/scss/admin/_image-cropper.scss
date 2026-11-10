@@ -8,6 +8,26 @@
             display: block;
             width: auto;
         }
+        &-focal {
+            position: relative;
+            display: inline-block;
+            max-width: 100%;
+            padding: 0;
+            border: 0;
+            background: none;
+            cursor: crosshair;
+            &-marker {
+                position: absolute;
+                width: 1.5rem;
+                height: 1.5rem;
+                border: 2px solid var(--white);
+                border-radius: 50%;
+                background-color: color-mix(in oklch, var(--primary-base) 50%, transparent);
+                box-shadow: 0 0 0 1px color-mix(in oklch, black 50%, transparent);
+                transform: translate(-50%, -50%);
+                pointer-events: none;
+            }
+        }
         &-dialog {
             --dialog-width: calc(100% - 6rem);
             min-height: 90vh;

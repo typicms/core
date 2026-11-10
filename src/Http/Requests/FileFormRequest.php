@@ -18,6 +18,8 @@ class FileFormRequest extends AbstractFormRequest
             'title.*' => ['nullable', 'max:255'],
             'description.*' => ['nullable', 'max:255'],
             'name' => ['required', 'max:255'],
+            'focal_x' => ['nullable', 'integer', 'between:0,100'],
+            'focal_y' => ['nullable', 'integer', 'between:0,100'],
             'file' => ['nullable', ...$this->fileRules()],
         ];
 
