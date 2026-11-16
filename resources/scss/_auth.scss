@@ -12,11 +12,12 @@
     .auth {
         @extend .card;
         padding-top: 3rem;
-        max-width: 36rem;
         box-shadow: var(--box-shadow);
-        margin-bottom: 2rem;
+        min-width: 25rem;
+        width: 36rem;
         &-sm {
-            max-width: 26rem;
+            min-width: 18rem;
+            width: 26rem;
         }
         &-title {
             @extend .visually-hidden;
@@ -28,15 +29,17 @@
         &-back-to-website {
             display: flex;
             justify-content: center;
+            position: absolute;
+            margin-top: 1rem;
             margin-bottom: 0;
+            width: 100%;
+            top: 100%;
+            font-size: var(--font-size-sm);
             &-link {
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 gap: 0.25rem;
-                font-size: var(--font-size-sm);
-                position: absolute;
-                margin-top: 20px;
                 color: var(--fg-4);
             }
         }
