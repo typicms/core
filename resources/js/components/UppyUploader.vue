@@ -59,6 +59,9 @@ const uppy = computed(() =>
                 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
                 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
                 'application/vnd.openxmlformats-officedocument.presentationml.slide',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
+                'application/vnd.openxmlformats-officedocument.presentationml.template',
                 'application/msword',
                 'application/vnd.ms-powerpoint',
                 'application/vnd.ms-excel',
@@ -94,7 +97,7 @@ const uppy = computed(() =>
         })
         .on('file-added', (file) => {
             uppy.value.setFileMeta(file.id, {
-                folder_id: props.folderId,
+                folder_id: file.meta.folder_id ?? props.folderId,
             });
         })
         .on('restriction-failed', (file, error) => {
@@ -122,8 +125,24 @@ const uppy = computed(() =>
         }),
 );
 
+function addFilesToFolder(files, folderId) {
+    files.forEach((file) => {
+        try {
+            uppy.value.addFile({
+                name: file.name,
+                type: file.type,
+                data: file,
+                meta: { folder_id: folderId },
+            });
+        } catch {
+            // Restriction errors are already reported by the restriction-failed listener.
+        }
+    });
+}
+
 defineExpose({
     dropzoneRef,
+    addFilesToFolder,
 });
 </script>
 

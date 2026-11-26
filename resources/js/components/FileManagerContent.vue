@@ -138,7 +138,7 @@
                         <div v-else :class="'filemanager-item-icon-' + item.type" class="filemanager-item-icon">
                             <file-music-icon v-if="item.type === 'a'" size="72" stroke-width="1.25" />
                             <file-video2-icon v-if="item.type === 'v'" size="72" stroke-width="1.25" />
-                            <file-icon v-if="item.type === 'd'" size="72" stroke-width="1.25" />
+                            <component :is="documentIcon(item)" v-if="item.type === 'd'" size="72" stroke-width="1.25" />
                             <folder-icon v-if="item.type === 'f'" size="72" stroke-width="1.25" />
                         </div>
                         <div class="filemanager-item-name">
@@ -155,7 +155,23 @@
 </template>
 
 <script setup>
-import { ArrowLeftIcon, CloudUploadIcon, FileIcon, FileMusicIcon, FileVideo2Icon, FolderIcon, FolderPlusIcon, LayoutGridIcon, LayoutListIcon, SearchIcon } from '@lucide/vue';
+import {
+    ArrowLeftIcon,
+    CloudUploadIcon,
+    FileArchiveIcon,
+    FileChartPieIcon,
+    FileIcon,
+    FileJsonIcon,
+    FileMusicIcon,
+    FileSpreadsheetIcon,
+    FileTextIcon,
+    FileVideo2Icon,
+    FolderIcon,
+    FolderPlusIcon,
+    LayoutGridIcon,
+    LayoutListIcon,
+    SearchIcon,
+} from '@lucide/vue';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -200,6 +216,27 @@ const buttonProps = computed(() => {
 });
 const selectedItems = ref([]);
 const deleteLimit = ref(100);
+const documentIcons = {
+    doc: FileTextIcon,
+    docx: FileTextIcon,
+    dotx: FileTextIcon,
+    rtf: FileTextIcon,
+    txt: FileTextIcon,
+    md: FileTextIcon,
+    xls: FileSpreadsheetIcon,
+    xlsx: FileSpreadsheetIcon,
+    xltx: FileSpreadsheetIcon,
+    ppt: FileChartPieIcon,
+    pptx: FileChartPieIcon,
+    potx: FileChartPieIcon,
+    ppsx: FileChartPieIcon,
+    sldx: FileChartPieIcon,
+    zip: FileArchiveIcon,
+    json: FileJsonIcon,
+};
+
+const documentIcon = (item) => documentIcons[item.extension?.toLowerCase()] ?? FileIcon;
+
 const urlBase = ref('/api/files');
 const folder = ref({ id: '' });
 const data = ref({ models: [], path: [] });
@@ -291,7 +328,7 @@ function dragStart(item, event) {
 
 function dragOver(event) {
     event.preventDefault();
-    event.dataTransfer.dropEffect = 'move';
+    event.dataTransfer.dropEffect = event.dataTransfer.types.includes('Files') ? 'copy' : 'move';
 }
 
 function dragEnd() {
@@ -311,6 +348,15 @@ function dragLeave(event) {
 async function drop(targetItem, event) {
     event.target.classList.remove('filemanager-item-over');
     dragging.value = false;
+
+    if (event.dataTransfer.files.length > 0) {
+        if (targetItem.type !== 'f') {
+            return;
+        }
+        event.stopPropagation();
+        uppyUploaderRef.value.addFilesToFolder(Array.from(event.dataTransfer.files), targetItem.id);
+        return;
+    }
 
     const ids = [];
     selectedItems.value.forEach((item) => {
