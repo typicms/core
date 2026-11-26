@@ -41,7 +41,7 @@ class FileFormRequest extends AbstractFormRequest
     private function fileRules(): array
     {
         return [
-            'mimes:jpeg,gif,png,bmp,tiff,pdf,eps,svg,json,rtf,txt,md,doc,xls,ppt,docx,xlsx,ppsx,pptx,sldx,mp4,m4a,aac,aiff,mov,avi,mp3,wav,zip',
+            'mimes:jpeg,gif,png,bmp,tiff,pdf,eps,svg,json,rtf,txt,md,doc,xls,ppt,docx,xlsx,ppsx,pptx,sldx,dotx,xltx,potx,mp4,m4a,aac,aiff,mov,avi,mp3,wav,zip',
             'extensions:'.implode(',', FileUploader::SAFE_EXTENSIONS),
             'max:'.$this->maxFileUploadSize(),
         ];
