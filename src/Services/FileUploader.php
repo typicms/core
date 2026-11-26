@@ -22,7 +22,7 @@ class FileUploader
     public const SAFE_EXTENSIONS = [
         'jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'svg', 'eps',
         'pdf', 'json', 'rtf', 'txt', 'md',
-        'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'ppsx', 'sldx',
+        'doc', 'docx', 'dotx', 'xls', 'xlsx', 'xltx', 'ppt', 'pptx', 'potx', 'ppsx', 'sldx',
         'mp3', 'wav', 'aac', 'aif', 'aiff', 'm4a',
         'mp4', 'mov', 'avi',
         'zip',
