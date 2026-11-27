@@ -1,12 +1,11 @@
 @use 'bootstrap/scss/bootstrap' as bs;
 @use '../tools' as *;
-@use 'variables' as *;
 
 @layer custom {
     .primary-nav {
         &-list {
             @extend .nav;
-            font-size: $font-size-lg;
+            font-size: var(--font-size-lg);
             margin-bottom: 1rem;
             flex-direction: column;
             align-items: center;
@@ -35,7 +34,7 @@
             font-weight: 400;
         }
         &-item.active > &-link {
-            background-color: $gray-200;
+            background-color: var(--gray-200);
         }
     }
 }

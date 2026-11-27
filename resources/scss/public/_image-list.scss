@@ -1,5 +1,4 @@
 @use '../tools' as *;
-@use 'variables' as *;
 
 @layer custom {
     .image-list {
@@ -7,7 +6,7 @@
             @include list-unstyled();
             @include make-row();
             margin-bottom: 0;
-            row-gap: $grid-gutter-width;
+            row-gap: var(--spacer-7);
         }
         &-item {
             @include make-col-ready();

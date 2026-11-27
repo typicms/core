@@ -1,10 +1,9 @@
-@use 'variables' as *;
 
 @layer custom {
     .right-column {
         background-color: light-dark(color-mix(in oklab, var(--bg-2), white 60%), color-mix(in oklab, var(--bg-body), black 7%));
         border: 1px solid var(--border-color);
-        padding: $spacer;
+        padding: var(--spacer);
         border-radius: var(--radius-5);
     }
 }

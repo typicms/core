@@ -1,18 +1,12 @@
-@use 'variables' as *;
-
 @mixin bordered-card-edge($position: top) {
+    $outer-radius: max(0px, calc(var(--card-inner-border-radius) - 0.25rem));
+    $inner-radius: var(--radius-5);
     border: var(--card-border-width) solid var(--card-border-color);
     @if $position == top {
-        border-radius: ($card-border-radius - 0.25rem) ($card-border-radius - 0.25rem) $border-radius $border-radius;
+        border-radius: $outer-radius $outer-radius $inner-radius $inner-radius;
         margin: 0.25rem 0.25rem 0 0.25rem;
-        &:first-child {
-            border-radius: ($card-border-radius - 0.2rem) ($card-border-radius - 0.2rem) $border-radius $border-radius;
-        }
     } @else if $position == bottom {
-        border-radius: $border-radius $border-radius ($card-border-radius - 0.25rem) ($card-border-radius - 0.25rem);
+        border-radius: $inner-radius $inner-radius $outer-radius $outer-radius;
         margin: 0 0.25rem 0.25rem 0.25rem;
-        &:last-child {
-            border-radius: $border-radius $border-radius ($card-border-radius - 0.2rem) ($card-border-radius - 0.2rem);
-        }
     }
 }

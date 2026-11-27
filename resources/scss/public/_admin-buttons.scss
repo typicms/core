@@ -1,6 +1,5 @@
 @use 'bootstrap/scss/bootstrap' as bs;
 @use '../tools' as *;
-@use 'variables' as *;
 
 @layer custom {
     .admin-buttons {
@@ -12,7 +11,7 @@
         }
         &-edit {
             @extend .btn;
-            @include button-variant(color-mix(in oklch, $yellow 60%, transparent), transparent, $primary, $yellow, transparent, $primary);
+            @include button-variant(color-mix(in oklch, var(--yellow-500) 60%, transparent), transparent, var(--primary-base), var(--yellow-500), transparent, var(--primary-base));
             @extend .rounded-pill;
             padding: 0;
             display: flex;

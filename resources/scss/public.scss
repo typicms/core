@@ -2,7 +2,6 @@
 @use 'public/bootstrap' as bs;
 @use 'bootstrap/scss/bootstrap';
 @use 'tools' as *;
-@use 'public/variables' as *;
 @use 'public/vendor';
 
 @use 'public/lucide';
@@ -50,27 +49,27 @@
     }
 
     h1 {
-        font-size: $font-size-base * 2;
+        font-size: calc(var(--body-font-size) * 2);
     }
     h2 {
-        font-size: $font-size-base * 1.75;
+        font-size: calc(var(--body-font-size) * 1.75);
     }
     h3 {
-        font-size: $font-size-base * 1.25;
+        font-size: calc(var(--body-font-size) * 1.25);
     }
     h4 {
-        font-size: $font-size-base * 1.125;
+        font-size: calc(var(--body-font-size) * 1.125);
     }
     h5 {
-        font-size: $font-size-base;
+        font-size: var(--body-font-size);
     }
     h6 {
-        font-size: $font-size-base * 0.85;
+        font-size: calc(var(--body-font-size) * 0.85);
     }
 
     .alert {
         border-width: 0;
-        margin-bottom: $paragraph-margin-bottom;
+        margin-bottom: var(--paragraph-margin-bottom);
     }
 
     figure {
@@ -81,7 +80,7 @@
         }
         figcaption {
             @extend .figure-caption;
-            margin-top: $paragraph-margin-bottom * 0.5;
+            margin-top: calc(var(--paragraph-margin-bottom) * 0.5);
         }
     }
 
@@ -105,14 +104,14 @@
     .rich-content {
         img {
             object-fit: cover;
-            margin-bottom: $paragraph-margin-bottom;
+            margin-bottom: var(--paragraph-margin-bottom);
             &:not(.custom-size) {
                 width: 100%;
                 height: auto;
             }
         }
         figure {
-            margin-bottom: $paragraph-margin-bottom * 0.5;
+            margin-bottom: calc(var(--paragraph-margin-bottom) * 0.5);
             img {
                 margin-bottom: 0;
             }
@@ -132,7 +131,7 @@
                     }
 
                     @include media-breakpoint-up(sm) {
-                        margin-#{$opposite}: $paragraph-margin-bottom;
+                        margin-#{$opposite}: var(--paragraph-margin-bottom);
                     }
                 }
             }
@@ -145,7 +144,7 @@
 
     [data-youtube-video],
     [data-media-embed] {
-        margin-bottom: $paragraph-margin-bottom;
+        margin-bottom: var(--paragraph-margin-bottom);
         iframe {
             aspect-ratio: 16 / 9;
             height: 100%;

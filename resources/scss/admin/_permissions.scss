@@ -1,9 +1,8 @@
-@use 'variables' as *;
 
 @layer custom {
     .permissions-modules {
         &-title {
-            font-size: $font-size-lg;
+            font-size: var(--font-size-lg);
             border-bottom: 1px solid var(--gray-400);
             margin-top: 30px;
             padding-bottom: 10px;
@@ -19,7 +18,7 @@
             width: 200px;
 
             &-title {
-                font-size: $font-size-base;
+                font-size: var(--body-font-size);
                 font-weight: bold;
             }
         }

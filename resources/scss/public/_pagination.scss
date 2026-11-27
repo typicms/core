@@ -1,14 +1,13 @@
 @use '../tools' as *;
-@use 'variables' as *;
 
 @layer custom {
     .pagination {
         gap: 0.2rem;
         .page-link {
             font-weight: bold;
-            font-size: $font-size-sm;
+            font-size: var(--font-size-sm);
             min-width: 2rem;
-            border-radius: $border-radius-sm;
+            border-radius: var(--radius-3);
             height: 2rem;
             display: flex;
             align-items: center;

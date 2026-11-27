@@ -1,6 +1,5 @@
 @use 'bootstrap/scss/bootstrap' as bs;
 @use '../tools' as *;
-@use 'variables' as *;
 
 @layer custom {
     .skip-to-content {
@@ -12,8 +11,8 @@
         z-index: 1000;
         &-link {
             @extend .visually-hidden-focusable;
-            border-bottom-left-radius: $border-radius;
-            border-bottom-right-radius: $border-radius;
+            border-bottom-left-radius: var(--radius-5);
+            border-bottom-right-radius: var(--radius-5);
             background-color: var(--primary-base);
             color: var(--white);
             padding: 0.25rem 1rem;

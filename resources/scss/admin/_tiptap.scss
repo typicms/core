@@ -1,6 +1,5 @@
 @use 'bootstrap/scss/bootstrap' as bs;
 @use '../tools' as *;
-@use 'variables' as *;
 
 @layer custom {
     .tiptap-toolbar {
@@ -38,7 +37,7 @@
             var(--fg-body)
         );
         --btn-min-height: 0;
-        font-size: $font-size-sm;
+        font-size: var(--font-size-sm);
         padding: 0.125rem 0.375rem;
         &.is-active {
             background-color: var(--bg-3);
@@ -72,8 +71,8 @@
         @extend .form-control;
         display: block; // Bootstrap 6 form controls are flex containers.
         border: 1px solid var(--border-color);
-        border-radius: $border-radius;
-        padding: $input-padding-y $input-padding-x;
+        border-radius: var(--radius-5);
+        padding: var(--btn-input-padding-y) var(--btn-input-padding-x);
         margin-bottom: 1rem;
         min-height: 250px;
         overflow: auto;

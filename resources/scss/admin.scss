@@ -2,7 +2,6 @@
 @use 'admin/bootstrap' as bs;
 @use 'bootstrap/scss/bootstrap';
 @use 'tools' as *;
-@use 'admin/variables' as *;
 @use 'admin/vendor';
 
 @use 'admin/lucide';
@@ -48,6 +47,7 @@
 
     :root {
         --typicms-navbar-height: 56px;
+        --typicms-sidebar-width: 260px;
     }
 
     html {
@@ -69,7 +69,7 @@
     }
     h1 {
         margin-top: 0;
-        font-size: $font-size-base * 1.375;
+        font-size: calc(var(--body-font-size) * 1.375);
         font-weight: normal;
         a:hover {
             text-decoration: none;
@@ -77,11 +77,11 @@
     }
     h2 {
         margin-bottom: 0;
-        font-size: $font-size-base * 1.25;
+        font-size: calc(var(--body-font-size) * 1.25);
         font-weight: normal;
     }
     h3 {
-        font-size: $font-size-base * 1.125;
+        font-size: calc(var(--body-font-size) * 1.125);
     }
     // Bootstrap draws the switch focus ring on :focus-within; keep it for keyboard focus only.
     .switch:focus-within:not(:has(:focus-visible)) {

@@ -1,12 +1,11 @@
 @use 'bootstrap/scss/bootstrap' as bs;
-@use 'variables' as *;
 @use 'body';
 @use 'header';
 
 @layer custom {
     .dashboard {
         @extend .body;
-        margin-bottom: $spacer;
+        margin-bottom: var(--spacer);
         min-height: unset !important;
         &-header {
             @extend .header;

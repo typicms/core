@@ -1,5 +1,4 @@
 @use 'bootstrap/scss/bootstrap' as bs;
-@use 'variables' as *;
 
 @layer custom {
     .btn-back {
@@ -8,7 +7,7 @@
         --btn-hover-color: var(--fg-3);
         --btn-min-height: 0;
         padding: 0;
-        font-size: $font-size-sm;
+        font-size: var(--font-size-sm);
         display: inline-flex;
         align-items: center;
         margin-bottom: 0.125rem;

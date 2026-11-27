@@ -1,6 +1,5 @@
 @use 'bootstrap/scss/bootstrap' as bs;
 @use '../tools' as *;
-@use 'variables' as *;
 
 @layer custom {
     .sidebar {
@@ -8,12 +7,12 @@
             display: contents;
         }
         @include media-breakpoint-up(lg) {
-            width: $drawer-width;
+            width: var(--typicms-sidebar-width);
             flex-shrink: 0;
             overflow-y: scroll;
             position: sticky;
-            height: calc(100vh - $navbar-height);
-            top: $navbar-height;
+            height: calc(100vh - var(--typicms-navbar-height));
+            top: var(--typicms-navbar-height);
         }
         &-drawer {
             flex-direction: column;

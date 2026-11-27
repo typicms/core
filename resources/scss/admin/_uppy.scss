@@ -1,13 +1,12 @@
 @use 'bootstrap/scss/bootstrap' as bs;
 @use '../tools' as *;
-@use 'variables' as *;
 
 @layer custom {
     .uppy-list {
         @extend .list-group;
         position: absolute;
-        left: $spacer;
-        right: $spacer;
+        left: var(--spacer);
+        right: var(--spacer);
         z-index: 1;
         box-shadow: var(--box-shadow);
         &-item {
@@ -34,7 +33,7 @@
                 width: 18px;
             }
             &-size {
-                font-size: $font-size-sm;
+                font-size: var(--font-size-sm);
                 margin-left: auto;
                 white-space: nowrap;
             }

@@ -1,6 +1,5 @@
 @use 'bootstrap/scss/bootstrap' as bs;
 @use '../tools' as *;
-@use 'variables' as *;
 @use 'mixins' as *;
 
 @layer custom {
@@ -18,12 +17,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: $card-cap-padding-y * 0.75;
-            gap: $spacer * 0.5;
+            margin-bottom: var(--spacer-3);
+            gap: var(--spacer-3);
         }
         &-toolbar {
             @extend .btn-toolbar;
-            gap: $spacer * 0.5;
+            gap: var(--spacer-3);
         }
         &-title {
             white-space: nowrap;

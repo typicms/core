@@ -1,6 +1,5 @@
 @use 'bootstrap/scss/bootstrap' as bs;
 @use '../tools' as *;
-@use 'variables' as *;
 @use 'mixins' as *;
 @use 'body';
 @use 'header';
@@ -32,9 +31,6 @@
 
         .dialog & {
             border: none;
-            @include media-breakpoint-down(lg) {
-                border-radius: $card-border-radius;
-            }
         }
 
         .dialog &-header {
@@ -54,7 +50,7 @@
 
         .dialog &-title {
             @extend .header-title;
-            font-size: $font-size-lg;
+            font-size: var(--font-size-lg);
             line-height: 1.5;
             margin-bottom: 0;
         }
@@ -65,7 +61,7 @@
         }
 
         &-body {
-            padding: $spacer;
+            padding: var(--spacer);
             overflow-y: auto;
         }
 
@@ -87,10 +83,10 @@
             flex-wrap: wrap;
             user-select: none;
             -webkit-user-select: none;
-            gap: $spacer;
+            gap: var(--spacer);
             &-horizontal {
-                gap: $spacer * 0.5;
-                margin-bottom: $spacer;
+                gap: var(--spacer-3);
+                margin-bottom: var(--spacer);
             }
         }
 
@@ -119,7 +115,7 @@
             &-horizontal &-wrapper {
                 flex-direction: row;
                 align-items: center;
-                gap: $spacer * 0.5;
+                gap: var(--spacer-3);
                 padding-bottom: 0;
             }
             &-horizontal &-icon {

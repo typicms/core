@@ -1,5 +1,4 @@
 @use '../tools' as *;
-@use 'variables' as *;
 
 @layer custom {
     .content {
@@ -9,7 +8,7 @@
         flex-direction: column;
         height: calc(100dvh - var(--typicms-navbar-height));
         @include media-breakpoint-up(lg) {
-            padding: $spacer;
+            padding: var(--spacer);
         }
     }
 }

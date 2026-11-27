@@ -1,4 +1,3 @@
-@use 'variables' as *;
 
 @layer custom {
     .item-list-table {
@@ -6,7 +5,7 @@
 
         thead {
             position: sticky;
-            top: -$spacer;
+            top: calc(-1 * var(--spacer));
             z-index: 1;
             box-shadow: 0 1px 0 var(--table-border-color);
             th {

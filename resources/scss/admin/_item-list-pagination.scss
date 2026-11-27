@@ -1,12 +1,11 @@
 @use 'bootstrap/scss/bootstrap' as bs;
 @use '../tools' as *;
-@use 'variables' as *;
 @use 'mixins' as *;
 
 @layer custom {
     .item-list-pagination {
         @extend .card-footer;
-        padding-block: $spacer * 0.5;
+        padding-block: var(--spacer-3);
         @include media-breakpoint-up(lg) {
             @include bordered-card-edge(bottom);
         }
@@ -17,7 +16,7 @@
         .page-link {
             min-width: 1.75rem;
             min-height: 1.75rem;
-            border-radius: $border-radius-sm;
+            border-radius: var(--radius-3);
             height: 1.75rem;
             display: flex;
             align-items: center;

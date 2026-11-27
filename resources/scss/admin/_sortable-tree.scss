@@ -1,5 +1,4 @@
 @use 'bootstrap/scss/bootstrap' as bs;
-@use 'variables' as *;
 
 @layer custom {
     .sl-vue-tree-next {
@@ -20,8 +19,8 @@
             line-height: 28px;
             border: 1px solid transparent;
             border-top-color: var(--border-color);
-            padding-left: $table-cell-padding-x;
-            padding-right: $table-cell-padding-x;
+            padding-left: var(--spacer-3);
+            padding-right: var(--spacer-3);
         }
     }
 
