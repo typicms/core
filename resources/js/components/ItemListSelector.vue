@@ -6,7 +6,7 @@
                 :checked="allChecked"
                 :disabled="!filteredModels.length || loading"
                 :model="allChecked"
-                class="check check-sm theme-reset"
+                class="check theme-reset"
                 type="checkbox"
                 @click="allChecked ? $emit('check-none') : $emit('check-all')"
             />

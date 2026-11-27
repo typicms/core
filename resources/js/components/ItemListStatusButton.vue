@@ -1,5 +1,5 @@
 <template>
-    <div class="switch switch-sm">
+    <div class="switch">
         <input :checked="statusOn" :aria-label="t('Published')" role="switch" switch type="checkbox" @change="emitter.emit('toggleStatus', model)" />
     </div>
 </template>

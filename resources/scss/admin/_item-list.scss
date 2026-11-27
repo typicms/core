@@ -5,6 +5,15 @@
 @layer custom {
     .item-list {
         @extend .body;
+        .check {
+            --check-size: 1.125rem;
+            --check-margin-block: 0;
+            display: block;
+        }
+        .switch {
+            --switch-height: 1.125rem;
+            --switch-margin-block: 0;
+        }
         &-header {
             @extend .header;
             &-bordered {

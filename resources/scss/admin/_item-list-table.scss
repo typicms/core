@@ -2,6 +2,8 @@
 
 @layer custom {
     .item-list-table {
+        --table-cell-vertical-align: middle;
+
         thead {
             position: sticky;
             top: -$spacer;
