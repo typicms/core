@@ -2,8 +2,7 @@
     .toast {
         &.theme-success,
         &.theme-danger {
-            --toast-bg: var(--theme-bg);
-            --toast-color: var(--theme-contrast);
+            --toast-bg: var(--theme-bg-subtle);
             --btn-close-color: currentColor;
             --btn-close-opacity: 0.75;
         }
