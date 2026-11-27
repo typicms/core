@@ -35,7 +35,7 @@ Route::middleware('admin')
 /*
  * API routes
  */
-Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router): void {
+Route::middleware(['web', 'api', 'auth'])->prefix('api')->group(function (Router $router): void {
     $router->get('files', [FilesApiController::class, 'index'])->middleware('can:read files');
     $router->get('files/{file}', [FilesApiController::class, 'show'])->middleware('can:read files');
     $router->post('files', [FilesApiController::class, 'store'])->middleware('can:create files');

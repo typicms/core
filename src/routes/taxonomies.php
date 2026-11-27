@@ -66,7 +66,7 @@ Route::middleware('admin')
 /*
  * API routes
  */
-Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router): void {
+Route::middleware(['web', 'api', 'auth'])->prefix('api')->group(function (Router $router): void {
     $router->get('taxonomies', [TaxonomiesApiController::class, 'index'])->middleware('can:read taxonomies');
     $router
         ->patch('taxonomies/{taxonomy}', [TaxonomiesApiController::class, 'updatePartial'])

@@ -53,33 +53,7 @@ const uppy = computed(() =>
         locale: uppyLocales[TypiCMS.locale],
         restrictions: {
             maxFileSize: maxFilesize.value * 1024,
-            allowedFileTypes: [
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-                'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-                'application/vnd.openxmlformats-officedocument.presentationml.slide',
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
-                'application/vnd.openxmlformats-officedocument.presentationml.template',
-                'application/msword',
-                'application/vnd.ms-powerpoint',
-                'application/vnd.ms-excel',
-                'application/pdf',
-                'application/postscript',
-                'application/zip',
-                'application/json',
-                'text/plain',
-                'image/svg+xml',
-                'image/tiff',
-                'image/jpeg',
-                'image/gif',
-                'image/png',
-                'image/bmp',
-                'image/gif',
-                'audio/*',
-                'video/*',
-            ],
+            allowedFileTypes: window.TypiCMS.allowed_file_extensions.map((extension) => `.${extension}`),
         },
     })
         .use(DropTarget, {
@@ -92,7 +66,7 @@ const uppy = computed(() =>
             allowedMetaFields: ['folder_id'],
             headers: {
                 Accept: 'application/json',
-                Authorization: 'Bearer ' + document.head.querySelector('meta[name="api-token"]').content,
+                'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
             },
         })
         .on('file-added', (file) => {

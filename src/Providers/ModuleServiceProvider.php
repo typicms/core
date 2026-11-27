@@ -308,6 +308,9 @@ class ModuleServiceProvider extends ServiceProvider
             __DIR__.'/../../database/migrations/create_translations_table.php.stub' => $this->getMigrationFileName(
                 'create_translations_table',
             ),
+            __DIR__.'/../../database/migrations/drop_api_token_from_users_table.php.stub' => $this->getMigrationFileName(
+                'drop_api_token_from_users_table',
+            ),
         ], 'typicms-migrations');
 
         /*

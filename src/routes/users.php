@@ -132,7 +132,7 @@ Route::middleware('admin')
 /*
  * API routes
  */
-Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router): void {
+Route::middleware(['web', 'api', 'auth'])->prefix('api')->group(function (Router $router): void {
     $router->get('users', [UsersApiController::class, 'index'])->middleware('can:read users');
     $router
         ->post('users/current/update-preferences', [UsersApiController::class, 'updatePreferences'])

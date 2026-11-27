@@ -24,7 +24,6 @@ final class UserFactory extends Factory
             'activated' => true,
             'superuser' => false,
             'privacy_policy_accepted' => false,
-            'api_token' => Str::uuid(),
         ];
     }
 }

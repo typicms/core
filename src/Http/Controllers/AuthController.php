@@ -12,7 +12,9 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use Spatie\OneTimePasswords\Enums\ConsumeOneTimePasswordResult;
 use Spatie\OneTimePasswords\Rules\OneTimePasswordRule;
 use TypiCMS\Modules\Core\Http\Requests\OneTimePasswordLoginRequest;
 use TypiCMS\Modules\Core\Models\User;
@@ -51,17 +53,13 @@ final class AuthController extends Controller
     protected function submitOneTimePasswordLoginForm(OneTimePasswordLoginRequest $request): RedirectResponse
     {
         $this->email = (string) $request->string('email');
-        $user = $this->findUserOrFail();
-
-        if (! $user->activated) {
-            return back()
-                ->withInput($request->only('email'))
-                ->withErrors(['email' => __('Your account is not activated.')]);
-        }
+        $user = $this->findUser();
 
         session(['email' => $this->email]);
 
-        $user->sendOneTimePassword();
+        if ($user?->activated) {
+            $user->sendOneTimePassword();
+        }
 
         $status = config('mail.default') === 'log'
             ? __('An e-mail with the one-time password has been sent to the Laravel log file.')
@@ -82,17 +80,23 @@ final class AuthController extends Controller
         $email = session('email');
         $this->email = is_string($email) ? $email : null;
         session()->forget('email');
-        $user = $this->findUserOrFail();
+        $user = $this->findUser();
+
+        if (! $user) {
+            throw ValidationException::withMessages([
+                'one_time_password' => ConsumeOneTimePasswordResult::NoOneTimePasswordsFound->validationMessage(),
+            ]);
+        }
+
+        Validator::make($request->only('one_time_password'), [
+            'one_time_password' => ['required', new OneTimePasswordRule($user)],
+        ])->validate();
 
         if (! $user->activated) {
             return to_route(app()->getLocale().'::otp-login')->withErrors(['email' => __(
                 'Your account is not activated.',
             )]);
         }
-
-        Validator::make($request->only('one_time_password'), [
-            'one_time_password' => ['required', new OneTimePasswordRule($user)],
-        ])->validate();
 
         auth()->login($user);
 
@@ -103,7 +107,7 @@ final class AuthController extends Controller
         return to_route('admin::dashboard');
     }
 
-    protected function findUserOrFail(): User
+    protected function findUser(): ?User
     {
         $authenticatableModel = config('auth.providers.users.model');
 
@@ -111,7 +115,7 @@ final class AuthController extends Controller
             $authenticatableModel = User::class;
         }
 
-        return $authenticatableModel::query()->where('email', $this->email)->firstOrFail();
+        return $authenticatableModel::query()->where('email', $this->email)->first();
     }
 
     public function logout(Request $request): RedirectResponse|JsonResponse

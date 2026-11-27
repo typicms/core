@@ -9,7 +9,7 @@ describe('non-superuser with “delete users” permission', function (): void {
 
         $superuser = User::factory()->create(['superuser' => true]);
 
-        $this->actingAs($actor, 'api')
+        $this->actingAs($actor)
             ->deleteJson("/api/users/{$superuser->id}")
             ->assertForbidden();
 
@@ -22,7 +22,7 @@ describe('non-superuser with “delete users” permission', function (): void {
 
         $target = User::factory()->create(['superuser' => false]);
 
-        $this->actingAs($actor, 'api')
+        $this->actingAs($actor)
             ->deleteJson("/api/users/{$target->id}")
             ->assertNoContent();
 
@@ -35,7 +35,7 @@ test('a superuser can delete another superuser via the api', function (): void {
 
     $superuser = User::factory()->create(['superuser' => true]);
 
-    $this->actingAs($actor, 'api')
+    $this->actingAs($actor)
         ->deleteJson("/api/users/{$superuser->id}")
         ->assertNoContent();
 

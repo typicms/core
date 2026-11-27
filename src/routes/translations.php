@@ -39,7 +39,7 @@ Route::middleware('admin')
 /*
  * API routes
  */
-Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router): void {
+Route::middleware(['web', 'api', 'auth'])->prefix('api')->group(function (Router $router): void {
     $router->get('translations', [TranslationsApiController::class, 'index'])->middleware('can:read translations');
     $router
         ->patch('translations/{translation}', [TranslationsApiController::class, 'updatePartial'])

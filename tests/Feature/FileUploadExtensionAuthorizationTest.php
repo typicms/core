@@ -23,7 +23,7 @@ function payloadNamed(string $clientName, string $content = '<img src=x onerror=
 
 describe('non-superuser with only “create files” permission', function (): void {
     test('cannot store a payload under an executable .html extension', function (): void {
-        $this->actingAs($this->contributor, 'api')
+        $this->actingAs($this->contributor)
             ->postJson('api/files', ['name' => payloadNamed('poc.html')])
             ->assertStatus(422)
             ->assertJsonValidationErrors('name');
@@ -34,7 +34,7 @@ describe('non-superuser with only “create files” permission', function (): v
     test('cannot bypass svg sanitization by renaming svg content', function (): void {
         $svg = '<svg xmlns="http://www.w3.org/2000/svg"><script>alert(document.cookie)</script></svg>';
 
-        $this->actingAs($this->contributor, 'api')
+        $this->actingAs($this->contributor)
             ->postJson('api/files', ['name' => payloadNamed('evil.html', $svg)])
             ->assertStatus(422);
 
@@ -42,7 +42,7 @@ describe('non-superuser with only “create files” permission', function (): v
     });
 
     test('can still upload a legitimate image', function (): void {
-        $this->actingAs($this->contributor, 'api')
+        $this->actingAs($this->contributor)
             ->postJson('api/files', ['name' => UploadedFile::fake()->image('photo.jpg', 20, 20)])
             ->assertOk()
             ->assertJsonPath('model.extension', 'jpg');

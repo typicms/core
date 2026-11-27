@@ -63,7 +63,7 @@ Route::middleware('admin')
 /*
  * API routes
  */
-Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router): void {
+Route::middleware(['web', 'api', 'auth'])->prefix('api')->group(function (Router $router): void {
     $router->get('modulename', [ApiController::class, 'index'])
         ->middleware('can:read modulename');
     $router->patch('modulename/{modelname}', [ApiController::class, 'updatePartial'])

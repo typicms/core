@@ -24,6 +24,9 @@
                 "TypiCMS\\Modules\\Core\\Providers\\ModuleServiceProvider",
                 "TypiCMS\\Modules\\Core\\Providers\\TranslationsServiceProvider"
             ]
+        },
+        "branch-alias": {
+            "dev-main": "18.x-dev"
         }
     }
 }
