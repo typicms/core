@@ -4,4 +4,20 @@
      $drawer-tokens: (
          --drawer-width: 260px,
      ),
+    $pagination-tokens: (
+        --pagination-min-height: auto,
+        --pagination-padding-x: 0,
+        --pagination-padding-y: 0,
+        --pagination-font-size: 0.875rem,
+        --pagination-color: var(--fg-body),
+        --pagination-bg: transparent,
+        --pagination-border-width: 0,
+        --pagination-hover-color: var(--fg-body),
+        --pagination-border-radius: 0.25rem,
+        --pagination-active-color: var(--fg-body),
+        --pagination-hover-bg: var(--bg-3),
+        --pagination-active-bg: var(--bg-3),
+        --pagination-disabled-color: var(--fg-3),
+        --pagination-disabled-bg: transparent,
+    ),
  );

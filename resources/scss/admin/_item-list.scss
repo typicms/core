@@ -34,11 +34,12 @@
             overflow: auto;
         }
         &.sub-list {
-            border-radius: var(--radius-5);
-            border-width: 1px;
+            --card-border-radius: var(--radius-5);
+            border-radius: var(--card-border-radius);
+            border-width: var(--card-border-width);
         }
         &.sub-list &-header {
-            border-radius: 0;
+            border-radius: var(--card-inner-border-radius) var(--card-inner-border-radius) 0 0 !important;
         }
     }
 }
