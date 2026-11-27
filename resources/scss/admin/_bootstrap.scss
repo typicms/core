@@ -1,9 +1,7 @@
 // Configure Bootstrap here. It must be the first place Bootstrap is loaded, e.g.:
 //
-// @use 'bootstrap/scss/bootstrap' with (
-//     $radius: 0.375rem,
-//     $drawer-tokens: (
-//         --drawer-width: 260px,
-//     ),
-// );
-@use 'bootstrap/scss/bootstrap';
+ @use 'bootstrap/scss/bootstrap' with (
+     $drawer-tokens: (
+         --drawer-width: 260px,
+     ),
+ );
