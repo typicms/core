@@ -13,6 +13,7 @@
         @extend .card;
         padding-top: 3rem;
         box-shadow: var(--box-shadow);
+        margin-bottom: 14vh;
         min-width: 25rem;
         width: 36rem;
         &-sm {
