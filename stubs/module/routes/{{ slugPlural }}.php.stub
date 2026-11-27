@@ -50,7 +50,7 @@ Route::middleware('admin')
 /*
  * API routes
  */
-Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router): void {
+Route::middleware(['web', 'api', 'auth'])->prefix('api')->group(function (Router $router): void {
     $router->get('{{ slugPlural }}', [ApiController::class, 'index'])->middleware('can:read {{ slugPlural }}');
     $router->patch('{{ slugPlural }}/{{{ slug }}}', [ApiController::class, 'updatePartial'])->middleware('can:update {{ slugPlural }}');
     $router->post('{{ slugPlural }}/{{{ slug }}}/duplicate', [ApiController::class, 'duplicate'])->middleware('can:create {{ slugPlural }}');

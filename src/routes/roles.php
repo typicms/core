@@ -39,7 +39,7 @@ Route::middleware('admin')
 /*
  * API routes
  */
-Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router): void {
+Route::middleware(['web', 'api', 'auth'])->prefix('api')->group(function (Router $router): void {
     $router->get('roles', [RolesApiController::class, 'index'])->middleware('can:read roles');
     $router->patch('roles/{role}', [RolesApiController::class, 'updatePartial'])->middleware('can:update roles');
     $router->delete('roles/{role}', [RolesApiController::class, 'destroy'])->middleware('can:delete roles');

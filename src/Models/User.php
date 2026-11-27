@@ -9,7 +9,6 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Translation\HasLocalePreference;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
@@ -21,7 +20,6 @@ use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
 use Override;
 use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 use Spatie\LaravelPasskeys\Models\Concerns\InteractsWithPasskeys;
@@ -48,7 +46,6 @@ use TypiCMS\Modules\Core\Traits\Historable;
  * @property string|null $city
  * @property string|null $country
  * @property array<array-key, mixed>|null $preferences
- * @property string $api_token
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read mixed $all_permissions
@@ -62,9 +59,6 @@ use TypiCMS\Modules\Core\Traits\Historable;
  * @property-read int|null $roles_count
  */
 #[Unguarded]
-#[Hidden([
-    'api_token',
-])]
 class User extends Model implements AuthenticatableContract, AuthorizableContract, HasLocalePreference, HasPasskeys
 {
     use Authenticatable;
@@ -116,15 +110,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function preferredLocale()
     {
         return $this->locale;
-    }
-
-    #[Override]
-    protected static function boot(): void
-    {
-        parent::boot();
-        static::creating(function (self $user): void {
-            $user->api_token = Str::uuid()->toString();
-        });
     }
 
     public function isSuperUser(): bool

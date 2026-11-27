@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('country')->nullable();
             $table->text('preferences')->nullable();
-            $table->uuid('api_token')->unique();
             $table->timestamps();
         });
     }

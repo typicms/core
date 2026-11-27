@@ -58,7 +58,7 @@ Route::middleware('admin')
 /*
  * API routes
  */
-Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router): void {
+Route::middleware(['web', 'api', 'auth'])->prefix('api')->group(function (Router $router): void {
     $router->get('menus', [MenusApiController::class, 'index'])->middleware('can:read menus');
     $router->patch('menus/{menu}', [MenusApiController::class, 'updatePartial'])->middleware('can:update menus');
     $router->delete('menus/{menu}', [MenusApiController::class, 'destroy'])->middleware('can:delete menus');

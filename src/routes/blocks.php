@@ -36,7 +36,7 @@ Route::middleware('admin')
 /*
  * API routes
  */
-Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router): void {
+Route::middleware(['web', 'api', 'auth'])->prefix('api')->group(function (Router $router): void {
     $router->get('blocks', [ApiController::class, 'index'])->middleware('can:read blocks');
     $router->patch('blocks/{block}', [ApiController::class, 'updatePartial'])->middleware('can:update blocks');
     $router->delete('blocks/{block}', [ApiController::class, 'destroy'])->middleware('can:delete blocks');

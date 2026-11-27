@@ -1,13 +1,11 @@
 @push('js')
     <script type="module">
         document.getElementById('create-passkey-button').addEventListener('click', async function () {
-            const apiTokenElement = document.head.querySelector('meta[name="api-token"]');
             const csrfTokenElement = document.head.querySelector('meta[name="csrf-token"]');
             const responseOptions = await fetch('/api/passkeys/generate-options', {
                 headers: {
                     'Content-Type': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
-                    Authorization: `Bearer ${apiTokenElement.content}`,
                     'X-CSRF-TOKEN': csrfTokenElement.content,
                 },
             });
@@ -19,7 +17,6 @@
                 headers: {
                     'Content-Type': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
-                    Authorization: `Bearer ${apiTokenElement.content}`,
                     'X-CSRF-TOKEN': csrfTokenElement.content,
                 },
                 body: JSON.stringify({

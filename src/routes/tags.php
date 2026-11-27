@@ -43,11 +43,11 @@ Route::middleware('admin')
 /*
  * API routes
  */
-Route::middleware('api')
+Route::middleware(['web', 'api'])
     ->prefix('api')
     ->group(function (Router $router): void {
         $router
-            ->middleware('auth:api')
+            ->middleware('auth')
             ->group(function (Router $router): void {
                 $router->get('tags-list', [TagsApiController::class, 'tagsList']);
                 $router->get('tags', [TagsApiController::class, 'index'])->middleware('can:read tags');

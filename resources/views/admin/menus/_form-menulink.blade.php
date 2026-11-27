@@ -70,7 +70,6 @@
                     headers: {
                         'Content-Type': 'application/json',
                         'X-Requested-With': 'XMLHttpRequest',
-                        Authorization: `Bearer ${document.head.querySelector('meta[name="api-token"]').content}`,
                         'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
                     },
                 })

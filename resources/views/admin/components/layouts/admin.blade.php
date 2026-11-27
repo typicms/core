@@ -11,7 +11,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <meta name="api-token" content="{{ auth()->user()->api_token ?? '' }}" />
     <meta name="public-css-url" content="{{ Vite::asset('resources/scss/public.scss') }}" />
     <title>[admin] {{ $title }} – {{ config('typicms.' . app()->getLocale() . '.website_title') }}</title>
     <script src="{{ Vite::asset('resources/js/admin/theme-switcher.ts') }}"></script>

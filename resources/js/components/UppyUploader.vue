@@ -66,7 +66,7 @@ const uppy = computed(() =>
             allowedMetaFields: ['folder_id'],
             headers: {
                 Accept: 'application/json',
-                Authorization: 'Bearer ' + document.head.querySelector('meta[name="api-token"]').content,
+                'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
             },
         })
         .on('file-added', (file) => {

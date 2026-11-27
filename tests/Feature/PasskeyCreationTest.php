@@ -67,7 +67,7 @@ test('generate-options endpoint returns json for user with edit profile permissi
     $user = User::query()->firstOrFail();
     $user->givePermissionTo('edit profile');
 
-    $this->actingAs($user, 'api')->getJson('/api/passkeys/generate-options')->assertSuccessful();
+    $this->actingAs($user)->getJson('/api/passkeys/generate-options')->assertSuccessful();
 });
 
 test('generate-options endpoint rejects unauthenticated requests', function (): void {
@@ -77,7 +77,7 @@ test('generate-options endpoint rejects unauthenticated requests', function (): 
 test('generate-options endpoint rejects user without permission', function (): void {
     $user = createTestUser();
 
-    $this->actingAs($user, 'api')->getJson('/api/passkeys/generate-options')->assertForbidden();
+    $this->actingAs($user)->getJson('/api/passkeys/generate-options')->assertForbidden();
 });
 
 test('passkeys store endpoint rejects unauthenticated requests', function (): void {
@@ -91,7 +91,7 @@ test('user with edit profile permission can delete their own passkey via api', f
     $passkey = createPasskeyForUser($user);
 
     $this
-        ->actingAs($user, 'api')
+        ->actingAs($user)
         ->deleteJson("/api/passkeys/{$passkey->id}")
         ->assertSuccessful();
 
@@ -106,7 +106,7 @@ test('user with edit profile permission cannot delete another users passkey', fu
     $passkey = createPasskeyForUser($otherUser);
 
     $this
-        ->actingAs($user, 'api')
+        ->actingAs($user)
         ->deleteJson("/api/passkeys/{$passkey->id}")
         ->assertForbidden();
 
@@ -121,7 +121,7 @@ test('user with edit profile permission can list their own passkeys via api', fu
     createPasskeyForUser($user);
     createPasskeyForUser($user);
 
-    $response = $this->actingAs($user, 'api')->getJson("/api/users/{$user->id}/passkeys");
+    $response = $this->actingAs($user)->getJson("/api/users/{$user->id}/passkeys");
 
     $response->assertSuccessful();
     $response->assertJsonCount(2);
@@ -135,7 +135,7 @@ test('user with edit profile permission cannot list another users passkeys', fun
     createPasskeyForUser($otherUser);
 
     $this
-        ->actingAs($user, 'api')
+        ->actingAs($user)
         ->getJson("/api/users/{$otherUser->id}/passkeys")
         ->assertForbidden();
 });
@@ -146,7 +146,7 @@ test('user without permission cannot delete passkeys', function (): void {
     $passkey = createPasskeyForUser($user);
 
     $this
-        ->actingAs($user, 'api')
+        ->actingAs($user)
         ->deleteJson("/api/passkeys/{$passkey->id}")
         ->assertForbidden();
 
@@ -157,7 +157,7 @@ test('user without permission cannot list passkeys', function (): void {
     $user = createTestUser();
 
     $this
-        ->actingAs($user, 'api')
+        ->actingAs($user)
         ->getJson("/api/users/{$user->id}/passkeys")
         ->assertForbidden();
 });
@@ -170,7 +170,7 @@ test('user with update users permission cannot list a superusers passkeys', func
     createPasskeyForUser($superuser);
 
     $this
-        ->actingAs($user, 'api')
+        ->actingAs($user)
         ->getJson("/api/users/{$superuser->id}/passkeys")
         ->assertForbidden();
 });
@@ -183,7 +183,7 @@ test('user with update users permission cannot delete a superusers passkey', fun
     $passkey = createPasskeyForUser($superuser);
 
     $this
-        ->actingAs($user, 'api')
+        ->actingAs($user)
         ->deleteJson("/api/passkeys/{$passkey->id}")
         ->assertForbidden();
 
@@ -198,7 +198,7 @@ test('user with update users permission can delete a regular users passkey', fun
     $passkey = createPasskeyForUser($otherUser);
 
     $this
-        ->actingAs($user, 'api')
+        ->actingAs($user)
         ->deleteJson("/api/passkeys/{$passkey->id}")
         ->assertSuccessful();
 
@@ -212,7 +212,7 @@ test('superuser can delete another superusers passkey', function (): void {
     $passkey = createPasskeyForUser($superuser);
 
     $this
-        ->actingAs($user, 'api')
+        ->actingAs($user)
         ->deleteJson("/api/passkeys/{$passkey->id}")
         ->assertSuccessful();
 
