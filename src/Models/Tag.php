@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use TypiCMS\Modules\Core\Support\ModuleUrl;
 use TypiCMS\Modules\Core\Traits\HasAdminUrls;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
@@ -40,6 +41,20 @@ class Tag extends Model
     public function presentTitle(): string
     {
         return $this->tag;
+    }
+
+    public function url(?string $locale = null): string
+    {
+        return ModuleUrl::item('tags', $this->slug, $locale) ?? url('/');
+    }
+
+    /**
+     * Tags carry no status, they exist in every locale the tags page is
+     * published in.
+     */
+    public function isPublished(?string $locale = null): bool
+    {
+        return true;
     }
 
     /** @param Builder<Tag> $query */

@@ -6,8 +6,8 @@ namespace TypiCMS\Modules\Core\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+use TypiCMS\Modules\Core\Support\ModuleUrl;
 
 trait HasBodyPresenter
 {
@@ -66,12 +66,12 @@ trait HasBodyPresenter
             return is_string($url) ? $url : '';
         }
 
-        if (! Route::has("{$lang}::{$module}")) {
+        $slug = $model->getAttribute('slug');
+
+        if (! is_string($slug)) {
             return '';
         }
 
-        $slug = $model->getAttribute('slug');
-
-        return is_string($slug) ? route("{$lang}::{$module}", $slug) : '';
+        return ModuleUrl::item(Str::plural($module), $slug, $lang) ?? '';
     }
 }

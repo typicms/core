@@ -12,20 +12,10 @@ use TypiCMS\Modules\{{ modelPlural }}\Http\Controllers\PublicController;
 /*
  * Front office routes
  */
-if (($page = getPageLinkedToModule('{{ slugPlural }}')) instanceof Page) {
-    $middleware = $page->private ? ['public', 'auth'] : ['public'];
-    foreach (locales() as $lang) {
-        if ($page->isPublished($lang) && ($path = $page->path($lang))) {
-            Route::middleware($middleware)
-                ->prefix($path)
-                ->name($lang.'::')
-                ->group(function (Router $router): void {
-                    $router->get('/', [PublicController::class, 'index'])->name('index-{{ slugPlural }}');
-                    $router->get('{slug}', [PublicController::class, 'show'])->name('{{ slug }}');
-                });
-        }
-    }
-}
+ModuleRoutes::group('{{ slugPlural }}', function (Router $router): void {
+    $router->get('/', [PublicController::class, 'index']);
+    $router->get('{slug}', [PublicController::class, 'show']);
+});
 
 /*
  * Admin routes

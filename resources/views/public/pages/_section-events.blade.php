@@ -1,3 +1,4 @@
+@use('TypiCMS\Modules\Core\Support\ModuleUrl')
 @if (($upcomingEvents = new TypiCMS\Modules\Events\Models\Event()->upcoming()) and $upcomingEvents->count() > 0)
     <div class="events-list-home">
         <div class="events-list-home-container">
@@ -6,7 +7,7 @@
                 <div class="events-list-home-action">
                     <a
                         class="events-list-home-action-button"
-                        href="{{ route(app()->getLocale() . '::index-events') }}"
+                        href="{{ ModuleUrl::index('events') }}"
                     >{{ __('All events') }}</a>
                 </div>
             </div>

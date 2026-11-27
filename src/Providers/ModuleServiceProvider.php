@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Providers;
 
-use Exception;
+use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View as ViewInstance;
@@ -21,9 +22,12 @@ use TypiCMS\Modules\Core\Commands\Install;
 use TypiCMS\Modules\Core\Commands\Publish;
 use TypiCMS\Modules\Core\Composers\SidebarViewComposer;
 use TypiCMS\Modules\Core\Composers\SidebarViewCreator;
+use TypiCMS\Modules\Core\Http\Middleware\ModulePage;
+use TypiCMS\Modules\Core\Http\Middleware\RewriteModuleUri;
 use TypiCMS\Modules\Core\Models\Page;
 use TypiCMS\Modules\Core\Models\Setting;
 use TypiCMS\Modules\Core\Models\User;
+use TypiCMS\Modules\Core\Support\ModuleRoutes;
 
 class ModuleServiceProvider extends ServiceProvider
 {
@@ -34,6 +38,16 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        /*
+         * Modules linked to a page are routed by rewriting the request onto
+         * the internal path they registered their routes under.
+         */
+        $this->app->make(HttpKernel::class)->pushMiddleware(RewriteModuleUri::class);
+        Route::aliasMiddleware('module', ModulePage::class);
+
+        Page::saved(fn () => ModuleRoutes::forgetModulePages());
+        Page::deleted(fn () => ModuleRoutes::forgetModulePages());
+
         if (config('responsecache.enabled')) {
             Event::listen('eloquent.saved:*', fn () => ResponseCache::clear());
             Event::listen('eloquent.deleted:*', fn () => ResponseCache::clear());
@@ -41,6 +55,12 @@ class ModuleServiceProvider extends ServiceProvider
 
         /*
          * Get configuration from DB and store it in the container.
+         *
+         * The settings are merged over the configuration, not under it, so
+         * that they win. config:cache boots the providers to collect the
+         * configuration, which bakes a copy of the settings into the cached
+         * file; were that copy to win, a setting edited in the admin panel
+         * would do nothing until someone rebuilt the cache.
          */
         config([
             'typicms' => array_merge((array) config('typicms', []), new Setting()->allToArray()),
@@ -374,19 +394,11 @@ class ModuleServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/roles.php', 'typicms.modules.roles');
 
         /*
-         * Register TypiCMS routes.
+         * The pages linked to a module, kept for getPagesLinkedToModule().
+         * Bound, not shared: ModuleRoutes reads them once per request and
+         * forgets them when one of them is saved.
          */
-        $this->app->singleton('typicms.routes', function (): array {
-            try {
-                return Page::query()
-                    ->with('images', 'documents')
-                    ->whereNotNull('module')
-                    ->get()
-                    ->all();
-            } catch (Exception) {
-                return [];
-            }
-        });
+        $this->app->bind('typicms.routes', fn (): array => ModuleRoutes::modulePages()->all());
     }
 
     private function getMigrationFileName(string $name): string

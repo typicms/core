@@ -7,25 +7,15 @@ use Illuminate\Support\Facades\Route;
 use TypiCMS\Modules\Core\Http\Controllers\TagsAdminController;
 use TypiCMS\Modules\Core\Http\Controllers\TagsApiController;
 use TypiCMS\Modules\Core\Http\Controllers\TagsPublicController;
-use TypiCMS\Modules\Core\Models\Page;
+use TypiCMS\Modules\Core\Support\ModuleRoutes;
 
 /*
  * Front office routes
  */
-if (($page = getPageLinkedToModule('tags')) instanceof Page) {
-    $middleware = $page->private ? ['public', 'auth'] : ['public'];
-    foreach (locales() as $lang) {
-        if ($page->isPublished($lang) && ($path = $page->path($lang))) {
-            Route::middleware($middleware)
-                ->prefix($path)
-                ->name($lang.'::')
-                ->group(function (Router $router): void {
-                    $router->get('/', [TagsPublicController::class, 'index'])->name('index-tags');
-                    $router->get('{slug}', [TagsPublicController::class, 'show'])->name('tag');
-                });
-        }
-    }
-}
+ModuleRoutes::group('tags', function (Router $router): void {
+    $router->get('/', [TagsPublicController::class, 'index']);
+    $router->get('{slug}', [TagsPublicController::class, 'show']);
+});
 
 /*
  * Admin routes
