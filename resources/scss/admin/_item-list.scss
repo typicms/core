@@ -6,12 +6,12 @@
     .item-list {
         @extend .body;
         .check {
-            --check-size: 1.125rem;
+            --check-size: 1rem;
             --check-margin-block: 0;
             display: block;
         }
         .switch {
-            --switch-height: 1.125rem;
+            --switch-height: 1rem;
             --switch-margin-block: 0;
         }
         &-header {
