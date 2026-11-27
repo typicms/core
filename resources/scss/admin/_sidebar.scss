@@ -20,8 +20,6 @@
             overflow-y: auto;
         }
         &-header {
-            justify-content: flex-end;
-            padding: 1rem 1rem 0 1rem;
             @include media-breakpoint-up(lg) {
                 display: none;
             }
