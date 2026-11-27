@@ -28,12 +28,12 @@
         @isset($sidebar)
             {{ $sidebar }}
         @else
-            @include('admin::core._sidebar')
+            @include('admin.core._sidebar')
         @endisset
         <div class="content">{{ $slot }}</div>
     </div>
 
-    @include('admin::core._javascript')
+    @include('admin.core._javascript')
 
     @vite('resources/js/admin.js')
 

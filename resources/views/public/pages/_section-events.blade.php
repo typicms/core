@@ -11,7 +11,7 @@
                     >{{ __('All events') }}</a>
                 </div>
             </div>
-            @include('public::events._list', ['items' => $upcomingEvents])
+            @include('public.events._list', ['items' => $upcomingEvents])
         </div>
     </div>
 @endif

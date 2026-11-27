@@ -54,7 +54,7 @@ final class PagesPublicController extends BasePublicController
     {
         $homepage = $this->findHomepage();
 
-        return view('public::core.lang-chooser', [
+        return view('public.core.lang-chooser', [
             'homepage' => $homepage,
             'locales' => enabledLocales(),
         ]);
@@ -102,7 +102,7 @@ final class PagesPublicController extends BasePublicController
 
     private function renderPage(Page $page): View
     {
-        $templateDir = config()->string('typicms.template_dir', 'public').'::pages.';
+        $templateDir = config()->string('typicms.template_dir', 'public').'.pages.';
         $template = $page->template ?: 'default';
 
         if (! view()->exists($templateDir.$template)) {

@@ -68,8 +68,8 @@ class ModuleServiceProvider extends ServiceProvider
 
         Gate::before(fn (User $user): ?bool => $user->isSuperUser() ? true : null);
 
-        Paginator::defaultView('public::core.pagination.bootstrap-5');
-        Paginator::defaultSimpleView('public::core.pagination.simple-bootstrap-5');
+        Paginator::defaultView('public.core.pagination.bootstrap-5');
+        Paginator::defaultSimpleView('public.core.pagination.simple-bootstrap-5');
 
         /*
          * Load routes.
@@ -91,27 +91,9 @@ class ModuleServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../routes/users.php');
 
         /*
-         * Load views.
+         * Views in resources/views take precedence over the package ones.
          */
-        $this->loadViewsFrom([
-            resource_path('views/admin'),
-            __DIR__.'/../../resources/views/admin',
-        ], 'admin');
-
-        $this->loadViewsFrom([
-            resource_path('views/public'),
-            __DIR__.'/../../resources/views/public',
-        ], 'public');
-
-        $this->loadViewsFrom([
-            resource_path('views/mail'),
-            __DIR__.'/../../resources/views/mail',
-        ], 'mails');
-
-        $this->loadViewsFrom([
-            resource_path('views/errors'),
-            __DIR__.'/../../resources/views/errors',
-        ], 'errors');
+        View::addLocation(__DIR__.'/../../resources/views');
 
         /*
          |--------------------------------------------------------------------------
@@ -318,7 +300,7 @@ class ModuleServiceProvider extends ServiceProvider
          | Sidebar
          |--------------------------------------------------------------------------
          */
-        View::creator('admin::core._sidebar', SidebarViewCreator::class);
+        View::creator('admin.core._sidebar', SidebarViewCreator::class);
 
         /*
          |--------------------------------------------------------------------------
@@ -326,12 +308,12 @@ class ModuleServiceProvider extends ServiceProvider
          |--------------------------------------------------------------------------
          */
         View::composers([
-            SidebarViewComposer::class => 'admin::core._sidebar',
+            SidebarViewComposer::class => 'admin.core._sidebar',
         ]);
-        View::composer('public::search.*', function (ViewInstance $view): void {
+        View::composer('public.search.*', function (ViewInstance $view): void {
             $view->with('page', getPageLinkedToModule('search'));
         });
-        View::composer('public::tags.*', function (ViewInstance $view): void {
+        View::composer('public.tags.*', function (ViewInstance $view): void {
             $view->with('page', getPageLinkedToModule('tags'));
         });
 
@@ -351,7 +333,7 @@ class ModuleServiceProvider extends ServiceProvider
             $name,
         ));
         Blade::directive('menu', fn (string $name): string => sprintf(
-            "<?php echo view('public::menus._menu', ['name' => %s]) ?>",
+            "<?php echo view('public.menus._menu', ['name' => %s]) ?>",
             $name,
         ));
 

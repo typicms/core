@@ -1,5 +1,5 @@
 <x-layouts.admin :title="__('New {{ slug }}')">
     {!! BootForm::open()->action(route('admin::index-{{ slugPlural }}'))->addClass('form') !!}
-    @include('admin::{{ slugPlural }}._form')
+    @include('admin.{{ slugPlural }}._form')
     {!! BootForm::close() !!}
 </x-layouts.admin>

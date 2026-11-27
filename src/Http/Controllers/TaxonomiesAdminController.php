@@ -13,7 +13,7 @@ final class TaxonomiesAdminController extends BaseAdminController
 {
     public function index(): View
     {
-        return view('admin::taxonomies.index');
+        return view('admin.taxonomies.index');
     }
 
     public function create(): View
@@ -21,14 +21,14 @@ final class TaxonomiesAdminController extends BaseAdminController
         $model = new Taxonomy;
         $modules = $this->modulesWithTaxonomies();
 
-        return view('admin::taxonomies.create', ['model' => $model, 'modules' => $modules]);
+        return view('admin.taxonomies.create', ['model' => $model, 'modules' => $modules]);
     }
 
     public function edit(Taxonomy $taxonomy): View
     {
         $modules = $this->modulesWithTaxonomies();
 
-        return view('admin::taxonomies.edit', ['model' => $taxonomy, 'modules' => $modules]);
+        return view('admin.taxonomies.edit', ['model' => $taxonomy, 'modules' => $modules]);
     }
 
     /** @return array<array<mixed>> */

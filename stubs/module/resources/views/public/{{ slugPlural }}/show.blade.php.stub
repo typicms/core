@@ -51,8 +51,8 @@
                 <div class="rich-content">{!! $model->formattedBody() !!}</div>
             @endif
 
-            @include('public::files._document-list')
-            @include('public::files._image-list')
+            @include('public.files._document-list')
+            @include('public.files._image-list')
         </div>
     </article>
 </x-core::layouts.public>

@@ -117,7 +117,7 @@ class Create extends Command
     }
 
     /**
-     * Publish views to the admin:: and public:: namespaces.
+     * Move the views to resources/views/admin and resources/views/public.
      */
     public function publishViews(): void
     {

@@ -2,6 +2,6 @@
     {!! BootForm::open()->put()->action(route('admin::update-taxonomy', $model->id))->addClass('form') !!}
 
     {!! BootForm::bind($model) !!}
-    @include('admin::taxonomies._form')
+    @include('admin.taxonomies._form')
     {!! BootForm::close() !!}
 </x-core::layouts.admin>

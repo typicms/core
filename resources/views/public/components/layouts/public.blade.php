@@ -77,7 +77,7 @@
                         <nav class="primary-nav" aria-label="{{ __('Primary navigation') }}">
                             @menu('primary')
                         </nav>
-                        @include('public::search._form')
+                        @include('public.search._form')
                         @isset($langSwitcher)
                             {{ $langSwitcher }}
                         @else

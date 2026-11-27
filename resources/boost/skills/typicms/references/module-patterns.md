@@ -114,7 +114,7 @@ protected function updatePartial(ModelName $model, Request $request): void
 
 ## Public Controller Patterns
 
-Public views live under the shared `public::` namespace.
+Public views live in `resources/views/public/modulename` and are referenced as `public.modulename.*`.
 
 ```php
 final class PublicController extends BasePublicController
@@ -127,7 +127,7 @@ final class PublicController extends BasePublicController
             ->with('image')
             ->paginate(config('typicms.modules.modulename.per_page'));
 
-        return view('public::modulename.index', ['models' => $models]);
+        return view('public.modulename.index', ['models' => $models]);
     }
 
     public function show(string $slug): View
@@ -138,7 +138,7 @@ final class PublicController extends BasePublicController
             ->with(['image', 'images', 'documents'])
             ->firstOrFail();
 
-        return view('public::modulename.show', ['model' => $model]);
+        return view('public.modulename.show', ['model' => $model]);
     }
 }
 ```
@@ -284,7 +284,7 @@ $table->unsignedInteger('position')->default(0);
 ```blade
 <x-layouts.admin :title="__('New :model', ['model' => __('modelname')])">
     {!! BootForm::open()->action(route('admin::store-modelname'))->multipart() !!}
-    @include('admin::modulename._form')
+    @include('admin.modulename._form')
     {!! BootForm::close() !!}
 </x-layouts.admin>
 ```
@@ -294,7 +294,7 @@ $table->unsignedInteger('position')->default(0);
 ```blade
 <x-layouts.admin :title="$model->title" :$model>
     {!! BootForm::open()->action(route('admin::update-modelname', $model))->method('put')->multipart()->bind($model) !!}
-    @include('admin::modulename._form')
+    @include('admin.modulename._form')
     {!! BootForm::close() !!}
 </x-layouts.admin>
 ```

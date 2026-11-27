@@ -3,7 +3,7 @@
     @if (($menulinks = $menu->menulinks->load('image')) and $menulinks->count() > 0)
         <ul @class([$name.'-nav-list', $menu->class])>
             @foreach ($menulinks as $menulink)
-                @include('public::menus._item')
+                @include('public.menus._item')
             @endforeach
         </ul>
     @endif

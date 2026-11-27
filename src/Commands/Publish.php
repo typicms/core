@@ -43,7 +43,7 @@ class Publish extends Command
         if (class_exists($provider)) {
             $this->call('vendor:publish', ['--provider' => $provider]);
             $this->publishModule();
-            $this->changePathForLoadViews();
+            $this->removeViewLocation();
             $this->uninstallFromComposer();
             $this->addProviderToBootstrap($provider);
             $this->components->success(ucfirst($this->module).' module successfully published.');
@@ -96,17 +96,14 @@ class Publish extends Command
     }
 
     /**
-     * Change the path of loadViewsFrom.
+     * The published views live in resources/views, so the module must stop
+     * registering its package views folder, which is not copied to /Modules.
      */
-    private function changePathForLoadViews(): void
+    private function removeViewLocation(): void
     {
-        $file = 'Modules/'.ucfirst($this->module).'/Providers/ModuleServiceProvider.php';
+        $file = base_path('Modules/'.ucfirst($this->module).'/Providers/ModuleServiceProvider.php');
         $contents = $this->files->get($file);
-        $contents = preg_replace(
-            '#loadViewsFrom(.*)/\', \'(.*)\'\)#',
-            'loadViewsFrom(resource_path(\'views\'), \'$2\')',
-            $contents,
-        );
+        $contents = preg_replace('#^\h*View::addLocation\(.*\);\R(\h*\R)?#m', '', $contents);
 
         $this->files->put($file, $contents ?? '');
     }

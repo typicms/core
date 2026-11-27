@@ -21,7 +21,7 @@
     @if ($menulink->items->count() > 0)
         <ul @class([$name.'-nav-dropdown', 'menu'])>
             @foreach ($menulink->items as $menulink)
-                @include('public::menus._item', ['menulink' => $menulink])
+                @include('public.menus._item', ['menulink' => $menulink])
             @endforeach
         </ul>
     @endif

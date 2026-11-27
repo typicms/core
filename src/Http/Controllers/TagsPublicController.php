@@ -15,13 +15,13 @@ final class TagsPublicController extends BasePublicController
         $perPage = is_numeric($perPage) ? (int) $perPage : null;
         $models = Tag::query()->paginate($perPage);
 
-        return view('public::tags.index', ['models' => $models]);
+        return view('public.tags.index', ['models' => $models]);
     }
 
     public function show(string $slug): View
     {
         $model = Tag::query()->where('slug', $slug)->firstOrFail();
 
-        return view('public::tags.show', ['model' => $model]);
+        return view('public.tags.show', ['model' => $model]);
     }
 }

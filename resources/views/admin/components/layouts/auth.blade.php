@@ -18,7 +18,7 @@
 <body @class([$bodyClass => filled($bodyClass)])>
     {{ $slot }}
 
-    @include('admin::core._javascript')
+    @include('admin.core._javascript')
 
     @vite('resources/js/admin.js')
 

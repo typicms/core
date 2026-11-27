@@ -20,7 +20,7 @@
                                         @choice($result['module'], $result['models']->count())
                                     </h2>
                                     <div class="search-results-module-results">
-                                        @include('public::'.$result['module'].'._list-results',
+                                        @include('public.'.$result['module'].'._list-results',
                                             [
                                                 'items' => $result['models'],
                                             ])

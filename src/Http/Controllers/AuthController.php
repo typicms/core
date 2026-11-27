@@ -25,17 +25,17 @@ final class AuthController extends Controller
 
     public function showPasskeyLoginForm(): View
     {
-        return view('public::users.login');
+        return view('public.users.login');
     }
 
     public function showOneTimePasswordLoginForm(): View
     {
-        return view('public::users.login-otp');
+        return view('public.users.login-otp');
     }
 
     public function showOneTimePasswordForm(): View
     {
-        return view('public::users.login-code');
+        return view('public.users.login-code');
     }
 
     public function showPasskeyCreationForm(): View|RedirectResponse
@@ -47,7 +47,7 @@ final class AuthController extends Controller
             return to_route('admin::dashboard');
         }
 
-        return view('public::users.create-passkey');
+        return view('public.users.create-passkey');
     }
 
     protected function submitOneTimePasswordLoginForm(OneTimePasswordLoginRequest $request): RedirectResponse

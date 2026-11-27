@@ -2,6 +2,6 @@
     {!! BootForm::open()->put()->action(route('admin::update-translation', $model->id))->addClass('form') !!}
 
     {!! BootForm::bind($model) !!}
-    @include('admin::translations._form')
+    @include('admin.translations._form')
     {!! BootForm::close() !!}
 </x-core::layouts.admin>

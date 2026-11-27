@@ -51,7 +51,7 @@ The skill uses two distinct placeholders. **Do not conflate them** — the model
 | Placeholder       | Form                       | Used for                                                        | Example (`Things` module) |
 |-------------------|----------------------------|-----------------------------------------------------------------|---------------------------|
 | `ModuleName`      | PascalCase, plural         | Folder name and namespace segment                               | `Things`                  |
-| `modulename`      | lowercase, plural          | Route prefix, view namespace key, config key, table name        | `things`                  |
+| `modulename`      | lowercase, plural          | Route prefix, view folder, config key, table name               | `things`                  |
 | `ModelName`       | PascalCase, singular       | Eloquent model class name                                       | `Thing`                   |
 | `modelname`       | lowercase, singular        | Route-bound parameter and controller variable name              | `$thing`                  |
 
@@ -218,7 +218,7 @@ Schema::create('modulename', function (Blueprint $table): void {
 
 Register routes, config, views, publishes, and view composers. Observers are attached on the model via `#[ObservedBy]` (Step 1), so the service provider does not call `Model::observe()`.
 
-Views are loaded into the shared `admin` and `public` namespaces, with the project's `resources/views/admin` (resp. `public`) listed first so user-published files override the module's built-in views.
+The module adds its `resources/views` folder as a view location, so its views are referenced like app views (`admin.modulename.index`, `public.modulename.show`). The project's `resources/views` is searched first, so published files override the module's built-in views. A module created with `typicms:create` or moved with `typicms:publish` keeps its views in the project's `resources/views` and must not register a location: `view:cache` fails on a folder that does not exist.
 
 ```php
 <?php
@@ -244,15 +244,7 @@ class ModuleServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__.'/../routes/modulename.php');
 
-        $this->loadViewsFrom([
-            resource_path('views/admin'),
-            __DIR__.'/../../resources/views/admin',
-        ], 'admin');
-
-        $this->loadViewsFrom([
-            resource_path('views/public'),
-            __DIR__.'/../../resources/views/public',
-        ], 'public');
+        View::addLocation(__DIR__.'/../../resources/views');
 
         $this->publishes([
             __DIR__.'/../../database/migrations/create_modulename_table.php.stub' => getMigrationFileName(
@@ -267,12 +259,12 @@ class ModuleServiceProvider extends ServiceProvider
         ], ['typicms-views', 'typicms-public-views', 'typicms-public-modulename-views']);
         $this->publishes([__DIR__.'/../../resources/scss' => resource_path('scss')], 'typicms-resources');
 
-        View::composer('admin::core._sidebar', SidebarViewComposer::class);
+        View::composer('admin.core._sidebar', SidebarViewComposer::class);
 
         /*
          * Inject the linked CMS page into all public views of this module.
          */
-        View::composer('public::modulename.*', function ($view): void {
+        View::composer('public.modulename.*', function ($view): void {
             $view->page = getPageLinkedToModule('modulename');
         });
     }
@@ -281,26 +273,26 @@ class ModuleServiceProvider extends ServiceProvider
 
 ### Step 4: Create Controllers
 
-**AdminController** — Extend `BaseAdminController`. View names use the shared `admin::` namespace (e.g. `admin::modulename.index`). The route-model-bound variable matches the singular `modelname` (e.g. `$thing` for the `Things` module):
+**AdminController** — Extend `BaseAdminController`. View names are paths under `resources/views/admin` (e.g. `admin.modulename.index`). The route-model-bound variable matches the singular `modelname` (e.g. `$thing` for the `Things` module):
 
 ```php
 final class AdminController extends BaseAdminController
 {
     public function index(): View
     {
-        return view('admin::modulename.index');
+        return view('admin.modulename.index');
     }
 
     public function create(): View
     {
         $model = new ModelName;
 
-        return view('admin::modulename.create', ['model' => $model]);
+        return view('admin.modulename.create', ['model' => $model]);
     }
 
     public function edit(ModelName $modelname): View
     {
-        return view('admin::modulename.edit', ['model' => $modelname]);
+        return view('admin.modulename.edit', ['model' => $modelname]);
     }
 
     public function store(FormRequest $request): RedirectResponse
@@ -321,7 +313,7 @@ final class AdminController extends BaseAdminController
 
 **ApiController** — Extend `BaseApiController` for data tables and AJAX operations (typically `index`, `updatePartial`, `duplicate`, `destroy`).
 
-**PublicController** — Extend `BasePublicController` for frontend routes. View names use the shared `public::` namespace (e.g. `public::modulename.index`).
+**PublicController** — Extend `BasePublicController` for frontend routes. View names are paths under `resources/views/public` (e.g. `public.modulename.index`).
 
 ### Step 5: Create Form Request
 

@@ -13,19 +13,19 @@ final class PagesAdminController extends BaseAdminController
 {
     public function index(): View
     {
-        return view('admin::pages.index');
+        return view('admin.pages.index');
     }
 
     public function create(): View
     {
         $model = new Page;
 
-        return view('admin::pages.create', ['model' => $model]);
+        return view('admin.pages.create', ['model' => $model]);
     }
 
     public function edit(Page $page): View
     {
-        return view('admin::pages.edit', ['model' => $page]);
+        return view('admin.pages.edit', ['model' => $page]);
     }
 
     public function store(PageFormRequest $request): RedirectResponse

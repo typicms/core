@@ -18,7 +18,7 @@ final class ProfileController extends BaseAdminController
         $user = Auth::user();
         $passkeys = $user->passkeys()->get(['id', 'name', 'last_used_at']);
 
-        return view('admin::users.profile', [
+        return view('admin.users.profile', [
             'model' => $user,
             'passkeys' => $passkeys,
         ]);

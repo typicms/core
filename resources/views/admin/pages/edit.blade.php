@@ -2,6 +2,6 @@
     {!! BootForm::open()->put()->action(route('admin::update-page', $model->id))->addClass('form') !!}
 
     {!! BootForm::bind($model) !!}
-    @include('admin::pages._form')
+    @include('admin.pages._form')
     {!! BootForm::close() !!}
 </x-core::layouts.admin>

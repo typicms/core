@@ -84,8 +84,7 @@ return [
 
     /*
      |--------------------------------------------------------------------------
-     | Folder to find template files for pages.
-     | This folder is a subfolder of /resources/views/vendor/pages
+     | Folder of resources/views whose pages subfolder holds the page templates.
      |--------------------------------------------------------------------------
      */
     'template_dir' => 'public',

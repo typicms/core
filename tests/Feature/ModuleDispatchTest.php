@@ -36,7 +36,7 @@ test('the page of a module renders the module index', function (): void {
 
     $this->get($page->url('en'))
         ->assertOk()
-        ->assertViewIs('public::tags.index');
+        ->assertViewIs('public.tags.index');
 });
 
 test('a segment below the page of a module renders the module item', function (): void {
@@ -45,7 +45,7 @@ test('a segment below the page of a module renders the module item', function ()
 
     $this->get($page->url('en').'/'.$tag->slug)
         ->assertOk()
-        ->assertViewIs('public::tags.show');
+        ->assertViewIs('public.tags.show');
 });
 
 test('an unknown item below the page of a module is not found', function (): void {
@@ -73,7 +73,7 @@ test('a subpage wins over a module item', function (): void {
 
     $this->get($subpage->fresh()->url('en'))
         ->assertOk()
-        ->assertViewIs('public::pages.default');
+        ->assertViewIs('public.pages.default');
 });
 
 test('a module follows the page uri as soon as it is edited', function (): void {

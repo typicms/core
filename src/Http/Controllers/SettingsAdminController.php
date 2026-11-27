@@ -32,7 +32,7 @@ final class SettingsAdminController extends BaseAdminController
             }
         }
 
-        return view('admin::settings.index', ['data' => $data]);
+        return view('admin.settings.index', ['data' => $data]);
     }
 
     public function save(Request $request): RedirectResponse

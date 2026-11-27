@@ -30,11 +30,10 @@ Use this checklist when creating a new TypiCMS module.
 
 - [ ] Merge config
 - [ ] Load routes
-- [ ] Load views into the shared `admin` namespace from `[resource_path('views/admin'), __DIR__.'/../../resources/views/admin']`
-- [ ] Load views into the shared `public` namespace from `[resource_path('views/public'), __DIR__.'/../../resources/views/public']`
+- [ ] Add the package views folder with `View::addLocation(__DIR__.'/../../resources/views')` (package modules only, not modules in `/Modules`)
 - [ ] Publish migrations, admin views, public views, and SCSS
-- [ ] Register sidebar view composer on `admin::core._sidebar`
-- [ ] Register page view composer on `public::modulename.*`
+- [ ] Register sidebar view composer on `admin.core._sidebar`
+- [ ] Register page view composer on `public.modulename.*`
 - [ ] Do **not** call `Model::observe()` — observers are attached via `#[ObservedBy]` on the model
 
 ### 4. Config (`Modules/ModuleName/config/modulename.php`)
@@ -72,7 +71,7 @@ Use this checklist when creating a new TypiCMS module.
 
 ### 9. Views (under the module's `resources/views/`)
 
-Resolved as `admin::modulename.*` and `public::modulename.*`:
+Resolved as `admin.modulename.*` and `public.modulename.*`:
 
 - [ ] `admin/modulename/index.blade.php`
 - [ ] `admin/modulename/create.blade.php`
@@ -101,6 +100,6 @@ Users can override any of these by publishing the views into `resources/views/ad
 | Table                                | snake_case plural                           | `events`, `partners`                             |
 | Index / export route name            | `<action>-<plural>`                         | `index-events`, `export-partners`                |
 | Create / store / edit / update / destroy route name | `<action>-<singular>`        | `create-event`, `update-partner`                 |
-| View                                 | `admin::modulename.*`, `public::modulename.*` | `admin::events.index`, `public::partners.show` |
+| View                                 | `admin.modulename.*`, `public.modulename.*` | `admin.events.index`, `public.partners.show` |
 | Config key                           | snake_case plural                           | `typicms.modules.events`                         |
 | Permission                           | `<verb> <plural>`                           | `read events`, `create partners`                 |

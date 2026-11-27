@@ -86,8 +86,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->render(function (HttpException $e, Request $request) {
             $statusCode = $e->getStatusCode();
-            if ($request->is('admin/*') && view()->exists('admin::errors.'.$statusCode)) {
-                return response()->view('admin::errors.'.$statusCode, [], $statusCode);
+            if ($request->is('admin/*') && view()->exists('admin.errors.'.$statusCode)) {
+                return response()->view('admin.errors.'.$statusCode, [], $statusCode);
             }
         });
 

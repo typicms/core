@@ -11,7 +11,7 @@
                     >{{ __('All news') }}</a>
                 </div>
             </div>
-            @include('public::news._list', ['items' => $latestNews])
+            @include('public.news._list', ['items' => $latestNews])
         </div>
     </div>
 @endif

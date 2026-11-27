@@ -37,7 +37,7 @@
                 </div>
             @endif
         </div>
-        @include('public::files._document-list', ['model' => $section])
-        @include('public::files._image-list', ['model' => $section])
+        @include('public.files._document-list', ['model' => $section])
+        @include('public.files._image-list', ['model' => $section])
     </div>
 </div>

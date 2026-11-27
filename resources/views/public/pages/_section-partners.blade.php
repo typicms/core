@@ -13,7 +13,7 @@
                     </div>
                 @endif
             </div>
-            @include('public::partners._list', ['items' => $featuredPartners])
+            @include('public.partners._list', ['items' => $featuredPartners])
         </div>
     </div>
 @endif

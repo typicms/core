@@ -38,7 +38,7 @@ class DateRange extends Component
             $separator = $spacer;
         }
 
-        return view('public::components.date-range', [
+        return view('public.components.date-range', [
             'startFormat' => $startFormat,
             'endFormat' => $formatWithYear,
             'separator' => $separator,
