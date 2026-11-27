@@ -145,6 +145,10 @@ class ModuleServiceProvider extends ServiceProvider
          |--------------------------------------------------------------------------
          */
         $this->publishes([
+            __DIR__.'/../../resources/scss/_layers.scss' => resource_path('scss/_layers.scss'),
+            __DIR__.'/../../resources/scss/_tools.scss' => resource_path('scss/_tools.scss'),
+            __DIR__.'/../../resources/scss/_legacy-content.scss' => resource_path('scss/_legacy-content.scss'),
+            __DIR__.'/../../resources/scss/_menu-toggle.scss' => resource_path('scss/_menu-toggle.scss'),
             __DIR__.'/../../resources/scss/_auth.scss' => resource_path('scss/_auth.scss'),
             __DIR__.'/../../resources/scss/_lucide-base.scss' => resource_path('scss/_lucide-base.scss'),
             __DIR__.'/../../resources/scss/admin' => resource_path('scss/admin'),
@@ -157,6 +161,10 @@ class ModuleServiceProvider extends ServiceProvider
          |--------------------------------------------------------------------------
          */
         $this->publishes([
+            __DIR__.'/../../resources/scss/_layers.scss' => resource_path('scss/_layers.scss'),
+            __DIR__.'/../../resources/scss/_tools.scss' => resource_path('scss/_tools.scss'),
+            __DIR__.'/../../resources/scss/_legacy-content.scss' => resource_path('scss/_legacy-content.scss'),
+            __DIR__.'/../../resources/scss/_menu-toggle.scss' => resource_path('scss/_menu-toggle.scss'),
             __DIR__.'/../../resources/scss/_lucide-base.scss' => resource_path('scss/_lucide-base.scss'),
             __DIR__.'/../../resources/scss/public' => resource_path('scss/public'),
             __DIR__.'/../../resources/scss/public.scss' => resource_path('scss/public.scss'),
