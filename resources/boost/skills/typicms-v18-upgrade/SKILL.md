@@ -36,7 +36,15 @@ resolve: {
 },
 ```
 
-Then run `composer update`, `bun install` and `bun run build`.
+Then run `bun remove alertify.js`, `composer update`, `bun install` and `bun run build`.
+
+**alertify.js is replaced by Bootstrap toasts.** In published or custom admin code:
+
+- Replace `alertify.success(` with `toast.success(` and `alertify.error(` with `toast.error(`. The messages are inserted as text, not HTML. `window.toast` is global. Inside the admin JS, import it with `import toast from '…/admin/toast.ts'`.
+- Remove `alertify.logPosition(…)`.
+- In published layouts, replace the `<script type="module">` that flashes `session('message')`, `session('success')` and `session('error')` with `<x-core::toasts />`, after `@stack('js')`.
+- Delete a published `resources/scss/_alertify.scss` and its `@use 'alertify';` in `admin.scss`, and add `@use 'admin/toasts';`.
+- Find leftovers with: `grep -rn "alertify" app resources Modules`
 
 **Published SCSS and views (Bootstrap 6).** The admin and public Sass variables (`resources/scss/admin/_variables.scss` and the `$` variables in `public.scss`) are replaced by Bootstrap CSS variables. Buttons use Bootstrap classes in the markup instead of `@extend`. If the project has its own `resources/scss` or published Blade views, migrate them with the `bootstrap-v5-v6-migration` skill. Then compare them with `vendor/typicms/core/resources/scss` to pick up the CSS variables.
 

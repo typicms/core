@@ -68,6 +68,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import fetcher from '../admin/fetcher';
+import toast from '../admin/toast.ts';
 
 import ItemListPagination from './ItemListPagination.vue';
 
@@ -169,7 +170,7 @@ async function fetchData() {
         data.value = await response.json();
         loading.value = false;
     } catch (error) {
-        alertify.error(error.message || t('An error occurred with the data fetch.'));
+        toast.error(error.message || t('An error occurred with the data fetch.'));
     }
 }
 
@@ -191,7 +192,7 @@ async function clearHistory() {
         data.value.data = [];
         loading.value = false;
     } catch (error) {
-        alertify.error(t(error.message) || t('Sorry, an error occurred.'));
+        toast.error(t(error.message) || t('Sorry, an error occurred.'));
     }
 }
 

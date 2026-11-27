@@ -1,5 +1,4 @@
 import { browserSupportsWebAuthn, startAuthentication, startRegistration } from '@simplewebauthn/browser';
-import alertify from 'alertify.js';
 import Alert from 'bootstrap/js/dist/alert.js';
 import Collapse from 'bootstrap/js/dist/collapse.js';
 import Dialog from 'bootstrap/js/dist/dialog.js';
@@ -22,6 +21,7 @@ import enableTagsField from './admin/enable-tags-field.ts';
 import enablePreviewWindow from './admin/preview-window.ts';
 import enableSetContentLocale from './admin/set-content-locale.ts';
 import Slug from './admin/slug.ts';
+import toast from './admin/toast.ts';
 import FileField from './components/FileField.vue';
 import FileManager from './components/FileManager.vue';
 import FileManagerContent from './components/FileManagerContent.vue';
@@ -84,7 +84,7 @@ app.config.globalProperties.formatDateTime = formatDateTime;
 app.config.globalProperties.$can = $can;
 app.mount('#app');
 
-window.alertify = alertify;
+window.toast = toast;
 window.TomSelect = TomSelect;
 enablePreviewWindow();
 enableSetContentLocale();

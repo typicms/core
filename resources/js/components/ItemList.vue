@@ -129,12 +129,12 @@
 
 <script setup>
 import { SearchIcon, SheetIcon } from '@lucide/vue';
-import alertify from 'alertify.js';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Draggable from 'vuedraggable';
 
 import fetcher from '../admin/fetcher';
+import toast from '../admin/toast.ts';
 
 import ItemListActions from './ItemListActions.vue';
 import ItemListPagination from './ItemListPagination.vue';
@@ -349,7 +349,7 @@ async function fetchData() {
         }
         data.value = await response.json();
     } catch (error) {
-        alertify.error(t(error.message) || t('An error occurred with the data fetch.'));
+        toast.error(t(error.message) || t('An error occurred with the data fetch.'));
     }
     stopLoading();
 }
@@ -386,7 +386,7 @@ async function switchLocale(locale) {
         await fetchData();
     } catch (error) {
         stopLoading();
-        alertify.error(t(error.message));
+        toast.error(t(error.message));
     }
 }
 
@@ -432,7 +432,7 @@ async function destroy() {
     const deleteLimit = 100;
 
     if (checkedItems.value.length > deleteLimit) {
-        alertify.error(
+        toast.error(
             t('Impossible to delete more than # items in one go.', {
                 deleteLimit,
             }),
@@ -477,7 +477,7 @@ async function destroy() {
         const errors = results.filter((result) => !result.success);
 
         if (successes.length > 0) {
-            alertify.success(
+            toast.success(
                 t('# items deleted', successes.length, {
                     count: successes.length,
                 }),
@@ -485,7 +485,7 @@ async function destroy() {
         }
 
         errors.forEach((error) => {
-            alertify.error(t(error.message));
+            toast.error(t(error.message));
         });
     });
     stopLoading();
@@ -550,14 +550,14 @@ async function setStatus(status) {
     ).then((responses) => {
         const successes = responses.filter((response) => response && response.status === 200);
         if (successes.length > 0) {
-            alertify.success(
+            toast.success(
                 t('# items ' + label, successes.length, {
                     count: successes.length,
                 }),
             );
         }
         if (successes.length < checkedItems.value.length) {
-            alertify.error(t('Some items could not be updated.'));
+            toast.error(t('Some items could not be updated.'));
         }
     });
 
@@ -587,14 +587,14 @@ async function duplicate() {
     ).then((responses) => {
         const successes = responses.filter((response) => response && response.status === 200);
         if (successes.length > 0) {
-            alertify.success(
+            toast.success(
                 t('# items duplicated', successes.length, {
                     count: successes.length,
                 }),
             );
         }
         if (successes.length < checkedItems.value.length) {
-            alertify.error(t('Some items could not be duplicated.'));
+            toast.error(t('Some items could not be duplicated.'));
         }
     });
 
@@ -628,9 +628,9 @@ async function toggleStatus(model) {
             const responseData = await response.json();
             throw new Error(responseData.message);
         }
-        alertify.success(t('Item is ' + label + '.'));
+        toast.success(t('Item is ' + label + '.'));
     } catch (error) {
-        alertify.error(t(error.message) || t('Sorry, an error occurred.'));
+        toast.error(t(error.message) || t('Sorry, an error occurred.'));
     }
 }
 
@@ -684,12 +684,12 @@ async function onDragEnd() {
         const responses = await Promise.all(updates);
         const failed = responses.filter((response) => !response || !response.ok);
         if (failed.length > 0) {
-            alertify.error(t('Some items could not be updated.'));
+            toast.error(t('Some items could not be updated.'));
         } else {
-            alertify.success(t('Order updated.'));
+            toast.success(t('Order updated.'));
         }
     } catch (error) {
-        alertify.error(t(error.message) || t('Sorry, an error occurred.'));
+        toast.error(t(error.message) || t('Sorry, an error occurred.'));
     }
     stopLoading();
 }
@@ -708,7 +708,7 @@ async function updatePosition(model) {
             throw new Error(responseData.message);
         }
     } catch (error) {
-        alertify.error(t(error.message) || t('Sorry, an error occurred.'));
+        toast.error(t(error.message) || t('Sorry, an error occurred.'));
     }
 }
 

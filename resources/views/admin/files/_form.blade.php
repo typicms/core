@@ -125,7 +125,7 @@
                 textArea.select();
                 document.execCommand('Copy');
                 textArea.remove();
-                alertify.success('{{ __('Copied to the clipboard') }}');
+                toast.success(@js(__('Copied to the clipboard')));
             }
         </script>
     @endpush

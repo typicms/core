@@ -16,6 +16,8 @@ import XHRUpload from '@uppy/xhr-upload';
 import { computed, defineComponent, h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import toast from '../admin/toast.ts';
+
 import UppyList from './UppyList.vue';
 
 const props = defineProps({
@@ -75,12 +77,12 @@ const uppy = computed(() =>
             });
         })
         .on('restriction-failed', (file, error) => {
-            alertify.error(error.message);
+            toast.error(error.message);
         })
         .on('complete', (result) => {
             const fails = result.failed;
             if (fails.length > 0) {
-                alertify.error(
+                toast.error(
                     t('# files could not be uploaded.', fails.length, {
                         count: fails.length,
                     }),
@@ -89,7 +91,7 @@ const uppy = computed(() =>
 
             const successes = result.successful;
             if (successes.length > 0) {
-                alertify.success(
+                toast.success(
                     t('# files uploaded.', successes.length, {
                         count: successes.length,
                     }),

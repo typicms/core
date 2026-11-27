@@ -45,6 +45,7 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import fetcher from '../admin/fetcher';
+import toast from '../admin/toast.ts';
 
 const { t } = useI18n();
 
@@ -78,7 +79,7 @@ async function fetchData() {
         }
         passkeys.value = await response.json();
     } catch (error) {
-        alertify.error(t(error.message) || t('An error occurred with the data fetch.'));
+        toast.error(t(error.message) || t('An error occurred with the data fetch.'));
     }
     stopLoading();
 }
@@ -100,10 +101,10 @@ async function addPassKey() {
                 passkey: JSON.stringify(startAuthenticationResponse),
             }),
         });
-        alertify.success(t('Item successfully created.'));
+        toast.success(t('Item successfully created.'));
     } catch (error) {
         console.log(error);
-        alertify.error(t(error.message) || t('Sorry, an error occurred.'));
+        toast.error(t(error.message) || t('Sorry, an error occurred.'));
     }
     await fetchData();
 }
@@ -120,10 +121,10 @@ async function deletePasskey(id) {
             const responseData = await response.json();
             throw new Error(responseData.message);
         }
-        alertify.success(t('Item successfully deleted.'));
+        toast.success(t('Item successfully deleted.'));
     } catch (error) {
         console.log(error);
-        alertify.error(t(error.message) || t('Sorry, an error occurred.'));
+        toast.error(t(error.message) || t('Sorry, an error occurred.'));
     }
     await fetchData();
 }

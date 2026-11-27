@@ -145,7 +145,6 @@ class ModuleServiceProvider extends ServiceProvider
          |--------------------------------------------------------------------------
          */
         $this->publishes([
-            __DIR__.'/../../resources/scss/_alertify.scss' => resource_path('scss/_alertify.scss'),
             __DIR__.'/../../resources/scss/_auth.scss' => resource_path('scss/_auth.scss'),
             __DIR__.'/../../resources/scss/_lucide-base.scss' => resource_path('scss/_lucide-base.scss'),
             __DIR__.'/../../resources/scss/admin' => resource_path('scss/admin'),

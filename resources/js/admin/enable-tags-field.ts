@@ -1,8 +1,8 @@
 // @ts-ignore
-import alertify from 'alertify.js';
 import TomSelect from 'tom-select';
 
 import fetcher from './fetcher';
+import toast from './toast.ts';
 
 interface Tag {
     tag: string;
@@ -46,7 +46,7 @@ export default async (): Promise<void> => {
             throw new Error('Failed to initialize TomSelect.');
         }
     } catch (error) {
-        alertify.error('An error occurred while initializing the tags field.');
+        toast.error('An error occurred while initializing the tags field.');
         console.error('Failed to initialize the tags field:', error);
     }
 };

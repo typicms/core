@@ -39,17 +39,6 @@
 
     @stack('js')
 
-    <script type="module">
-        alertify.logPosition('bottom right');
-        @if (session('message'))
-        alertify.success('{{ session('message') }}');
-        @endif
-        @if (session('success'))
-        alertify.success('{{ session('success') }}');
-        @endif
-        @if (session('error'))
-        alertify.error('{{ session('error') }}');
-        @endif
-    </script>
+    <x-core::toasts />
 </body>
 </html>

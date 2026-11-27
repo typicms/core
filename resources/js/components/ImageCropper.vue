@@ -85,6 +85,8 @@ import Dialog from 'bootstrap/js/dist/dialog.js';
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import toast from '../admin/toast.ts';
+
 const { t } = useI18n();
 
 const props = defineProps({
@@ -272,15 +274,15 @@ async function saveCroppedImage() {
 
             if (response.ok) {
                 const data = await response.json();
-                alertify.success(t('Image cropped successfully'));
+                toast.success(t('Image cropped successfully'));
                 emit('cropped', data);
                 window.location.reload();
             } else {
-                alertify.error(t('Error cropping image'));
+                toast.error(t('Error cropping image'));
             }
         } catch (error) {
             console.error('Error:', error);
-            alertify.error(t('Error cropping image'));
+            toast.error(t('Error cropping image'));
         }
     }, 'image/jpeg');
 }

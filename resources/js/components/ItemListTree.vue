@@ -119,12 +119,12 @@
 
 <script setup>
 import { ChevronDownIcon, ChevronRightIcon, CornerRightDownIcon, HouseIcon, LockIcon, SearchIcon } from '@lucide/vue';
-import alertify from 'alertify.js';
 import { SlVueTreeNext } from 'sl-vue-tree-next';
 import { computed, ref, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import fetcher from '../admin/fetcher';
+import toast from '../admin/toast.ts';
 
 import ItemListActions from './ItemListActions.vue';
 
@@ -223,7 +223,7 @@ async function fetchData() {
         total.value = data.total;
         stopLoading();
     } catch (error) {
-        alertify.error(t(error.message) || t('An error occurred with the data fetch.'));
+        toast.error(t(error.message) || t('An error occurred with the data fetch.'));
     }
 }
 
@@ -258,7 +258,7 @@ async function switchLocale(locale) {
         stopLoading();
         await fetchData();
     } catch (error) {
-        alertify.error(t(error.message));
+        toast.error(t(error.message));
     }
 }
 
@@ -266,7 +266,7 @@ async function destroy() {
     const deleteLimit = 100;
 
     if (checkedItems.value.length > deleteLimit) {
-        alertify.error(
+        toast.error(
             t('Impossible to delete more than # items in one go.', {
                 deleteLimit,
             }),
@@ -304,14 +304,14 @@ async function destroy() {
     }
 
     if (successCount > 0) {
-        alertify.success(
+        toast.success(
             t('# items deleted', successCount, {
                 count: successCount,
             }),
         );
     }
     if (failCount > 0) {
-        alertify.error(t('Some items could not be deleted.'));
+        toast.error(t('Some items could not be deleted.'));
     }
 
     stopLoading();
@@ -387,14 +387,14 @@ async function setStatus(status) {
     const successes = results.filter((result) => result.success);
 
     if (successes.length > 0) {
-        alertify.success(
+        toast.success(
             t('# items ' + label, successes.length, {
                 count: successes.length,
             }),
         );
     }
     if (successes.length < checkedItems.value.length) {
-        alertify.error(t('Some items could not be updated.'));
+        toast.error(t('Some items could not be updated.'));
     }
 
     stopLoading();
@@ -445,7 +445,7 @@ async function drop(draggingNodes, position) {
             throw new Error(responseData.message);
         }
     } catch (error) {
-        alertify.error(t(error.message) || t('Sorry, an error occurred.'));
+        toast.error(t(error.message) || t('Sorry, an error occurred.'));
     }
 }
 
@@ -477,7 +477,7 @@ async function toggle(node, event) {
             throw new Error(responseData.message);
         }
     } catch {
-        alertify.error(t('User preferences couldn’t be set.'));
+        toast.error(t('User preferences couldn’t be set.'));
     }
 }
 
@@ -558,10 +558,10 @@ async function toggleStatus(node) {
             const responseData = await response.json();
             throw new Error(responseData.message);
         }
-        alertify.success(t('Item is ' + label + '.'));
+        toast.success(t('Item is ' + label + '.'));
     } catch (error) {
         slVueTree.value.updateNode({ path: node.path, patch: originalNode });
-        alertify.error(t(error.message) || t('Sorry, an error occurred.'));
+        toast.error(t(error.message) || t('Sorry, an error occurred.'));
     }
 }
 </script>

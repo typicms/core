@@ -68,12 +68,12 @@
 </template>
 
 <script setup>
-import alertify from 'alertify.js';
 import Dialog from 'bootstrap/js/dist/dialog.js';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import fetcher from '../../admin/fetcher.js';
+import toast from '../../admin/toast.ts';
 
 const { t } = useI18n();
 
@@ -224,7 +224,7 @@ async function fetchData() {
         }
         pages.value = await response.json();
     } catch (error) {
-        alertify.error(t(error.message) || t('An error occurred with the data fetch.'));
+        toast.error(t(error.message) || t('An error occurred with the data fetch.'));
     }
     stopLoading();
 }

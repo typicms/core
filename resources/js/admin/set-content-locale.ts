@@ -1,7 +1,6 @@
 // @ts-ignore
-import alertify from 'alertify.js';
-
 import fetcher from './fetcher';
+import toast from './toast.ts';
 
 /**
  * Change contentLocale when user change the locale in admin forms.
@@ -48,7 +47,7 @@ export default (): void => {
                     throw new Error('Network response was not ok.');
                 }
             } catch (error) {
-                alertify.error(`Content locale couldn't be set to ${locale}`);
+                toast.error(`Content locale couldn't be set to ${locale}`);
                 console.error('There was a problem with the fetch operation:', error);
             }
         }

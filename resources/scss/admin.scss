@@ -7,7 +7,7 @@
 @use 'admin/lucide';
 @use 'admin/navbar';
 @use 'auth';
-@use 'alertify';
+@use 'admin/toasts';
 @use 'admin/tomselect';
 @use 'admin/sortable-tree';
 @use 'admin/history';

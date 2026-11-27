@@ -176,6 +176,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import fetcher from '../admin/fetcher';
+import toast from '../admin/toast.ts';
 
 import UppyUploader from './UppyUploader.vue';
 
@@ -301,7 +302,7 @@ async function fetchData() {
         }
         data.value = await response.json();
     } catch (error) {
-        alertify.error(error.message || t('Sorry, a network error occurred.'));
+        toast.error(error.message || t('Sorry, a network error occurred.'));
     }
     stopLoading();
 }
@@ -384,7 +385,7 @@ async function drop(targetItem, event) {
         }
         await fetchData();
     } catch (error) {
-        alertify.error(error.message || t('Sorry, an error occurred.'));
+        toast.error(error.message || t('Sorry, an error occurred.'));
     }
 
     checkNone();
@@ -411,7 +412,7 @@ async function newFolder(folderId) {
         }
         await fetchData();
     } catch (error) {
-        alertify.error(error.message || t('Sorry, an error occurred.'));
+        toast.error(error.message || t('Sorry, an error occurred.'));
     }
 }
 
@@ -469,7 +470,7 @@ async function moveToParentFolder() {
         number = models.length;
 
     if (selectedItems.value.length > deleteLimit.value) {
-        alertify.error('Too much elements (max ' + deleteLimit.value + ' items.)');
+        toast.error('Too much elements (max ' + deleteLimit.value + ' items.)');
         return false;
     }
 
@@ -493,21 +494,21 @@ async function moveToParentFolder() {
             throw new Error(responseData.message);
         }
         if (responseData.number < number) {
-            alertify.error(
+            toast.error(
                 t('# files could not be moved.', number - responseData.number, {
                     count: number - responseData.number,
                 }),
             );
         }
         if (responseData.number > 0) {
-            alertify.success(
+            toast.success(
                 t('# files moved.', responseData.number, {
                     count: responseData.number,
                 }),
             );
         }
     } catch (error) {
-        alertify.error(error.message || t('Sorry, an error occurred.'));
+        toast.error(error.message || t('Sorry, an error occurred.'));
     }
     stopLoading();
 }
@@ -578,7 +579,7 @@ function checkNone() {
 
 async function deleteSelected() {
     if (selectedItems.value.length > deleteLimit.value) {
-        alertify.error(
+        toast.error(
             t('Impossible to delete more than # items in one go.', {
                 deleteLimit: deleteLimit.value,
             }),
@@ -605,14 +606,14 @@ async function deleteSelected() {
             }
             return response;
         } catch (error) {
-            alertify.error(t(error.message) || t('Sorry, an error occurred.'));
+            toast.error(t(error.message) || t('Sorry, an error occurred.'));
         }
     });
 
     const responses = await Promise.all(deletePromises);
     const successes = responses.filter((response) => response && response.ok);
     if (successes.length > 0) {
-        alertify.success(
+        toast.success(
             t('# files deleted.', successes.length, {
                 count: successes.length,
             }),
