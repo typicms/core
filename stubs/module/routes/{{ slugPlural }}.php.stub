@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
-use TypiCMS\Modules\Core\Models\Page;
+use TypiCMS\Modules\Core\Support\ModuleRoutes;
 use TypiCMS\Modules\{{ modelPlural }}\Http\Controllers\AdminController;
 use TypiCMS\Modules\{{ modelPlural }}\Http\Controllers\ApiController;
 use TypiCMS\Modules\{{ modelPlural }}\Http\Controllers\PublicController;
