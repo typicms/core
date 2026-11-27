@@ -61,6 +61,7 @@ final class LlmsTxtController extends Controller
         /** @var Page|null $homePage */
         $homePage = Page::query()
             ->published()
+            ->where('private', false)
             ->where('is_home', true)
             ->first();
 
@@ -85,7 +86,7 @@ final class LlmsTxtController extends Controller
 
             foreach ($menulinks as $menulink) {
                 $page = $menulink->page;
-                if ($page instanceof Page && $page->isPublished($locale)) {
+                if ($page instanceof Page && ! $page->isPrivate() && $page->isPublished($locale)) {
                     $title = $page->translate('title', $locale);
                     if (is_string($title) && $title !== '') {
                         $pages[$title] = $page->url($locale);
@@ -123,6 +124,10 @@ final class LlmsTxtController extends Controller
 
             $page = getPageLinkedToModule($moduleName);
             if (! $page instanceof Page) {
+                continue;
+            }
+
+            if ($page->isPrivate()) {
                 continue;
             }
 
