@@ -13,7 +13,6 @@ class OneTimePasswordLoginRequest extends AbstractFormRequest
             'email' => [
                 'required',
                 'email:rfc,dns',
-                'exists:users,email',
             ],
         ];
     }

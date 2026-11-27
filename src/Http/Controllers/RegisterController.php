@@ -23,9 +23,10 @@ final class RegisterController extends Controller
     {
         $data = $request->validated();
 
-        if (User::query()->where('email', $data['email'])->exists()) {
-            return to_route(app()->getLocale().'::login')
-                ->with('status', __('An account already exists for this email address.'));
+        $existingUser = User::query()->where('email', $data['email'])->first();
+
+        if ($existingUser) {
+            return $this->redirectToLoginCode($existingUser);
         }
 
         if (config('typicms.registration.activated')) {
@@ -39,13 +40,24 @@ final class RegisterController extends Controller
             $user->assignRole($roleName);
         }
 
-        session(['email' => $user->email]);
-
-        $user->sendOneTimePassword();
-
         event(new Registered($user));
 
+        return $this->redirectToLoginCode($user);
+    }
+
+    /**
+     * Existing and new accounts get the same response, so registration
+     * cannot be used to find out which addresses have an account.
+     */
+    private function redirectToLoginCode(User $user): RedirectResponse
+    {
+        session(['email' => $user->email]);
+
+        if ($user->wasRecentlyCreated || $user->activated) {
+            $user->sendOneTimePassword();
+        }
+
         return to_route(app()->getLocale().'::login-code')
-            ->with('status', __('Your account has been created, check your email for the one time login code.'));
+            ->with('status', __('A one-time password has been sent to your email address.'));
     }
 }
