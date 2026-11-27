@@ -11,7 +11,7 @@
                 </div>
                 <span class="uppy-list-item-name">{{ file.name }}</span>
                 <span class="uppy-list-item-size">{{ formatFileSize(file.size) }}</span>
-                <button class="uppy-list-item-button" type="button" @click="removeFile(file.id)">{{ t('Cancel') }}</button>
+                <button class="btn-solid theme-secondary btn-xs uppy-list-item-button" type="button" @click="removeFile(file.id)">{{ t('Cancel') }}</button>
             </div>
             <div v-if="file.error" class="uppy-list-item-error fg-danger">
                 {{ t(file.error) }}

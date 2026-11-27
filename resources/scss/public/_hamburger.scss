@@ -3,10 +3,6 @@
 
 @layer custom {
     .hamburger {
-        @extend .btn;
-        @extend .btn-sm;
-        @extend .btn-link;
-        @extend .rounded-pill;
         @include transition();
         padding: 0;
         z-index: 3000;

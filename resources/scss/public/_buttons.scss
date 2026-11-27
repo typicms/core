@@ -18,7 +18,17 @@
 
     .primary-btn {
         @extend .base-button;
-        @include button-variant(var(--primary-base), var(--primary-base), var(--gray-100), var(--white), var(--primary-base), var(--primary-base), var(--gray-300), var(--primary-base), var(--primary-base));
+        @include button-variant(
+            var(--primary-base),
+            var(--primary-base),
+            var(--gray-100),
+            var(--white),
+            var(--primary-base),
+            var(--primary-base),
+            var(--gray-300),
+            var(--primary-base),
+            var(--primary-base)
+        );
     }
 
     .secondary-btn {
@@ -28,7 +38,20 @@
 
     .light-btn {
         @extend .base-button;
-        @include button-variant(var(--gray-100), var(--gray-100), var(--fg-body), var(--fg-body), var(--fg-body), var(--gray-100), var(--fg-body), var(--fg-body), var(--gray-100), var(--white), var(--white), var(--gray-600));
+        @include button-variant(
+            var(--gray-100),
+            var(--gray-100),
+            var(--fg-body),
+            var(--fg-body),
+            var(--fg-body),
+            var(--gray-100),
+            var(--fg-body),
+            var(--fg-body),
+            var(--gray-100),
+            var(--white),
+            var(--white),
+            var(--gray-600)
+        );
     }
 
     .white-btn {

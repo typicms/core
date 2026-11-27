@@ -24,14 +24,14 @@
             @if ($logout)
                 <form action="{{ route(mainLocale() . '::logout') }}" method="post">
                     @csrf
-                    <button class="admin-buttons-edit" type="submit" title="{{ __('Logout') }}">
+                    <button class="btn rounded-pill admin-buttons-edit" type="submit" title="{{ __('Logout') }}">
                         <span class="icon-log-out"></span>
                         <span class="visually-hidden">{{ __('Logout') }}</span>
                     </button>
                 </form>
             @endif
             @if ($url)
-                <a class="admin-buttons-edit" href="{{ $url }}" title="{{ __('Edit') }}">
+                <a class="btn rounded-pill admin-buttons-edit" href="{{ $url }}" title="{{ __('Edit') }}">
                     <span class="icon-pencil"></span>
                     <span class="visually-hidden">{{ __('Edit') }}</span>
                 </a>

@@ -10,9 +10,7 @@
             right: 0;
         }
         &-edit {
-            @extend .btn;
             @include button-variant(color-mix(in oklch, var(--yellow-500) 60%, transparent), transparent, var(--primary-base), var(--yellow-500), transparent, var(--primary-base));
-            @extend .rounded-pill;
             padding: 0;
             display: flex;
             align-items: center;
@@ -22,7 +20,6 @@
             font-size: 1.25rem;
         }
         &-logout {
-            @extend .admin-buttons-edit;
             position: absolute;
             top: 1rem;
             right: 1rem;

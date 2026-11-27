@@ -2,7 +2,6 @@
 
 @layer custom {
     .btn-back {
-        @extend .btn-link;
         --btn-color: var(--fg-4);
         --btn-hover-color: var(--fg-3);
         --btn-min-height: 0;

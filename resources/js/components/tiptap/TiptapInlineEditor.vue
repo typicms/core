@@ -9,7 +9,7 @@
                 <button
                     v-tooltip
                     type="button"
-                    class="tiptap-button"
+                    class="btn tiptap-button"
                     :title="t('Italic')"
                     :disabled="!editor.can().chain().focus().toggleItalic().run()"
                     :class="{ 'is-active': editor.isActive('italic') }"

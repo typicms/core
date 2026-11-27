@@ -27,7 +27,7 @@
             </div>
         </div>
         <div v-if="file === null" class="mb-5">
-            <button class="filemanager-field-btn-add" type="button" @click="openFilePicker">
+            <button class="btn-solid theme-secondary btn-sm filemanager-field-btn-add" type="button" @click="openFilePicker">
                 <circle-plus-icon size="16" />
                 {{ t('Add') }}
             </button>

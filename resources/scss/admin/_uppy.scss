@@ -37,11 +37,6 @@
                 margin-left: auto;
                 white-space: nowrap;
             }
-            &-button {
-                @extend .btn-solid;
-                @extend .theme-secondary;
-                @extend .btn-xs;
-            }
             &-progress {
                 width: 100%;
                 &-bar {

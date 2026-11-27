@@ -32,7 +32,6 @@
         &-panel {
             margin-bottom: 0.75rem;
             &-title {
-                @extend .btn;
                 --btn-bg: transparent;
                 --btn-hover-bg: transparent;
                 --btn-active-bg: transparent;
@@ -51,7 +50,6 @@
             }
         }
         &-item-link {
-            @extend .btn;
             --btn-bg: transparent;
             --btn-hover-bg: transparent;
             --btn-active-bg: transparent;

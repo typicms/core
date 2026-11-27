@@ -13,9 +13,6 @@
 
         &-item {
             &-link {
-                @extend .btn;
-                @extend .btn-outline;
-                @extend .theme-primary;
                 display: inline-flex;
                 align-items: center;
                 white-space: normal;

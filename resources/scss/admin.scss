@@ -5,7 +5,6 @@
 @use 'admin/vendor';
 
 @use 'admin/lucide';
-@use 'admin/buttons';
 @use 'admin/navbar';
 @use 'auth';
 @use 'alertify';
@@ -88,7 +87,6 @@
         outline: none;
     }
     .btn-impersonate {
-        @extend .btn;
         --btn-min-height: 0;
         padding: 0;
         display: block;

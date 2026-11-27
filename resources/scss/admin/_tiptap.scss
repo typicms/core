@@ -24,7 +24,6 @@
     }
 
     .tiptap-button {
-        @extend .btn;
         @include button-variant(
             transparent,
             transparent,

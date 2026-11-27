@@ -63,7 +63,7 @@
                 @endisset
                 <div class="header-offcanvas" id="navigation">
                     <button
-                        class="hamburger"
+                        class="btn btn-sm btn-link rounded-pill hamburger"
                         type="button"
                         id="menu-button"
                         data-bs-toggle="collapse"
@@ -110,7 +110,7 @@
         </footer>
 
         <div class="anchor-top disabled" id="anchor-top" role="complementary">
-            <a class="anchor-top-button" href="#top" aria-label="{{ __('Back to top') }}">
+            <a class="btn rounded-pill anchor-top-button" href="#top" aria-label="{{ __('Back to top') }}">
                 <span class="icon-arrow-up"></span>
             </a>
         </div>

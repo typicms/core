@@ -1,6 +1,6 @@
 <li class="document-list-item">
     <a
-        class="document-list-item-link"
+        class="btn btn-outline theme-primary document-list-item-link"
         href="{{ Storage::url($document->path) }}"
         target="_blank"
         rel="noopener noreferrer"

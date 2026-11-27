@@ -54,9 +54,6 @@
     }
 
     .tree-toggle-btn {
-        @extend .btn-text;
-        @extend .theme-secondary;
-        @extend .btn-sm;
         --btn-min-height: 0;
         padding: 0;
         width: 1.125rem;

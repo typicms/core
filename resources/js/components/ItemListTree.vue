@@ -102,7 +102,7 @@
                     <button
                         v-if="node.children.length > 0"
                         type="button"
-                        class="tree-toggle-btn"
+                        class="btn-text theme-secondary btn-sm tree-toggle-btn"
                         :aria-label="node.isExpanded ? t('Collapse') : t('Expand')"
                         :aria-expanded="node.isExpanded"
                         tabindex="0"

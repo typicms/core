@@ -3,7 +3,7 @@
         <div class="filemanager-header filemanager-header-bordered">
             <div class="filemanager-header-top">
                 <div>
-                    <button v-if="path.length > 1" type="button" class="btn-back" @click="openFolder(path[path.length - 2])">
+                    <button v-if="path.length > 1" type="button" class="btn-link btn-back" @click="openFolder(path[path.length - 2])">
                         <arrow-left-icon size="15" stroke-width="1.75" />
                         <span class="btn-back-label">
                             {{ path[path.length - 2].name }}
@@ -144,7 +144,7 @@
                         <div class="filemanager-item-name">
                             {{ item.name }}
                         </div>
-                        <a v-if="!modal" :href="'/admin/files/' + item.id + '/edit'" class="filemanager-item-editable-button">
+                        <a v-if="!modal" :href="'/admin/files/' + item.id + '/edit'" class="btn-outline theme-primary btn-xs rounded-pill filemanager-item-editable-button">
                             {{ t('Edit') }}
                         </a>
                     </div>

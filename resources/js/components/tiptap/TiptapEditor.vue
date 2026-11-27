@@ -4,7 +4,7 @@
         <div v-if="editor" class="tiptap-toolbar">
             <div>
                 <button
-                    class="tiptap-button text-start d-flex justify-content-between align-items-center"
+                    class="btn tiptap-button text-start d-flex justify-content-between align-items-center"
                     style="width: 100px"
                     type="button"
                     data-bs-toggle="menu"
@@ -43,7 +43,7 @@
             </div>
             <div>
                 <button
-                    class="tiptap-button text-start d-flex justify-content-between align-items-center"
+                    class="btn tiptap-button text-start d-flex justify-content-between align-items-center"
                     style="width: 140px"
                     type="button"
                     data-bs-toggle="menu"
@@ -117,7 +117,7 @@
             <button
                 v-tooltip
                 type="button"
-                class="tiptap-button"
+                class="btn tiptap-button"
                 :title="t('Bold')"
                 :disabled="!editor.can().chain().focus().toggleBold().run()"
                 :class="{ 'is-active': editor.isActive('bold') }"
@@ -128,7 +128,7 @@
             <button
                 v-tooltip
                 type="button"
-                class="tiptap-button"
+                class="btn tiptap-button"
                 :title="t('Italic')"
                 :disabled="!editor.can().chain().focus().toggleItalic().run()"
                 :class="{ 'is-active': editor.isActive('italic') }"
@@ -139,7 +139,7 @@
             <button
                 v-tooltip
                 type="button"
-                class="tiptap-button"
+                class="btn tiptap-button"
                 :title="t('Strikethrough')"
                 :disabled="!editor.can().chain().focus().toggleStrike().run()"
                 :class="{ 'is-active': editor.isActive('strike') }"
@@ -150,7 +150,7 @@
             <button
                 v-tooltip
                 type="button"
-                class="tiptap-button"
+                class="btn tiptap-button"
                 :title="t('Superscript')"
                 :disabled="!editor.can().chain().focus().toggleSuperscript().run()"
                 :class="{ 'is-active': editor.isActive('superscript') }"
@@ -164,7 +164,7 @@
             <button
                 v-tooltip
                 type="button"
-                class="tiptap-button"
+                class="btn tiptap-button"
                 :title="t('Subscript')"
                 :disabled="!editor.can().chain().focus().toggleSubscript().run()"
                 :class="{ 'is-active': editor.isActive('subscript') }"
@@ -176,14 +176,14 @@
                 <subscript-icon size="18" stroke-width="1.5" />
             </button>
             <div class="tiptap-separator"></div>
-            <button v-tooltip type="button" class="tiptap-button" :title="t('Remove Format')" :disabled="editor.isActive('image')" @click="editor.chain().focus().unsetAllMarks().run()">
+            <button v-tooltip type="button" class="btn tiptap-button" :title="t('Remove Format')" :disabled="editor.isActive('image')" @click="editor.chain().focus().unsetAllMarks().run()">
                 <remove-formatting-icon size="18" stroke-width="1.5" />
             </button>
             <div class="tiptap-separator"></div>
             <button
                 v-tooltip
                 type="button"
-                class="tiptap-button"
+                class="btn tiptap-button"
                 :title="t('Insert/Remove Bulleted List')"
                 :class="{ 'is-active': editor.isActive('bulletList') }"
                 :disabled="editor.isActive('image')"
@@ -194,7 +194,7 @@
             <button
                 v-tooltip
                 type="button"
-                class="tiptap-button"
+                class="btn tiptap-button"
                 :title="t('Insert/Remove Numbered List')"
                 :class="{ 'is-active': editor.isActive('orderedList') }"
                 :disabled="editor.isActive('image')"
@@ -205,7 +205,7 @@
             <button
                 v-tooltip
                 type="button"
-                class="tiptap-button"
+                class="btn tiptap-button"
                 :title="t('Increase Indent')"
                 :disabled="!editor.can().sinkListItem('listItem')"
                 @click="editor.chain().focus().sinkListItem('listItem').run()"
@@ -215,7 +215,7 @@
             <button
                 v-tooltip
                 type="button"
-                class="tiptap-button"
+                class="btn tiptap-button"
                 :title="t('Decrease Indent')"
                 :disabled="!editor.can().liftListItem('listItem')"
                 @click="editor.chain().focus().liftListItem('listItem').run()"
@@ -227,7 +227,7 @@
                 <button
                     v-tooltip
                     type="button"
-                    class="tiptap-button"
+                    class="btn tiptap-button"
                     :title="t('Align Left')"
                     :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }"
                     @click="editor.chain().focus().setTextAlign('left').run()"
@@ -237,7 +237,7 @@
                 <button
                     v-tooltip
                     type="button"
-                    class="tiptap-button"
+                    class="btn tiptap-button"
                     :title="t('Align Center')"
                     :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }"
                     @click="editor.chain().focus().setTextAlign('center').run()"
@@ -247,7 +247,7 @@
                 <button
                     v-tooltip
                     type="button"
-                    class="tiptap-button"
+                    class="btn tiptap-button"
                     :title="t('Align Right')"
                     :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }"
                     @click="editor.chain().focus().setTextAlign('right').run()"
@@ -256,17 +256,17 @@
                 </button>
             </template>
             <div class="tiptap-separator"></div>
-            <button v-tooltip type="button" class="tiptap-button" :title="t('Link')" :class="{ 'is-active': editor.isActive('link') }" :disabled="editor.isActive('image')" @click="openLinkDialog">
+            <button v-tooltip type="button" class="btn tiptap-button" :title="t('Link')" :class="{ 'is-active': editor.isActive('link') }" :disabled="editor.isActive('image')" @click="openLinkDialog">
                 <link2-icon size="18" stroke-width="1.5" />
             </button>
-            <button v-tooltip type="button" class="tiptap-button" :title="t('Unset Link')" :disabled="editor.isActive('image')" @click="editor.chain().focus().unsetLink().run()">
+            <button v-tooltip type="button" class="btn tiptap-button" :title="t('Unset Link')" :disabled="editor.isActive('image')" @click="editor.chain().focus().unsetLink().run()">
                 <link2-off-icon size="18" stroke-width="1.5" />
             </button>
             <div class="tiptap-separator"></div>
             <button
                 v-tooltip
                 type="button"
-                class="tiptap-button"
+                class="btn tiptap-button"
                 :title="t('Block Quote')"
                 :class="{ 'is-active': editor.isActive('blockquote') }"
                 @click="editor.chain().focus().toggleBlockquote().run()"
@@ -274,19 +274,19 @@
                 <quote-icon size="18" stroke-width="1.5" />
             </button>
             <div class="tiptap-separator"></div>
-            <button v-tooltip type="button" class="tiptap-button" :title="t('Image')" :class="{ 'is-active': editor.isActive('image') }" @click="openImageDialog">
+            <button v-tooltip type="button" class="btn tiptap-button" :title="t('Image')" :class="{ 'is-active': editor.isActive('image') }" @click="openImageDialog">
                 <image-icon size="18" stroke-width="1.5" />
             </button>
-            <button v-tooltip type="button" class="tiptap-button" :title="t('YouTube Video')" :class="{ 'is-active': editor.isActive('youtube') }" @click="openYoutubeDialog">
+            <button v-tooltip type="button" class="btn tiptap-button" :title="t('YouTube Video')" :class="{ 'is-active': editor.isActive('youtube') }" @click="openYoutubeDialog">
                 <square-play-icon size="18" stroke-width="1.5" />
             </button>
-            <button v-tooltip type="button" class="tiptap-button" :title="t('Embed Iframe')" @click="openIframeDialog">
+            <button v-tooltip type="button" class="btn tiptap-button" :title="t('Embed Iframe')" @click="openIframeDialog">
                 <video-icon size="18" stroke-width="1.5" />
             </button>
 
             <!-- Table-->
             <div>
-                <button class="tiptap-button text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="menu" aria-expanded="false">
+                <button class="btn tiptap-button text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="menu" aria-expanded="false">
                     <sheet-icon size="18" stroke-width="1.5" />
                 </button>
                 <ul class="menu">
@@ -409,7 +409,7 @@
             <button
                 v-tooltip
                 type="button"
-                class="tiptap-button"
+                class="btn tiptap-button"
                 :title="t('Code Block')"
                 :class="{ 'is-active': editor.isActive('codeBlock') }"
                 :disabled="editor.isActive('image')"
@@ -420,7 +420,7 @@
             <button
                 v-tooltip
                 type="button"
-                class="tiptap-button"
+                class="btn tiptap-button"
                 :title="t('Code')"
                 :disabled="!editor.can().chain().focus().toggleCode().run()"
                 :class="{ 'is-active': editor.isActive('code') }"
@@ -429,21 +429,21 @@
                 <code-icon size="18" stroke-width="1.5" />
             </button>
             <div class="tiptap-separator"></div>
-            <button v-tooltip type="button" class="tiptap-button" :title="t('Insert Horizontal Line')" @click="editor.chain().focus().setHorizontalRule().run()">
+            <button v-tooltip type="button" class="btn tiptap-button" :title="t('Insert Horizontal Line')" @click="editor.chain().focus().setHorizontalRule().run()">
                 <minus-icon size="18" stroke-width="1.5" />
             </button>
-            <button v-tooltip type="button" class="tiptap-button" :title="t('Insert Line Break')" @click="editor.chain().focus().setHardBreak().run()">
+            <button v-tooltip type="button" class="btn tiptap-button" :title="t('Insert Line Break')" @click="editor.chain().focus().setHardBreak().run()">
                 <wrap-text-icon size="18" stroke-width="1.5" />
             </button>
             <div class="tiptap-separator"></div>
-            <button v-tooltip type="button" class="tiptap-button" :title="t('Undo')" :disabled="!editor.can().chain().focus().undo().run()" @click="editor.chain().focus().undo().run()">
+            <button v-tooltip type="button" class="btn tiptap-button" :title="t('Undo')" :disabled="!editor.can().chain().focus().undo().run()" @click="editor.chain().focus().undo().run()">
                 <undo-icon size="18" stroke-width="1.5" />
             </button>
-            <button v-tooltip type="button" class="tiptap-button" :title="t('Redo')" :disabled="!editor.can().chain().focus().redo().run()" @click="editor.chain().focus().redo().run()">
+            <button v-tooltip type="button" class="btn tiptap-button" :title="t('Redo')" :disabled="!editor.can().chain().focus().redo().run()" @click="editor.chain().focus().redo().run()">
                 <redo-icon size="18" stroke-width="1.5" />
             </button>
             <div class="tiptap-separator"></div>
-            <button v-tooltip type="button" class="tiptap-button" :title="t('Edit Source Code')" @click="openSourceCodeDialog">
+            <button v-tooltip type="button" class="btn tiptap-button" :title="t('Edit Source Code')" @click="openSourceCodeDialog">
                 <file-code-icon size="18" stroke-width="1.5" />
             </button>
         </div>
@@ -453,7 +453,7 @@
                     v-if="!editor.isActive('image')"
                     v-tooltip
                     type="button"
-                    class="tiptap-button"
+                    class="btn tiptap-button"
                     :title="t('Bold')"
                     :class="{ 'is-active': editor.isActive('bold') }"
                     @click="editor.chain().focus().toggleBold().run()"
@@ -464,20 +464,20 @@
                     v-if="!editor.isActive('image')"
                     v-tooltip
                     type="button"
-                    class="tiptap-button"
+                    class="btn tiptap-button"
                     :title="t('Italic')"
                     :class="{ 'is-active': editor.isActive('italic') }"
                     @click="editor.chain().focus().toggleItalic().run()"
                 >
                     <italic-icon size="18" stroke-width="1.5" />
                 </button>
-                <button v-if="!editor.isActive('image')" v-tooltip type="button" class="tiptap-button" :title="t('Link')" :class="{ 'is-active': editor.isActive('link') }" @click="openLinkDialog">
+                <button v-if="!editor.isActive('image')" v-tooltip type="button" class="btn tiptap-button" :title="t('Link')" :class="{ 'is-active': editor.isActive('link') }" @click="openLinkDialog">
                     <link2-icon size="18" stroke-width="1.5" />
                 </button>
-                <button v-if="editor.isActive('link')" v-tooltip type="button" class="tiptap-button" :title="t('Unset Link')" @click="editor.chain().focus().unsetLink().run()">
+                <button v-if="editor.isActive('link')" v-tooltip type="button" class="btn tiptap-button" :title="t('Unset Link')" @click="editor.chain().focus().unsetLink().run()">
                     <link2-off-icon size="18" stroke-width="1.5" />
                 </button>
-                <button v-if="editor.isActive('image')" v-tooltip type="button" class="tiptap-button" :title="t('Edit')" @click="openImageDialog">Edit</button>
+                <button v-if="editor.isActive('image')" v-tooltip type="button" class="btn tiptap-button" :title="t('Edit')" @click="openImageDialog">Edit</button>
             </div>
         </bubble-menu>
         <div class="rich-content-container-border">

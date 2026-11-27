@@ -65,15 +65,7 @@
             overflow-y: auto;
         }
 
-        &-btn-add {
-            @extend .btn-solid;
-            @extend .theme-primary;
-        }
-
         &-field-btn-add {
-            @extend .btn-solid;
-            @extend .theme-secondary;
-            @extend .btn-sm;
             display: flex;
             align-items: center;
         }
@@ -136,10 +128,6 @@
                 }
 
                 &-button {
-                    @extend .btn-outline;
-                    @extend .theme-primary;
-                    @extend .btn-xs;
-                    @extend .rounded-pill;
                     --btn-border-color: var(--fg-body);
                     --btn-color: var(--fg-body);
                     --btn-bg: var(--bg-body);

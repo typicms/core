@@ -20,8 +20,6 @@
             opacity: 0;
         }
         &-button {
-            @extend .btn;
-            @extend .rounded-pill;
             @include button-variant(color-mix(in oklch, var(--white) 60%, transparent), var(--primary-base), var(--primary-base), var(--primary-base), var(--primary-base), var(--white));
             padding: 0;
             width: 100%;

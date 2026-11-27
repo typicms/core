@@ -6,7 +6,7 @@
                 {{ t(label) }} <small v-if="hint" class="fg-secondary"> ({{ t(hint) }})</small>
             </p>
             <p>
-                <button class="filemanager-field-btn-add" type="button" @click="openFilePicker">
+                <button class="btn-solid theme-secondary btn-sm filemanager-field-btn-add" type="button" @click="openFilePicker">
                     <circle-plus-icon size="16" />
                     {{ t('Add files') }}
                 </button>

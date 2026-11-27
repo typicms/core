@@ -13,7 +13,7 @@
             >
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="typicms-navbar-brand navbar-brand" href="{{ route('admin::dashboard') }}">
+            <a class="btn typicms-navbar-brand navbar-brand" href="{{ route('admin::dashboard') }}">
                 {{-- <x-core::logo class="typicms-navbar-brand-logo" /> --}}
                 {{ websiteTitle() }}
             </a>

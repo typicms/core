@@ -5,7 +5,7 @@
 @if (($enabledLocales = enabledLocales()) and count($enabledLocales) > 1)
     <nav class="lang-switcher">
         <button
-            class="lang-switcher-btn"
+            class="btn btn-link lang-switcher-btn"
             type="button"
             data-bs-toggle="menu"
             aria-expanded="false"
