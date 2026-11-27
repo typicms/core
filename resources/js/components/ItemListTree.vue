@@ -68,7 +68,7 @@
                     <input
                         v-if="$can('delete ' + table) || $can('update ' + table)"
                         :checked="isChecked(node.data)"
-                        class="check me-3"
+                        class="check check-sm me-3"
                         type="checkbox"
                         @change="toggleCheck(node)"
                         @click="captureModifierKeys($event)"
@@ -78,7 +78,7 @@
                         {{ t('Edit') }}
                     </a>
 
-                    <div class="switch me-3">
+                    <div class="switch switch-sm me-3">
                         <input
                             :checked="(translatable ? node.data.status_translated : node.data.status) === 1"
                             :aria-label="t('Published')"
