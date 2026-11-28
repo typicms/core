@@ -70,7 +70,10 @@ onMounted(() => {
     filePickerModal.value = new Dialog('#filemanager-modal');
 
     const modal = document.querySelector('#filemanager-modal');
-    modal.addEventListener('hide.bs.dialog', () => {
+    modal.addEventListener('hide.bs.dialog', (event) => {
+        if (event.target !== modal) {
+            return;
+        }
         document.activeElement.blur();
         show.value = false;
         if (options.value.emitOnClose) {

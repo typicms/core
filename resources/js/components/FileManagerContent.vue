@@ -1,8 +1,19 @@
 <template>
-    <div class="filemanager">
+    <div ref="root" class="filemanager">
         <div class="filemanager-header filemanager-header-bordered">
             <div class="filemanager-header-top">
-                <div>
+                <div v-if="editedFile">
+                    <button type="button" class="btn-link btn-back" @click="closeEditForm()">
+                        <arrow-left-icon size="15" stroke-width="1.75" />
+                        <span class="btn-back-label">
+                            {{ path.length > 0 ? path[path.length - 1].name : t('Files') }}
+                        </span>
+                    </button>
+                    <h1 class="filemanager-header-title">
+                        {{ editedFile.name }}
+                    </h1>
+                </div>
+                <div v-else>
                     <button v-if="path.length > 1" type="button" class="btn-link btn-back" @click="openFolder(path[path.length - 2])">
                         <arrow-left-icon size="15" stroke-width="1.75" />
                         <span class="btn-back-label">
@@ -15,7 +26,29 @@
                 </div>
                 <button v-if="modal" class="filemanager-modal-btn-close btn-close" type="button" data-bs-dismiss="dialog" :aria-label="t('Close window')"></button>
             </div>
-            <div class="filemanager-header-toolbar">
+            <div v-if="editedFile" class="filemanager-header-toolbar">
+                <button :disabled="editFormRef?.saving" class="btn-sm btn-solid theme-primary" type="button" @click="saveAndClose()">
+                    {{ t('Save and exit') }}
+                </button>
+                <button :disabled="editFormRef?.saving" class="btn-sm btn-solid theme-secondary" type="button" @click="editFormRef?.save()">
+                    {{ t('Save') }}
+                </button>
+                <div v-if="locales.length > 1 && editedFile.type !== 'f'" class="btn-group btn-group-sm ms-auto">
+                    <button aria-expanded="false" aria-haspopup="true" class="btn-solid theme-secondary" data-bs-placement="bottom-end" data-bs-toggle="menu" type="button">
+                        {{ editLocaleLabel }}
+                    </button>
+                    <div class="menu">
+                        <button v-for="locale in locales" :key="locale.short" :class="{ active: editLocale === locale.short }" class="menu-item" type="button" @click="editLocale = locale.short">
+                            {{ locale.long }}
+                        </button>
+                        <div class="menu-divider"></div>
+                        <button :class="{ active: editLocale === 'all' }" class="menu-item" type="button" @click="editLocale = 'all'">
+                            {{ t('All languages') }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div v-else class="filemanager-header-toolbar">
                 <button class="btn-sm btn-solid theme-secondary" type="button" @click="newFolder(folder.id)">
                     <folder-plus-icon size="16" />
                     {{ t('New folder') }}
@@ -106,7 +139,10 @@
             </div>
         </div>
 
-        <div class="filemanager-body">
+        <div v-if="editedFile" class="filemanager-body">
+            <file-edit-form ref="editFormRef" :key="editedFile.id" :file-id="editedFile.id" :locale="editLocale" @loaded="onEditedFileLoaded" @saved="onEditedFileSaved"></file-edit-form>
+        </div>
+        <div v-show="!editedFile" class="filemanager-body">
             <UppyUploader ref="uppyUploaderRef" :folder-id="folder.id" @complete="fetchData"></UppyUploader>
             <div :class="{ 'filemanager-view-list': view === 'list' }" class="filemanager-list" @click="checkNone()">
                 <p v-if="filteredItems.length === 0" class="my-5 fg-secondary">{{ t('The folder is empty.') }}</p>
@@ -144,9 +180,9 @@
                         <div class="filemanager-item-name">
                             {{ item.name }}
                         </div>
-                        <a v-if="!modal" :href="'/admin/files/' + item.id + '/edit'" class="btn-outline theme-primary btn-xs rounded-pill filemanager-item-editable-button">
+                        <button class="btn-outline theme-primary btn-xs rounded-pill filemanager-item-editable-button" type="button" @click.stop="editFile(item)" @dblclick.stop>
                             {{ t('Edit') }}
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -172,12 +208,13 @@ import {
     LayoutListIcon,
     SearchIcon,
 } from '@lucide/vue';
-import { computed, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import fetcher from '../admin/fetcher';
 import toast from '../admin/toast.ts';
 
+import FileEditForm from './FileEditForm.vue';
 import UppyUploader from './UppyUploader.vue';
 
 const { t } = useI18n();
@@ -211,6 +248,12 @@ const loading = ref(false);
 const view = ref('grid');
 const uppyUploaderRef = ref(null);
 const searchString = ref(null);
+const root = useTemplateRef('root');
+const editFormRef = ref(null);
+const editedFile = ref(null);
+const locales = window.TypiCMS.locales ?? [];
+const editLocale = ref(window.TypiCMS.content_locale || 'all');
+const editLocaleLabel = computed(() => locales.find((locale) => locale.short === editLocale.value)?.long ?? t('All languages'));
 
 const buttonProps = computed(() => {
     return uppyUploaderRef.value?.dropzoneRef?.getButtonProps?.() || {};
@@ -623,4 +666,70 @@ async function deleteSelected() {
     stopLoading();
     await fetchData();
 }
+
+function editFile(item) {
+    editedFile.value = item;
+}
+
+function closeEditForm() {
+    editedFile.value = null;
+}
+
+async function saveAndClose() {
+    if (await editFormRef.value?.save()) {
+        closeEditForm();
+    }
+}
+
+function onEditedFileLoaded(file) {
+    editedFile.value = file;
+}
+
+function onEditedFileSaved(file) {
+    editedFile.value = file;
+
+    const index = data.value.models.findIndex((item) => item.id === file.id);
+    if (index === -1) {
+        return;
+    }
+
+    const updatedItem = { ...data.value.models[index], ...file };
+    const selectedIndex = selectedItems.value.indexOf(data.value.models[index]);
+    data.value.models[index] = updatedItem;
+    if (selectedIndex !== -1) {
+        selectedItems.value[selectedIndex] = updatedItem;
+    }
+}
+
+function onDialogHidden(event) {
+    if (event.target === root.value?.closest('dialog')) {
+        closeEditForm();
+    }
+}
+
+/**
+ * Escape in the edit view goes back to the file list instead of closing the dialog.
+ * Listening in the capture phase runs before the dialog’s own cancel handler.
+ */
+function onCancel(event) {
+    const dialog = root.value?.closest('dialog');
+
+    if (!editedFile.value || !dialog || event.target !== dialog) {
+        return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    closeEditForm();
+}
+
+onMounted(() => {
+    document.addEventListener('cancel', onCancel, true);
+    root.value?.closest('dialog')?.addEventListener('hidden.bs.dialog', onDialogHidden);
+});
+
+onBeforeUnmount(() => {
+    document.removeEventListener('cancel', onCancel, true);
+    root.value?.closest('dialog')?.removeEventListener('hidden.bs.dialog', onDialogHidden);
+});
 </script>

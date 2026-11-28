@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Services;
 
+use Bkwld\Croppa\Facades\Croppa;
 use enshrined\svgSanitize\Sanitizer;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use TypiCMS\Modules\Core\Models\File;
 
 class FileUploader
 {
@@ -75,6 +77,16 @@ class FileUploader
             'path' => $path,
             'type' => $type,
         ];
+    }
+
+    public function replace(File $model, UploadedFile $file): void
+    {
+        Croppa::delete("storage/{$model->path}");
+
+        $attributes = $this->handle($file);
+        $model->name = $attributes['filename'];
+        unset($attributes['filename']);
+        $model->fill($attributes);
     }
 
     private function normalizeExtension(UploadedFile $file): string

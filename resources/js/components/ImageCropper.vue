@@ -4,10 +4,12 @@
             <img ref="previewImage" class="image-cropper-preview img-fluid" :src="imageUrl" alt="" />
             <span v-if="hasFocalPoint" class="image-cropper-focal-marker" :style="{ left: focalPointX + '%', top: focalPointY + '%' }"></span>
         </button>
-        <input type="hidden" name="focal_x" :value="hasFocalPoint ? focalPointX : ''" />
-        <input type="hidden" name="focal_y" :value="hasFocalPoint ? focalPointY : ''" />
+        <template v-if="withInputs">
+            <input type="hidden" name="focal_x" :value="hasFocalPoint ? focalPointX : ''" />
+            <input type="hidden" name="focal_y" :value="hasFocalPoint ? focalPointY : ''" />
+        </template>
         <div class="d-flex flex-wrap align-items-center gap-3">
-            <button type="button" class="btn-sm btn-solid theme-secondary" data-bs-toggle="dialog" :data-bs-target="'#' + modalId">
+            <button type="button" class="btn-sm btn-solid theme-secondary" @click="openCropper">
                 <crop-icon :size="18" stroke-width="2" />
                 {{ t('Crop image') }}
             </button>
@@ -82,7 +84,7 @@
 import 'cropperjs';
 import { CropIcon, FlipHorizontalIcon, FlipVerticalIcon, RotateCcwIcon, RotateCwIcon } from '@lucide/vue';
 import Dialog from 'bootstrap/js/dist/dialog.js';
-import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import toast from '../admin/toast.ts';
@@ -106,9 +108,17 @@ const props = defineProps({
         type: Number,
         default: null,
     },
+    reloadAfterCrop: {
+        type: Boolean,
+        default: true,
+    },
+    withInputs: {
+        type: Boolean,
+        default: true,
+    },
 });
 
-const emit = defineEmits(['cropped']);
+const emit = defineEmits(['cropped', 'focal-change']);
 
 const modalId = `image-cropper-modal-${props.fileId}`;
 const modalElement = ref(null);
@@ -120,6 +130,10 @@ const previewImage = ref(null);
 const focalPointX = ref(props.focalX);
 const focalPointY = ref(props.focalY);
 const hasFocalPoint = computed(() => focalPointX.value !== null && focalPointY.value !== null);
+
+watch([focalPointX, focalPointY], ([x, y]) => {
+    emit('focal-change', { x, y });
+});
 
 function setFocalPoint(event) {
     const rect = previewImage.value?.getBoundingClientRect();
@@ -141,6 +155,10 @@ function resetFocalPoint() {
 
 let modalInstance = null;
 let resizeTimeout = null;
+
+function openCropper() {
+    modalInstance?.show();
+}
 
 function onShown() {
     show.value = true;
@@ -275,8 +293,14 @@ async function saveCroppedImage() {
             if (response.ok) {
                 const data = await response.json();
                 toast.success(t('Image cropped successfully'));
-                emit('cropped', data);
-                window.location.reload();
+                emit('cropped', data.file);
+
+                if (props.reloadAfterCrop) {
+                    window.location.reload();
+                    return;
+                }
+
+                modalInstance?.hide();
             } else {
                 toast.error(t('Error cropping image'));
             }

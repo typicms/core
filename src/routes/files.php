@@ -39,6 +39,7 @@ Route::middleware(['web', 'api', 'auth'])->prefix('api')->group(function (Router
     $router->get('files', [FilesApiController::class, 'index'])->middleware('can:read files');
     $router->get('files/{file}', [FilesApiController::class, 'show'])->middleware('can:read files');
     $router->post('files', [FilesApiController::class, 'store'])->middleware('can:create files');
+    $router->put('files/{file}', [FilesApiController::class, 'update'])->middleware('can:update files');
     $router->patch('files/{ids}', [FilesApiController::class, 'move'])->middleware('can:update files');
     $router->delete('files/{file}', [FilesApiController::class, 'destroy'])->middleware('can:delete files');
 });

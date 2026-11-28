@@ -36,11 +36,7 @@ final class FilesAdminController extends BaseAdminController
         $file->fill($attributes);
 
         if ($request->hasFile('file')) {
-            Croppa::delete('storage/'.$file->path);
-            $newFile = new FileUploader()->handle($request->file('file'));
-            $file->name = $newFile['filename'];
-            unset($newFile['filename']);
-            $file->fill($newFile);
+            new FileUploader()->replace($file, $request->file('file'));
         }
 
         $file->save();

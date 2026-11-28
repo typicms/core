@@ -55,7 +55,22 @@ final class FilesApiController extends BaseApiController
 
     public function show(File $file): File
     {
-        return $file;
+        return $file->append('translations');
+    }
+
+    public function update(File $file, FileFormRequest $request): File
+    {
+        $attributes = $request->validated();
+        unset($attributes['file']);
+        $file->fill($attributes);
+
+        if ($request->hasFile('file')) {
+            new FileUploader()->replace($file, $request->file('file'));
+        }
+
+        $file->save();
+
+        return $file->append('translations');
     }
 
     public function store(FileFormRequest $request): JsonResponse
