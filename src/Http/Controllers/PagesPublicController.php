@@ -31,12 +31,8 @@ final class PagesPublicController extends BasePublicController
             return redirect()->guest(route(app()->getLocale().'::login'));
         }
 
-        if ($page->redirect && $page->publishedSubpages->count() > 0) {
-            $child = $page->publishedSubpages->first();
-
-            if ($child instanceof Page) {
-                return redirect()->to($child->url());
-            }
+        if ($page->redirect && $page->publishedSubpages->isNotEmpty()) {
+            return redirect()->to($page->publishedSubpages->first()->url());
         }
 
         return $this->renderPage($page);

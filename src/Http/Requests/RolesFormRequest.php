@@ -7,7 +7,6 @@ namespace TypiCMS\Modules\Core\Http\Requests;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
 use Illuminate\Validation\Rules\Unique;
-use Override;
 use TypiCMS\Modules\Core\Models\Role;
 use TypiCMS\Modules\Core\Support\Permissions;
 
@@ -22,7 +21,6 @@ class RolesFormRequest extends AbstractFormRequest
      * Unknown permissions are left to the in rule below, which tells the user
      * what is wrong instead of returning a bare 403.
      */
-    #[Override]
     public function authorize(): bool
     {
         foreach ($this->changedPermissions() as $permission) {

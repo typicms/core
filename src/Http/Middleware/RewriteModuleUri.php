@@ -54,7 +54,7 @@ class RewriteModuleUri
     {
         $rewritten = $request->duplicate();
 
-        $query = explode('?', (string) $request->server->get('REQUEST_URI'), 2)[1] ?? null;
+        $query = explode('?', $request->server->getString('REQUEST_URI'), 2)[1] ?? null;
 
         $rewritten->server->set('REQUEST_URI', '/'.$resolved['path'].($query === null ? '' : '?'.$query));
         $rewritten->attributes->set('typicms.module_page', $resolved['page']);

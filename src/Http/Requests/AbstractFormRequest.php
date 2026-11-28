@@ -10,11 +10,6 @@ use Override;
 
 abstract class AbstractFormRequest extends FormRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     /** @return array<string, string> */
     #[Override]
     public function messages(): array

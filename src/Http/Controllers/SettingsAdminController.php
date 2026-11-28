@@ -22,9 +22,7 @@ final class SettingsAdminController extends BaseAdminController
             $group_name = $model->group_name;
             $key_name = $model->key_name;
             if ($group_name !== 'config') {
-                if (! isset($data->{$group_name})) {
-                    $data->{$group_name} = new stdClass;
-                }
+                $data->{$group_name} ??= new stdClass;
 
                 $data->{$group_name}->{$key_name} = $value;
             } else {

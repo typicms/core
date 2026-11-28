@@ -82,7 +82,7 @@ final class AuthController extends Controller
         session()->forget('email');
         $user = $this->findUser();
 
-        if (! $user) {
+        if (! $user instanceof User) {
             throw ValidationException::withMessages([
                 'one_time_password' => ConsumeOneTimePasswordResult::NoOneTimePasswordsFound->validationMessage(),
             ]);

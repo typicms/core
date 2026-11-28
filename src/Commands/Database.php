@@ -86,7 +86,7 @@ class Database extends Command
         DB::purge();
 
         $this->components->task('Creating database', function () use ($dbName): void {
-            if (! collect(Schema::getSchemas())->contains('name', $dbName)) {
+            if (collect(Schema::getSchemas())->doesntContain('name', $dbName)) {
                 Schema::createDatabase($dbName);
             }
         });

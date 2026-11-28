@@ -94,7 +94,7 @@ final class FilesApiController extends BaseApiController
 
     public function destroy(File $file): JsonResponse
     {
-        if ($file->children->count() > 0) {
+        if ($file->children->isNotEmpty()) {
             return response()->json(['message' => __('A non-empty folder cannot be deleted.')], 403);
         }
 

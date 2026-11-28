@@ -174,11 +174,11 @@ class HtmlSanitizer
     private function unwrap(DOMElement $node): void
     {
         $parent = $node->parentNode;
-        if ($parent === null) {
+        if (! $parent instanceof DOMNode) {
             return;
         }
 
-        while ($node->firstChild !== null) {
+        while ($node->firstChild instanceof DOMNode) {
             $parent->insertBefore($node->firstChild, $node);
         }
 

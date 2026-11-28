@@ -18,6 +18,7 @@ class FilterOr implements Filter
     {
         $searchTerm = is_array($value) ? implode(',', array_filter($value, is_scalar(...))) : $value;
         $searchTerm = is_scalar($searchTerm) ? (string) $searchTerm : '';
+
         $columns = explode(',', $property);
         $locale = request()->string('locale')->value();
 

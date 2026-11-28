@@ -6,6 +6,7 @@ namespace TypiCMS\Modules\Core\Observers;
 
 use DOMDocument;
 use DOMElement;
+use DOMNode;
 use DOMXPath;
 use Illuminate\Database\Eloquent\Model;
 use TypiCMS\Modules\Core\Support\HtmlSanitizer;
@@ -86,7 +87,7 @@ class TipTapHTMLObserver
                         continue;
                     }
 
-                    while ($p->firstChild !== null) {
+                    while ($p->firstChild instanceof DOMNode) {
                         $li->insertBefore($p->firstChild, $p);
                     }
 

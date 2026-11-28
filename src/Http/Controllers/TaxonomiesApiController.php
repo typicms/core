@@ -48,7 +48,7 @@ final class TaxonomiesApiController extends BaseApiController
 
     public function destroy(Taxonomy $taxonomy): JsonResponse
     {
-        if ($taxonomy->terms->count() > 0) {
+        if ($taxonomy->terms->isNotEmpty()) {
             return response()->json(['message' => __('This taxonomy cannot be deleted as it contains terms.')], 403);
         }
 

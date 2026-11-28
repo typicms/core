@@ -10,7 +10,7 @@ use Illuminate\View\View;
 
 class DateRange extends Component
 {
-    private const NBSP = "\u{00A0}";
+    private const string NBSP = "\u{00A0}";
 
     public function __construct(
         public Carbon $start,

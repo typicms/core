@@ -79,9 +79,7 @@ class Tag extends Model
                 $model = $modelClass::query()->find($taggable->taggable_id);
                 if ($model instanceof Model) {
                     $type = $model->getTable();
-                    if (! isset($grouped[$type])) {
-                        $grouped[$type] = new Collection;
-                    }
+                    $grouped[$type] ??= new Collection;
 
                     $grouped[$type]->push($model);
                 }

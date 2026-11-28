@@ -14,7 +14,7 @@ class CacheProfile extends CacheAllSuccessfulGetRequests
     {
         $suffix = parent::useCacheNameSuffix($request);
 
-        if (app(DetectsMarkdownRequest::class)($request) !== null) {
+        if (resolve(DetectsMarkdownRequest::class)($request) !== null) {
             $suffix .= '-markdown';
         }
 

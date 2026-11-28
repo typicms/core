@@ -21,7 +21,6 @@ class UsersFormRequest extends AbstractFormRequest
      *
      * Unknown roles are left to the exists rule below.
      */
-    #[Override]
     public function authorize(): bool
     {
         $target = $this->route('user');

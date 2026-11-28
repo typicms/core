@@ -24,12 +24,12 @@ class ModuleRoutes
     /**
      * The segment that marks an internal module path, never a page URI.
      */
-    public const SEGMENT = '_module';
+    public const string SEGMENT = '_module';
 
     /**
      * Container key of the pages linked to a module.
      */
-    private const PAGES = 'typicms.module_pages';
+    private const string PAGES = 'typicms.module_pages';
 
     /**
      * Register the front office routes of a module, once per locale so that
@@ -76,7 +76,7 @@ class ModuleRoutes
         $locale = mainLocale();
 
         if (in_array($segments[0], enabledLocales(), true)) {
-            $locale = (string) array_shift($segments);
+            $locale = array_shift($segments);
         } elseif (config('typicms.main_locale_in_url')) {
             // Without its locale the URL is a 404, leave it to VerifyLocalizedUrl.
             return null;
@@ -93,7 +93,7 @@ class ModuleRoutes
             return null;
         }
 
-        $pageUri = (string) $page->translate('uri', $locale);
+        $pageUri = self::pageUri($page, $locale);
         $remainder = $uri === $pageUri ? '' : mb_substr($uri, mb_strlen($pageUri) + 1);
 
         // A subpage of the module page owns this URI, it is not a module item.
@@ -125,7 +125,9 @@ class ModuleRoutes
             app()->instance(self::PAGES, self::readModulePages());
         }
 
-        return app(self::PAGES);
+        $pages = resolve(self::PAGES);
+
+        return $pages instanceof Collection ? $pages : new Collection;
     }
 
     /** @return Collection<int, Page> */
@@ -164,7 +166,7 @@ class ModuleRoutes
                 continue;
             }
 
-            $pageUri = (string) $page->translate('uri', $locale);
+            $pageUri = self::pageUri($page, $locale);
 
             if ($pageUri === '') {
                 continue;
@@ -181,6 +183,13 @@ class ModuleRoutes
         }
 
         return $match;
+    }
+
+    private static function pageUri(Page $page, string $locale): string
+    {
+        $uri = $page->translate('uri', $locale);
+
+        return is_string($uri) ? $uri : '';
     }
 
     private static function localePrefix(string $locale): string
